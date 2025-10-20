@@ -1,0 +1,23 @@
+# Node
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# Build
+dist/
+coverage/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Docs (fora do projeto)
+docs/arquitetura
+docs/tecnologias

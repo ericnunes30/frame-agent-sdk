@@ -1,0 +1,15 @@
+{
+  "entryPoints": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "tests/**"
+  ],
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "docs/api",
+  "hideBreadcrumbs": true,
+  "hideGenerator": true,
+  "readme": "none",
+  "categorizeByGroup": false
+}
