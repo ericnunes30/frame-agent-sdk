@@ -1,8 +1,10 @@
-# Integração Direta de LLM no AgentStep
+# Integração Direta de LLM no AgentStep (Nova Arquitetura)
 
 ## Visão Geral
 
 Esta documentação explica como utilizar a nova funcionalidade de integração direta de LLM no AgentStep, permitindo criar workflows que fazem chamadas diretas a modelos de linguagem sem a necessidade de agentes registrados.
+
+A nova arquitetura oferece melhor separação de responsabilidades mantendo compatibilidade total com a API existente.
 
 ## Motivação
 
@@ -51,15 +53,22 @@ const workflow = WorkflowBuilder.create()
   });
 ```
 
-## Arquitetura
+## Arquitetura (Nova Implementação)
 
 ### Componentes Principais
 
 1. **LLMConfig**: Interface para configuração direta do LLM
-2. **LLMBasedAgentAdapter**: Classe que adapta chamadas LLM diretas para a interface IAgent
-3. **AgentStep**: Step modificado para suportar ambas as abordagens
+2. **AgentLLMExecutor**: Executor de agentes LLM registrados
+3. **AgentLLMFactory**: Fábrica para criação e registro de agentes LLM dinâmicos
+4. **AgentStep**: Mantido para compatibilidade com implementação legada
 
-### Fluxo de Execução
+### Fluxo de Execução (Nova Arquitetura)
+
+```
+WorkflowBuilder → AgentLLMExecutor → (AgentRegistry + AgentLLMFactory) → LLM.invoke()
+```
+
+### Fluxo de Execução (Legado - Mantido para Compatibilidade)
 
 ```
 WorkflowBuilder → AgentStep → (LLM | AgentRegistry) → (invoke() | execute())
