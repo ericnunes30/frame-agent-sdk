@@ -3,7 +3,7 @@
  * Testes unitários para OpenAIProvider
  */
 
-const { OpenAIProvider } = require('../../src/providers/providers/openAiProvider');
+const { OpenAIProvider } = require('../../../src/providers/providers/openAiProvider');
 import type { ProviderConfig, IProviderResponse } from '../../../src/providers/adapter/provider.interface';
 
 // Config de teste reutilizável

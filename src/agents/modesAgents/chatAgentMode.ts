@@ -1,14 +1,14 @@
-// src/agents/chat/chatAgent.ts
+// src/agents/modesAgents/chatAgentMode.ts
 import { PromptBuilder } from '../../promptBuilder';
-import type { PromptBuilderConfig } from '../../promptBuilder';
+import type { PromptBuilderConfig, PromptMode } from '../../promptBuilder';
 
 /**
- * Registro do modo 'chat'.
+ * Registro do modo 'chat' no PromptBuilder.
  *
  * Este módulo não exporta APIs — apenas registra um modo simples de conversa
  * no PromptBuilder ao ser importado.
  */
-PromptBuilder.addPromptMode('chat', (config: PromptBuilderConfig) => {
+PromptBuilder.addPromptMode('chat' as PromptMode, (config: PromptBuilderConfig) => {
   const header = '## Mode: Chat\nYou are a helpful, concise assistant.';
   const guidance = [
     'Answer directly and clearly.',

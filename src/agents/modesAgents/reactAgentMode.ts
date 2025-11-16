@@ -1,13 +1,13 @@
-// src/agents/react/reactAgent.ts
+// src/agents/modesAgents/reactAgentMode.ts
 import { PromptBuilder } from '../../promptBuilder';
-import type { PromptBuilderConfig } from '../../promptBuilder';
+import type { PromptBuilderConfig, PromptMode } from '../../promptBuilder';
 
 /**
  * Registro do modo 'react' (ReAct + SAP guidance) no PromptBuilder.
  *
  * Este módulo não exporta APIs — ao ser importado, apenas registra o modo.
  */
-PromptBuilder.addPromptMode('react', (config: PromptBuilderConfig) => {
+PromptBuilder.addPromptMode('react' as PromptMode, (config: PromptBuilderConfig) => {
   const header = [
     '## Mode: ReAct (Schema Aligned Parsing)',
     'Follow the pattern: Reason → Act → Observe → Answer',

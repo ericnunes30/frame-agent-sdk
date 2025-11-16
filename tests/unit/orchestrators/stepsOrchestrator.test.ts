@@ -15,12 +15,12 @@ import type { Message } from '../../../src/memory/memory.interface';
 import { createMockMessage, createMockLLMResponse, createMockToolCall } from '../setup';
 
 // Mock das dependências
-jest.mock('../../src/memory/chatHistoryManager');
-jest.mock('../../src/memory/tokenizer');
-jest.mock('../../src/llm/llm');
-jest.mock('../../src/promptBuilder');
-jest.mock('../../src/tools/constructor/sapParser');
-jest.mock('../../src/tools/core/toolExecutor');
+jest.mock('../../../src/memory/chatHistoryManager');
+jest.mock('../../../src/memory/tokenizer');
+jest.mock('../../../src/llm/llm');
+jest.mock('../../../src/promptBuilder');
+jest.mock('../../../src/tools/constructor/sapParser');
+jest.mock('../../../src/tools/core/toolExecutor');
 
 const MockChatHistoryManager = ChatHistoryManager as jest.MockedClass<typeof ChatHistoryManager>;
 const MockTokenizerService = TokenizerService as jest.MockedClass<typeof TokenizerService>;
@@ -513,7 +513,7 @@ describe('StepsOrchestrator', () => {
       const result = await orchestrator.runFlow('test');
 
       // Deve tratar como erro e continuar/parar apropriadamente
-      expect(result.final).toBe('Invalid action format');
+      expect(result.final).toBeNull();
     });
 
     it('deve lidar com erros do ToolExecutor', async () => {

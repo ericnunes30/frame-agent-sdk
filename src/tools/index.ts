@@ -16,3 +16,4 @@ export { validateToolParams, formatIssuesForLLM } from './core/toolValidator';
 export { SearchParams, SearchTool } from './tools/searchTool';
 export { AskUserParams, AskUserTool } from './tools/askUserTool';
 export { FinalAnswerParams, FinalAnswerTool } from './tools/finalAnswerTool';
+export { ApprovalParams, ApprovalTool } from './tools/approvalTool';

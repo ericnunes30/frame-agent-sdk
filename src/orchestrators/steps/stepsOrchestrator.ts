@@ -1,9 +1,9 @@
 // src/orchestrators/steps/stepsOrchestrator.ts
 import type { StepsDeps, StepsConfig, OrchestrationState, Step, StepContext } from './interfaces';
-import type { IChatHistoryManager } from '../../memory';
 import { SAPParser, ISAPError } from '../../tools';
 import { ToolExecutor } from '../../tools';
 import { PromptBuilder } from '../../promptBuilder';
+import type { PromptMode } from '../../promptBuilder';
 
 export class StepsOrchestrator {
   private readonly deps: StepsDeps;
@@ -58,11 +58,13 @@ export class StepsOrchestrator {
     this.deps.memory.addMessage({ role: 'user', content: userInput });
 
     // chat mode: single turn
-    if (this.config.mode === 'chat') {
-      const systemPrompt = PromptBuilder.buildSystemPrompt(this.config);
+    if (this.config.mode === 'chat' as PromptMode) {
       const { content, metadata } = await this.deps.llm.invoke({
         messages: this.deps.memory.getTrimmedHistory(),
-        systemPrompt,
+        mode: this.config.mode,
+        agentInfo: this.config.agentInfo,
+        additionalInstructions: this.config.additionalInstructions,
+        tools: this.config.tools
       });
       state.lastModelOutput = content ?? null;
       if (content) this.deps.memory.addMessage({ role: 'assistant', content });
@@ -84,7 +86,10 @@ export class StepsOrchestrator {
       const systemPrompt = PromptBuilder.buildSystemPrompt(this.config);
       const { content, metadata } = await this.deps.llm.invoke({
         messages: this.deps.memory.getTrimmedHistory(),
-        systemPrompt,
+        mode: this.config.mode,
+        agentInfo: this.config.agentInfo,
+        additionalInstructions: this.config.additionalInstructions,
+        tools: this.config.tools
       });
       state.lastModelOutput = content ?? null;
       if (metadata) state.data.metadata = metadata;

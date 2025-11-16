@@ -30,6 +30,11 @@
       "require": "./dist/orchestrators/steps/index.js",
       "types": "./dist/orchestrators/steps/index.d.ts"
     },
+    "./orchestrators/workflows": {
+      "import": "./dist/orchestrators/workflows/index.js",
+      "require": "./dist/orchestrators/workflows/index.js",
+      "types": "./dist/orchestrators/workflows/index.d.ts"
+    },
     "./promptBuilder": {
       "import": "./dist/promptBuilder/index.js",
       "require": "./dist/promptBuilder/index.js",
@@ -44,11 +49,22 @@
       "import": "./dist/tools/index.js",
       "require": "./dist/tools/index.js",
       "types": "./dist/tools/index.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils/index.js",
+      "require": "./dist/utils/index.js",
+      "types": "./dist/utils/index.d.ts"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "example:react": "node -e \"require('ts-node/register/transpile-only'); require('./examples/react-steps/index.ts')\"",
+    "example:basic-workflow": "node -e \"require('ts-node/register/transpile-only'); require('./examples/workflows/basic-workflow/index.ts')\"",
+    "example:parallel-workflow": "node -e \"require('ts-node/register/transpile-only'); require('./examples/workflows/parallel-workflow/index.ts')\"",
+    "example:conditional-workflow": "node -e \"require('ts-node/register/transpile-only'); require('./examples/workflows/conditional-workflow/index.ts')\"",
+    "example:content-creation-workflow": "node -e \"require('ts-node/register/transpile-only'); require('./examples/workflows/content-creation-workflow/index.ts')\"",
+    "example:llm-integration-workflow": "node -e \"require('ts-node/register/transpile-only'); require('./examples/workflows/llm-integration-workflow/index.ts')\"",
+    "example:workflows": "npm run example:basic-workflow && npm run example:parallel-workflow && npm run example:conditional-workflow && npm run example:content-creation-workflow && npm run example:llm-integration-workflow",
     "docs:api": "typedoc",
     "docs:build": "npm run docs:api",
     "docs:check": "git diff --quiet -- docs/api || (echo \"Docs desatualizadas: rode 'npm run docs:build' e commite\" && exit 1)",
@@ -61,7 +77,11 @@
     "test:llm": "jest --config tests/jest.config.js llm",
     "test:promptBuilder": "jest --config tests/jest.config.js promptBuilder",
     "test:agents": "jest --config tests/jest.config.js agents",
-    "test:orchestrators": "jest --config tests/jest.config.js orchestrators"
+    "test:orchestrators": "jest --config tests/jest.config.js orchestrators",
+    "test:workflows:unit": "jest tests/unit/workflows",
+    "test:workflows:integration": "jest tests/integration/workflows",
+    "test:workflows": "npm run test:workflows:unit && npm run test:workflows:integration",
+    "create-logger-config": "npx ts-node scripts/create-logger-config.ts"
   },
   "keywords": [
     "agent",
@@ -71,6 +91,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^17.2.3",
     "openai": "^4.104.0"
   },
   "devDependencies": {
@@ -80,8 +101,8 @@
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.0.0",
     "typedoc": "^0.25.13",
-    "typedoc-plugin-markdown": "^3.17.1"
+    "typedoc-plugin-markdown": "^3.17.1",
+    "typescript": "^5.0.0"
   }
 }

@@ -249,12 +249,13 @@ describe('PromptBuilder', () => {
         const toolAwareMode = jest.fn().mockImplementation((config: PromptBuilderConfig) => {
           let prompt = `You are ${config.agentInfo.name}.`;
 
-          if (config.tools && config.tools.length > 0) {
+          const hasTools = config.tools && config.tools.length > 0;
+          if (hasTools) {
             prompt += ' Tools available.';
-          } else {
-            prompt += ' No tools available.';
+            return prompt;
           }
 
+          prompt += ' No tools available.';
           return prompt;
         });
 

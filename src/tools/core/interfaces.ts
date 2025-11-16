@@ -26,7 +26,7 @@ export interface IToolCall {
   params: IToolParams;
 }
 
-// Validator-related shared types (for class-based schema)
+// Validator-related shared interfaces (for class-based schema)
 export type PropertyType = 'string' | 'number' | 'boolean' | 'array' | 'object';
 
 export interface PropertyDescriptor {
@@ -39,7 +39,9 @@ export interface PropertyDescriptor {
   maxLength?: number; // for strings/arrays
 }
 
-export type SchemaProperties = Record<string, PropertyType | PropertyDescriptor>;
+export interface SchemaProperties {
+  [key: string]: PropertyType | PropertyDescriptor;
+}
 
 export interface ToolValidationIssue {
   path: string;

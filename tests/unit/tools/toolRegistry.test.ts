@@ -9,9 +9,9 @@ import { AskUserTool } from '../../../src/tools/tools/askUserTool';
 import { FinalAnswerTool } from '../../../src/tools/tools/finalAnswerTool';
 
 // Mock das ferramentas para teste isolado
-jest.mock('../../src/tools/tools/searchTool');
-jest.mock('../../src/tools/tools/askUserTool');
-jest.mock('../../src/tools/tools/finalAnswerTool');
+jest.mock('../../../src/tools/tools/searchTool');
+jest.mock('../../../src/tools/tools/askUserTool');
+jest.mock('../../../src/tools/tools/finalAnswerTool');
 
 const MockSearchTool = SearchTool as jest.MockedClass<typeof SearchTool>;
 const MockAskUserTool = AskUserTool as jest.MockedClass<typeof AskUserTool>;

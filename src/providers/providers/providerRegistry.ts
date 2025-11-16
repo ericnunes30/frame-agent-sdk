@@ -2,20 +2,26 @@ import { OpenAIProvider } from './openAiProvider';
 import { OpenAICompatibleProvider } from './openaiCompatibleProvider';
 // import { AnthropicProvider } from './anthropicProvider';
 
+/**
+ * Interfaces para o registro de provedores
+ */
+export interface ProviderConstructor {
+  new(...args: any[]): any;
+}
+
+export interface ProviderInstance {
+  [key: string]: any;
+}
+
 const providerList = [
   OpenAIProvider,
   OpenAICompatibleProvider,
   // AnthropicProvider,
 ];
 
-type ProviderConstructor = (typeof providerList)[number];
-
-export type ProviderInstance = InstanceType<ProviderConstructor>;
-
 /**
  * Registry estático para gerenciar e fornecer provedores de IA.
- */
-/**
+ *
  * Registro estático de provedores de LLM.
  * - `getProvider(name)`: retorna o construtor do provedor
  * - `listProviders()`: lista os nomes disponíveis
