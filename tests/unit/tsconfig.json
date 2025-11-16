@@ -4,14 +4,18 @@
     "target": "ES2020",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "allowImportingTsExtensions": true,
     "strict": false,
     "skipLibCheck": true,
     "noEmit": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "baseUrl": "../../",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "**/*.test.ts",
-    "setup.ts"
+    "setup.ts",
+    "../../src/**/*.ts"
   ]
 }

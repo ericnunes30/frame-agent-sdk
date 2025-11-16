@@ -2,7 +2,7 @@
 import type { Step, StepResultUpdate, StepProviderOptions } from './interfaces';
 import { PromptBuilder } from '../../promptBuilder';
 import { ProviderAdapter } from '../../providers/adapter/providerAdapter';
-import type { ProviderConfig } from '../../providers/adapter/provider.interface';
+import type { ProviderConfig } from '../../providers/adapter/providerAdapter.interface';
 
 /**
  * Step simples que invoca o LLM usando a memória atual (mensagens truncadas)
@@ -12,8 +12,13 @@ export const LLMCallStep = (id: string): Step => ({
   id,
   async run(ctx): Promise<StepResultUpdate> {
     const messages = ctx.deps.memory.getTrimmedHistory();
-    const systemPrompt = PromptBuilder.buildSystemPrompt(ctx.config);
-    const { content, metadata } = await ctx.deps.llm.invoke({ messages, systemPrompt });
+    const { content, metadata } = await ctx.deps.llm.invoke({
+      messages,
+      mode: ctx.config.mode,
+      agentInfo: ctx.config.agentInfo,
+      additionalInstructions: ctx.config.additionalInstructions,
+      tools: ctx.config.tools
+    });
     ctx.deps.memory.addMessage({ role: 'assistant', content: content ?? '' });
     return { data: { metadata }, }; // keep running
   },

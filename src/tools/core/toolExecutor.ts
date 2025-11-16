@@ -1,6 +1,7 @@
-﻿// src/tools/toolExecutor.ts
+// src/tools/toolExecutor.ts
 import { toolRegistry } from './toolRegistry';
 import { IToolCall } from './interfaces';
+import { logger } from '../../utils';
 
 /**
  * ResponsÃ¡vel pelo fluxo de execuÃ§Ã£o da ferramenta. 
@@ -13,21 +14,26 @@ export class ToolExecutor {
      * @returns O resultado da execuÃ§Ã£o (a ObservaÃ§Ã£o do Agente).
      */
     public static async execute(toolCall: IToolCall): Promise<unknown> {
+        logger.debug(`Executing tool: ${toolCall.toolName}`, 'ToolExecutor');
         const toolInstance = toolRegistry.getTool(toolCall.toolName);
 
         if (!toolInstance) {
-            return `Erro: A ferramenta '${toolCall.toolName}' nÃ£o estÃ¡ registrada no sistema.`;
+            const errorMsg = `Erro: A ferramenta '${toolCall.toolName}' não está registrada no sistema.`;
+            logger.warn(errorMsg, 'ToolExecutor');
+            return errorMsg;
         }
 
         try {
-            // Chama o mÃ©todo execute com os parÃ¢metros jÃ¡ tipados e validados.
+            logger.debug(`Calling execute method for tool: ${toolCall.toolName}`, 'ToolExecutor');
+            // Chama o método execute com os parâmetros já tipados e validados.
             const result = await toolInstance.execute(toolCall.params);
             
-            // Converte o resultado para string para ser injetado como ObservaÃ§Ã£o.
+            logger.debug(`Tool execution completed: ${toolCall.toolName}`, 'ToolExecutor');
+            // Converte o resultado para string para ser injetado como Observação.
             return `Observation: ${JSON.stringify(result)}`;
         } catch (error) {
-            console.error(`Erro ao executar a ferramenta ${toolCall.toolName}:`, error);
-            return `Erro de ExecuÃ§Ã£o: Falha ao executar a ferramenta '${toolCall.toolName}'. Detalhes: ${(error as Error).message}`;
+            logger.error(`Failed to execute tool '${toolCall.toolName}': ${(error as Error).message}`, 'ToolExecutor');
+            return `Erro de Execução: Falha ao executar a ferramenta '${toolCall.toolName}'. Detalhes: ${(error as Error).message}`;
         }
     }
 }

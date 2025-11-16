@@ -8,7 +8,7 @@ import type { ProviderConfig, IProviderResponse } from '../../../src/providers/a
 import { createMockOpenAIResponse } from '../setup';
 
 // Mock do OpenAIProvider
-jest.mock('../../src/providers/providers/openAiProvider');
+jest.mock('../../../src/providers/providers/openAiProvider');
 import { OpenAIProvider } from '../../../src/providers/providers/openAiProvider';
 const MockOpenAIProvider = OpenAIProvider as jest.MockedClass<typeof OpenAIProvider>;
 
@@ -156,7 +156,10 @@ describe('ProviderAdapter', () => {
 
       await providerAdapter.chatCompletion(config);
 
-      expect(mockOpenAIProvider.chatCompletion).toHaveBeenCalledWith(config);
+      expect(mockOpenAIProvider.chatCompletion).toHaveBeenCalledWith({
+        ...config,
+        model: '4' // O ProviderAdapter remove o prefixo 'gpt-'
+      });
     });
 
     describe('validação de configuração', () => {

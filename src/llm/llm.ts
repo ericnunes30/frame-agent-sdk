@@ -1,10 +1,11 @@
 // src/llm/llm.ts
 import { ProviderAdapter } from '../providers/adapter/providerAdapter';
 import type { Message } from '../memory';
-import type { IProviderResponse } from '../providers/adapter/provider.interface';
-import type { ProviderConfig } from '../providers/adapter/provider.interface';
+import type { IProviderResponse } from '../providers/adapter/providerAdapter.interface';
+import type { ProviderConfig } from '../providers/adapter/providerAdapter.interface';
 import { PromptBuilder } from '../promptBuilder';
 import type { PromptBuilderConfig, PromptMode, AgentInfo, ToolSchema } from '../promptBuilder';
+import { logger } from '../utils';
 
 /**
  * Parâmetros padrão por provedor (aplicados quando não informados na chamada).
@@ -23,8 +24,8 @@ interface ProviderDefaults {
  * Cliente LLM baseado no ProviderAdapter.
  * Mantém `model` e `apiKey` fixos e aplica opções a cada chamada.
  *
- * Use `invoke` quando já tiver o systemPrompt pronto, ou `invokeWithMode`
- * para gerar o systemPrompt via PromptBuilder (ex.: modo 'react').
+ * Use `invoke` com `mode` e `agentInfo` obrigatórios para gerar o systemPrompt
+ * via PromptBuilder internamente (ex.: modo 'react', 'chat', etc.).
  */
 export class LLM {
   private readonly model: string;
@@ -43,54 +44,15 @@ export class LLM {
     this.apiKey = params.apiKey;
     this.defaults = params.defaults ?? {};
     this.baseUrl = params.baseUrl;
-  }
-
-  /**
-   * Invoca o provedor configurado com um conjunto de mensagens.
-   * Se `promptConfig` for fornecido, o systemPrompt é gerado via PromptBuilder;
-   * caso contrário, usa `systemPrompt` passado.
-   * @returns Conteúdo textual e metadados do provedor (quando disponíveis)
-   */
-  public async invoke(args: {
-    messages: Message[];
-    systemPrompt?: string;
-    /** Se fornecido, sobrescreve `systemPrompt` gerando-o via PromptBuilder. */
-    promptConfig?: PromptBuilderConfig;
-    temperature?: number;
-    topP?: number;
-    maxTokens?: number;
-    stream?: boolean;
-  }): Promise<{ content: string | null; metadata?: Record<string, unknown> }> {
-    const messages: Message[] = args.messages;
-    const systemPrompt = args.promptConfig
-      ? PromptBuilder.buildSystemPrompt(args.promptConfig)
-      : (args.systemPrompt ?? '');
-    const temperature = args.temperature ?? this.defaults.temperature ?? 0.5;
-    const topP = args.topP ?? this.defaults.topP;
-    const maxTokens = args.maxTokens ?? this.defaults.maxTokens;
-    const stream = args.stream ?? false;
-
-    const config: ProviderConfig = {
-      model: this.model,
-      apiKey: this.apiKey,
-      messages,
-      systemPrompt,
-      temperature,
-      stream,
-      topP,
-      maxTokens,
-      baseUrl: this.baseUrl,
-    };
-
-    const resp: IProviderResponse = await ProviderAdapter.chatCompletion(config);
-
-    return { content: resp?.content ?? null, metadata: resp?.metadata };
+    
+    logger.debug(`LLM instance created with model: ${this.model}`, 'LLM');
   }
 
   /**
    * Garante que o modo esteja registrado no PromptBuilder, senão lança erro amigável.
+   * @private
    */
-  public assertModeRegistered(mode: PromptMode): void {
+  private assertModeRegistered(mode: PromptMode): void {
     try {
       // Minimal config to trigger builder existence
       PromptBuilder.buildSystemPrompt({
@@ -105,39 +67,70 @@ export class LLM {
   }
 
   /**
-   * Invoca o provedor gerando o systemPrompt internamente a partir do modo do agente.
-   * @param args Parâmetros de entrada (mensagens, agentInfo, tools, etc.)
-   * @param modeAgent Modo do agente (ex.: 'react')
+   * Invoca o provedor configurado com modo e informações do agente obrigatórios.
+   * O systemPrompt é gerado internamente via PromptBuilder a partir do modo e agentInfo.
+   *
+   * @param args Parâmetros de invocação com mode e agentInfo obrigatórios
+   * @returns Conteúdo textual e metadados do provedor (quando disponíveis)
    */
-  public async invokeWithMode(
-    args: {
-      messages: Message[];
-      agentInfo: AgentInfo;
-      additionalInstructions?: string;
-      tools?: ToolSchema[];
-      temperature?: number;
-      topP?: number;
-      maxTokens?: number;
-      stream?: boolean;
-    },
-    modeAgent: PromptMode,
-  ): Promise<{ content: string | null; metadata?: Record<string, unknown> }> {
-    this.assertModeRegistered(modeAgent);
+  public async invoke(args: {
+    messages: Message[];
+    mode?: PromptMode;
+    agentInfo?: AgentInfo;
+    systemPrompt?: string;
+    additionalInstructions?: string;
+    tools?: ToolSchema[];
+    temperature?: number;
+    topP?: number;
+    maxTokens?: number;
+    stream?: boolean;
+    promptConfig?: PromptBuilderConfig;
+  }): Promise<{ content: string | null; metadata?: Record<string, unknown> }> {
+    logger.debug(`LLM.invoke called with ${args.messages.length} messages`, 'LLM');
+    
+    // Determina qual systemPrompt usar
+    let systemPrompt: string;
+    
+    if (args.promptConfig) {
+      // Usa promptConfig se fornecido
+      this.assertModeRegistered(args.promptConfig.mode);
+      systemPrompt = PromptBuilder.buildSystemPrompt(args.promptConfig);
+    } else if (args.systemPrompt) {
+      // Usa systemPrompt direto se fornecido
+      systemPrompt = args.systemPrompt;
+    } else if (args.mode && args.agentInfo) {
+      // Fallback para modo e agentInfo
+      this.assertModeRegistered(args.mode);
+      const promptConfig: PromptBuilderConfig = {
+        mode: args.mode,
+        agentInfo: args.agentInfo,
+        additionalInstructions: args.additionalInstructions,
+        tools: args.tools,
+      };
+      systemPrompt = PromptBuilder.buildSystemPrompt(promptConfig);
+    } else {
+      throw new Error('Deve fornecer promptConfig, systemPrompt, ou mode+agentInfo');
+    }
+    const temperature = args.temperature ?? this.defaults.temperature ?? 0.5;
+    const topP = args.topP ?? this.defaults.topP;
+    const maxTokens = args.maxTokens ?? this.defaults.maxTokens;
+    const stream = args.stream ?? false;
 
-    const promptConfig: PromptBuilderConfig = {
-      mode: modeAgent,
-      agentInfo: args.agentInfo,
-      additionalInstructions: args.additionalInstructions,
-      tools: args.tools,
-    } as PromptBuilderConfig;
-
-    return this.invoke({
+    const config: ProviderConfig = {
+      model: this.model,
+      apiKey: this.apiKey,
       messages: args.messages,
-      promptConfig,
-      temperature: args.temperature,
-      topP: args.topP,
-      maxTokens: args.maxTokens,
-      stream: args.stream,
-    });
+      systemPrompt,
+      temperature,
+      stream,
+      topP,
+      maxTokens,
+      baseUrl: this.baseUrl,
+    };
+
+    logger.debug(`Calling ProviderAdapter with model: ${config.model}`, 'LLM');
+    const resp: IProviderResponse = await ProviderAdapter.chatCompletion(config);
+    logger.debug(`ProviderAdapter response received`, 'LLM');
+    return { content: resp?.content ?? null, metadata: resp?.metadata };
   }
 }

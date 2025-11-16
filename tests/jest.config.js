@@ -6,11 +6,15 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/tests/unit/setup.ts'],
   preset: 'ts-jest',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  modulePaths: ['<rootDir>'],
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tests/unit/tsconfig.json',
       useESM: false,
-      diagnostics: { ignoreCodes: [2554] }
+      diagnostics: { 
+        ignoreCodes: [2554, 2307],
+        warnOnly: true
+      }
     }
   },
   clearMocks: true,

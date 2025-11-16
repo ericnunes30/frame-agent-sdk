@@ -19,8 +19,8 @@ const createValidArgs = () => ({
 });
 
 // Mock das dependências
-jest.mock('../../src/providers/adapter/providerAdapter');
-jest.mock('../../src/promptBuilder');
+jest.mock('../../../src/providers/adapter/providerAdapter');
+jest.mock('../../../src/promptBuilder');
 
 const mockProviderAdapter = ProviderAdapter as jest.Mocked<typeof ProviderAdapter>;
 const mockPromptBuilder = PromptBuilder as jest.Mocked<typeof PromptBuilder>;
@@ -107,11 +107,12 @@ describe('LLM', () => {
         model: 'gpt-3.5-turbo',
         apiKey: 'test-api-key',
         messages: args.messages,
-        systemPrompt: args.systemPrompt,
+        systemPrompt: 'Mock system prompt', // O LLM sempre gera via PromptBuilder
         temperature: 0.7, // valor do default
         topP: undefined,
         maxTokens: 1000, // valor do default
-        stream: false
+        stream: false,
+        baseUrl: undefined
       });
       expect(result).toEqual({
         content: mockResponse.content,
@@ -428,127 +429,6 @@ describe('LLM', () => {
     });
   });
 
-  describe('invokeWithMode', () => {
-    it('deve invocar assertModeRegistered primeiro', async () => {
-      const args = {
-        messages: [createMockMessage('user', 'Test')],
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' },
-        modeAgent: 'chat' as any
-      };
-
-      mockPromptBuilder.buildSystemPrompt.mockReturnValue('Chat prompt');
-      mockProviderAdapter.chatCompletion.mockResolvedValue({
-        content: 'Mode response'
-      });
-
-      await llm.invokeWithMode(args, 'chat');
-
-      // verify assertModeRegistered foi chamado
-      expect(mockPromptBuilder.buildSystemPrompt).toHaveBeenCalledTimes(2);
-    });
-
-    it('deve construir promptConfig corretamente', async () => {
-      const args = {
-        messages: [createMockMessage('user', 'Test')],
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: 'Test backstory' },
-        additionalInstructions: 'Additional instructions',
-        tools: [{ name: 'search', description: 'Search tool', parameters: {} }],
-        temperature: 0.5,
-        topP: 0.9,
-        maxTokens: 1500,
-        stream: true
-      };
-
-      const mode = 'react' as any;
-
-      mockPromptBuilder.buildSystemPrompt.mockReturnValue('React prompt');
-      mockProviderAdapter.chatCompletion.mockResolvedValue({
-        content: 'React response'
-      });
-
-      await llm.invokeWithMode(args, mode);
-
-      expect(mockPromptBuilder.buildSystemPrompt).toHaveBeenCalledWith({
-        mode,
-        agentInfo: args.agentInfo,
-        additionalInstructions: args.additionalInstructions,
-        tools: args.tools
-      });
-    });
-
-    it('deve invocar invoke internamente com configuração correta', async () => {
-      const args = {
-        messages: [createMockMessage('user', 'Test')],
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' },
-        temperature: 0.4,
-        maxTokens: 800
-      };
-
-      const mode = 'chat' as any;
-
-      mockPromptBuilder.buildSystemPrompt.mockReturnValue('Chat prompt');
-      mockProviderAdapter.chatCompletion.mockResolvedValue({
-        content: 'Chat response'
-      });
-
-      const localLLM = new LLM({ model: 'gpt-3.5-turbo', apiKey: 'test-api-key' });
-      const result = await localLLM.invokeWithMode(args, mode);
-
-      expect(mockProviderAdapter.chatCompletion).toHaveBeenCalledWith({
-        model: 'gpt-3.5-turbo',
-        apiKey: 'test-api-key',
-        messages: args.messages,
-        systemPrompt: 'Chat prompt',
-        temperature: 0.4,
-        maxTokens: 800,
-        stream: false,
-        topP: undefined
-      });
-      expect(result.content).toBe('Chat response');
-    });
-
-    it('deve lidar com parametros opcionais omitidos', async () => {
-      const args = {
-        messages: [createMockMessage('user', 'Test')],
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-      };
-
-      const mode = 'react' as any;
-
-      mockPromptBuilder.buildSystemPrompt.mockReturnValue('React prompt');
-      mockProviderAdapter.chatCompletion.mockResolvedValue({
-        content: 'React response'
-      });
-
-      const result = await llm.invokeWithMode(args, mode);
-
-      expect(mockProviderAdapter.chatCompletion).toHaveBeenCalledWith(
-        expect.objectContaining({
-          temperature: 0.7, // default configurado no beforeEach
-          topP: undefined, // não fornecido
-          maxTokens: 1000, // default configurado no beforeEach
-          stream: false // default
-        })
-      );
-    });
-
-    it('deve propagar erro de modo não registrado', async () => {
-      const args = {
-        messages: [createMockMessage('user', 'Test')],
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-      };
-
-      const invalidMode = 'invalid_mode' as any;
-
-      mockPromptBuilder.buildSystemPrompt.mockImplementation(() => {
-        throw new Error('Mode not found');
-      });
-
-      await expect(llm.invokeWithMode(args, invalidMode)).rejects.toThrow(
-        "Prompt mode 'invalid_mode' não está registrado"
-      );
-    });
-  });
 
   describe('integração e comportamento geral', () => {
     it('deve manter instância única com mesma configuração', () => {

@@ -5,7 +5,9 @@ import { ITool, PropertyDescriptor, PropertyType, SchemaProperties, ToolValidati
 // types moved to interfaces.ts
 
 function isDescriptor(v: unknown): v is PropertyDescriptor {
-  return !!v && typeof v === 'object' && 'type' in (v as Record<string, unknown>);
+  const isObject = !!v && typeof v === 'object';
+  const hasTypeProperty = isObject && 'type' in (v as Record<string, unknown>);
+  return hasTypeProperty;
 }
 
 function typeOf(value: unknown): PropertyType {
@@ -82,16 +84,24 @@ export function validateToolParams(tool: ITool, params: unknown): ToolValidation
     const value = (params as Record<string, unknown> | undefined)?.[key];
 
     const missing = validatePresence(key, desc, value);
-    if (missing) { issues.push(missing);}
+    if (missing) {
+      issues.push(missing);
+    }
 
-    if (value === undefined || value === null) {}
+    // Early return para valores nulos/undefined - evita validações desnecessárias
+    if (value === undefined || value === null) {
+      continue;
+    }
 
     const typeIssue = validateType(key, desc.type, value);
-
-    if (typeIssue) { issues.push(typeIssue)}
+    if (typeIssue) {
+      issues.push(typeIssue);
+    }
 
     const enumIssue = validateEnum(key, desc, value);
-    if (enumIssue) { issues.push(enumIssue)}
+    if (enumIssue) {
+      issues.push(enumIssue);
+    }
 
     issues.push(
       ...validateNumberRange(key, desc, value),

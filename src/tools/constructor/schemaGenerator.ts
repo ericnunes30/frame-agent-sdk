@@ -15,11 +15,15 @@ import type { SchemaProperties, PropertyDescriptor, PropertyType } from '../core
  * @returns Uma string que representa o Typed Schema para o LLM.
  */
 function isDescriptor(v: unknown): v is PropertyDescriptor {
-  return !!v && typeof v === 'object' && 'type' in (v as Record<string, unknown>);
+  const isObject = !!v && typeof v === 'object';
+  const hasTypeProperty = isObject && 'type' in (v as Record<string, unknown>);
+  return hasTypeProperty;
 }
 
 function formatEnum(desc: PropertyDescriptor): string {
-  return desc.enum && desc.enum.length ? ` // enum: ${desc.enum.join(', ')}` : '';
+  const hasEnum = desc.enum;
+  const hasEnumItems = hasEnum && desc.enum && desc.enum.length > 0;
+  return hasEnumItems ? ` // enum: ${desc.enum!.join(', ')}` : '';
 }
 
 function formatRange(desc: PropertyDescriptor): string {
@@ -49,7 +53,9 @@ export function generateTypedSchema(tool: ITool): string {
 
   // Simulação: assumindo que a classe de parâmetros expõe um mapa de suas propriedades
   // em uma propriedade estática chamada 'schemaProperties'.
-  const schemaProperties: SchemaProperties = (schemaClass && schemaClass.schemaProperties) || {};
+  const hasSchemaClass = schemaClass;
+  const hasSchemaProperties = hasSchemaClass && schemaClass.schemaProperties;
+  const schemaProperties: SchemaProperties = hasSchemaProperties || {};
 
   const propertiesString = Object.entries(schemaProperties)
     .map(([rawKey, rawDesc]) => {

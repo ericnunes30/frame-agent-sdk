@@ -29,6 +29,7 @@ export class PromptBuilder {
     PromptBuilder.promptModes.set(mode, builder);
   }
 
+  
   /**
    * Constrói o System Prompt a partir do modo e informações do agente.
    * Lança erro caso o modo não esteja registrado.
@@ -56,12 +57,16 @@ export class PromptBuilder {
     }
 
     // 2) Linha de resumo do agente (sem incluir additional aqui para evitar duplicação)
-    const backstoryText = agentInfo.backstory && agentInfo.backstory.trim().length > 0 ? agentInfo.backstory : '.';
+    const hasBackstory = agentInfo.backstory;
+    const isBackstoryValid = hasBackstory && agentInfo.backstory.trim().length > 0;
+    const backstoryText = isBackstoryValid ? agentInfo.backstory : '.';
     const summary = `You are ${agentInfo.name}. Your goal: ${agentInfo.goal}. Background: ${backstoryText}`;
     parts.unshift(summary);
 
     // 2.1) Additional instructions em seção separada (se houver)
-    if (additionalInstructions && String(additionalInstructions).trim().length > 0) {
+    const hasAdditionalInstructions = additionalInstructions;
+    const isValidInstruction = hasAdditionalInstructions && String(additionalInstructions).trim().length > 0;
+    if (isValidInstruction) {
       parts.push(String(additionalInstructions));
     }
 

@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 import { stream } from '../utils';
-import type { ProviderConfig, IProviderResponse } from '../adapter/provider.interface';
+import type { ProviderConfig, IProviderResponse } from '../adapter/providerAdapter.interface';
 
 /**
  * Provedor compatível com OpenAI que aceita `ProviderConfig` diretamente.

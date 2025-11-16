@@ -1,99 +1,560 @@
-﻿# Frame Agent
+# Frame Agent SDK
 
-Framework leve para construir agentes (Chat / ReAct) com orquestraÃ§Ã£o por etapas, memÃ³ria e provedores plugÃ¡veis.
+Framework leve e robusto para construir agentes (Chat / ReAct) com orquestração por etapas, memória, provedores plugáveis e sistema de gerenciamento de tarefas.
 
-## Visão Geral
+## ⚠️ AVISO IMPORTANTE - CONFIGURAÇÃO DE LOGGING
 
-- PromptBuilder com modos (ex.: `react`) registrados via `PromptBuilder.addPromptMode`.
-- OrquestraÃ§Ã£o por etapas (Steps) com escolha de provider por step (`LLMCallStepWithProvider`).
-- MemÃ³ria de chat com truncamento por â€œtokensâ€ (aproximaÃ§Ã£o) e system prompt persistente.
-- Adaptador de provedores (`ProviderAdapter`) + registro (`ProviderRegistry`).
-- Provider compatível com OpenAI (`openaiCompatible`) com `baseUrl` obrigatório.
+**O sistema de logging está DESABILITADO por padrão.** Para visualizar logs, você **DEVE** criar um arquivo `logger.config.json` na raiz do seu projeto. Veja a [seção de logging](#-sistema-de-logging-importante) para instruções detalhadas.
 
-### Imports (subpaths)
+## ✨ Características Principais
 
-- `frame-agent-sdk/agents` registra modos para o PromptBuilder.
-- `frame-agent-sdk/llm` expõe o cliente `LLM` (suporte a `baseUrl`).
-- `frame-agent-sdk/memory` expõe `ChatHistoryManager` e tipos relacionados.
-- `frame-agent-sdk/orchestrators/steps` expõe `StepsOrchestrator`, interfaces e steps utilitários.
-- `frame-agent-sdk/promptBuilder` expõe `PromptBuilder` e tipos.
-- `frame-agent-sdk/providers` expõe adaptador e providers.
-- `frame-agent-sdk/tools` expõe contratos SAP, registro e utilitários.
+### 🎯 Agentes Conversacionais
+- **PromptBuilder** com modos registráveis (`react`, `chat`, custom)
+- **Orquestração por Steps** com fluxo controlado
+- **Memória persistente** com truncamento inteligente de tokens
+- **Múltiplos provedores** (OpenAI, compatíveis, custom)
 
-## InstalaÃ§Ã£o
+### 🚀 WorkflowOrchestrator (NOVO!)
+- **Orquestração avançada** de múltiplos agentes com dependências complexas
+- **Execução paralela controlada** quando não há dependências
+- **Systemas hierárquicos** com supervisão e delegação automática
+- **Grafos de workflow** com condicionais e merges
+- **Sistema integrado** combinando grafos e hierarquia adaptativamente
+- **Tomada de decisão autônoma** por orquestradores supervisor
 
-```bash
-npm ci
+### 🛠️ Sistema de Ferramentas (SAP)
+- **Schema Aligned Parsing** para validação automática
+- **Tool Registry** centralizado com descoberta automática
+- **Tool Executor** com tratamento robusto de erros
+- **Ferramentas integradas**: Search, AskUser, FinalAnswer
+
+### 📋 Gerenciamento de Tarefas (Planejado)
+- **TaskPlannerTool**: Geração automática de planos sequenciais
+- **TaskStatusUpdateTool**: Atualização de status de tarefas
+- **TaskVerifyTool**: Dashboard de progresso em tempo real
+- **TaskStateManager**: Gerenciamento centralizado do estado
+
+### 🏗️ Padrões de Código
+- **Early Returns** - Sem `else/else if` aninhados
+- **Validações Lineares** - Uma validação por linha
+- **Interfaces & Enums** - Tipagem forte (sem `type` aliases)
+- **Design Patterns** - Strategy, Factory, Registry
+- **Estrutura Consistente** - Imports → Interfaces → Schemas → Classe
+
+## 📦 Estrutura de Módulos
+
+```typescript
+// Agentes e modos
+import { AgentMode } from 'frame-agent-sdk/agents';
+
+// Cliente LLM
+import { LLM } from 'frame-agent-sdk/llm';
+
+// Memória e gerenciamento de contexto
+import { ChatHistoryManager } from 'frame-agent-sdk/memory';
+
+// Orquestração por steps
+import { StepsOrchestrator } from 'frame-agent-sdk/orchestrators/steps';
+
+// Orquestração avançada de workflows (NOVO!)
+import {
+  WorkflowOrchestrator,
+  FlowBuilder,
+  GraphBuilder,
+  HierarchyBuilder,
+  IntegratedBuilder
+} from 'frame-agent-sdk/orchestrators/workflows';
+
+// Construção de prompts
+import { PromptBuilder } from 'frame-agent-sdk/promptBuilder';
+
+// Providers e adapters
+import { ProviderRegistry } from 'frame-agent-sdk/providers';
+
+// Sistema de ferramentas SAP
+import { toolRegistry, ToolBase } from 'frame-agent-sdk/tools';
 ```
 
-## Build
+## 🚀 Instalação
 
+### Passo 1: Instalação Básica
 ```bash
+# Clonar repositório
+git clone <repository-url>
+cd frame-agent-sdk
+
+# Instalar dependências
+npm install
+
+# Compilar TypeScript
 npm run build
 ```
-Gera a saÃ­da compilada em `dist/` (ignorados no git por padrão).
 
-## Variáveis de Ambiente
+### Passo 2: Configuração de Logging ⚠️ OBRIGATÓRIO
+```bash
+# Criar arquivo de configuração de logging (ESSENCIAL)
+npm run create-logger-config
 
-Crie um `.env` baseado em `.env.example`:
+# Ou criar manualmente um arquivo logger.config.json:
+echo '{"enabled": true, "level": "info"}' > logger.config.json
+```
 
-- `OPENAI_API_KEY`: chave do provedor (OpenAI ou compatível)
-- `OPENAI_BASE_URL`: obrigatório para `openaiCompatible` (endpoint compatível)
-- `OPENAI_MODEL`: modelo (ex.: `gpt-4o-mini`)
-- (opcional) `AGENT_NAME`, `AGENT_GOAL`, `AGENT_BACKSTORY`, `OPENAI_PROVIDER` (padrão `openaiCompatible`)
+**❗ Sem este arquivo, o logging estará completamente desabilitado.**
 
-### Tokens: Contexto vs Saída
+## ⚙️ Configuração
 
-- Contexto (histórico): o `ChatHistoryManager` aplica truncamento com base em `maxContextTokens` (limite da janela do modelo). O `StepsOrchestrator` usa `memory.getTrimmedHistory()` em cada chamada.
-- Saída (gerada): o `LLM` aceita `maxTokens` via `defaults` (no construtor) ou por chamada (`invoke`). Os providers mapeiam para a opção específica (ex.: `max_tokens` na OpenAI).
+### Variáveis de Ambiente
 
-## Testes
-
-- Unit: `npm test` (configuraÃ§Ãµes em `tests/jest.config.js`)
-- ExecuÃ§Ã£o real (terminal):
-  - Provider isolado: `node tests/real/openaiCompatible.real.js`
-  - Agente ReAct (terminal): `node tests/real/reactAgent.real.js`
-
-## Exemplo RÃ¡pido (Agente ReAct no terminal)
+Crie um arquivo `.env` na raiz do projeto:
 
 ```bash
-node tests/real/reactAgent.real.js
+# Configuração Principal
+OPENAI_API_KEY=your-api-key-here
+OPENAI_BASE_URL=https://api.openai.com/v1
+OPENAI_MODEL=gpt-4o-mini
+
+# Configurações Compatíveis (para exemplos)
+OPENAI_COMPATIBLE_API_KEY=your-api-key-here
+OPENAI_COMPATIBLE_BASE_URL=https://api.openai.com/v1
+OPENAI_COMPATIBLE_MODEL=gpt-4o-mini
+
+# Configurações Opcionais
+AGENT_NAME=Assistant
+AGENT_GOAL=Ajudar usuários com tarefas complexas
+AGENT_BACKSTORY=IA assistente especializada
+OPENAI_PROVIDER=openaiCompatible
 ```
-Requisitos: `.env` preenchido com `OPENAI_API_KEY` e, se `OPENAI_PROVIDER=openaiCompatible`, tambÃ©m `OPENAI_BASE_URL`.
 
-## Providers
+### Configuração Rápida
 
-- `openai` (OpenAI oficial) â€“ registrado por padrão.
-- `gpt` (alias para OpenAI) â€“ registrado por padrão.
-- `openaiCompatible` â€“ requer `baseUrl` e aceita `ProviderConfig` direto no mÃ©todo `chatCompletion`.
+```typescript
+import { LLM, StepsOrchestrator, ChatHistoryManager } from 'frame-agent-sdk';
 
-## OrquestraÃ§Ã£o por Steps
+// Inicializar LLM
+const llm = new LLM({
+  apiKey: process.env.OPENAI_API_KEY,
+  provider: 'openaiCompatible',
+  baseUrl: process.env.OPENAI_BASE_URL,
+  model: 'gpt-4o-mini'
+});
+
+// Inicializar memória
+const memory = new ChatHistoryManager({
+  maxContextTokens: 8000,
+  tokenizer: { estimateTokens: (text) => Math.ceil(text.length / 4) }
+});
+
+// Criar orquestrador
+const orchestrator = new StepsOrchestrator({
+  llm,
+  memory,
+  tools: toolRegistry,
+  mode: 'react'
+});
+```
+
+## 🧪 Testes
+
+### Testes Unitários
+```bash
+# Executar todos os testes unitários
+npm test
+
+# Executar com coverage
+npm run test:coverage
+```
+
+### Testes Reais (Integração)
+```bash
+# Teste do provider OpenAI Compatible
+node tests/real/openaiCompatible.real.js
+
+# Teste do agente ReAct completo
+node tests/real/reactAgent.real.js
+
+# Demonstração do sistema de tarefas
+node tests/real/taskListManager.js
+```
+
+## 📚 Exemplos
+
+### Agente ReAct Básico
+```typescript
+import { LLM, StepsOrchestrator, ChatHistoryManager } from 'frame-agent-sdk';
+import { SearchTool, AskUserTool, FinalAnswerTool } from 'frame-agent-sdk/tools';
+
+// Configurar ferramentas
+const searchTool = new SearchTool(llm);
+const askUserTool = new AskUserTool();
+const finalAnswerTool = new FinalAnswerTool();
+
+toolRegistry.register(searchTool);
+toolRegistry.register(askUserTool);
+toolRegistry.register(finalAnswerTool);
+
+// Executar conversa
+const result = await orchestrator.runFlow("Qual é o clima em São Paulo?");
+console.log(result.final);
+```
+
+### WorkflowOrchestrator - Sequencial (NOVO!)
+```typescript
+import { WorkflowOrchestrator, WorkflowAgent } from 'frame-agent-sdk/orchestrators/workflows';
+
+// Criar agentes especializados
+const researcher = new WorkflowAgent({
+  id: 'researcher',
+  info: { name: 'Researcher', goal: 'Coletar informações' },
+  mode: 'react'
+});
+
+const analyst = new WorkflowAgent({
+  id: 'analyst',
+  info: { name: 'Analyst', goal: 'Analisar dados' },
+  mode: 'react'
+});
+
+// Criar orquestrador
+const orchestrator = new WorkflowOrchestrator({
+  deps: { llm, memory }
+});
+
+// Executar workflow sequencial
+const result = await orchestrator.executeWorkflow([
+  researcher, analyst
+], "Pesquisar impactos da IA no mercado brasileiro");
+```
+
+### WorkflowOrchestrator - Paralelo (NOVO!)
+```typescript
+import { FlowBuilder, FlowType } from 'frame-agent-sdk/orchestrators/workflows';
+
+const flow = new FlowBuilder()
+  .setType(FlowType.PARALLEL)
+  .addAgents([marketAnalyst, technicalAnalyst, riskAnalyst])
+  .build();
+
+const result = await orchestrator.executeFlow(flow, "Analisar viabilidade de startup");
+```
+
+### WorkflowOrchestrator - Hierárquico (NOVO!)
+```typescript
+import { HierarchyBuilder } from 'frame-agent-sdk/orchestrators/workflows';
+
+const hierarchy = new HierarchyBuilder()
+  .addSupervisor(supervisorAgent)
+  .addAgent(financialExpert, ['financial-analysis'])
+  .addAgent(technicalExpert, ['technical-feasibility'])
+  .build();
+
+const result = await orchestrator.executeHierarchy(hierarchy, "Avaliar proposta de investimento");
+```
+
+### Gerenciamento de Tarefas (Demo)
+```bash
+# Demonstração completa do sistema de tarefas
+node tests/real/taskListManager.js
+```
+
+### Tool Personalizada
+```typescript
+import { ToolBase } from 'frame-agent-sdk/tools';
+
+interface WeatherParams {
+  city: string;
+}
+
+class WeatherTool extends ToolBase<WeatherParams, string> {
+  readonly name = "weatherTool";
+  readonly description = "Obtém informações climáticas de uma cidade";
+  readonly parameterSchema = WeatherParams;
+
+  async execute(params: WeatherParams): Promise<string> {
+    // Implementação da tool
+    return `O clima em ${params.city} é ensolarado`;
+  }
+}
+
+// Registrar tool
+toolRegistry.register(new WeatherTool());
+```
+
+## 🔌 Providers Disponíveis
+
+### OpenAI Oficial
+```typescript
+const llm = new LLM({
+  provider: 'openai',
+  apiKey: 'sk-...',
+  model: 'gpt-4'
+});
+```
+
+### OpenAI Compatible
+```typescript
+const llm = new LLM({
+  provider: 'openaiCompatible',
+  apiKey: 'your-key',
+  baseUrl: 'https://api.deepseek.com/v1',
+  model: 'deepseek-chat'
+});
+```
+
+### Provider Customizado
+```typescript
+import { ProviderAdapter } from 'frame-agent-sdk/providers';
+
+class CustomProvider extends ProviderAdapter {
+  async chatCompletion(config) {
+    // Implementação customizada
+  }
+}
+```
+
+## 🏗️ Arquitetura
+
+### Estrutura de Diretórios
+```
+src/
+├── agents/           # Modos de agente (chat, react)
+├── llm/              # Cliente LLM unificado
+├── memory/           # Gerenciamento de memória
+├── orchestrators/    # Sistema de orquestração
+│   ├── steps/        # Orquestração por steps (básica)
+│   └── workflows/    # WorkflowOrchestrator (avançado)
+│       ├── core/     # Componentes fundamentais
+│       ├── builders/ # Construtores especializados
+│       ├── graph/    # Motor de grafos
+│       ├── hierarchy/# Sistema hierárquico
+│       └── integrated# Sistema integrado
+├── promptBuilder/    # Construção de prompts
+├── providers/        # Adaptadores de providers
+└── tools/            # Sistema de ferramentas SAP
+    ├── core/         # Interfaces e executores
+    ├── constructor/  # Base para ferramentas
+    └── tools/        # Ferramentas concretas
+```
+
+### Design Patterns Implementados
+- **Strategy**: Diferentes modos de agente
+- **Factory**: Criação de ferramentas e providers
+- **Registry**: Descoberta e registro automático
+- **Adapter**: Interface unificada para providers
+- **Builder**: Construção flexível de prompts
+
+## 📋 Tokens: Contexto vs Saída
+
+- **Contexto (histórico)**: O `ChatHistoryManager` aplica truncamento com base em `maxContextTokens` (limite da janela do modelo). O `StepsOrchestrator` usa `memory.getTrimmedHistory()` em cada chamada.
+- **Saída (gerada)**: O `LLM` aceita `maxTokens` via `defaults` (no construtor) ou por chamada (`invoke`). Os providers mapeiam para a opção específica (ex.: `max_tokens` na OpenAI).
+
+## 🛠️ Ferramentas Disponíveis
+
+### Ferramentas Integradas
+- **SearchTool**: Busca de informações usando LLM
+- **AskUserTool**: Solicita input do usuário
+- **FinalAnswerTool**: Fornece resposta final
+
+### Sistema de Tarefas (Planejado)
+- **TaskPlannerTool**: Cria planos sequenciais automaticamente
+- **TaskStatusUpdateTool**: Atualiza status das tarefas
+- **TaskVerifyTool**: Dashboard de progresso
+
+## 📝 Sistema de Logging ⚠️ IMPORTANTE
+
+**O logging está DESABILITADO por padrão.** Para usar o sistema de logs, você DEVE criar um arquivo de configuração.
+
+### Por que isso é importante?
+- **Performance**: Logs desnecessários podem impactar a performance
+- **Privacidade**: Evita exposição acidental de dados sensíveis
+- **Controle**: Você decide quando e como ativar o logging
+
+### Configuração Obrigatória
+Crie um arquivo `logger.config.json` na raiz do seu projeto:
+
+```json
+{
+  "enabled": true,
+  "level": "info",
+  "timestamp": true,
+  "moduleName": true,
+  "colors": true
+}
+```
+
+### Uso no Seu Projeto
+```typescript
+import { setupLoggerFromFile } from 'frame-agent-sdk/utils';
+
+// ⚠️ ESSENCIAL: Carrega configuração do arquivo
+setupLoggerFromFile();
+
+// Agora você pode usar o logger
+import { logger } from 'frame-agent-sdk/utils';
+logger.info('Aplicação iniciada', 'Main');
+```
+
+### Opções de Configuração
+- **enabled**: Ativa/desativa completamente o logging (padrão: false)
+- **level**: Nível mínimo de log ("debug", "info", "warn", "error")
+- **timestamp**: Inclui timestamps nas mensagens
+- **moduleName**: Inclui nomes dos módulos nas mensagens
+- **colors**: Usa cores nos logs (se suportado)
+- **outputFile**: Salva logs em arquivo (opcional)
+- **maxFileSizeMB**: Tamanho máximo do arquivo de log
+- **maxFiles**: Número máximo de arquivos de log
+
+### Comandos Úteis
+```bash
+# Criar arquivo de configuração padrão
+npm run create-logger-config
+
+# Criar configuração personalizada
+npx ts-node scripts/create-logger-config.ts meu-logger.json
+```
+
+## 🔄 Orquestração por Steps
 
 Use `LLMCallStepWithProvider(id, { provider, model, apiKey, baseUrl, ... })` para escolher o provedor por step, sem amarrar ao `.env`.
 
-## Estrutura Principal
+## 🎯 Boas Práticas
 
-- `src/promptBuilder/` â€“ modos e composiÃ§Ã£o do System Prompt
-- `src/orchestrators/steps/` â€“ Steps, interfaces e orquestraÃ§Ã£o
-- `src/memory/` â€“ memÃ³ria de chat e tokenizaÃ§Ã£o (aproximaÃ§Ã£o)
-- `src/providers/` â€“ adaptadores e provedores
-- `src/tools/` â€“ SAP (Schema Aligned Parsing), registro e validaÃ§Ã£o de ferramentas
+### Padrões de Código
+- ✅ Registre modos via `PromptBuilder.addPromptMode` em módulos dedicados
+- ✅ Use guards (early returns) e evite `else/else if` para simplificar fluxo
+- ✅ Escolha de provider por step usando `StepProviderOptions`
+- ✅ Validações lineares - uma condição por linha
+- ✅ Interfaces e enums - evite `type` aliases
+- ✅ Sem aninhamento de estruturas de controle
 
-## Boas PrÃ¡ticas
+### Organização de Arquivos
+```
+arquivo.ts
+├── Imports (externos → internos)
+├── Interfaces / Enums
+├── Schemas (se aplicável)
+└── Classe principal
+```
 
-- Registre modos via `PromptBuilder.addPromptMode` em mÃ³dulos dedicados (ex.: `src/agents/react/reactAgent.ts`).
-- Evite acoplamento de modos dentro do `PromptBuilder`.
-- Use guards (early returns) e evite `else/else if` para simplificar fluxo.
-- Escolha de provider por step usando `StepProviderOptions` (evita lÃ³gica rÃ­gida em `.env`).
+## 📖 Documentação
 
-## Contribuindo
+- [API Reference](docs/api/README.md) - Documentação completa da API
+- [Guia de Arquitetura](docs/arquitetura/) - Detalhes da arquitetura
+- [Padrões de Projeto](docs/arquitetura/03-padroes-projeto.md) - Padrões implementados
+- [TaskTools Guide](TASK_PLANNER_IMPLEMENTATION_PLAN.md) - Sistema de tarefas
+- [WorkflowOrchestrator Guide](examples/workflow-orchestrator/README.md) - Guia completo do novo sistema
+- [Plan.md](PLAN.md) - Planejamento da implementação do WorkflowOrchestrator
 
-1. Fork e branch (ex.: `feat/...` ou `fix/...`).
-2. `npm ci` e `npm test`.
-3. `npm run build` para compilar.
-4. Abra PR com descriÃ§Ã£o objetiva do que foi alterado.
+## 🤝 Contribuindo
 
-## LicenÃ§a
+### Fluxo de Contribuição
+1. **Fork** o repositório
+2. Criar **branch** (`feat/feature-name` ou `fix/bug-name`)
+3. **Instalar dependências**: `npm ci`
+4. **Executar testes**: `npm test`
+5. **Compilar**: `npm run build`
+6. **Abrir PR** com descrição objetiva
 
-Defina a licenÃ§a do projeto aqui (ex.: MIT).
-# frame-agent-sdk
+### Padrões de Commit
+```
+feat: adicionar nova funcionalidade
+fix: corrigir bug específico
+docs: atualizar documentação
+refactor: refatorar código sem mudança de comportamento
+test: adicionar ou corrigir testes
+```
+
+### Code Review
+- Seguir padrões do [CLAUDE.md](CLAUDE.md)
+- Testar todas as funcionalidades
+- Manter cobertura de testes
+- Documentar APIs públicas
+
+## 🚀 Exemplo Completo de Configuração
+
+### 1. Estrutura Inicial do Projeto
+```
+meu-projeto/
+├── src/
+│   └── index.ts
+├── logger.config.json    ← ⚠️ ESSENCIAL
+├── .env                  ← Configurações do LLM
+└── package.json
+```
+
+### 2. Configuração Obrigatória do Logging
+**logger.config.json**:
+```json
+{
+  "enabled": true,
+  "level": "info",
+  "timestamp": true,
+  "moduleName": true,
+  "colors": true
+}
+```
+
+### 3. Código de Exemplo Completo
+**src/index.ts**:
+```typescript
+import { setupLoggerFromFile, logger } from 'frame-agent-sdk/utils';
+import { LLM, StepsOrchestrator, ChatHistoryManager } from 'frame-agent-sdk';
+
+// ⚠️ PASSO OBRIGATÓRIO: Configurar logging
+setupLoggerFromFile();
+
+// Agora você pode usar o logger
+logger.info('Iniciando aplicação', 'Main');
+
+// Configurar LLM
+const llm = new LLM({
+  apiKey: process.env.OPENAI_API_KEY,
+  model: 'gpt-4o-mini'
+});
+
+// Configurar memória
+const memory = new ChatHistoryManager({
+  maxContextTokens: 8000,
+  tokenizer: { estimateTokens: (text) => Math.ceil(text.length / 4) }
+});
+
+// Criar orquestrador
+const orchestrator = new StepsOrchestrator({
+  llm,
+  memory,
+  mode: 'react'
+});
+
+// Executar agente
+const result = await orchestrator.runFlow("Qual é o clima em São Paulo?");
+logger.info('Resposta recebida', 'Main');
+console.log(result.final);
+```
+
+### 4. Comandos para Iniciar
+```bash
+# 1. Criar arquivo de configuração (OPCIONAL - pode criar manualmente)
+npm run create-logger-config
+
+# 2. Executar a aplicação
+npm run dev
+```
+
+### ⚠️ Erros Comuns
+- **"Nenhum log aparece"**: Você esqueceu de criar `logger.config.json` ou `setupLoggerFromFile()`
+- **"setupLoggerFromFile is not defined"**: Importe corretamente de `'frame-agent-sdk/utils'`
+- **"Logs aparecem mesmo com enabled: false"**: Certifique-se de chamar `setupLoggerFromFile()` ANTES de usar o logger
+
+## 📄 Licença
+
+[MIT License](LICENSE) - Ver arquivo LICENSE para detalhes.
+
+## 🔗 Links Úteis
+
+- [Repositório](https://github.com/your-repo/frame-agent-sdk)
+- [Issues](https://github.com/your-repo/frame-agent-sdk/issues)
+- [Discussões](https://github.com/your-repo/frame-agent-sdk/discussions)
+- [Documentação Online](https://your-docs-site.com)
+
+---
+
+**Frame Agent SDK** - Construa agentes inteligentes com simplicidade e robustez 🚀
