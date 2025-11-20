@@ -1,6 +1,5 @@
 import { ProviderConfig } from './providerAdapter.interface';
 import { getProvider } from '../providers';
-import { logger } from '../../utils';
 
 /**
  * Adaptador genérico para provedores de LLM.
@@ -22,41 +21,72 @@ export class ProviderAdapter {
       providerName = 'openaiCompatible';
     }
 
-    // Logs de debug para verificar prompts
-    logger.debug(`Provider: ${providerName}`, 'ProviderAdapter');
-    logger.debug(`Model: ${config.model}`, 'ProviderAdapter');
-    logger.debug(`Total messages: ${config.messages ? config.messages.length : 0}`, 'ProviderAdapter');
+    // Logs padronizados
+    console.log(`[ProviderAdapter] ProviderAdapter.chatCompletion | provider=${providerName} | model=${config.model}`);
+    console.log(`[ProviderAdapter] ProviderAdapter.messages.count=${config.messages ? config.messages.length : 0}`);
     
-    // Verificar systemPrompt (passado separadamente)
+    // LOG COMPLETO DO PROMPT ANTES DA CHAMADA AO LLM
+    console.log('\n' + '='.repeat(80));
+    console.log('🤖 PROMPT COMPLETO ANTES DA CHAMADA AO LLM');
+    console.log('='.repeat(80));
+    console.log(`📋 Provider: ${providerName}`);
+    console.log(`🎯 Modelo: ${config.model}`);
+    console.log(`🌡️  Temperatura: ${config.temperature || 'default'}`);
+    console.log(`🔢 Max Tokens: ${config.maxTokens || 'default'}`);
+    console.log('='.repeat(80));
+    
+    // System Prompt completo sem truncamento
     if (config.systemPrompt) {
-      logger.debug(`SystemPrompt length: ${config.systemPrompt.length}`, 'ProviderAdapter');
-      const systemPromptPreview = config.systemPrompt.substring(0, 100);
-      logger.debug(`SystemPrompt preview: ${systemPromptPreview}...`, 'ProviderAdapter');
-      if (config.systemPrompt.includes('Code Generator') || config.systemPrompt.includes('Code Critic')) {
-        logger.debug(`System prompt detected in config.systemPrompt`, 'ProviderAdapter');
-      }
+      console.log('\n📄 SYSTEM PROMPT COMPLETO:');
+      console.log('-'.repeat(60));
+      console.log(config.systemPrompt);
+      console.log('-'.repeat(60));
+    }
+    
+    // Todas as mensagens completas sem truncamento
+    if (config.messages && config.messages.length > 0) {
+      console.log(`\n💬 MENSAGENS (${config.messages.length} total):`);
+      console.log('-'.repeat(60));
+      
+      config.messages.forEach((msg: { role: string; content: string }, index: number) => {
+        console.log(`\n[${index}] Role: ${msg.role.toUpperCase()}`);
+        console.log(`    Content (${msg.content?.length || 0} caracteres):`);
+        if (msg.content) {
+          console.log('    ' + msg.content.split('\n').join('\n    '));
+        }
+        console.log('');
+      });
+      console.log('-'.repeat(60));
+    }
+    
+    console.log('\n🚀 ENVIANDO REQUISIÇÃO AO LLM...');
+    console.log('='.repeat(80) + '\n');
+    
+    // Logs originais truncados para debug
+    if (config.systemPrompt) {
+      const sp = config.systemPrompt;
+      const preview = sp.length > 1000 ? `${sp.slice(0, 1000)}...` : sp;
+      console.log(`[ProviderAdapter] ProviderAdapter.systemPrompt.length=${sp.length}`);
+      console.log(`[ProviderAdapter] ProviderAdapter.systemPrompt.preview=${preview}`);
+      
+      // 🎯 LOG ADICIONAL PARA VALIDAR TRUNCAMENTO
+      console.log('\n' + '⚠️' + '='.repeat(78));
+      console.log('⚠️  VALIDAÇÃO DE TRUNCAMENTO DO SYSTEM PROMPT');
+      console.log('='.repeat(80));
+      console.log(`📊 Tamanho original: ${sp.length} caracteres`);
+      console.log(`📊 Tamanho do preview: ${preview.length} caracteres`);
+      console.log(`🔍 Preview truncado? ${sp.length > 1000 ? 'SIM' : 'NÃO'}`);
+      console.log(`📋 Preview: "${preview}"`);
+      console.log('='.repeat(80) + '\n');
     }
     
     if (config.messages && config.messages.length > 0) {
       const systemMessages = config.messages.filter(m => m.role === 'system');
-      logger.debug(`System messages: ${systemMessages.length}`, 'ProviderAdapter');
+      console.log(`[ProviderAdapter] ProviderAdapter.messages.system.count=${systemMessages.length}`);
       const userMessages = config.messages.filter(m => m.role === 'user');
-      logger.debug(`User messages: ${userMessages.length}`, 'ProviderAdapter');
+      console.log(`[ProviderAdapter] ProviderAdapter.messages.user.count=${userMessages.length}`);
       const assistantMessages = config.messages.filter(m => m.role === 'assistant');
-      logger.debug(`Assistant messages: ${assistantMessages.length}`, 'ProviderAdapter');
-      
-      // Mostrar conteúdo dos system messages
-      systemMessages.forEach((msg, index) => {
-        if (msg.content) {
-          logger.debug(`System message ${index + 1} length: ${msg.content.length}`, 'ProviderAdapter');
-          // Mostrar início do conteúdo para identificar se é o prompt do sistema
-          const contentPreview = msg.content.substring(0, 100);
-          logger.debug(`System message ${index + 1} preview: ${contentPreview}...`, 'ProviderAdapter');
-          if (msg.content.includes('Code Generator') || msg.content.includes('Code Critic')) {
-            logger.debug(`System prompt detected in message ${index + 1}`, 'ProviderAdapter');
-          }
-        }
-      });
+      console.log(`[ProviderAdapter] ProviderAdapter.messages.assistant.count=${assistantMessages.length}`);
     }
     
     const ProviderClass: any = getProvider(providerName);

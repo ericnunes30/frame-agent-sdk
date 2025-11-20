@@ -1,0 +1,6 @@
+export enum GraphStatus {
+  RUNNING = 'RUNNING',
+  PAUSED = 'PAUSED',
+  FINISHED = 'FINISHED',
+  ERROR = 'ERROR',
+}

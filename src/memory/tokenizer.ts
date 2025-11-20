@@ -8,13 +8,18 @@ import { Message, ITokenizerService } from './memory.interface';
  */
 export class TokenizerService implements ITokenizerService {
     
+    private readonly model: string;
     // Proporção de tokens (aproximação comum)
     private readonly CHARS_PER_TOKEN = 4;
     // Buffer fixo para simular o custo estrutural de cada mensagem (role, chaves, JSON, etc.)
-    private readonly FIXED_CHAR_OVERHEAD_PER_MESSAGE = 10; 
+    private readonly FIXED_CHAR_OVERHEAD_PER_MESSAGE = 10;
+    
+    constructor(model: string) {
+        this.model = model;
+    }
     
     /**
-     * Retorna o número de tokens com base em uma proporção de caracteres, 
+     * Retorna o número de tokens com base em uma proporção de caracteres,
      * utilizando 'reduce' para evitar aninhamento de ganchos lógicos.
      * @param messages O histórico de mensagens.
      * @param model O nome do modelo. Usado apenas para fins de compatibilidade com a interface.

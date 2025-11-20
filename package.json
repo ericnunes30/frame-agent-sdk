@@ -2,58 +2,53 @@
   "name": "frame-agent-sdk",
   "version": "0.0.1",
   "description": "Framework de agente",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/src/index.js",
+      "require": "./dist/src/index.js",
+      "types": "./dist/src/index.d.ts"
     },
     "./agents": {
-      "import": "./dist/agents/index.js",
-      "require": "./dist/agents/index.js",
-      "types": "./dist/agents/index.d.ts"
+      "import": "./dist/src/agents/index.js",
+      "require": "./dist/src/agents/index.js",
+      "types": "./dist/src/agents/index.d.ts"
     },
     "./llm": {
-      "import": "./dist/llm/index.js",
-      "require": "./dist/llm/index.js",
-      "types": "./dist/llm/index.d.ts"
+      "import": "./dist/src/llm/index.js",
+      "require": "./dist/src/llm/index.js",
+      "types": "./dist/src/llm/index.d.ts"
     },
     "./memory": {
-      "import": "./dist/memory/index.js",
-      "require": "./dist/memory/index.js",
-      "types": "./dist/memory/index.d.ts"
+      "import": "./dist/src/memory/index.js",
+      "require": "./dist/src/memory/index.js",
+      "types": "./dist/src/memory/index.d.ts"
     },
     "./orchestrators/steps": {
-      "import": "./dist/orchestrators/steps/index.js",
-      "require": "./dist/orchestrators/steps/index.js",
-      "types": "./dist/orchestrators/steps/index.d.ts"
+      "import": "./dist/src/orchestrators/steps/index.js",
+      "require": "./dist/src/orchestrators/steps/index.js",
+      "types": "./dist/src/orchestrators/steps/index.d.ts"
     },
     "./orchestrators/workflows": {
-      "import": "./dist/orchestrators/workflows/index.js",
-      "require": "./dist/orchestrators/workflows/index.js",
-      "types": "./dist/orchestrators/workflows/index.d.ts"
+      "import": "./dist/src/orchestrators/workflows/index.js",
+      "require": "./dist/src/orchestrators/workflows/index.js",
+      "types": "./dist/src/orchestrators/workflows/index.d.ts"
     },
     "./promptBuilder": {
-      "import": "./dist/promptBuilder/index.js",
-      "require": "./dist/promptBuilder/index.js",
-      "types": "./dist/promptBuilder/index.d.ts"
+      "import": "./dist/src/promptBuilder/index.js",
+      "require": "./dist/src/promptBuilder/index.js",
+      "types": "./dist/src/promptBuilder/index.d.ts"
     },
     "./providers": {
-      "import": "./dist/providers/index.js",
-      "require": "./dist/providers/index.js",
-      "types": "./dist/providers/index.d.ts"
+      "import": "./dist/src/providers/index.js",
+      "require": "./dist/src/providers/index.js",
+      "types": "./dist/src/providers/index.d.ts"
     },
     "./tools": {
-      "import": "./dist/tools/index.js",
-      "require": "./dist/tools/index.js",
-      "types": "./dist/tools/index.d.ts"
-    },
-    "./utils": {
-      "import": "./dist/utils/index.js",
-      "require": "./dist/utils/index.js",
-      "types": "./dist/utils/index.d.ts"
+      "import": "./dist/src/tools/index.js",
+      "require": "./dist/src/tools/index.js",
+      "types": "./dist/src/tools/index.d.ts"
     }
   },
   "scripts": {
@@ -101,6 +96,7 @@
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typedoc": "^0.25.13",
     "typedoc-plugin-markdown": "^3.17.1",
     "typescript": "^5.0.0"

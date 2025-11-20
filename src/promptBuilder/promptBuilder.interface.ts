@@ -22,5 +22,12 @@ export interface PromptBuilderConfig {
   agentInfo: AgentInfo;
   additionalInstructions?: string;
   tools?: ToolSchema[];
+  taskList?: {
+    items: Array<{
+      id: string
+      title: string
+      status: 'pending' | 'in_progress' | 'completed'
+    }>
+  };
 }
 

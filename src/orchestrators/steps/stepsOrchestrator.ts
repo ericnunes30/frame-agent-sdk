@@ -59,12 +59,10 @@ export class StepsOrchestrator {
 
     // chat mode: single turn
     if (this.config.mode === 'chat' as PromptMode) {
+      const systemPrompt = PromptBuilder.buildSystemPrompt(this.config);
       const { content, metadata } = await this.deps.llm.invoke({
         messages: this.deps.memory.getTrimmedHistory(),
-        mode: this.config.mode,
-        agentInfo: this.config.agentInfo,
-        additionalInstructions: this.config.additionalInstructions,
-        tools: this.config.tools
+        systemPrompt,
       });
       state.lastModelOutput = content ?? null;
       if (content) this.deps.memory.addMessage({ role: 'assistant', content });
@@ -86,10 +84,7 @@ export class StepsOrchestrator {
       const systemPrompt = PromptBuilder.buildSystemPrompt(this.config);
       const { content, metadata } = await this.deps.llm.invoke({
         messages: this.deps.memory.getTrimmedHistory(),
-        mode: this.config.mode,
-        agentInfo: this.config.agentInfo,
-        additionalInstructions: this.config.additionalInstructions,
-        tools: this.config.tools
+        systemPrompt,
       });
       state.lastModelOutput = content ?? null;
       if (metadata) state.data.metadata = metadata;
@@ -99,16 +94,17 @@ export class StepsOrchestrator {
       this.deps.memory.addMessage({ role: 'assistant', content: text });
       const parsed = SAPParser.parseAndValidate(text);
 
-      // If no tool call parsed, try recovery via llmHint; otherwise treat as final
-      if (!(parsed as any).toolName) {
-        const err = parsed as ISAPError;
-        if (err && (err.llmHint || err.message)) {
-          // Feed a corrective hint to the model and continue the loop
-          const hint = err.llmHint || 'Your tool output does not match the required schema. Fix format and try again using exact JSON.';
-          this.deps.memory.addMessage({ role: 'system', content: hint });
-          continue;
-        }
-        // capture thought if present before treating as final
+      // No nested conditionals: guard flows
+      const hasTool = Boolean((parsed as any).toolName);
+      const err = parsed as ISAPError;
+      const hasHint = Boolean(err && (err.llmHint || err.message));
+      const needHint = !hasTool && hasHint;
+      if (needHint) {
+        const hint = err.llmHint || 'Your tool output does not match the required schema. Fix format and try again using exact JSON.';
+        this.deps.memory.addMessage({ role: 'system', content: hint });
+        continue;
+      }
+      if (!hasTool) {
         try {
           const m = text.match(/Thought:\s*([\s\S]*?)(?:\n|$)/i);
           const thought = (m ? m[1] : '').toString().trim();
@@ -159,6 +155,48 @@ export class StepsOrchestrator {
       try {
         const stepsArr = ((state.data as any).steps as any[]);
         if (stepIndex >= 0 && stepsArr[stepIndex]) stepsArr[stepIndex].observation = String(observation);
+      } catch {}
+
+      try {
+        const raw = typeof observation === 'string' ? observation : JSON.stringify(observation)
+        const clean = typeof raw === 'string' ? raw.replace(/^\s*Observation:\s*/, '') : ''
+        const parsedObs = clean ? JSON.parse(clean) : observation;
+        const isTodo = parsedObs && parsedObs.type === 'todo_list';
+        const act = String((parsedObs && parsedObs.action) || '');
+        const payload = (parsedObs && parsedObs.payload) || {};
+        const makeId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        this.config.taskList = this.config.taskList || { items: [] };
+        const items = this.config.taskList.items;
+        const handlers: Record<string, (p: any) => void> = {
+          create: (p) => {
+            const titles: string[] = Array.isArray(p.tasks) ? p.tasks : [];
+            const def: 'pending' | 'in_progress' | 'completed' = (p.defaultStatus as any) || 'pending';
+            this.config.taskList = { items: titles.map((title) => ({ id: makeId(), title: String(title), status: def })) };
+          },
+          add: (p) => {
+            const title = String(p.title || '');
+            const status: 'pending' | 'in_progress' | 'completed' = (p.status as any) || 'pending';
+            title && items.push({ id: makeId(), title, status });
+          },
+          update_status: (p) => {
+            const id = String(p.id || '');
+            const status: 'pending' | 'in_progress' | 'completed' = p.status as any;
+            const idx = id && status ? items.findIndex((i) => i.id === id) : -1;
+            idx >= 0 && (items[idx].status = status);
+          },
+          complete_all: () => {
+            items.forEach((i) => (i.status = 'completed'));
+          },
+          delete_task: (p) => {
+            const id = String(p.id || '');
+            const idx = id ? items.findIndex((i) => i.id === id) : -1;
+            idx >= 0 && items.splice(idx, 1);
+          },
+          delete_list: () => {
+            this.config.taskList = { items: [] };
+          },
+        };
+        isTodo && handlers[act] && handlers[act](payload);
       } catch {}
       // Continue loop for next LLM turn
     }
