@@ -5,8 +5,7 @@ export * from './steps/interfaces';
 export * from './steps/stepsOrchestrator';
 export * from './steps/steps';
 
-// Novo sistema Workflows (implementado do zero)
-export * from './workflows';
+export * from './graph';
 
 /**
  * Exports dos orquestradores e steps.

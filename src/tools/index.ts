@@ -17,3 +17,4 @@ export { SearchParams, SearchTool } from './tools/searchTool';
 export { AskUserParams, AskUserTool } from './tools/askUserTool';
 export { FinalAnswerParams, FinalAnswerTool } from './tools/finalAnswerTool';
 export { ApprovalParams, ApprovalTool } from './tools/approvalTool';
+export { TodoListParams, TodoListTool } from './tools/todoListTool';

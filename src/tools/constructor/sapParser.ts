@@ -1,4 +1,4 @@
-﻿// src/tools/sapParser.ts
+// src/tools/sapParser.ts
 
 import { toolRegistry } from '../core/toolRegistry';
 import { IToolCall, ToolValidationIssue } from '../core/interfaces';
@@ -80,12 +80,19 @@ export class SAPParser {
 
         let parsedParams: unknown;
         try {
-            parsedParams = JSON.parse(rawJsonParams.replace(/'/g, '"'));
+            parsedParams = JSON.parse(rawJsonParams);
         } catch {
-            return {
-                message: `Erro de Parsing/Validação: JSON inválido para '${toolName}'.`,
-                rawOutput: rawLLMOutput,
-            } as ISAPError;
+            const fixed = rawJsonParams
+              .replace(/'([A-Za-z0-9_]+)'(?=\s*:)/g, '"$1"')
+              .replace(/:\s*'([^']*)'/g, ':"$1"');
+            try {
+                parsedParams = JSON.parse(fixed);
+            } catch {
+                return {
+                    message: `Erro de Parsing/Validação: JSON inválido para '${toolName}'.`,
+                    rawOutput: rawLLMOutput,
+                } as ISAPError;
+            }
         }
 
         const result = validateToolParams(toolInstance, parsedParams);

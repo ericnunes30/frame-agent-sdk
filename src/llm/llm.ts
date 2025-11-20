@@ -5,7 +5,6 @@ import type { IProviderResponse } from '../providers/adapter/providerAdapter.int
 import type { ProviderConfig } from '../providers/adapter/providerAdapter.interface';
 import { PromptBuilder } from '../promptBuilder';
 import type { PromptBuilderConfig, PromptMode, AgentInfo, ToolSchema } from '../promptBuilder';
-import { logger } from '../utils';
 
 /**
  * Parâmetros padrão por provedor (aplicados quando não informados na chamada).
@@ -45,7 +44,7 @@ export class LLM {
     this.defaults = params.defaults ?? {};
     this.baseUrl = params.baseUrl;
     
-    logger.debug(`LLM instance created with model: ${this.model}`, 'LLM');
+    console.log(`[LLM] LLM instance created with model: ${this.model}`);
   }
 
   /**
@@ -80,24 +79,53 @@ export class LLM {
     systemPrompt?: string;
     additionalInstructions?: string;
     tools?: ToolSchema[];
+    taskList?: { items: Array<{ id: string; title: string; status: 'pending' | 'in_progress' | 'completed' }> };
     temperature?: number;
     topP?: number;
     maxTokens?: number;
     stream?: boolean;
     promptConfig?: PromptBuilderConfig;
   }): Promise<{ content: string | null; metadata?: Record<string, unknown> }> {
-    logger.debug(`LLM.invoke called with ${args.messages.length} messages`, 'LLM');
+    
+    // 🎯 LOG DIRETO DO INVOCATION - MOMENTO EXATO ANTES DE CONSTRUIR O PROMPT
+    console.log('\n' + '🧠' + '='.repeat(78));
+    console.log('🎯 LLM.INVOKE - MOMENTO EXATO ANTES DE CONSTRUIR O PROMPT');
+    console.log('='.repeat(80));
+    console.log(`📊 Número de mensagens: ${args.messages.length}`);
+    console.log(`🔧 Modo: ${args.mode || 'não definido'}`);
+    console.log(`🤖 Agente: ${args.agentInfo?.name || 'não definido'}`);
+    console.log(`🌡️  Temperatura: ${args.temperature || 'default'}`);
+    console.log(`🔢 Max Tokens: ${args.maxTokens || 'default'}`);
+    
+    if (args.messages && args.messages.length > 0) {
+      console.log(`\n💬 MENSAGENS DO USUÁRIO:`);
+      console.log('-'.repeat(60));
+      args.messages.forEach((msg, index) => {
+        console.log(`\n[${index}] Role: ${msg.role.toUpperCase()}`);
+        console.log(`    Content (${msg.content?.length || 0} caracteres):`);
+        if (msg.content) {
+          console.log('    ' + msg.content.split('\n').join('\n    '));
+        }
+      });
+      console.log('-'.repeat(60));
+    }
+    console.log('='.repeat(80) + '\n');
+    
+    console.log(`LLM.invoke called with ${args.messages.length} messages`, 'LLM');
     
     // Determina qual systemPrompt usar
     let systemPrompt: string;
+    let promptSource: 'promptConfig' | 'systemPrompt' | 'mode+agentInfo+additionalInstructions';
     
     if (args.promptConfig) {
       // Usa promptConfig se fornecido
       this.assertModeRegistered(args.promptConfig.mode);
       systemPrompt = PromptBuilder.buildSystemPrompt(args.promptConfig);
+      promptSource = 'promptConfig';
     } else if (args.systemPrompt) {
       // Usa systemPrompt direto se fornecido
       systemPrompt = args.systemPrompt;
+      promptSource = 'systemPrompt';
     } else if (args.mode && args.agentInfo) {
       // Fallback para modo e agentInfo
       this.assertModeRegistered(args.mode);
@@ -106,11 +134,40 @@ export class LLM {
         agentInfo: args.agentInfo,
         additionalInstructions: args.additionalInstructions,
         tools: args.tools,
+        taskList: args.taskList,
       };
       systemPrompt = PromptBuilder.buildSystemPrompt(promptConfig);
+      promptSource = 'mode+agentInfo+additionalInstructions';
     } else {
       throw new Error('Deve fornecer promptConfig, systemPrompt, ou mode+agentInfo');
     }
+    
+    // 🎯 LOG DO SYSTEM PROMPT COMPLETO APÓS CONSTRUÇÃO
+    console.log('\n' + '📋' + '='.repeat(78));
+    console.log('📋 SYSTEM PROMPT CONSTRUÍDO - CONTEÚDO COMPLETO');
+    console.log('='.repeat(80));
+    console.log(`📊 Fonte: ${promptSource}`);
+    console.log(`📏 Tamanho: ${systemPrompt.length} caracteres`);
+    console.log(`🔤 Preview: ${systemPrompt.length > 200 ? systemPrompt.substring(0, 200) + '...' : systemPrompt}`);
+    console.log('\n📄 CONTEÚDO COMPLETO DO SYSTEM PROMPT:');
+    console.log('-'.repeat(60));
+    console.log(systemPrompt);
+    console.log('-'.repeat(60));
+    console.log('='.repeat(80) + '\n');
+    
+    const spPreview = systemPrompt.length > 1000 ? `${systemPrompt.slice(0, 1000)}...` : systemPrompt;
+    console.log(`LLM SystemPrompt | source=${promptSource} | length=${systemPrompt.length}`, 'LLM');
+    console.log(`LLM SystemPrompt preview: ${spPreview}`, 'LLM');
+    
+    // 🎯 LOG ADICIONAL PARA VALIDAR TRUNCAMENTO NO LLM
+    console.log('\n' + '🔍' + '='.repeat(78));
+    console.log('🔍 LLM - VALIDAÇÃO DE TRUNCAMENTO DO SYSTEM PROMPT');
+    console.log('='.repeat(80));
+    console.log(`📊 Tamanho original: ${systemPrompt.length} caracteres`);
+    console.log(`📊 Tamanho do preview: ${spPreview.length} caracteres`);
+    console.log(`🔍 Preview truncado? ${systemPrompt.length > 1000 ? 'SIM' : 'NÃO'}`);
+    console.log(`📋 Preview: "${spPreview}"`);
+    console.log('='.repeat(80) + '\n');
     const temperature = args.temperature ?? this.defaults.temperature ?? 0.5;
     const topP = args.topP ?? this.defaults.topP;
     const maxTokens = args.maxTokens ?? this.defaults.maxTokens;
@@ -128,9 +185,9 @@ export class LLM {
       baseUrl: this.baseUrl,
     };
 
-    logger.debug(`Calling ProviderAdapter with model: ${config.model}`, 'LLM');
+    console.log(`Calling ProviderAdapter with model: ${config.model}`, 'LLM');
     const resp: IProviderResponse = await ProviderAdapter.chatCompletion(config);
-    logger.debug(`ProviderAdapter response received`, 'LLM');
+    console.log(`ProviderAdapter response received`, 'LLM');
     return { content: resp?.content ?? null, metadata: resp?.metadata };
   }
 }

@@ -70,10 +70,19 @@ export class PromptBuilder {
       parts.push(String(additionalInstructions));
     }
 
-    // 3) Tools
+    const taskListText = PromptBuilder.buildTaskListPrompt(config.taskList)
+    if (taskListText) {
+      parts.push(taskListText)
+    }
     parts.push(PromptBuilder.buildToolsPrompt(tools));
 
-    return parts.join('\n\n');
+    const finalPrompt = parts.join('\n\n');
+    const preview = finalPrompt.length > 1500 ? `${finalPrompt.slice(0, 1500)}...` : finalPrompt;
+    console.log(`[PromptBuilder] SystemPrompt built | mode=${String(mode)} | length=${finalPrompt.length}`);
+    if (additionalInstructions && String(additionalInstructions).trim().length > 0) {
+      console.log(`[PromptBuilder] SystemPrompt preview: ${preview}`);
+    }
+    return finalPrompt;
   }
 
   private static buildToolsPrompt(tools?: ToolSchema[]): string {
@@ -90,5 +99,13 @@ export class PromptBuilder {
       .join('\n\n---\n\n');
 
     return `\n## Tools\nVocê tem acesso às seguintes ferramentas. Use-as quando for necessário para atingir seu Goal.\n\n${toolsDescription}`;
+  }
+
+  private static buildTaskListPrompt(taskList?: { items: Array<{ id: string; title: string; status: 'pending' | 'in_progress' | 'completed' }> }): string {
+    if (!taskList || !Array.isArray(taskList.items) || taskList.items.length === 0) return ''
+    const lines = taskList.items
+      .map((t) => `- [${t.status}] ${t.title} (id: ${t.id})`)
+      .join('\n')
+    return `\n## Task List\n${lines}`
   }
 }

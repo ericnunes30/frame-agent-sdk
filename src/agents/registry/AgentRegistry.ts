@@ -6,7 +6,6 @@ import type {
   AgentRegistrationOptions 
 } from './AgentRegistry.interface';
 import type { IAgent, IAgentConfig } from '../interfaces';
-import { logger } from '../../utils';
 
 /**
  * Registro centralizado de agentes customizados
@@ -134,11 +133,11 @@ export class AgentRegistry implements IAgentRegistry {
       // Atualiza estatísticas
       this.updateStats();
 
-      logger.info(`Agente '${name}' registrado com sucesso`, 'AgentRegistry');
+      console.log(`[AgentRegistry] Agente '${name}' registrado com sucesso`);
       return true;
 
     } catch (error) {
-      logger.error(`Erro ao registrar agente '${name}': ${error instanceof Error ? error.message : String(error)}`, 'AgentRegistry');
+      console.error(`Erro ao registrar agente '${name}': ${error instanceof Error ? error.message : String(error)}`, 'AgentRegistry');
       return false;
     }
   }
@@ -150,7 +149,7 @@ export class AgentRegistry implements IAgentRegistry {
     const registration = this.agents.get(name);
     
     if (!registration) {
-      logger.warn(`Agente '${name}' não encontrado no registro`, 'AgentRegistry');
+      console.warn(`Agente '${name}' não encontrado no registro`, 'AgentRegistry');
       return null;
     }
 
@@ -170,7 +169,7 @@ export class AgentRegistry implements IAgentRegistry {
       return agent;
 
     } catch (error) {
-      logger.error(`Erro ao criar instância do agente '${name}': ${error instanceof Error ? error.message : String(error)}`, 'AgentRegistry');
+      console.error(`Erro ao criar instância do agente '${name}': ${error instanceof Error ? error.message : String(error)}`, 'AgentRegistry');
       return null;
     }
   }
@@ -194,14 +193,14 @@ export class AgentRegistry implements IAgentRegistry {
    */
   public unregister(name: string): boolean {
     if (!this.agents.has(name)) {
-      logger.warn(`Agente '${name}' não encontrado para remoção`, 'AgentRegistry');
+      console.warn(`Agente '${name}' não encontrado para remoção`, 'AgentRegistry');
       return false;
     }
 
     this.agents.delete(name);
     this.updateStats();
     
-    logger.info(`Agente '${name}' removido do registro`, 'AgentRegistry');
+    console.log(`Agente '${name}' removido do registro`, 'AgentRegistry');
     return true;
   }
 
@@ -223,7 +222,7 @@ export class AgentRegistry implements IAgentRegistry {
       mostUsed: [],
       createdAt: new Date()
     };
-    logger.info('Registro de agentes limpo', 'AgentRegistry');
+    console.log('Registro de agentes limpo', 'AgentRegistry');
   }
 
   /**
