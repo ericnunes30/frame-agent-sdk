@@ -2,9 +2,6 @@
 
 Framework leve e robusto para construir agentes (Chat / ReAct) com orquestração por etapas, memória, provedores plugáveis e sistema de gerenciamento de tarefas.
 
-## ⚠️ AVISO IMPORTANTE - CONFIGURAÇÃO DE LOGGING
-
-**O sistema de logging está DESABILITADO por padrão.** Para visualizar logs, você **DEVE** criar um arquivo `logger.config.json` na raiz do seu projeto. Veja a [seção de logging](#-sistema-de-logging-importante) para instruções detalhadas.
 
 ## ✨ Características Principais
 
@@ -90,16 +87,6 @@ npm install
 npm run build
 ```
 
-### Passo 2: Configuração de Logging ⚠️ OBRIGATÓRIO
-```bash
-# Criar arquivo de configuração de logging (ESSENCIAL)
-npm run create-logger-config
-
-# Ou criar manualmente um arquivo logger.config.json:
-echo '{"enabled": true, "level": "info"}' > logger.config.json
-```
-
-**❗ Sem este arquivo, o logging estará completamente desabilitado.**
 
 ## ⚙️ Configuração
 
@@ -153,28 +140,6 @@ const orchestrator = new StepsOrchestrator({
 });
 ```
 
-## 🧪 Testes
-
-### Testes Unitários
-```bash
-# Executar todos os testes unitários
-npm test
-
-# Executar com coverage
-npm run test:coverage
-```
-
-### Testes Reais (Integração)
-```bash
-# Teste do provider OpenAI Compatible
-node tests/real/openaiCompatible.real.js
-
-# Teste do agente ReAct completo
-node tests/real/reactAgent.real.js
-
-# Demonstração do sistema de tarefas
-node tests/real/taskListManager.js
-```
 
 ## 📚 Exemplos
 
@@ -250,11 +215,6 @@ const hierarchy = new HierarchyBuilder()
 const result = await orchestrator.executeHierarchy(hierarchy, "Avaliar proposta de investimento");
 ```
 
-### Gerenciamento de Tarefas (Demo)
-```bash
-# Demonstração completa do sistema de tarefas
-node tests/real/taskListManager.js
-```
 
 ### Tool Personalizada
 ```typescript
@@ -359,58 +319,6 @@ src/
 - **TaskStatusUpdateTool**: Atualiza status das tarefas
 - **TaskVerifyTool**: Dashboard de progresso
 
-## 📝 Sistema de Logging ⚠️ IMPORTANTE
-
-**O logging está DESABILITADO por padrão.** Para usar o sistema de logs, você DEVE criar um arquivo de configuração.
-
-### Por que isso é importante?
-- **Performance**: Logs desnecessários podem impactar a performance
-- **Privacidade**: Evita exposição acidental de dados sensíveis
-- **Controle**: Você decide quando e como ativar o logging
-
-### Configuração Obrigatória
-Crie um arquivo `logger.config.json` na raiz do seu projeto:
-
-```json
-{
-  "enabled": true,
-  "level": "info",
-  "timestamp": true,
-  "moduleName": true,
-  "colors": true
-}
-```
-
-### Uso no Seu Projeto
-```typescript
-import { setupLoggerFromFile } from 'frame-agent-sdk/utils';
-
-// ⚠️ ESSENCIAL: Carrega configuração do arquivo
-setupLoggerFromFile();
-
-// Agora você pode usar o logger
-import { logger } from 'frame-agent-sdk/utils';
-logger.info('Aplicação iniciada', 'Main');
-```
-
-### Opções de Configuração
-- **enabled**: Ativa/desativa completamente o logging (padrão: false)
-- **level**: Nível mínimo de log ("debug", "info", "warn", "error")
-- **timestamp**: Inclui timestamps nas mensagens
-- **moduleName**: Inclui nomes dos módulos nas mensagens
-- **colors**: Usa cores nos logs (se suportado)
-- **outputFile**: Salva logs em arquivo (opcional)
-- **maxFileSizeMB**: Tamanho máximo do arquivo de log
-- **maxFiles**: Número máximo de arquivos de log
-
-### Comandos Úteis
-```bash
-# Criar arquivo de configuração padrão
-npm run create-logger-config
-
-# Criar configuração personalizada
-npx ts-node scripts/create-logger-config.ts meu-logger.json
-```
 
 ## 🔄 Orquestração por Steps
 
@@ -450,9 +358,8 @@ arquivo.ts
 1. **Fork** o repositório
 2. Criar **branch** (`feat/feature-name` ou `fix/bug-name`)
 3. **Instalar dependências**: `npm ci`
-4. **Executar testes**: `npm test`
-5. **Compilar**: `npm run build`
-6. **Abrir PR** com descrição objetiva
+4. **Compilar**: `npm run build`
+5. **Abrir PR** com descrição objetiva
 
 ### Padrões de Commit
 ```
@@ -530,19 +437,8 @@ logger.info('Resposta recebida', 'Main');
 console.log(result.final);
 ```
 
-### 4. Comandos para Iniciar
-```bash
-# 1. Criar arquivo de configuração (OPCIONAL - pode criar manualmente)
-npm run create-logger-config
-
-# 2. Executar a aplicação
-npm run dev
-```
 
 ### ⚠️ Erros Comuns
-- **"Nenhum log aparece"**: Você esqueceu de criar `logger.config.json` ou `setupLoggerFromFile()`
-- **"setupLoggerFromFile is not defined"**: Importe corretamente de `'frame-agent-sdk/utils'`
-- **"Logs aparecem mesmo com enabled: false"**: Certifique-se de chamar `setupLoggerFromFile()` ANTES de usar o logger
 
 ## 📄 Licença
 
