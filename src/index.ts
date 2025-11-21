@@ -19,6 +19,9 @@ export * from './providers';
 // Exportar ferramentas
 export * from './tools';
 
+// Exportar MCP
+export * from './mcp';
+
 // Exportar tipos principais para conveniência
 export type {
   IAgent,
