@@ -1,5 +1,5 @@
 // src/tools/toolBase.ts
-import { ITool, IToolParams } from '../core/interfaces';
+import { ITool, IToolParams } from '@/tools/core/interfaces';
 
 /**
  * Classe base abstrata para todas as ferramentas.
@@ -8,19 +8,18 @@ import { ITool, IToolParams } from '../core/interfaces';
  * @template TParams O tipo da CLASSE de parâmetros de entrada.
  * @template TReturn O tipo do valor de retorno do método execute.
  */
-export abstract class ToolBase<TParams extends IToolParams = IToolParams, TReturn = unknown> 
-  implements ITool<TParams, TReturn> 
-{
+export abstract class ToolBase<TParams extends IToolParams = IToolParams, TReturn = unknown>
+  implements ITool<TParams, TReturn> {
   /** Nome único da ferramenta, usado pelo LLM na chamada de função. */
   public abstract readonly name: string;
 
   /** Descrição detalhada para o LLM, explicando quando e como usar a ferramenta. */
   public abstract readonly description: string;
-  
+
   /** * Referência à classe ou tipo TypeScript que define os parâmetros esperados.
    * Este é o coração do SAP, pois este tipo será usado para gerar o schema.
    */
-  public abstract readonly parameterSchema: unknown; 
+  public abstract readonly parameterSchema: unknown;
 
   /**
    * O método onde a lógica de negócio da ferramenta reside.

@@ -3,12 +3,34 @@
 /**
  * Interface vazia para servir como o tipo base para todas as classes de parâmetros de ferramentas.
  */
-export interface IToolParams {}
+export interface IToolParams { }
+
+/**
+ * Resultado estruturado de uma execução de tool.
+ * Permite que tools retornem observação + metadados opcionais.
+ * @template TMetadata O tipo customizado de metadata. Default: Record<string, unknown>
+ */
+export interface IToolResult<TMetadata = Record<string, unknown>> {
+  /**
+   * A observação/resposta principal da tool (o que será mostrado como resultado)
+   */
+  observation: unknown;
+
+  /**
+   * Metadados opcionais que serão mergeados ao state.metadata do grafo
+   * Útil para tools que precisam atualizar estado (ex: taskList)
+   */
+  metadata?: TMetadata;
+}
 
 /**
  * O contrato principal para a definição de uma ferramenta (SAP).
  * @template TParams O tipo da CLASSE de parâmetros de entrada.
  * @template TReturn O tipo do valor de retorno do método execute.
+ * 
+ * Tools podem retornar:
+ * - Um valor simples (string, object, etc) - apenas observação
+ * - Um IToolResult<TMetadata> - observação + metadata tipado para atualizar state
  */
 export interface ITool<TParams extends IToolParams = IToolParams, TReturn = unknown> {
   name: string;
@@ -37,6 +59,7 @@ export interface PropertyDescriptor {
   max?: number; // for numbers
   minLength?: number; // for strings/arrays
   maxLength?: number; // for strings/arrays
+  items?: PropertyType | PropertyDescriptor; // for arrays
 }
 
 export interface SchemaProperties {

@@ -1,8 +1,8 @@
-// Exportar agentes
-export * from './agents';
+// Exportar Agent LLM
+export * from './agent';
 
-// Exportar LLM
-export * from './llm';
+// Exportar modos LLM
+export * from './llmModes';
 
 // Exportar memória
 export * from './memory';
@@ -20,13 +20,5 @@ export * from './providers';
 export * from './tools';
 
 // Exportar MCP
-export * from './mcp';
+export * from './tools/tools/mcp';
 
-// Exportar tipos principais para conveniência
-export type {
-  IAgent,
-  IAgentConfig,
-  IAgentRegistry,
-  AgentExecutionOptions,
-  AgentExecutionResult,
-} from './agents';

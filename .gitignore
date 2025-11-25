@@ -6,7 +6,12 @@ yarn-error.log*
 
 # Build
 dist/
+dist-examples/
 coverage/
+
+# TypeScript compiled files in src (VS Code IntelliSense)
+src/**/*.js
+src/**/*.js.map
 
 # Env
 .env

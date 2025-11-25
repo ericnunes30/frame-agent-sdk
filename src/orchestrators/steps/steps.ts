@@ -1,14 +1,12 @@
 // src/orchestrators/steps/steps.ts
-import type { Step, StepResultUpdate, StepProviderOptions } from './interfaces';
-import { PromptBuilder } from '../../promptBuilder';
-import { ProviderAdapter } from '../../providers/adapter/providerAdapter';
-import type { ProviderConfig } from '../../providers/adapter/providerAdapter.interface';
+import type { Step, StepResultUpdate, StepProviderOptions } from '@/orchestrators/steps/interfaces';
+import { AgentLLM } from '@/agent';
 
 /**
- * Step simples que invoca o LLM usando a memória atual (mensagens truncadas)
- * e salva a resposta no histórico.
+ * Step que invoca o AgentLLM usando a memória atual.
+ * Usa o AgentLLM injetado nas dependências.
  */
-export const LLMCallStep = (id: string): Step => ({
+export const stepAgent = (id: string): Step => ({
   id,
   async run(ctx): Promise<StepResultUpdate> {
     const messages = ctx.deps.memory.getTrimmedHistory();
@@ -20,15 +18,14 @@ export const LLMCallStep = (id: string): Step => ({
       tools: ctx.config.tools
     });
     ctx.deps.memory.addMessage({ role: 'assistant', content: content ?? '' });
-    return { data: { metadata }, }; // keep running
+    return { data: { metadata } };
   },
 });
 
 /**
- * Step utilitário para finalizar a orquestração, definindo uma resposta final
- * a partir de uma chave do estado compartilhado.
+ * Step que finaliza a orquestração com valor do estado.
  */
-export const FinalizeStep = (id: string, fromStateKey: string): Step => ({
+export const stepFinalize = (id: string, fromStateKey: string): Step => ({
   id,
   async run(ctx): Promise<StepResultUpdate> {
     const val = ctx.state.data[fromStateKey];
@@ -38,35 +35,34 @@ export const FinalizeStep = (id: string, fromStateKey: string): Step => ({
 });
 
 /**
- * Step que permite escolher o provider por step (sem depender de variáveis globais).
- * Útil em cenários multi-agente/provedor.
+ * Step que cria um AgentLLM customizado para esse step específico.
+ * Útil quando você precisa usar modelo/provider diferente por step.
  */
-export const LLMCallStepWithProvider = (id: string, opts: StepProviderOptions): Step => ({
+export const stepAgentCustom = (id: string, opts: StepProviderOptions): Step => ({
   id,
   async run(ctx): Promise<StepResultUpdate> {
-    // Monta o system prompt usando o PromptBuilder do agente corrente
-    const systemPrompt = PromptBuilder.buildSystemPrompt(ctx.config);
-
-    // Usa todo o histórico aparado de memória
-    const messages = ctx.deps.memory.getTrimmedHistory();
-
-    // Concatena provider+model para acionar o provider correto no ProviderAdapter
-    const modelWithProvider = `${opts.provider}-${opts.model}`;
-
-    const config: ProviderConfig = {
-      model: modelWithProvider,
+    // Cria AgentLLM específico para este step
+    const customAgent = new AgentLLM({
+      model: opts.model,
       apiKey: opts.apiKey,
       baseUrl: opts.baseUrl,
-      messages,
-      systemPrompt,
-      temperature: opts.temperature ?? 0.5,
-      stream: opts.stream ?? false,
-      topP: opts.topP,
-      maxTokens: opts.maxTokens,
-    };
+      defaults: {
+        temperature: opts.temperature ?? 0.5,
+        topP: opts.topP,
+        maxTokens: opts.maxTokens
+      }
+    });
 
-    const result = await ProviderAdapter.chatCompletion(config);
-    ctx.deps.memory.addMessage({ role: 'assistant', content: result?.content ?? '' });
-    return { data: { metadata: result?.metadata } };
+    const messages = ctx.deps.memory.getTrimmedHistory();
+    const { content, metadata } = await customAgent.invoke({
+      messages,
+      mode: ctx.config.mode,
+      agentInfo: ctx.config.agentInfo,
+      additionalInstructions: ctx.config.additionalInstructions,
+      tools: ctx.config.tools
+    });
+
+    ctx.deps.memory.addMessage({ role: 'assistant', content: content ?? '' });
+    return { data: { metadata } };
   }
 });

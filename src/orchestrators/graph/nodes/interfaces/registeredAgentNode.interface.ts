@@ -1,4 +1,4 @@
-import type { IAgentConfig } from '@/agents/interfaces';
+import type { IAgentConfig } from '@/agent/interfaces';
 
 export interface IRegisteredAgentNodeOptions {
   agentId: string;

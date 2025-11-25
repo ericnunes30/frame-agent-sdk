@@ -1,6 +1,6 @@
 // src/tools/tools/approvalTool.ts
-import { ToolBase } from '../constructor/toolBase';
-import type { IToolParams } from '../core/interfaces';
+import { ToolBase } from '@/tools/constructor/toolBase';
+import type { IToolParams } from '@/tools/core/interfaces';
 
 export class ApprovalParams implements IToolParams {
   public approved!: boolean;
@@ -20,11 +20,11 @@ export class ApprovalTool extends ToolBase<ApprovalParams, { type: 'approval'; a
   public readonly parameterSchema = ApprovalParams;
 
   public async execute(params: ApprovalParams): Promise<{ type: 'approval'; approved: boolean; feedback: string; suggestions?: string[] }> {
-    return { 
-      type: 'approval', 
-      approved: params.approved, 
+    return {
+      type: 'approval',
+      approved: params.approved,
       feedback: params.feedback,
-      suggestions: params.suggestions 
+      suggestions: params.suggestions
     };
   }
 }

@@ -1,5 +1,5 @@
 // src/tools/core/toolValidator.ts
-import { ITool, PropertyDescriptor, PropertyType, SchemaProperties, ToolValidationIssue, ToolValidationResult } from './interfaces';
+import { ITool, PropertyDescriptor, PropertyType, SchemaProperties, ToolValidationIssue, ToolValidationResult } from '@/tools/core/interfaces';
 
 // Basic descriptor for class-based schema via static `schemaProperties`
 // types moved to interfaces.ts

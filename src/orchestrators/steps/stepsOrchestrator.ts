@@ -1,9 +1,8 @@
-// src/orchestrators/steps/stepsOrchestrator.ts
-import type { StepsDeps, StepsConfig, OrchestrationState, Step, StepContext } from './interfaces';
-import { SAPParser, ISAPError } from '../../tools';
-import { ToolExecutor } from '../../tools';
-import { PromptBuilder } from '../../promptBuilder';
-import type { PromptMode } from '../../promptBuilder';
+import type { StepsDeps, StepsConfig, OrchestrationState, Step, StepContext } from '@/orchestrators/steps/interfaces';
+import { ToolDetector, ToolExecutor } from '../../tools';
+import { PromptBuilder } from '@/promptBuilder';
+import { AGENT_MODES } from '@/llmModes';
+import type { AgentMode } from '@/llmModes';
 
 export class StepsOrchestrator {
   private readonly deps: StepsDeps;
@@ -58,7 +57,7 @@ export class StepsOrchestrator {
     this.deps.memory.addMessage({ role: 'user', content: userInput });
 
     // chat mode: single turn
-    if (this.config.mode === 'chat' as PromptMode) {
+    if (this.config.mode === AGENT_MODES.CHAT) {
       const systemPrompt = PromptBuilder.buildSystemPrompt(this.config);
       const { content, metadata } = await this.deps.llm.invoke({
         messages: this.deps.memory.getTrimmedHistory(),
@@ -92,30 +91,32 @@ export class StepsOrchestrator {
       const text = content ?? '';
       // Add assistant output to memory before parsing (ReAct action or final)
       this.deps.memory.addMessage({ role: 'assistant', content: text });
-      const parsed = SAPParser.parseAndValidate(text);
 
-      // No nested conditionals: guard flows
-      const hasTool = Boolean((parsed as any).toolName);
-      const err = parsed as ISAPError;
-      const hasHint = Boolean(err && (err.llmHint || err.message));
-      const needHint = !hasTool && hasHint;
-      if (needHint) {
-        const hint = err.llmHint || 'Your tool output does not match the required schema. Fix format and try again using exact JSON.';
-        this.deps.memory.addMessage({ role: 'system', content: hint });
-        continue;
-      }
-      if (!hasTool) {
+      // Use ToolDetector to parse output
+      const detection = ToolDetector.detect(text);
+
+      if (!detection.success) {
+        // Check if it's an error that needs a hint
+        if (detection.error && (detection.error.llmHint || detection.error.message)) {
+          const hint = detection.error.llmHint || 'Your tool output does not match the required schema. Fix format and try again using exact JSON.';
+          this.deps.memory.addMessage({ role: 'system', content: hint });
+          continue;
+        }
+
+        // No tool detected and no error hint -> treat as final answer (or thought only)
         try {
           const m = text.match(/Thought:\s*([\s\S]*?)(?:\n|$)/i);
           const thought = (m ? m[1] : '').toString().trim();
           if (thought) ((state.data as any).steps as any[]).push({ thought });
-        } catch {}
+        } catch { }
+
         const final = text || null;
         state.final = final ?? undefined;
         break;
       }
 
-      const call = parsed as { toolName: string; params: Record<string, unknown> };
+      // Tool detected successfully
+      const call = detection.toolCall!;
       const toolName = call.toolName;
 
       // Handle built-in final_answer (capture Thought + Action before finishing)
@@ -125,7 +126,7 @@ export class StepsOrchestrator {
           const m = text.match(/Thought:\s*([\s\S]*?)(?:\n|$)/i);
           const thought = (m ? m[1] : '').toString().trim();
           ((state.data as any).steps as any[]).push({ thought, actionName: 'final_answer' });
-        } catch {}
+        } catch { }
         const final = answer || text || null;
         if (final) this.deps.memory.addMessage({ role: 'assistant', content: final });
         state.final = final ?? undefined;
@@ -148,56 +149,33 @@ export class StepsOrchestrator {
         const thought = (m ? m[1] : '').toString().trim();
         const stepsArr = ((state.data as any).steps as any[]);
         stepIndex = stepsArr.push({ thought, actionName: toolName }) - 1;
-      } catch {}
-      const observation = await ToolExecutor.execute({ toolName, params: call.params } as any);
+      } catch { }
+
+      // Execute tool e recebe resultado estruturado
+      const toolResult = await ToolExecutor.execute({ toolName, params: call.params } as any);
+      const observation = toolResult.observation;
+      const toolMetadata = toolResult.metadata;
+
+      // Adiciona observation ao histórico
       this.deps.memory.addMessage({ role: 'tool', content: String(observation) });
+
       // attach observation to the last step (if available)
       try {
         const stepsArr = ((state.data as any).steps as any[]);
         if (stepIndex >= 0 && stepsArr[stepIndex]) stepsArr[stepIndex].observation = String(observation);
-      } catch {}
+      } catch { }
 
-      try {
-        const raw = typeof observation === 'string' ? observation : JSON.stringify(observation)
-        const clean = typeof raw === 'string' ? raw.replace(/^\s*Observation:\s*/, '') : ''
-        const parsedObs = clean ? JSON.parse(clean) : observation;
-        const isTodo = parsedObs && parsedObs.type === 'todo_list';
-        const act = String((parsedObs && parsedObs.action) || '');
-        const payload = (parsedObs && parsedObs.payload) || {};
-        const makeId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-        this.config.taskList = this.config.taskList || { items: [] };
-        const items = this.config.taskList.items;
-        const handlers: Record<string, (p: any) => void> = {
-          create: (p) => {
-            const titles: string[] = Array.isArray(p.tasks) ? p.tasks : [];
-            const def: 'pending' | 'in_progress' | 'completed' = (p.defaultStatus as any) || 'pending';
-            this.config.taskList = { items: titles.map((title) => ({ id: makeId(), title: String(title), status: def })) };
-          },
-          add: (p) => {
-            const title = String(p.title || '');
-            const status: 'pending' | 'in_progress' | 'completed' = (p.status as any) || 'pending';
-            title && items.push({ id: makeId(), title, status });
-          },
-          update_status: (p) => {
-            const id = String(p.id || '');
-            const status: 'pending' | 'in_progress' | 'completed' = p.status as any;
-            const idx = id && status ? items.findIndex((i) => i.id === id) : -1;
-            idx >= 0 && (items[idx].status = status);
-          },
-          complete_all: () => {
-            items.forEach((i) => (i.status = 'completed'));
-          },
-          delete_task: (p) => {
-            const id = String(p.id || '');
-            const idx = id ? items.findIndex((i) => i.id === id) : -1;
-            idx >= 0 && items.splice(idx, 1);
-          },
-          delete_list: () => {
-            this.config.taskList = { items: [] };
-          },
-        };
-        isTodo && handlers[act] && handlers[act](payload);
-      } catch {}
+      // Aplica metadata retornado pela tool (se houver)
+      if (toolMetadata) {
+        // TaskList é aplicado automaticamente pela tool
+        if (toolMetadata.taskList) {
+          this.config.taskList = toolMetadata.taskList as any;
+        }
+
+        // Outros metadados podem ser aplicados no futuro
+        // Exemplo: if (toolMetadata.otherData) { ... }
+      }
+
       // Continue loop for next LLM turn
     }
 

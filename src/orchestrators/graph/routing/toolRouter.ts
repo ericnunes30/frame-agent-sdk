@@ -1,9 +1,9 @@
-import { SAPParser } from '../../../tools';
-import type { IToolCall } from '../../../tools/core/interfaces';
-import type { IGraphState } from '../core/interfaces/graphState.interface';
-import type { ConditionalEdge } from '../core/interfaces/graphEngine.interface';
-import { ToolRouterKey } from './enums/toolRouter.enum';
-import type { IToolRouterOptions } from './interfaces/toolRouter.interface';
+import { SAPParser } from '@/tools';
+import type { IToolCall } from '@/tools/core/interfaces';
+import type { IGraphState } from '@/orchestrators/graph/core/interfaces/graphState.interface';
+import type { ConditionalEdge } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
+import { ToolRouterKey } from '@/orchestrators/graph/routing/enums/toolRouter.enum';
+import type { IToolRouterOptions } from '@/orchestrators/graph/routing/interfaces/toolRouter.interface';
 
 export function createToolRouter(options: IToolRouterOptions): ConditionalEdge {
   assertOptions(options);

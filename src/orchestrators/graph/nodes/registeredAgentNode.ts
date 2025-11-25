@@ -1,7 +1,7 @@
-import { AgentRegistryInstance } from '../../../agents/registry/AgentRegistry';
-import type { IAgent } from '../../../agents/interfaces';
-import type { GraphNode, GraphNodeResult } from '../core/interfaces/graphEngine.interface';
-import type { IRegisteredAgentNodeOptions } from './interfaces/registeredAgentNode.interface';
+import { AgentRegistryInstance } from '@/agent/registry/AgentRegistry';
+import type { IAgent } from '@/agent/interfaces';
+import type { GraphNode, GraphNodeResult } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
+import type { IRegisteredAgentNodeOptions } from '@/orchestrators/graph/nodes/interfaces/registeredAgentNode.interface';
 
 export function createRegisteredAgentNode(options: IRegisteredAgentNodeOptions): GraphNode {
   assertOptions(options);
@@ -21,7 +21,6 @@ export function createRegisteredAgentNode(options: IRegisteredAgentNodeOptions):
     if (metadata) updates = { ...updates, metadata };
     const messages = Array.isArray(result.messages) ? result.messages : [];
     if (messages.length > 0) updates = { ...updates, messages: [...(state.messages ?? []), ...messages] };
-    console.log(`Registered agent '${agentId}' executed`, 'RegisteredAgentNode');
     return updates;
   };
 }

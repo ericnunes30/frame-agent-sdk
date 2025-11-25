@@ -1,5 +1,5 @@
-import { OpenAIProvider } from './openAiProvider';
-import { OpenAICompatibleProvider } from './openaiCompatibleProvider';
+import { OpenAIProvider } from '@/providers/providers/openAiProvider';
+import { OpenAICompatibleProvider } from '@/providers/providers/openaiCompatibleProvider';
 // import { AnthropicProvider } from './anthropicProvider';
 
 /**

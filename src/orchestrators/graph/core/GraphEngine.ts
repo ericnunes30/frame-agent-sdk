@@ -1,10 +1,10 @@
-import type { Message } from '../../../memory';
-import type { GraphDefinition, GraphNode, GraphRunResult } from './interfaces/graphEngine.interface';
-import type { IGraphState } from './interfaces/graphState.interface';
-import { GraphStatus } from './enums/graphEngine.enum';
-import { ChatHistoryManager, TokenizerService } from '../../../memory';
-import type { IChatHistoryManager } from '../../../memory';
-import type { LLMConfig } from './interfaces/llmConfig.interface';
+import type { Message } from '@/memory';
+import type { GraphDefinition, GraphNode, GraphRunResult } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
+import type { IGraphState } from '@/orchestrators/graph/core/interfaces/graphState.interface';
+import { GraphStatus } from '@/orchestrators/graph/core/enums/graphEngine.enum';
+import { ChatHistoryManager, TokenizerService } from '@/memory';
+import type { IChatHistoryManager } from '@/memory';
+import type { AgentLLMConfig } from '@/agent';
 
 export class GraphEngine {
   private readonly definition: GraphDefinition;
@@ -12,6 +12,7 @@ export class GraphEngine {
   private readonly moduleName = 'GraphEngine';
   private chatHistoryManager?: IChatHistoryManager;
   private tokenizerService?: TokenizerService;
+  private readonly llmConfig?: AgentLLMConfig;
 
   constructor(
     definition: GraphDefinition,
@@ -19,117 +20,86 @@ export class GraphEngine {
       maxSteps?: number;
       chatHistoryManager?: IChatHistoryManager;
     },
-    llmConfig?: LLMConfig
+    llmConfig?: AgentLLMConfig
   ) {
     this.definition = definition;
     this.maxSteps = options?.maxSteps;
-    
+    this.llmConfig = llmConfig;
+
     if (options?.chatHistoryManager) {
       this.chatHistoryManager = options.chatHistoryManager;
     }
-    
+
     if (llmConfig) {
       this.tokenizerService = new TokenizerService(llmConfig.model);
     }
   }
 
   public addMessage(message: Message): void {
-    console.log(`[GraphEngine] Adding message to chat history`);
-    
     if (!this.chatHistoryManager) {
       console.warn(`[GraphEngine] ChatHistoryManager not initialized, message not added`);
       return;
     }
-    
+
     this.chatHistoryManager.addMessage(message);
   }
 
   public getMessagesForLLM(): Message[] {
-    console.log(`Getting messages for LLM from chat history`, this.moduleName);
-    
     if (!this.chatHistoryManager) {
       console.warn(`ChatHistoryManager not initialized, returning empty array`, this.moduleName);
       return [];
     }
-    
+
     return this.chatHistoryManager.getTrimmedHistory();
   }
 
   private syncStateFromChatHistory(): void {
-    console.log(`Syncing state from chat history`, this.moduleName);
-    
     if (!this.chatHistoryManager) {
       console.warn(`ChatHistoryManager not initialized, cannot sync state`, this.moduleName);
       return;
     }
-    
+
     const trimmedHistory = this.chatHistoryManager.getTrimmedHistory();
-    console.log(`State synced, history has ${trimmedHistory.length} messages`, this.moduleName);
   }
 
   private ensureChatHistoryManager(initialState: IGraphState): void {
-    console.log(`Ensuring ChatHistoryManager is initialized`, this.moduleName);
-    
     if (this.chatHistoryManager) {
-      console.log(`ChatHistoryManager already exists, skipping sync`, this.moduleName);
       return;
     }
-    
+
     if (!this.tokenizerService) {
       console.warn(`TokenizerService not available, cannot create ChatHistoryManager`, this.moduleName);
       return;
     }
-    
-    const maxTokens = this.getMaxTokensForModel(this.tokenizerService['model']);
+
+    // maxTokens deve vir da configuração fornecida pelo desenvolvedor
+    // Se não fornecido, undefined permite que ChatHistoryManager ou ProviderAdapter apliquem seus defaults
+    const maxTokens = this.llmConfig?.defaults?.maxTokens;
     const config = {
       maxContextTokens: maxTokens,
       tokenizer: this.tokenizerService
     };
-    
+
     this.chatHistoryManager = new ChatHistoryManager(config);
     this.syncMessagesToChatHistory(initialState.messages);
-    
-    console.log(`ChatHistoryManager created and initialized with ${initialState.messages.length} messages`, this.moduleName);
   }
 
   private syncMessagesToChatHistory(messages: Message[]): void {
-    console.log(`[GraphEngine] Syncing messages to chat history:`, messages.map(m => `${m.role}: ${m.content}`), this.moduleName);
-    console.log(`Syncing ${messages.length} messages to chat history`, this.moduleName);
-    
     if (!this.chatHistoryManager) {
       console.warn(`ChatHistoryManager not initialized, cannot sync messages`, this.moduleName);
       return;
     }
-    
+
     for (const message of messages) {
       this.chatHistoryManager.addMessage(message);
     }
-    
-    console.log(`Messages synced to chat history`, this.moduleName);
-  }
-
-  private getMaxTokensForModel(model: string): number {
-    console.log(`Getting max tokens for model: ${model}`, this.moduleName);
-    
-    const modelMaxTokens: Record<string, number> = {
-      'gpt-4': 8192,
-      'gpt-4-turbo': 128000,
-      'gpt-3.5-turbo': 4096,
-      'claude-3-opus': 200000,
-      'claude-3-sonnet': 200000,
-      'claude-3-haiku': 200000,
-    };
-    
-    const maxTokens = modelMaxTokens[model] ?? 4096;
-    console.log(`Max tokens for model ${model}: ${maxTokens}`, this.moduleName);
-    
-    return maxTokens;
   }
 
   public async execute(initialState: IGraphState): Promise<GraphRunResult> {
     this.ensureChatHistoryManager(initialState);
+    console.log('GraphEngine executing...');
     this.syncStateFromChatHistory();
-    
+
     let state = this.bootstrapState(initialState, this.definition.entryPoint);
     let steps = 0;
 
@@ -140,10 +110,8 @@ export class GraphEngine {
       const node = this.definition.nodes[nodeName];
       if (!node) throw new Error(`Node '${nodeName}' not found`);
 
-      console.log(`Executing node '${nodeName}'`, this.moduleName);
       const delta = await this.runNode(node, state);
       state = this.mergeState(state, delta);
-      console.log(`Node '${nodeName}' completed`, this.moduleName);
       const next = this.resolveNext(nodeName, state, delta.nextNodeOverride);
       state = { ...state, nextNode: next };
       state = this.applyPause(state);
@@ -164,17 +132,17 @@ export class GraphEngine {
   public async resume(savedState: IGraphState, userInput?: Message): Promise<GraphRunResult> {
     let resumed = { ...savedState };
     resumed = { ...resumed, shouldPause: false, status: GraphStatus.RUNNING };
-    
+
     if (userInput) {
       this.addMessage(userInput);
       resumed = { ...resumed, messages: [...(resumed.messages ?? []), userInput] };
     }
-    
+
     const hasNext = Boolean(resumed.nextNode);
     const entry = savedState.status === GraphStatus.PAUSED && hasNext
       ? (resumed.nextNode as string)
       : resumed.currentNode ?? this.definition.entryPoint;
-      
+
     resumed = { ...resumed, currentNode: entry, nextNode: entry };
     return this.execute(resumed);
   }
@@ -191,28 +159,29 @@ export class GraphEngine {
 
   private mergeState(state: IGraphState, delta: Partial<IGraphState> & { shouldPause?: boolean; shouldEnd?: boolean; logs?: string[] }): IGraphState {
     let newState = { ...state };
-    
+
     if (delta.messages && delta.messages.length > 0) {
       for (const message of delta.messages) {
         this.addMessage(message);
       }
       newState = { ...newState, messages: [...newState.messages, ...delta.messages] };
     }
-    
+
     if (delta.data) newState = { ...newState, data: { ...newState.data, ...delta.data } };
     if (delta.metadata) newState = { ...newState, metadata: { ...(newState.metadata ?? {}), ...delta.metadata } };
     newState = { ...newState, lastToolCall: delta.lastToolCall ?? newState.lastToolCall };
     newState = { ...newState, lastModelOutput: delta.lastModelOutput ?? newState.lastModelOutput };
     newState = { ...newState, pendingAskUser: delta.pendingAskUser ?? newState.pendingAskUser };
     newState = { ...newState, shouldPause: delta.shouldPause ?? newState.shouldPause };
-    
+
     if (delta.logs && delta.logs.length > 0) {
       const existing = newState.logs ?? [];
       newState = { ...newState, logs: [...existing, ...delta.logs] };
     }
-    
+
+    if (delta.status) newState = { ...newState, status: delta.status };
     if (delta.shouldEnd) newState = { ...newState, status: GraphStatus.FINISHED };
-    
+
     return this.applyPause(newState);
   }
 

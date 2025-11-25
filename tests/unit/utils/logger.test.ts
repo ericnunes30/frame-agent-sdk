@@ -1,92 +1,225 @@
-import { Logger, LogLevel, configureLogger, configureLoggerForEnvironment } from '../../../src/utils';
+// tests/unit/utils/logger.test.ts
+import { LogLevel, Logger } from '@/utils/logger';
+
+// Mock console methods
+const mockConsole = {
+    debug: jest.spyOn(console, 'debug').mockImplementation(),
+    info: jest.spyOn(console, 'info').mockImplementation(),
+    warn: jest.spyOn(console, 'warn').mockImplementation(),
+    error: jest.spyOn(console, 'error').mockImplementation()
+};
+
+// Importar SimpleLogger via reflection (já que não é exportada diretamente)
+// Vamos criar uma instância através do módulo
+const createLogger = (logLevel: LogLevel): Logger => {
+    // Usar dynamic import para acessar a classe não exportada
+    const SimpleLogger = require('@/utils/logger').logger.constructor;
+    return new SimpleLogger(logLevel);
+};
 
 describe('Logger', () => {
-  let logger: Logger;
-  
-  beforeEach(() => {
-    logger = Logger.getInstance();
-    // Reset to default configuration
-    logger.configure({
-      level: LogLevel.INFO,
-      timestamp: true,
-      moduleName: true
+    beforeEach(() => {
+        jest.clearAllMocks();
     });
-  });
-  
-  it('should be a singleton', () => {
-    const logger1 = Logger.getInstance();
-    const logger2 = Logger.getInstance();
-    expect(logger1).toBe(logger2);
-  });
-  
-  it('should log messages at or above the configured level', () => {
-    const consoleSpy = jest.spyOn(console, 'info').mockImplementation();
-    
-    logger.info('Test message', 'TestModule');
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[TestModule] Test message'));
-    
-    consoleSpy.mockRestore();
-  });
-  
-  it('should not log messages below the configured level', () => {
-    const consoleSpy = jest.spyOn(console, 'debug').mockImplementation();
-    logger.configure({ level: LogLevel.WARN });
-    
-    logger.debug('Debug message', 'TestModule');
-    expect(consoleSpy).not.toHaveBeenCalled();
-    
-    consoleSpy.mockRestore();
-  });
-  
-  it('should include timestamp when configured', () => {
-    const consoleSpy = jest.spyOn(console, 'info').mockImplementation();
-    logger.configure({ timestamp: true });
-    
-    logger.info('Test message', 'TestModule');
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringMatching(/\[\d{4}-\d{2}-\d{2}T.*Z\] \[INFO\] \[TestModule\] Test message/));
-    
-    consoleSpy.mockRestore();
-  });
-  
-  it('should use custom formatter when provided', () => {
-    const consoleSpy = jest.spyOn(console, 'info').mockImplementation();
-    const customFormatter = jest.fn().mockReturnValue('Custom formatted message');
-    
-    logger.configure({ formatter: customFormatter });
-    logger.info('Test message', 'TestModule');
-    
-    expect(customFormatter).toHaveBeenCalledWith(LogLevel.INFO, 'TestModule', 'Test message', expect.any(Date));
-    expect(consoleSpy).toHaveBeenCalledWith('Custom formatted message');
-    
-    consoleSpy.mockRestore();
-  });
 
-  it('should configure logger with helper function', () => {
-    const consoleSpy = jest.spyOn(console, 'debug').mockImplementation();
-    
-    configureLogger({ level: LogLevel.DEBUG });
-    logger.debug('Test debug message', 'TestModule');
-    
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[DEBUG] [TestModule] Test debug message'));
-    
-    consoleSpy.mockRestore();
-  });
+    afterAll(() => {
+        // Restore console methods
+        Object.values(mockConsole).forEach(spy => spy.mockRestore());
+    });
 
-  it('should configure logger for development environment', () => {
-    // Save original env
-    const originalEnv = process.env.NODE_ENV;
-    
-    // Set env to development
-    process.env.NODE_ENV = 'development';
-    configureLoggerForEnvironment();
-    
-    // Test that debug level is enabled
-    const consoleSpy = jest.spyOn(console, 'debug').mockImplementation();
-    logger.debug('Test debug message', 'TestModule');
-    expect(consoleSpy).toHaveBeenCalled();
-    
-    // Restore original env
-    process.env.NODE_ENV = originalEnv;
-    consoleSpy.mockRestore();
-  });
+    describe('LogLevel.DEBUG', () => {
+        let logger: Logger;
+
+        beforeEach(() => {
+            logger = createLogger(LogLevel.DEBUG);
+        });
+
+        it('deve logar mensagens debug', () => {
+            // Act
+            logger.debug('Debug message', { data: 'test' });
+
+            // Assert
+            expect(mockConsole.debug).toHaveBeenCalledWith(
+                '[DEBUG] Debug message',
+                { data: 'test' }
+            );
+        });
+
+        it('deve logar mensagens info', () => {
+            // Act
+            logger.info('Info message');
+
+            // Assert
+            expect(mockConsole.info).toHaveBeenCalledWith('[INFO] Info message');
+        });
+
+        it('deve logar mensagens warn', () => {
+            // Act
+            logger.warn('Warning message');
+
+            // Assert
+            expect(mockConsole.warn).toHaveBeenCalledWith('[WARN] Warning message');
+        });
+
+        it('deve logar mensagens error', () => {
+            // Act
+            logger.error('Error message');
+
+            // Assert
+            expect(mockConsole.error).toHaveBeenCalledWith('[ERROR] Error message');
+        });
+    });
+
+    describe('LogLevel.INFO', () => {
+        let logger: Logger;
+
+        beforeEach(() => {
+            logger = createLogger(LogLevel.INFO);
+        });
+
+        it('não deve logar mensagens debug', () => {
+            // Act
+            logger.debug('Debug message');
+
+            // Assert
+            expect(mockConsole.debug).not.toHaveBeenCalled();
+        });
+
+        it('deve logar mensagens info', () => {
+            // Act
+            logger.info('Info message');
+
+            // Assert
+            expect(mockConsole.info).toHaveBeenCalledWith('[INFO] Info message');
+        });
+
+        it('deve logar mensagens warn', () => {
+            // Act
+            logger.warn('Warning message');
+
+            // Assert
+            expect(mockConsole.warn).toHaveBeenCalledWith('[WARN] Warning message');
+        });
+
+        it('deve logar mensagens error', () => {
+            // Act
+            logger.error('Error message');
+
+            // Assert
+            expect(mockConsole.error).toHaveBeenCalledWith('[ERROR] Error message');
+        });
+    });
+
+    describe('LogLevel.WARN', () => {
+        let logger: Logger;
+
+        beforeEach(() => {
+            logger = createLogger(LogLevel.WARN);
+        });
+
+        it('não deve logar mensagens debug', () => {
+            // Act
+            logger.debug('Debug message');
+
+            // Assert
+            expect(mockConsole.debug).not.toHaveBeenCalled();
+        });
+
+        it('não deve logar mensagens info', () => {
+            // Act
+            logger.info('Info message');
+
+            // Assert
+            expect(mockConsole.info).not.toHaveBeenCalled();
+        });
+
+        it('deve logar mensagens warn', () => {
+            // Act
+            logger.warn('Warning message');
+
+            // Assert
+            expect(mockConsole.warn).toHaveBeenCalledWith('[WARN] Warning message');
+        });
+
+        it('deve logar mensagens error', () => {
+            // Act
+            logger.error('Error message');
+
+            // Assert
+            expect(mockConsole.error).toHaveBeenCalledWith('[ERROR] Error message');
+        });
+    });
+
+    describe('LogLevel.ERROR', () => {
+        let logger: Logger;
+
+        beforeEach(() => {
+            logger = createLogger(LogLevel.ERROR);
+        });
+
+        it('não deve logar mensagens debug', () => {
+            // Act
+            logger.debug('Debug message');
+
+            // Assert
+            expect(mockConsole.debug).not.toHaveBeenCalled();
+        });
+
+        it('não deve logar mensagens info', () => {
+            // Act
+            logger.info('Info message');
+
+            // Assert
+            expect(mockConsole.info).not.toHaveBeenCalled();
+        });
+
+        it('não deve logar mensagens warn', () => {
+            // Act
+            logger.warn('Warning message');
+
+            // Assert
+            expect(mockConsole.warn).not.toHaveBeenCalled();
+        });
+
+        it('deve logar mensagens error', () => {
+            // Act
+            logger.error('Error message');
+
+            // Assert
+            expect(mockConsole.error).toHaveBeenCalledWith('[ERROR] Error message');
+        });
+    });
+
+    describe('Múltiplos argumentos', () => {
+        let logger: Logger;
+
+        beforeEach(() => {
+            logger = createLogger(LogLevel.DEBUG);
+        });
+
+        it('deve passar múltiplos argumentos para console.debug', () => {
+            // Act
+            logger.debug('Message', 'arg1', 123, { key: 'value' });
+
+            // Assert
+            expect(mockConsole.debug).toHaveBeenCalledWith(
+                '[DEBUG] Message',
+                'arg1',
+                123,
+                { key: 'value' }
+            );
+        });
+
+        it('deve passar múltiplos argumentos para console.info', () => {
+            // Act
+            logger.info('Message', 'arg1', 123);
+
+            // Assert
+            expect(mockConsole.info).toHaveBeenCalledWith(
+                '[INFO] Message',
+                'arg1',
+                123
+            );
+        });
+    });
 });

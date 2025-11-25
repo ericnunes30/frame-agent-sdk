@@ -54,7 +54,6 @@ const prompt = PromptBuilder.build({
   systemPrompt: 'Você é um especialista em geografia.'
 });
 
-console.log(prompt);
 // Saída: Prompt formatado para modo chat
 ```
 
@@ -84,7 +83,6 @@ const prompt = PromptBuilder.build({
   }
 });
 
-console.log(prompt);
 // Saída: Prompt estruturado para modo react com ferramentas
 ```
 
@@ -193,7 +191,6 @@ const prompt = 'Texto do prompt aqui...';
 
 try {
   const isValid = PromptBuilder.validatePrompt(prompt);
-  console.log('Prompt válido:', isValid);
 } catch (error) {
   console.error('Erro na validação:', error.message);
 }
