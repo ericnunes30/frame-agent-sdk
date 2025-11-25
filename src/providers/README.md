@@ -96,7 +96,6 @@ const messages: Message[] = [
 
 // Invocar provedor
 const response = await openaiProvider.invoke({ messages });
-console.log(response.content);
 
 // Com opções adicionais
 const response = await openaiProvider.invoke({
@@ -123,10 +122,8 @@ for await (const chunk of stream) {
 await openaiProvider.stream({ 
   messages,
   onChunk: (chunk) => {
-    console.log('Chunk recebido:', chunk.content);
   },
   onComplete: (fullResponse) => {
-    console.log('Streaming completo:', fullResponse);
   }
 });
 ```
@@ -151,14 +148,12 @@ const response = await openaiProvider.invoke({
 
 // Verificar se ferramentas foram usadas
 if (response.tool_calls) {
-  console.log('Ferramentas usadas:', response.tool_calls);
   
   // Executar ferramentas
   for (const toolCall of response.tool_calls) {
     const tool = tools.find(t => t.name === toolCall.name);
     if (tool) {
       const toolResult = await tool.execute(toolCall.arguments);
-      console.log(`Resultado de ${toolCall.name}:`, toolResult);
     }
   }
 }
@@ -179,7 +174,6 @@ const provider = new ProviderAdapter({
 
 try {
   const response = await provider.invoke({ messages });
-  console.log('Sucesso:', response.content);
 } catch (error) {
   if (error.name === 'ProviderTimeoutError') {
     console.error('Timeout - a operação demorou muito');
@@ -241,7 +235,6 @@ async function invokeWithFailover(messages: Message[]) {
   for (const provider of providers.sort((a, b) => a.priority - b.priority)) {
     try {
       const response = await provider.invoke({ messages });
-      console.log(`Sucesso com ${provider.provider}`);
       return response;
     } catch (error) {
       console.warn(`Falha com ${provider.provider}:`, error.message);
@@ -295,15 +288,10 @@ const stream = await provider.stream({
   messages,
   onChunk: (chunk) => {
     // Processar cada chunk
-    console.log('Chunk:', chunk.content);
-    
     if (chunk.usage) {
-      console.log('Uso de tokens:', chunk.usage);
-    }
   },
   onComplete: (fullResponse) => {
     // Chamado quando o streaming termina
-    console.log('Resposta completa:', fullResponse);
   },
   onError: (error) => {
     // Tratar erros durante o streaming

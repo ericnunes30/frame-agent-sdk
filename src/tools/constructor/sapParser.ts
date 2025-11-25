@@ -1,8 +1,8 @@
 // src/tools/sapParser.ts
 
-import { toolRegistry } from '../core/toolRegistry';
-import { IToolCall, ToolValidationIssue } from '../core/interfaces';
-import { validateToolParams, formatIssuesForLLM } from '../core/toolValidator';
+import { toolRegistry } from '@/tools/core/toolRegistry';
+import { IToolCall, ToolValidationIssue } from '@/tools/core/interfaces';
+import { validateToolParams, formatIssuesForLLM } from '@/tools/core/toolValidator';
 
 // DefiniÃ§Ã£o da estrutura de erro do SAP
 export interface ISAPError {
@@ -10,6 +10,7 @@ export interface ISAPError {
     rawOutput: string;
     issues?: ToolValidationIssue[];
     llmHint?: string;
+    suppressRepetition?: boolean;
 }
 
 /**
@@ -19,11 +20,12 @@ export interface ISAPError {
  */
 export class SAPParser {
     // Aceita 'Action' e variações pt-BR ('Ação', 'Acao'), case-insensitive
-    private static readonly ACTION_HEADER = /(Action|Ação|Acao)\s*:\s*([A-Za-z0-9_]+)\s*=\s*\{/i;
+    // Suporta nomes de ferramentas MCP com : e / (ex: mcp:context7/resolve-library-id)
+    private static readonly ACTION_HEADER = /(Action|Ação|Acao)\s*:\s*([A-Za-z0-9_:\/-]+)\s*=\s*\{/i;
 
     private static stripCodeFences(text: string): string {
         return text.replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, ''))
-                   .replace(/`+/g, '');
+            .replace(/`+/g, '');
     }
 
     private static extractBalancedJson(text: string, startIndex: number): string | null {
@@ -83,8 +85,8 @@ export class SAPParser {
             parsedParams = JSON.parse(rawJsonParams);
         } catch {
             const fixed = rawJsonParams
-              .replace(/'([A-Za-z0-9_]+)'(?=\s*:)/g, '"$1"')
-              .replace(/:\s*'([^']*)'/g, ':"$1"');
+                .replace(/'([A-Za-z0-9_]+)'(?=\s*:)/g, '"$1"')
+                .replace(/:\s*'([^']*)'/g, ':"$1"');
             try {
                 parsedParams = JSON.parse(fixed);
             } catch {
@@ -93,6 +95,12 @@ export class SAPParser {
                     rawOutput: rawLLMOutput,
                 } as ISAPError;
             }
+            // Adiciona flag para evitar repetição de erros já corrigidos
+            return {
+                message: `Erro de Parsing/Validação: JSON inválido para '${toolName}'.`,
+                rawOutput: rawLLMOutput,
+                suppressRepetition: true
+            } as ISAPError;
         }
 
         const result = validateToolParams(toolInstance, parsedParams);
@@ -102,6 +110,7 @@ export class SAPParser {
                 rawOutput: rawLLMOutput,
                 issues: result.issues,
                 llmHint: result.issues ? formatIssuesForLLM(result.issues) : undefined,
+                suppressRepetition: true
             } as ISAPError;
         }
 

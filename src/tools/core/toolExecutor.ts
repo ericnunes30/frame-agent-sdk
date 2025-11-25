@@ -1,42 +1,61 @@
-// src/tools/toolExecutor.ts
-import { toolRegistry } from './toolRegistry';
-import { IToolCall } from './interfaces';
+import { toolRegistry } from '@/tools/core/toolRegistry';
+import type { IToolCall, IToolResult } from '@/tools/core/interfaces';
+import { logger } from '@/utils/logger';
 
 /**
- * ResponsÃ¡vel pelo fluxo de execuÃ§Ã£o da ferramenta. 
- * Recebe a aÃ§Ã£o tipada (IToolCall) e chama o mÃ©todo execute da ferramenta com seguranÃ§a.
+ * Verifica se o valor é um IToolResult estruturado
+ */
+function isToolResult(value: unknown): value is IToolResult {
+    return (
+        typeof value === 'object' &&
+        value !== null &&
+        'observation' in value
+    );
+}
+
+/**
+ * Executor de ferramentas.
+ * Responsável por receber uma chamada de ferramenta (IToolCall),
+ * localizar a ferramenta no registro e executá-la.
  */
 export class ToolExecutor {
     /**
-     * Executa a Tool especificada na chamada de aÃ§Ã£o.
-     * @param toolCall A chamada de ferramenta, jÃ¡ validada e tipada pelo SAP Parser.
-     * @returns O resultado da execuÃ§Ã£o (a ObservaÃ§Ã£o do Agente).
+     * Executa uma chamada de ferramenta.
+     * @param toolCall A estrutura contendo o nome da ferramenta e os parâmetros.
+     * @returns Resultado estruturado com observation e metadata opcional
      */
-    public static async execute(toolCall: IToolCall): Promise<unknown> {
-        console.log(`[ToolExecutor] Executing tool: ${toolCall.toolName}`);
-        const toolInstance = toolRegistry.getTool(toolCall.toolName);
+    static async execute(toolCall: IToolCall): Promise<IToolResult> {
+        logger.debug(`[ToolExecutor] Buscando ferramenta: ${toolCall.toolName}`);
 
-        if (!toolInstance) {
-            const errorMsg = `Erro: A ferramenta '${toolCall.toolName}' não está registrada no sistema.`;
-            console.warn(`[ToolExecutor] ${errorMsg}`);
-            return errorMsg;
+        const tool = toolRegistry.getTool(toolCall.toolName);
+
+        if (!tool) {
+            const errorMsg = `Ferramenta não encontrada: ${toolCall.toolName}`;
+            logger.error(`[ToolExecutor] ${errorMsg}`);
+            throw new Error(errorMsg);
         }
 
+        logger.info(`[ToolExecutor] Executando ferramenta: ${toolCall.toolName}`);
+        logger.debug(`[ToolExecutor] Parâmetros:`, toolCall.params);
+
         try {
-            console.log(`[ToolExecutor] Calling execute method for tool: ${toolCall.toolName}`);
-            // Chama o método execute com os parâmetros já tipados e validados.
-            const result = await toolInstance.execute(toolCall.params);
-            
-            console.log(`[ToolExecutor] Tool execution completed: ${toolCall.toolName}`);
-            // Converte o resultado para string para ser injetado como Observação.
-            return `Observation: ${JSON.stringify(result)}`;
+            const result = await tool.execute(toolCall.params);
+            logger.debug(`[ToolExecutor] Sucesso na execução de ${toolCall.toolName}`);
+
+            // Normaliza resultado para IToolResult
+            if (isToolResult(result)) {
+                // Tool já retornou estruturado
+                return result;
+            }
+
+            // Tool retornou valor simples - wrap em IToolResult
+            return {
+                observation: result,
+                metadata: undefined
+            };
         } catch (error) {
-            console.error(`[ToolExecutor] Failed to execute tool '${toolCall.toolName}': ${(error as Error).message}`);
-            return `Erro de Execução: Falha ao executar a ferramenta '${toolCall.toolName}'. Detalhes: ${(error as Error).message}`;
+            logger.error(`[ToolExecutor] Erro na execução de ${toolCall.toolName}:`, error);
+            throw error;
         }
     }
 }
-/**
- * Executor de ferramentas: resolve e executa chamadas de ferramentas
- * (ex.: a partir de uma instrução SAP) e retorna o resultado serializado.
- */

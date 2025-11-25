@@ -2,57 +2,68 @@
   "name": "frame-agent-sdk",
   "version": "0.0.1",
   "description": "Framework criador de agentes com motor baseado em grafos, módulos reutilizáveis e um orchestrator baseado em steps muito simples e fácil de configurar.",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/src/index.js",
-      "require": "./dist/src/index.js",
-      "types": "./dist/src/index.d.ts"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./agents": {
-      "import": "./dist/src/agents/index.js",
-      "require": "./dist/src/agents/index.js",
-      "types": "./dist/src/agents/index.d.ts"
+      "import": "./dist/agents/index.js",
+      "require": "./dist/agents/index.js",
+      "types": "./dist/agents/index.d.ts"
     },
     "./llm": {
-      "import": "./dist/src/llm/index.js",
-      "require": "./dist/src/llm/index.js",
-      "types": "./dist/src/llm/index.d.ts"
+      "import": "./dist/llm/index.js",
+      "require": "./dist/llm/index.js",
+      "types": "./dist/llm/index.d.ts"
     },
     "./memory": {
-      "import": "./dist/src/memory/index.js",
-      "require": "./dist/src/memory/index.js",
-      "types": "./dist/src/memory/index.d.ts"
+      "import": "./dist/memory/index.js",
+      "require": "./dist/memory/index.js",
+      "types": "./dist/memory/index.d.ts"
     },
     "./orchestrators/steps": {
-      "import": "./dist/src/orchestrators/steps/index.js",
-      "require": "./dist/src/orchestrators/steps/index.js",
-      "types": "./dist/src/orchestrators/steps/index.d.ts"
+      "import": "./dist/orchestrators/steps/index.js",
+      "require": "./dist/orchestrators/steps/index.js",
+      "types": "./dist/orchestrators/steps/index.d.ts"
+    },
+    "./orchestrators/graph": {
+      "import": "./dist/orchestrators/graph/index.js",
+      "require": "./dist/orchestrators/graph/index.js",
+      "types": "./dist/orchestrators/graph/index.d.ts"
     },
     "./promptBuilder": {
-      "import": "./dist/src/promptBuilder/index.js",
-      "require": "./dist/src/promptBuilder/index.js",
-      "types": "./dist/src/promptBuilder/index.d.ts"
+      "import": "./dist/promptBuilder/index.js",
+      "require": "./dist/promptBuilder/index.js",
+      "types": "./dist/promptBuilder/index.d.ts"
     },
     "./providers": {
-      "import": "./dist/src/providers/index.js",
-      "require": "./dist/src/providers/index.js",
-      "types": "./dist/src/providers/index.d.ts"
+      "import": "./dist/providers/index.js",
+      "require": "./dist/providers/index.js",
+      "types": "./dist/providers/index.d.ts"
     },
     "./tools": {
-      "import": "./dist/src/tools/index.js",
-      "require": "./dist/src/tools/index.js",
-      "types": "./dist/src/tools/index.d.ts"
+      "import": "./dist/tools/index.js",
+      "require": "./dist/tools/index.js",
+      "types": "./dist/tools/index.d.ts"
     },
-    "./mcp": {
-      "import": "./dist/src/mcp/index.js",
-      "require": "./dist/src/mcp/index.js",
-      "types": "./dist/src/mcp/index.d.ts"
+    "./tools/mcp": {
+      "import": "./dist/tools/tools/mcp/index.js",
+      "require": "./dist/tools/tools/mcp/index.js",
+      "types": "./dist/tools/tools/mcp/index.d.ts"
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "clean:src": "bash scripts/clean-src-js.sh",
+    "clean:all": "rm -rf dist/ && npm run clean:src",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest --testPathPattern=tests/unit"
   },
   "keywords": [
     "agent",
@@ -69,11 +80,12 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",
-    "@types/node": "^20.0.0",
+    "@types/node": "^20.19.25",
     "jest": "^29.5.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
     "typedoc": "^0.25.13",
     "typedoc-plugin-markdown": "^3.17.1",

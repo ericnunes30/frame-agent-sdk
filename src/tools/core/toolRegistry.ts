@@ -1,5 +1,5 @@
 // src/tools/toolRegistry.ts
-import { ITool, IToolParams } from './interfaces';
+import { ITool, IToolParams } from '@/tools/core/interfaces';
 
 /**
  * Registry estático para gerenciar e fornecer instâncias de ferramentas.

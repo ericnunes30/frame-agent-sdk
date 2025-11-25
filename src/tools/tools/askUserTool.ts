@@ -1,6 +1,6 @@
 // src/tools/tools/askUserTool.ts
-import { ToolBase } from '../constructor/toolBase';
-import type { IToolParams } from '../core/interfaces';
+import { ToolBase } from '@/tools/constructor/toolBase';
+import type { IToolParams } from '@/tools/core/interfaces';
 
 export class AskUserParams implements IToolParams {
   public question!: string;

@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
-import { stream } from '../utils';
+import { stream } from '@/providers/utils';
 
 /**
  * Provedor oficial da OpenAI.
@@ -86,7 +86,7 @@ export class OpenAIProvider {
       ...openAIParams,
       stream: false,
     });
-    
+
     return response.choices[0].message;
   }
 }

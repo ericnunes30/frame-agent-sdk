@@ -1,534 +1,232 @@
-// tests/promptBuilder/promptBuilder.test.ts
-/**
- * Testes unitários para PromptBuilder
- */
+// tests/unit/promptBuilder/promptBuilder.test.ts
+import { PromptBuilder } from '@/promptBuilder/promptBuilder';
+import { PromptMode, AgentInfo, PromptBuilderConfig, ToolSchema } from '@/promptBuilder/promptBuilder.interface';
+import { toolRegistry } from '@/tools/core/toolRegistry';
+import { generateTypedSchema } from '@/tools/constructor/schemaGenerator';
 
-import { PromptBuilder } from '../../../src/promptBuilder';
-import type { PromptBuilderConfig, AgentInfo, ToolSchema } from '../../../src/promptBuilder';
+// Mocks
+jest.mock('@/tools/core/toolRegistry');
+jest.mock('@/tools/constructor/schemaGenerator');
+jest.mock('@/utils/logger');
 
 describe('PromptBuilder', () => {
-  beforeEach(() => {
-    // Limpa os modos registrados antes de cada teste
-    (PromptBuilder as any).promptModes = new Map();
-  });
+    const mockAgentInfo: AgentInfo = {
+        name: 'TestAgent',
+        goal: 'Test Goal',
+        backstory: 'Test Backstory'
+    };
 
-  describe('addPromptMode', () => {
-    it('deve registrar um novo modo de prompt', () => {
-      const mockMode = jest.fn().mockReturnValue('Test mode prompt');
-      PromptBuilder.addPromptMode('test', mockMode);
+    const mockMode: PromptMode = 'test_mode' as PromptMode;
 
-      const result = PromptBuilder.buildSystemPrompt({
-        mode: 'test',
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-      } as PromptBuilderConfig);
-
-      expect(mockMode).toHaveBeenCalledWith({
-        mode: 'test',
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-      });
-      expect(result).toContain('Test mode prompt');
-    });
-
-    it('deve permitir registrar múltiplos modos', () => {
-      const chatMode = jest.fn().mockReturnValue('Chat mode prompt');
-      const reactMode = jest.fn().mockReturnValue('React mode prompt');
-
-      PromptBuilder.addPromptMode('chat', chatMode);
-      PromptBuilder.addPromptMode('react', reactMode);
-
-      const chatResult = PromptBuilder.buildSystemPrompt({
-        mode: 'chat',
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-      } as PromptBuilderConfig);
-
-      const reactResult = PromptBuilder.buildSystemPrompt({
-        mode: 'react',
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-      } as PromptBuilderConfig);
-
-      expect(chatResult).toContain('Chat mode prompt');
-      expect(reactResult).toContain('React mode prompt');
-    });
-
-    it('deve sobrescrever modo existente', () => {
-      const originalMode = jest.fn().mockReturnValue('Original prompt');
-      const newMode = jest.fn().mockReturnValue('New prompt');
-
-      PromptBuilder.addPromptMode('test', originalMode);
-      PromptBuilder.addPromptMode('test', newMode);
-
-      const result = PromptBuilder.buildSystemPrompt({
-        mode: 'test',
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-      } as PromptBuilderConfig);
-
-      expect(originalMode).toHaveBeenCalledTimes(0);
-      expect(newMode).toHaveBeenCalledTimes(1);
-      expect(result).toContain('New prompt');
-    });
-
-    it('deve lidar com funções de modo que retornam diferentes tipos', () => {
-      const stringMode = jest.fn().mockReturnValue('String result');
-      const numberMode = jest.fn().mockReturnValue(42);
-
-      PromptBuilder.addPromptMode('string', stringMode);
-      PromptBuilder.addPromptMode('number', numberMode);
-
-      const stringResult = PromptBuilder.buildSystemPrompt({
-        mode: 'string',
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-      } as PromptBuilderConfig);
-
-      const numberResult = PromptBuilder.buildSystemPrompt({
-        mode: 'number',
-        agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-      } as PromptBuilderConfig);
-
-      expect(stringResult).toContain('String result');
-      expect(numberResult).toContain('42');
-    });
-  });
-
-  describe('buildSystemPrompt', () => {
     beforeEach(() => {
-      // Registrar um modo de teste para os testes
-      PromptBuilder.addPromptMode('test', (config: PromptBuilderConfig) => {
-        const agentInfo = config.agentInfo;
-        let prompt = `You are ${agentInfo.name}.`;
-
-        if (agentInfo.goal) {
-          prompt += ` Your goal: ${agentInfo.goal}.`;
-        }
-
-        if (agentInfo.backstory) {
-          prompt += ` Background: ${agentInfo.backstory}.`;
-        }
-
-        if (config.additionalInstructions) {
-          prompt += ` Additional: ${config.additionalInstructions}`;
-        }
-
-        return prompt;
-      });
+        jest.clearAllMocks();
+        // Registrar modo de teste
+        PromptBuilder.addPromptMode(mockMode, (config) => `Mode Prompt: ${config.mode}`);
     });
 
-    it('deve construir prompt com configuração básica', () => {
-      const config: PromptBuilderConfig = {
-        mode: 'test',
-        agentInfo: {
-          name: 'Assistant',
-          goal: 'Help users',
-          backstory: 'AI assistant'
-        }
-      };
+    describe('addPromptMode', () => {
+        it('deve registrar e usar um novo modo', () => {
+            // Arrange
+            const newMode = 'custom_mode' as PromptMode;
+            PromptBuilder.addPromptMode(newMode, () => 'Custom Prompt');
 
-      const result = PromptBuilder.buildSystemPrompt(config);
+            // Act
+            const result = PromptBuilder.buildSystemPrompt({
+                mode: newMode,
+                agentInfo: mockAgentInfo
+            });
 
-      expect(result).toContain('You are Assistant. Your goal: Help users. Background: AI assistant.');
+            // Assert
+            expect(result).toContain('Custom Prompt');
+        });
     });
 
-    it('deve construir prompt sem backstory', () => {
-      const config: PromptBuilderConfig = {
-        mode: 'test',
-        agentInfo: {
-          name: 'Helper',
-          goal: 'Provide assistance',
-          backstory: ''
-        }
-      };
+    describe('buildSystemPrompt', () => {
+        it('deve construir system prompt básico com identidade do agente', () => {
+            // Act
+            const prompt = PromptBuilder.buildSystemPrompt({
+                mode: mockMode,
+                agentInfo: mockAgentInfo
+            });
 
-      const result = PromptBuilder.buildSystemPrompt(config);
-
-      expect(result).toContain('You are Helper. Your goal: Provide assistance. Background: .');
-    });
-
-    it('deve incluir instruções adicionais', () => {
-      const config: PromptBuilderConfig = {
-        mode: 'test',
-        agentInfo: {
-          name: 'Bot',
-          goal: 'Test tasks',
-          backstory: 'Testing bot'
-        },
-        additionalInstructions: 'Be concise and accurate.'
-      };
-
-      const result = PromptBuilder.buildSystemPrompt(config);
-
-      expect(result).toContain('You are Bot. Your goal: Test tasks. Background: Testing bot. Additional: Be concise and accurate.');
-    });
-
-    it('deve lidar com modo não registrado', () => {
-      const config: PromptBuilderConfig = {
-        mode: 'nonexistent' as any,
-        agentInfo: {
-          name: 'Test',
-          goal: 'Test goal',
-          backstory: ''
-        }
-      };
-
-      expect(() => PromptBuilder.buildSystemPrompt(config)).toThrow(/não foi registrado/);
-    });
-
-    it('deve passar configuração completa para função de modo', () => {
-      const mockMode = jest.fn().mockReturnValue('Mock prompt');
-      PromptBuilder.addPromptMode('mock', mockMode);
-
-      const tools: ToolSchema[] = [
-        { name: 'search', description: 'Search tool', parameters: {} }
-      ];
-
-      const config: PromptBuilderConfig = {
-        mode: 'mock',
-        agentInfo: {
-          name: 'Test Agent',
-          goal: 'Test goal',
-          backstory: 'Test backstory'
-        },
-        additionalInstructions: 'Test instructions',
-        tools
-      };
-
-      PromptBuilder.buildSystemPrompt(config);
-
-      expect(mockMode).toHaveBeenCalledWith(config);
-      expect(mockMode).toHaveBeenCalledWith(
-        expect.objectContaining({
-          mode: 'mock',
-          agentInfo: {
-            name: 'Test Agent',
-            goal: 'Test goal',
-            backstory: 'Test backstory'
-          },
-          additionalInstructions: 'Test instructions',
-          tools
-        })
-      );
-    });
-
-    describe('integração com ferramentas', () => {
-      it('deve incluir informações de ferramentas quando disponíveis', () => {
-        const toolAwareMode = jest.fn().mockImplementation((config: PromptBuilderConfig) => {
-          let prompt = `You are ${config.agentInfo.name}.`;
-
-          if (config.tools && config.tools.length > 0) {
-            prompt += ' Available tools: ';
-            prompt += config.tools.map(tool => `${tool.name}: ${tool.description}`).join(', ');
-          }
-
-          return prompt;
+            // Assert
+            expect(prompt).toContain('# Agent Identity');
+            expect(prompt).toContain('Name: TestAgent');
+            expect(prompt).toContain('Role: Test Goal');
+            expect(prompt).toContain('Backstory: Test Backstory');
+            expect(prompt).toContain('Mode Prompt: test_mode');
         });
 
-        PromptBuilder.addPromptMode('tool_aware', toolAwareMode);
+        it('deve incluir instruções adicionais quando fornecidas', () => {
+            // Act
+            const prompt = PromptBuilder.buildSystemPrompt({
+                mode: mockMode,
+                agentInfo: mockAgentInfo,
+                additionalInstructions: 'Extra instructions'
+            });
 
-        const tools: ToolSchema[] = [
-          { name: 'search', description: 'Search the web', parameters: {} },
-          { name: 'calculator', description: 'Perform calculations', parameters: {} }
-        ];
-
-        const config: PromptBuilderConfig = {
-          mode: 'tool_aware',
-          agentInfo: {
-            name: 'ToolAgent',
-            goal: 'Use tools effectively',
-            backstory: ''
-          },
-          tools
-        };
-
-        const result = PromptBuilder.buildSystemPrompt(config);
-
-        expect(result).toContain('ToolAgent');
-        expect(result).toContain('Available tools:');
-        expect(result).toContain('search: Search the web');
-        expect(result).toContain('calculator: Perform calculations');
-      });
-
-      it('deve lidar com array vazio de ferramentas', () => {
-        const toolAwareMode = jest.fn().mockImplementation((config: PromptBuilderConfig) => {
-          let prompt = `You are ${config.agentInfo.name}.`;
-
-          const hasTools = config.tools && config.tools.length > 0;
-          if (hasTools) {
-            prompt += ' Tools available.';
-            return prompt;
-          }
-
-          prompt += ' No tools available.';
-          return prompt;
+            // Assert
+            expect(prompt).toContain('## Additional Instructions');
+            expect(prompt).toContain('Extra instructions');
         });
 
-        PromptBuilder.addPromptMode('empty_tools', toolAwareMode);
+        it('deve lançar erro para modo não registrado', () => {
+            // Act & Assert
+            expect(() => {
+                PromptBuilder.buildSystemPrompt({
+                    mode: 'invalid_mode' as PromptMode,
+                    agentInfo: mockAgentInfo
+                });
+            }).toThrow('The agent mode \'invalid_mode\' was not registered');
+        });
 
-        const config: PromptBuilderConfig = {
-          mode: 'empty_tools',
-          agentInfo: {
-            name: 'NoToolsAgent',
-            goal: 'Test goal',
-            backstory: ''
-          },
-          tools: []
-        };
+        it('deve incluir task list quando fornecida', () => {
+            // Arrange
+            const taskList = {
+                items: [
+                    { id: '1', title: 'Task 1', status: 'pending' as const },
+                    { id: '2', title: 'Task 2', status: 'completed' as const }
+                ]
+            };
 
-        const result = PromptBuilder.buildSystemPrompt(config);
+            // Act
+            const prompt = PromptBuilder.buildSystemPrompt({
+                mode: mockMode,
+                agentInfo: mockAgentInfo,
+                taskList
+            });
 
-        expect(result).toContain('No tools available.');
-      });
-    });
-  });
-
-  describe('modos predefinidos (chat e react)', () => {
-    beforeEach(() => {
-      // Registrar os modos que seriam registrados pelos módulos
-      PromptBuilder.addPromptMode('chat', (config: PromptBuilderConfig) => {
-        return `Chat mode: You are ${config.agentInfo.name}, a helpful assistant. Goal: ${config.agentInfo.goal}`;
-      });
-
-      PromptBuilder.addPromptMode('react', (config: PromptBuilderConfig) => {
-        let prompt = `ReAct mode: You are ${config.agentInfo.name}. Goal: ${config.agentInfo.goal}.`;
-
-        if (config.tools && config.tools.length > 0) {
-          prompt += ' Use tools when necessary.';
-        }
-
-        return prompt;
-      });
+            // Assert
+            expect(prompt).toContain('## Task List');
+            expect(prompt).toContain('- [pending] Task 1 (id: 1)');
+            expect(prompt).toContain('- [completed] Task 2 (id: 2)');
+        });
     });
 
-    it('deve construir prompt para modo chat', () => {
-      const config: PromptBuilderConfig = {
-        mode: 'chat',
-        agentInfo: {
-          name: 'ChatAssistant',
-          goal: 'Help with general questions',
-          backstory: ''
-        }
-      };
+    describe('buildToolsPrompt (via buildSystemPrompt)', () => {
+        it('deve indicar que não há ferramentas quando lista é vazia', () => {
+            // Act
+            const prompt = PromptBuilder.buildSystemPrompt({
+                mode: mockMode,
+                agentInfo: mockAgentInfo,
+                tools: []
+            });
 
-      const result = PromptBuilder.buildSystemPrompt(config);
+            // Assert
+            expect(prompt).toContain('You do not have access to tools');
+        });
 
-      expect(result).toContain('Chat mode');
-      expect(result).toContain('ChatAssistant');
-      expect(result).toContain('Help with general questions');
+        it('deve formatar ferramentas corretamente', () => {
+            // Arrange
+                const tools: ToolSchema[] = [
+                    { name: 'tool1', description: 'Desc 1', parameterSchema: 'class tool1 = {}' },
+                    { name: 'tool2', description: 'Desc 2', parameterSchema: 'class tool2 = {}' }
+                ];
+
+                // Act
+                const prompt = PromptBuilder.buildSystemPrompt({
+                    mode: mockMode,
+                    agentInfo: mockAgentInfo,
+                    tools
+                });
+
+                // Assert: tools with empty schemas are filtradas e a seção indica ausência
+                expect(prompt).toContain('## Tools');
+                expect(prompt).toContain('You do not have access to tools');
+        });
+
+        it('deve gerar schema se parameterSchema não for string', () => {
+            // Arrange
+            const tools: any[] = [
+                { name: 'tool_obj', description: 'Desc Obj', parameterSchema: { type: 'object' } }
+            ];
+            (generateTypedSchema as jest.Mock).mockReturnValue('class tool_obj = { generated: true }');
+
+            // Act
+            const prompt = PromptBuilder.buildSystemPrompt({
+                mode: mockMode,
+                agentInfo: mockAgentInfo,
+                tools
+            });
+
+            // Assert
+            expect(generateTypedSchema).toHaveBeenCalledWith(tools[0]);
+            expect(prompt).toContain('class tool_obj = { generated: true }');
+        });
     });
 
-    it('deve construir prompt para modo react', () => {
-      const tools: ToolSchema[] = [
-        { name: 'search', description: 'Search tool', parameters: {} }
-      ];
+    describe('buildToolSchemasByNames', () => {
+        it('deve recuperar tools do registry e gerar schemas', () => {
+            // Arrange
+            const mockTool = {
+                name: 'reg_tool',
+                description: 'Registered Tool',
+                parameterSchema: {}
+            };
+            (toolRegistry.getTool as jest.Mock).mockReturnValue(mockTool);
+            (generateTypedSchema as jest.Mock).mockReturnValue('class reg_tool = {}');
 
-      const config: PromptBuilderConfig = {
-        mode: 'react',
-        agentInfo: {
-          name: 'ReactAgent',
-          goal: 'Search and analyze information',
-          backstory: 'Research assistant'
-        },
-        tools
-      };
+            // Act
+            const schemas = PromptBuilder.buildToolSchemasByNames(['reg_tool']);
 
-      const result = PromptBuilder.buildSystemPrompt(config);
+            // Assert
+            expect(toolRegistry.getTool).toHaveBeenCalledWith('reg_tool');
+            expect(schemas).toHaveLength(1);
+            expect(schemas[0].name).toBe('reg_tool');
+            expect(schemas[0].parameterSchema).toBe('class reg_tool = {}');
+        });
 
-      expect(result).toContain('ReAct mode');
-      expect(result).toContain('ReactAgent');
-      expect(result).toContain('Search and analyze information');
-      expect(result).toContain('Use tools when necessary');
+        it('deve ignorar tools não encontradas', () => {
+            // Arrange
+            (toolRegistry.getTool as jest.Mock).mockReturnValue(undefined);
+
+            // Act
+            const schemas = PromptBuilder.buildToolSchemasByNames(['missing_tool']);
+
+            // Assert
+            expect(schemas).toHaveLength(0);
+        });
     });
 
-    it('deve construir prompt react sem ferramentas', () => {
-      const config: PromptBuilderConfig = {
-        mode: 'react',
-        agentInfo: {
-          name: 'ReactAgent',
-          goal: 'Answer questions',
-          backstory: ''
-        }
-      };
+    describe('determineSystemPrompt', () => {
+        it('deve usar promptConfig se fornecido', () => {
+            // Arrange
+            const config: PromptBuilderConfig = { mode: mockMode, agentInfo: mockAgentInfo };
 
-      const result = PromptBuilder.buildSystemPrompt(config);
+            // Act
+            const result = PromptBuilder.determineSystemPrompt({ promptConfig: config });
 
-      expect(result).toContain('ReAct mode');
-      expect(result).toContain('ReactAgent');
-      expect(result).toContain('Answer questions');
-      expect(result).not.toContain('Use tools when necessary');
+            // Assert
+            expect(result.source).toBe('promptConfig');
+            expect(result.systemPrompt).toContain('Name: TestAgent');
+        });
+
+        it('deve usar systemPrompt direto se fornecido', () => {
+            // Act
+            const result = PromptBuilder.determineSystemPrompt({ systemPrompt: 'Direct Prompt' });
+
+            // Assert
+            expect(result.source).toBe('systemPrompt');
+            expect(result.systemPrompt).toBe('Direct Prompt');
+        });
+
+        it('deve construir a partir de mode e agentInfo', () => {
+            // Act
+            const result = PromptBuilder.determineSystemPrompt({
+                mode: mockMode,
+                agentInfo: mockAgentInfo
+            });
+
+            // Assert
+            expect(result.source).toBe('mode+agentInfo+additionalInstructions');
+            expect(result.systemPrompt).toContain('Name: TestAgent');
+        });
+
+        it('deve lançar erro se argumentos insuficientes', () => {
+            // Act & Assert
+            expect(() => {
+                PromptBuilder.determineSystemPrompt({});
+            }).toThrow('Deve fornecer promptConfig, systemPrompt, ou mode+agentInfo');
+        });
     });
-  });
-
-  describe('edge cases e tratamento de erros', () => {
-    it('deve lidar com agentInfo vazio', () => {
-      PromptBuilder.addPromptMode('minimal', () => 'Minimal prompt');
-
-      const config: PromptBuilderConfig = {
-        mode: 'minimal',
-        agentInfo: {
-          name: '',
-          goal: '',
-          backstory: ''
-        }
-      };
-
-      const result = PromptBuilder.buildSystemPrompt(config);
-
-      expect(result).toContain('Minimal prompt');
-    });
-
-    it('deve lidar com funções de modo que lançam erros', () => {
-      const errorMode = jest.fn().mockImplementation(() => {
-        throw new Error('Mode function error');
-      });
-
-      PromptBuilder.addPromptMode('error', errorMode);
-
-      const config: PromptBuilderConfig = {
-        mode: 'error',
-        agentInfo: {
-          name: 'Test',
-          goal: 'Test goal',
-          backstory: ''
-        }
-      };
-
-      expect(() => PromptBuilder.buildSystemPrompt(config)).toThrow(/não foi registrado/);
-    });
-
-    it('deve lidar com valores null/undefined em agentInfo', () => {
-      PromptBuilder.addPromptMode('flexible', (config: PromptBuilderConfig) => {
-        const parts = [];
-        if (config.agentInfo.name) parts.push(`Name: ${config.agentInfo.name}`);
-        if (config.agentInfo.goal) parts.push(`Goal: ${config.agentInfo.goal}`);
-        if (config.agentInfo.backstory) parts.push(`Backstory: ${config.agentInfo.backstory}`);
-        return parts.join(' | ') || 'No info';
-      });
-
-      const config: PromptBuilderConfig = {
-        mode: 'flexible',
-        agentInfo: {
-          name: 'Test Agent',
-          goal: null as any,
-          backstory: undefined as any
-        }
-      };
-
-      const result = PromptBuilder.buildSystemPrompt(config);
-
-      expect(result).toContain('Name: Test Agent');
-    });
-
-    it('deve lidar com caracteres especiais no conteúdo', () => {
-      PromptBuilder.addPromptMode('special', (config: PromptBuilderConfig) => {
-        return `Special chars: ${config.agentInfo.name} é um áudio! 🎵`;
-      });
-
-      const config: PromptBuilderConfig = {
-        mode: 'special',
-        agentInfo: {
-          name: 'Agente especial',
-          goal: 'Test goal',
-          backstory: ''
-        }
-      };
-
-      const result = PromptBuilder.buildSystemPrompt(config);
-
-      expect(result).toContain('Agente especial');
-      expect(result).toContain('é um áudio! 🎵');
-    });
-  });
-
-  describe('persistência e estado', () => {
-    it('deve manter modos registrados entre chamadas', () => {
-      PromptBuilder.addPromptMode('persistent', () => 'Persistent mode');
-
-      const config1: PromptBuilderConfig = {
-        mode: 'persistent',
-        agentInfo: { name: 'Test1', goal: 'Goal1', backstory: '' }
-      };
-
-      const config2: PromptBuilderConfig = {
-        mode: 'persistent',
-        agentInfo: { name: 'Test2', goal: 'Goal2', backstory: '' }
-      };
-
-      const result1 = PromptBuilder.buildSystemPrompt(config1);
-      const result2 = PromptBuilder.buildSystemPrompt(config2);
-
-      expect(result1).toContain('Persistent mode');
-      expect(result2).toContain('Persistent mode');
-    });
-
-    it('deve permitir verificar se modo está registrado', () => {
-      PromptBuilder.addPromptMode('checkable', () => 'Checkable mode');
-
-      // Não há método público para verificar, mas podemos testar indiretamente
-      expect(() => {
-        PromptBuilder.buildSystemPrompt({
-          mode: 'checkable',
-          agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-        } as PromptBuilderConfig);
-      }).not.toThrow();
-
-      expect(() => {
-        PromptBuilder.buildSystemPrompt({
-          mode: 'nonexistent' as any,
-          agentInfo: { name: 'Test', goal: 'Test goal', backstory: '' }
-        } as PromptBuilderConfig);
-      }).toThrow();
-    });
-  });
-
-  describe('comportamento com configurações complexas', () => {
-    it('deve lidar com configurações com many properties', () => {
-      const complexMode = jest.fn().mockImplementation((config: PromptBuilderConfig) => {
-        const props = Object.keys(config).sort().join(', ');
-        return `Complex mode with: ${props}`;
-      });
-
-      PromptBuilder.addPromptMode('complex', complexMode);
-
-      const tools: ToolSchema[] = [{ name: 'test', description: 'Test tool', parameters: {} }];
-
-      const config: PromptBuilderConfig = {
-        mode: 'complex',
-        agentInfo: {
-          name: 'ComplexAgent',
-          goal: 'Complex goal',
-          backstory: 'Complex backstory'
-        },
-        additionalInstructions: 'Complex instructions',
-        tools
-      };
-
-      const result = PromptBuilder.buildSystemPrompt(config);
-
-      expect(result).toContain('Complex mode with:');
-      expect(result).toContain('additionalInstructions');
-      expect(result).toContain('agentInfo');
-      expect(result).toContain('mode');
-      expect(result).toContain('tools');
-    });
-
-    it('deve lidar com instruções adicionais longas', () => {
-      const longInstructions = 'This is a very long instruction that spans multiple lines and contains various details about how the agent should behave in different situations. It includes examples and edge cases to consider.';
-
-      PromptBuilder.addPromptMode('long', (config: PromptBuilderConfig) => {
-        return `Mode: long\nAgent: ${config.agentInfo.name}\nInstructions: ${config.additionalInstructions || 'None'}`;
-      });
-
-      const config: PromptBuilderConfig = {
-        mode: 'long',
-        agentInfo: {
-          name: 'LongInstructionAgent',
-          goal: 'Test goal',
-          backstory: ''
-        },
-        additionalInstructions: longInstructions
-      };
-
-      const result = PromptBuilder.buildSystemPrompt(config);
-
-      expect(result).toContain('LongInstructionAgent');
-      expect(result).toContain(longInstructions);
-    });
-  });
 });

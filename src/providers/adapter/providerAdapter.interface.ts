@@ -10,16 +10,17 @@ export interface ProviderConfig {
   model: string;
   messages: Array<{ role: string; content: string }>;
   apiKey: string;
-  temperature: number;
-  stream: boolean;
-  systemPrompt: string;
+  // Parâmetros opcionais com defaults
+  temperature?: number;
+  stream?: boolean;
+  systemPrompt?: string;
   // URL base para provedores compatíveis com OpenAI (obrigatória no openaiCompatible)
   baseUrl?: string;
-  
+
   // Parâmetros opcionais
   maxTokens?: number;
   topP?: number;
-  
+
   // Parâmetros para ferramentas (passadas por prompt)
   tools?: Array<{ name: string; description: string; parameters: any }>;
 }

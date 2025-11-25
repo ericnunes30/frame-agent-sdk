@@ -1,17 +1,18 @@
 // src/orchestrators/steps/interfaces.ts
 import type { IChatHistoryManager } from '../../memory';
-import type { LLM } from '../../llm';
-import type { ToolSchema, AgentInfo, PromptMode } from '../../promptBuilder';
+import type { AgentLLM } from '../../agent';
+import type { ToolSchema, AgentInfo } from '../../promptBuilder';
+import type { AgentMode } from '../../llmModes';
 
 /** Dependências injetadas nos Steps (memória e cliente LLM). */
 export interface StepsDeps {
   memory: IChatHistoryManager;
-  llm: LLM;
+  llm: AgentLLM;
 }
 
 /** Configuração base para construção do system prompt do agente. */
 export interface StepsConfig {
-  mode: PromptMode;
+  mode: AgentMode;
   agentInfo: AgentInfo;
   additionalInstructions?: string;
   tools?: ToolSchema[];

@@ -1,6 +1,6 @@
 // src/tools/tools/finalAnswerTool.ts
-import { ToolBase } from '../constructor/toolBase';
-import type { IToolParams } from '../core/interfaces';
+import { ToolBase } from '@/tools/constructor/toolBase';
+import type { IToolParams } from '@/tools/core/interfaces';
 
 export class FinalAnswerParams implements IToolParams {
   public answer!: string;

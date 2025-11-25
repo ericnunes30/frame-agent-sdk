@@ -192,7 +192,6 @@ const result = await executor.execute('search', {
   maxResults: 1
 });
 
-console.log('Resultado da busca:', result);
 ```
 
 ### Registro de Ferramentas
@@ -210,7 +209,6 @@ const calculadoraTool = ToolRegistry.get('calculadora');
 
 // Listar todas as ferramentas
 const allTools = ToolRegistry.list();
-console.log('Ferramentas disponíveis:', allTools);
 
 // Verificar se ferramenta existe
 const hasSearch = ToolRegistry.has('search');
@@ -226,7 +224,6 @@ const validator = new ToolValidator();
 
 // Validar ferramenta completa
 const validationResult = validator.validateTool(tool);
-console.log('Validação da ferramenta:', validationResult);
 
 // Validar parâmetros específicos
 const params = {
@@ -235,11 +232,9 @@ const params = {
 };
 
 const paramsValidation = validator.validateParameters(tool, params);
-console.log('Validação de parâmetros:', paramsValidation);
 
 // Gerar relatório de validação
 const report = validator.generateReport([tool]);
-console.log('Relatório de validação:', report);
 ```
 
 ### Uso com Agentes
@@ -344,7 +339,6 @@ const sapData = `
 
 try {
   const parsedData = parser.parse(sapData);
-  console.log('Dados SAP parseados:', parsedData);
 } catch (error) {
   if (error instanceof SAPParserError) {
     console.error('Erro SAP:', error.message);
@@ -384,7 +378,6 @@ interface MinhaFerramentaParams {
 const generator = new SchemaGenerator();
 const schema = generator.generateSchema<MinhaFerramentaParams>();
 
-console.log('Schema gerado:', schema);
 ```
 
 ## Configurações Avançadas

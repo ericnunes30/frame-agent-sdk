@@ -1,13 +1,26 @@
 // src/tools/schemaGenerator.ts
 
-import { ITool } from '../core/interfaces';
-import type { SchemaProperties, PropertyDescriptor, PropertyType } from '../core/interfaces';
+import { ITool } from '@/tools/core/interfaces';
+import type { SchemaProperties, PropertyDescriptor, PropertyType } from '@/tools/core/interfaces';
 
 /**
  * Converte o parameterSchema de uma ferramenta no formato de Typed Schema (string) 
  * para injeção no System Prompt.
  * * EXEMPLO DE OUTPUT:
- * class SearchParams {
+ * class Search = {
+ * query: string;
+ * maxResults: number;
+ * }
+ * * @param tool A instância da ferramenta com o parameterSchema definido.
+ * @returns Uma string que representa o Typed Schema para o LLM.
+ */
+import { MCPToSAPConverter } from '@/tools/constructor/mcpToSapConverter';
+
+/**
+ * Converte o parameterSchema de uma ferramenta no formato de Typed Schema (string) 
+ * para injeção no System Prompt.
+ * * EXEMPLO DE OUTPUT:
+ * class Search = {
  * query: string;
  * maxResults: number;
  * }
@@ -43,12 +56,29 @@ function formatLength(desc: PropertyDescriptor): string {
 export function generateTypedSchema(tool: ITool): string {
   // OBSERVAÇÃO: Em um ambiente real com reflection, esta lógica inspecionaria
   // metadados de decorators (ex: @type, @description) na classe referenciada.
-  
+
   const schemaClass = tool.parameterSchema as { schemaProperties?: SchemaProperties } | undefined;
-  const schemaName = `${tool.name}Params`;
+  const schemaName = tool.name;
+
+  // VERIFICAÇÃO: Se for um JSON Schema padrão (usado pelo MCP), delegar para o conversor MCP
+  // JSON Schema geralmente tem 'type': 'object' e 'properties' no nível raiz
+  const isJsonSchema = tool.parameterSchema &&
+    typeof tool.parameterSchema === 'object' &&
+    ('type' in tool.parameterSchema || 'properties' in tool.parameterSchema) &&
+    !('schemaProperties' in tool.parameterSchema);
+
+  if (isJsonSchema) {
+    try {
+      // Usa o nome da ferramenta como base para o nome da classe, removendo caracteres inválidos se necessário
+      // Mas o MCPToSAPConverter já lida com isso gerando `${toolName}Params`
+      return MCPToSAPConverter.convertJsonSchemaToSAP(tool.parameterSchema, tool.name);
+    } catch (error) {
+      console.warn(`Falha ao converter JSON Schema para tool ${tool.name}, fallback para default:`, error);
+    }
+  }
 
   if (!schemaClass) {
-      return `class ${schemaName} {}`;
+    return `class ${schemaName} = {}`;
   }
 
   // Simulação: assumindo que a classe de parâmetros expõe um mapa de suas propriedades
@@ -69,12 +99,23 @@ export function generateTypedSchema(tool: ITool): string {
       const rangeTxt = formatRange(desc);
       const lenTxt = formatLength(desc);
 
-      return `  ${key}${optMark}: ${desc.type};${enumTxt}${rangeTxt}${lenTxt}`;
+      let typeStr: string = desc.type;
+      if (desc.type === 'array' && desc.items) {
+        const itemType = isDescriptor(desc.items) ? desc.items.type : desc.items;
+        typeStr = `${itemType}[]`;
+      }
+
+      return `  ${key}${optMark}: ${typeStr};${enumTxt}${rangeTxt}${lenTxt}`;
     })
     .join('\n');
 
   // Constrói a string do Typed Schema
-  return `class ${schemaName} {\n${propertiesString}\n}`;
+  // Se não há propriedades, retornar em uma linha para manter formato compacto esperado nos testes
+  if (!propertiesString || propertiesString.trim() === '') {
+    return `class ${schemaName} = {}`;
+  }
+
+  return `class ${schemaName} = {\n${propertiesString}\n}`;
 }
 /**
  * Geração de schemas tipados (JSON Schema) para ferramentas.

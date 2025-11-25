@@ -7,8 +7,7 @@ export * from './nodes';
 export * from './routing';
 
 // Exportando interface e factory para configuração de LLM
-export type { LLMConfig } from './core/interfaces/llmConfig.interface';
-export { createLLMFromConfig } from './core/llmFactory';
+
 
 // Re-exportando funções e classes específicas para facilitar o uso
 export { GraphEngine } from './core/GraphEngine';
