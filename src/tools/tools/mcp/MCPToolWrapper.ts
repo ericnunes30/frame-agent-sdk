@@ -1,6 +1,7 @@
 import { ToolBase } from '@/tools/constructor/toolBase'
 import type { IToolParams } from '@/tools/core/interfaces'
 import { MCPClient } from './MCPClient'
+import { logger } from '@/utils/logger'
 
 export class MCPToolWrapper extends ToolBase<IToolParams, unknown> {
   public readonly name: string
@@ -19,9 +20,9 @@ export class MCPToolWrapper extends ToolBase<IToolParams, unknown> {
   }
 
   async execute(params: IToolParams): Promise<unknown> {
-    console.info(`[MCPToolWrapper] Executando tool '${this.mcpToolName}' com params:`, JSON.stringify(params));
+    logger.info(`[MCPToolWrapper] Executando tool '${this.mcpToolName}' com params:`, JSON.stringify(params));
     const res = await this.client.callTool(this.mcpToolName, params as Record<string, unknown>)
-    console.info(`[MCPToolWrapper] Resultado da tool '${this.mcpToolName}':`, JSON.stringify(res));
+    logger.info(`[MCPToolWrapper] Resultado da tool '${this.mcpToolName}':`, JSON.stringify(res));
     return res
   }
 }

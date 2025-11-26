@@ -113,7 +113,7 @@ export class PromptBuilder {
     builder: (config: PromptBuilderConfig) => string
   ): void {
     if (PromptBuilder.promptModes.has(mode)) {
-      console.warn(`[PromptBuilder.addPromptMode] Mode '${mode}' is already registered. Overwriting.`);
+      logger.warn(`[PromptBuilder.addPromptMode] Mode '${mode}' is already registered. Overwriting.`);
     }
     PromptBuilder.promptModes.set(mode, builder);
   }
@@ -256,7 +256,7 @@ export class PromptBuilder {
     if (!mode) {
       throw new Error('Mode é obrigatório na configuração');
     }
-    
+
     if (!agentInfo?.name || !agentInfo?.goal) {
       throw new Error('AgentInfo deve incluir name e goal');
     }
@@ -320,11 +320,11 @@ export class PromptBuilder {
 
     // 7) Montagem final do prompt
     const finalPrompt = parts.join('\n\n');
-    
+
     // Log para debug (preview do prompt gerado)
     const preview = finalPrompt.length > 1500 ? `${finalPrompt.slice(0, 1500)}...` : finalPrompt;
     logger.debug('[PromptBuilder.buildSystemPrompt] Generated prompt preview:', { preview });
-    
+
     return finalPrompt;
   }
 
@@ -547,12 +547,12 @@ export class PromptBuilder {
     if (!taskList || !Array.isArray(taskList.items) || taskList.items.length === 0) {
       return '';
     }
-    
+
     // Formatar cada item da tarefa
     const lines = taskList.items
       .map((t) => `- [${t.status}] ${t.title} (id: ${t.id})`)
       .join('\n');
-      
+
     return `\n---\n\n## Task List\n\n${lines}`;
   }
 }

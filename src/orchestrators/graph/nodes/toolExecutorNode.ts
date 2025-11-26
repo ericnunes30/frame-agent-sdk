@@ -1,24 +1,30 @@
 import { ToolExecutor } from '@/tools/core/toolExecutor';
 import type { IToolCall } from '@/tools/core/interfaces';
 import type { GraphNode, GraphNodeResult } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
+import { logger } from '@/utils/logger';
 
 export function createToolExecutorNode(): GraphNode {
   return async (state, engine): Promise<GraphNodeResult> => {
     const call = state.lastToolCall;
     if (!call) {
-      console.warn('[ToolExecutorNode] No pending tool call');
+      logger.warn('[ToolExecutorNode] No pending tool call');
       return { logs: ['No pending tool call'], lastToolCall: undefined };
     }
 
-    console.info(`[ToolExecutorNode] Executando tool call:`, JSON.stringify(call));
+    logger.info(`[ToolExecutorNode] Executando tool call:`, JSON.stringify(call));
 
     // Execute tool e recebe resultado estruturado
     const toolResult = await executeTool(call);
     const observation = toolResult.observation;
     const toolMetadata = toolResult.metadata;
 
-    const toolResultStr = String(observation);
-    console.info(`[ToolExecutorNode] Resultado da tool:`, toolResultStr);
+    let toolResultStr: string;
+    if (typeof observation === 'object' && observation !== null) {
+      toolResultStr = JSON.stringify(observation);
+    } else {
+      toolResultStr = String(observation);
+    }
+    logger.info(`[ToolExecutorNode] Resultado da tool:`, toolResultStr);
 
     engine.addMessage({ role: 'tool', content: toolResultStr });
 
@@ -30,7 +36,7 @@ export function createToolExecutorNode(): GraphNode {
 
     // Se a tool retornou metadata, propaga para o state
     if (toolMetadata && Object.keys(toolMetadata).length > 0) {
-      console.info(`[ToolExecutorNode] Propagando metadata da tool:`, JSON.stringify(toolMetadata));
+      logger.info(`[ToolExecutorNode] Propagando metadata da tool:`, JSON.stringify(toolMetadata));
       return {
         ...nodeResult,
         metadata: toolMetadata

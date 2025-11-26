@@ -1,5 +1,6 @@
 // src/memory/chatHistoryManager.ts
 import { Message, ITokenizerService, IChatHistoryManager, ChatHistoryConfig } from './memory.interface';
+import { logger } from '@/utils/logger';
 
 /**
  * Gerenciador de Histórico de Chat (Memória Processual).
@@ -91,7 +92,7 @@ export class ChatHistoryManager implements IChatHistoryManager {
     constructor(config: ChatHistoryConfig) {
         this.maxContextTokens = config.maxContextTokens;
         this.tokenizer = config.tokenizer;
-        console.log(`[ChatHistoryManager] ChatHistoryManager created with maxContextTokens: ${this.maxContextTokens}`);
+        logger.debug(`[ChatHistoryManager] ChatHistoryManager created with maxContextTokens: ${this.maxContextTokens}`);
     }
 
     /**
@@ -124,7 +125,7 @@ export class ChatHistoryManager implements IChatHistoryManager {
      * @see {@link getTrimmedHistory} Para entender como o prompt é preservado
      */
     public addSystemPrompt(prompt: string): void {
-        console.log(`Adding system prompt`, 'ChatHistoryManager');
+        logger.debug(`Adding system prompt`, 'ChatHistoryManager');
         const systemMessage: Message = { role: 'system', content: prompt };
 
         // Verifica se o System Prompt já está presente na primeira posição
@@ -133,14 +134,14 @@ export class ChatHistoryManager implements IChatHistoryManager {
 
         // Guard Clause: se já existe, substitui e retorna (Early Exit)
         if (isFirstMessageSystem) {
-            console.log(`System prompt already exists, replacing it`, 'ChatHistoryManager');
+            logger.debug(`System prompt already exists, replacing it`, 'ChatHistoryManager');
             this.history[0] = systemMessage;
             return;
         }
 
         // Ação primária: insere no início do histórico
         this.history.unshift(systemMessage);
-        console.log(`System prompt added to history`, 'ChatHistoryManager');
+        logger.debug(`System prompt added to history`, 'ChatHistoryManager');
     }
 
     /**
@@ -182,13 +183,13 @@ export class ChatHistoryManager implements IChatHistoryManager {
      * ```
      */
     public addMessage(message: Message): void {
-        console.log(`Adding message with role: ${message.role}`, 'ChatHistoryManager');
-        
+        logger.debug(`Adding message with role: ${message.role}`, 'ChatHistoryManager');
+
         // Validação básica da mensagem
         if (!message || !message.role || !message.content) {
             throw new Error('Message must have valid role and content');
         }
-        
+
         this.history.push(message);
     }
 
@@ -221,8 +222,8 @@ export class ChatHistoryManager implements IChatHistoryManager {
      * ```
      */
     public clearHistory(): void {
-        console.log(`Clearing chat history`, 'ChatHistoryManager');
-        
+        logger.debug(`Clearing chat history`, 'ChatHistoryManager');
+
         // Obtém o System Prompt usando validações lineares
         const hasHistory = this.history.length > 0;
         const hasSystemPrompt = hasHistory && this.history[0].role === 'system';
@@ -234,7 +235,7 @@ export class ChatHistoryManager implements IChatHistoryManager {
         // Adiciona o System Prompt de volta, se ele existia
         if (systemPrompt) {
             this.history.push(systemPrompt);
-            console.log(`System prompt preserved during history clear`, 'ChatHistoryManager');
+            logger.debug(`System prompt preserved during history clear`, 'ChatHistoryManager');
         }
     }
 
@@ -291,11 +292,11 @@ export class ChatHistoryManager implements IChatHistoryManager {
      * @see {@link addMessage} Para entender como as mensagens são adicionadas
      */
     public getTrimmedHistory(): Message[] {
-        console.log(`Getting trimmed history`, 'ChatHistoryManager');
-        
+        logger.debug(`Getting trimmed history`, 'ChatHistoryManager');
+
         // Early Return: Se histórico vazio ou só system prompt, não há o que truncar
         if (this.history.length <= 2) {
-            console.log(`History has 2 or fewer messages, returning as is`, 'ChatHistoryManager');
+            logger.debug(`History has 2 or fewer messages, returning as is`, 'ChatHistoryManager');
             return [...this.history];
         }
 
@@ -318,8 +319,8 @@ export class ChatHistoryManager implements IChatHistoryManager {
             // e evita loop infinito. Garante que System Prompt e última mensagem
             // sejam sempre preservados.
             if (removableIndex >= lastProtectedIndex) {
-                console.warn(
-                    "ALERTA DE CONTEXTO: O System Prompt e a última mensagem excedem o limite de tokens.", 
+                logger.warn(
+                    "ALERTA DE CONTEXTO: O System Prompt e a última mensagem excedem o limite de tokens.",
                     'ChatHistoryManager'
                 );
                 break;
@@ -329,7 +330,7 @@ export class ChatHistoryManager implements IChatHistoryManager {
             trimmedHistory.splice(removableIndex, 1);
         }
 
-        console.log(`Trimmed history to ${trimmedHistory.length} messages`, 'ChatHistoryManager');
+        logger.debug(`Trimmed history to ${trimmedHistory.length} messages`, 'ChatHistoryManager');
         return trimmedHistory;
     }
 

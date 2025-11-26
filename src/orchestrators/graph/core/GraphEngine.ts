@@ -5,6 +5,7 @@ import { GraphStatus } from '@/orchestrators/graph/core/enums/graphEngine.enum';
 import { ChatHistoryManager, TokenizerService } from '@/memory';
 import type { IChatHistoryManager } from '@/memory';
 import type { AgentLLMConfig } from '@/agent';
+import { logger } from '@/utils/logger';
 
 /**
  * Motor de execução de grafos para orquestração de agentes de IA.
@@ -186,7 +187,7 @@ export class GraphEngine {
    */
   public addMessage(message: Message): void {
     if (!this.chatHistoryManager) {
-      console.warn(`[GraphEngine] ChatHistoryManager not initialized, message not added`);
+      logger.warn(`[GraphEngine] ChatHistoryManager not initialized, message not added`);
       return;
     }
 
@@ -225,7 +226,7 @@ export class GraphEngine {
    */
   public getMessagesForLLM(): Message[] {
     if (!this.chatHistoryManager) {
-      console.warn(`ChatHistoryManager not initialized, returning empty array`, this.moduleName);
+      logger.warn(`ChatHistoryManager not initialized, returning empty array`, this.moduleName);
       return [];
     }
 
@@ -244,7 +245,7 @@ export class GraphEngine {
    */
   private syncStateFromChatHistory(): void {
     if (!this.chatHistoryManager) {
-      console.warn(`ChatHistoryManager not initialized, cannot sync state`, this.moduleName);
+      logger.warn(`ChatHistoryManager not initialized, cannot sync state`, this.moduleName);
       return;
     }
 
@@ -252,44 +253,64 @@ export class GraphEngine {
     // TODO: Usar trimmedHistory para atualizar estado do grafo se necessário
   }
 
+  // Propriedade para rastrear quantas mensagens já foram sincronizadas
+  private lastSyncedMessageCount: number = 0;
+
   /**
-   * Garante que o ChatHistoryManager está inicializado.
+   * Garante que o ChatHistoryManager está inicializado e sincronizado.
    * 
    * Método interno que verifica se o ChatHistoryManager existe,
-   * criando um novo se necessário usando o TokenizerService
-   * e configurando com base no LLM config fornecido.
+   * criando um novo se necessário. Sincroniza APENAS as novas mensagens
+   * do initialState com o ChatHistoryManager para evitar duplicação.
    * 
    * @param initialState Estado inicial do grafo.
-   * Usado para sincronizar mensagens iniciais se um novo
-   * ChatHistoryManager for criado.
+   * Usado para sincronizar mensagens com o ChatHistoryManager.
    * 
    * @private
    */
   private ensureChatHistoryManager(initialState: IGraphState): void {
-    // Já inicializado, não precisa fazer nada
-    if (this.chatHistoryManager) {
-      return;
+    // Se ChatHistoryManager não existe, criar um novo
+    if (!this.chatHistoryManager) {
+      // Verificar se temos TokenizerService disponível
+      if (!this.tokenizerService) {
+        logger.warn(`TokenizerService not available, cannot create ChatHistoryManager`, this.moduleName);
+        return;
+      }
+
+      // Extrair maxTokens da configuração do LLM
+      const maxTokens = this.llmConfig?.defaults?.maxTokens;
+      const config = {
+        maxContextTokens: maxTokens,
+        tokenizer: this.tokenizerService
+      };
+
+      // Criar novo ChatHistoryManager
+      this.chatHistoryManager = new ChatHistoryManager(config);
+      this.lastSyncedMessageCount = 0; // Resetar contador
     }
 
-    // Verificar se temos TokenizerService disponível
-    if (!this.tokenizerService) {
-      console.warn(`TokenizerService not available, cannot create ChatHistoryManager`, this.moduleName);
-      return;
+    // Sincronizar APENAS mensagens novas do estado inicial
+    if (initialState.messages && initialState.messages.length > this.lastSyncedMessageCount) {
+      const newMessages = initialState.messages.slice(this.lastSyncedMessageCount);
+      this.syncMessagesToChatHistory(newMessages);
+
+      // Atualizar contador
+      this.lastSyncedMessageCount = initialState.messages.length;
+    } else if (initialState.messages && initialState.messages.length < this.lastSyncedMessageCount) {
+      // Se o estado tem menos mensagens que o sincronizado (ex: reset de estado),
+      // devemos resetar o contador e sincronizar tudo (ou avisar)
+      // Por segurança, assumimos que é um novo contexto
+      logger.warn('State messages count is less than synced count. Resetting sync.', this.moduleName);
+      this.lastSyncedMessageCount = 0;
+      // Opcional: limpar ChatHistoryManager se suportado, ou apenas adicionar as do estado
+      // Como ChatHistoryManager não tem clear público fácil aqui, vamos apenas adicionar as do estado
+      // assumindo que o usuário quer começar "daqui".
+      // Mas para evitar duplicação complexa, vamos apenas atualizar o contador para o novo tamanho
+      // e adicionar as mensagens se for um reset total.
+      // Se for apenas um "undo", o ChatHistoryManager ainda terá as antigas.
+      // Para este fix, vamos focar no caso de adição (append-only).
+      this.lastSyncedMessageCount = initialState.messages.length;
     }
-
-    // Extrair maxTokens da configuração do LLM
-    // Se não fornecido, undefined permite que ChatHistoryManager ou ProviderAdapter apliquem seus defaults
-    const maxTokens = this.llmConfig?.defaults?.maxTokens;
-    const config = {
-      maxContextTokens: maxTokens,
-      tokenizer: this.tokenizerService
-    };
-
-    // Criar novo ChatHistoryManager
-    this.chatHistoryManager = new ChatHistoryManager(config);
-    
-    // Sincronizar mensagens do estado inicial
-    this.syncMessagesToChatHistory(initialState.messages);
   }
 
   /**
@@ -305,7 +326,7 @@ export class GraphEngine {
    */
   private syncMessagesToChatHistory(messages: Message[]): void {
     if (!this.chatHistoryManager) {
-      console.warn(`ChatHistoryManager not initialized, cannot sync messages`, this.moduleName);
+      logger.warn(`ChatHistoryManager not initialized, cannot sync messages`, this.moduleName);
       return;
     }
 
@@ -360,7 +381,7 @@ export class GraphEngine {
   public async execute(initialState: IGraphState): Promise<GraphRunResult> {
     // 1. Inicializar ChatHistoryManager se necessário
     this.ensureChatHistoryManager(initialState);
-    console.log('GraphEngine executing...');
+    logger.info('GraphEngine executing...');
     this.syncStateFromChatHistory();
 
     // 2. Inicializar estado de execução
@@ -371,7 +392,7 @@ export class GraphEngine {
     while (state.status === GraphStatus.RUNNING) {
       // Verificar limite de passos
       this.assertMaxSteps(steps);
-      
+
       // Obter nó atual
       const nodeName = state.currentNode;
       if (!nodeName) throw new Error('Current node is undefined');
@@ -380,14 +401,14 @@ export class GraphEngine {
 
       // 4. Executar nó atual
       const delta = await this.runNode(node, state);
-      
+
       // 5. Merge do resultado com estado global
       state = this.mergeState(state, delta);
-      
+
       // 6. Determinar próximo nó
       const next = this.resolveNext(nodeName, state, delta.nextNodeOverride);
       state = { ...state, nextNode: next };
-      
+
       // 7. Aplicar controle de pausa
       state = this.applyPause(state);
       if (state.status !== GraphStatus.RUNNING) break;
@@ -395,13 +416,20 @@ export class GraphEngine {
       // 8. Atualizar nó atual e incrementar contador
       state = { ...state, currentNode: next };
       steps += 1;
-      
+
       // 9. Verificar condições de parada
       if (state.status !== GraphStatus.RUNNING) break;
       if (next === this.definition.endNodeName) {
         state = { ...state, status: GraphStatus.FINISHED };
         break;
       }
+    }
+
+    // Atualizar o contador de mensagens sincronizadas com o estado final
+    // Isso impede que mensagens geradas durante esta execução sejam duplicadas
+    // na próxima chamada de ensureChatHistoryManager
+    if (state.messages) {
+      this.lastSyncedMessageCount = state.messages.length;
     }
 
     // 10. Retornar resultado final
@@ -474,7 +502,7 @@ export class GraphEngine {
 
     // 4. Configurar estado para retomada
     resumed = { ...resumed, currentNode: entry, nextNode: entry };
-    
+
     // 5. Retomar execução
     return this.execute(resumed);
   }
@@ -502,10 +530,10 @@ export class GraphEngine {
       const result = await node(state, this);
       return result;
     } catch (error) {
-      console.error(`Node execution failed: ${(error as Error).message}`, this.moduleName);
-      return { 
-        logs: [`Error in node: ${(error as Error).message}`], 
-        status: GraphStatus.ERROR 
+      logger.error(`Node execution failed: ${(error as Error).message}`, this.moduleName);
+      return {
+        logs: [`Error in node: ${(error as Error).message}`],
+        status: GraphStatus.ERROR
       };
     }
   }
@@ -535,11 +563,11 @@ export class GraphEngine {
    * @private
    */
   private mergeState(
-    state: IGraphState, 
-    delta: Partial<IGraphState> & { 
-      shouldPause?: boolean; 
-      shouldEnd?: boolean; 
-      logs?: string[] 
+    state: IGraphState,
+    delta: Partial<IGraphState> & {
+      shouldPause?: boolean;
+      shouldEnd?: boolean;
+      logs?: string[]
     }
   ): IGraphState {
     let newState = { ...state };
@@ -559,9 +587,9 @@ export class GraphEngine {
 
     // 3. Merge de metadados (shallow merge)
     if (delta.metadata) {
-      newState = { 
-        ...newState, 
-        metadata: { ...(newState.metadata ?? {}), ...delta.metadata } 
+      newState = {
+        ...newState,
+        metadata: { ...(newState.metadata ?? {}), ...delta.metadata }
       };
     }
 
@@ -648,12 +676,12 @@ export class GraphEngine {
     if (state.shouldPause) {
       return { ...state, status: GraphStatus.PAUSED };
     }
-    
+
     // Pausar se aguardando input do usuário
     if (state.pendingAskUser) {
       return { ...state, status: GraphStatus.PAUSED };
     }
-    
+
     // Manter status atual
     return state;
   }
@@ -685,13 +713,13 @@ export class GraphEngine {
   private resolveNext(current: string, state: IGraphState, override?: string): string {
     // 1. Usar override se fornecido
     if (override) return override;
-    
+
     // 2. Obter aresta do nó atual
     const edge = this.definition.edges[current];
     if (!edge) {
       throw new Error(`No edge defined for node '${current}'`);
     }
-    
+
     // 3. Determinar tipo de aresta
     const isString = typeof edge === 'string';
     if (isString) {
@@ -728,7 +756,7 @@ export class GraphEngine {
     const data = state.data ?? {};
     const metadata = state.metadata ?? {};
     const logs = state.logs ?? [];
-    
+
     // Retornar estado inicializado
     return {
       ...state,
@@ -758,10 +786,10 @@ export class GraphEngine {
   private assertMaxSteps(count: number): void {
     // Se não há limite configurado, não validar
     if (!this.maxSteps) return;
-    
+
     // Se ainda dentro do limite, não fazer nada
     if (count < this.maxSteps) return;
-    
+
     // Se excedeu o limite, lançar erro
     throw new Error(`Exceeded max steps (${this.maxSteps})`);
   }

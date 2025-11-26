@@ -2,6 +2,7 @@ import OpenAI from 'openai';
 import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 import { stream } from '@/providers/utils';
 import type { ProviderConfig, IProviderResponse } from '@/providers/adapter/providerAdapter.interface';
+import { logger } from '@/utils/logger';
 
 /**
  * Provedor compatível com OpenAI que aceita `ProviderConfig` diretamente.
@@ -64,7 +65,7 @@ import type { ProviderConfig, IProviderResponse } from '@/providers/adapter/prov
 export class OpenAICompatibleProvider {
   /** Nome identificador do provedor */
   public name = 'openaiCompatible';
-  
+
   /** Cliente OpenAI configurado com baseUrl customizada */
   private client: OpenAI;
 
@@ -189,17 +190,24 @@ export class OpenAICompatibleProvider {
     if (!config.baseUrl) {
       throw new Error("'baseUrl' é obrigatório para o provedor openaiCompatible.");
     }
-    
+
+    logger.info(`[OpenAICompatibleProvider] Iniciando chatCompletion com modelo: ${config.model}`);
+    logger.debug(`[OpenAICompatibleProvider] baseUrl: ${config.baseUrl}`);
+    logger.debug(`[OpenAICompatibleProvider] apiKey: ${config.apiKey ? 'presente' : 'ausente'}`);
+    logger.debug(`[OpenAICompatibleProvider] messages count: ${config.messages?.length || 0}`);
+
     // Permite override de apiKey/baseUrl por chamada, se fornecida
     if (config.apiKey) {
-      this.client = new OpenAI({ 
-        apiKey: config.apiKey, 
-        baseURL: config.baseUrl 
+      logger.debug(`[OpenAICompatibleProvider] Criando novo cliente OpenAI com baseURL: ${config.baseUrl}`);
+      this.client = new OpenAI({
+        apiKey: config.apiKey,
+        baseURL: config.baseUrl
       });
     }
 
     // Construir array de mensagens
     const messages = this.buildMessages(config);
+    logger.debug(`[OpenAICompatibleProvider] Mensagens construídas: ${messages.length}`);
 
     // Parâmetros base da requisição
     const baseParams: OpenAI.Chat.ChatCompletionCreateParams = {
@@ -212,42 +220,79 @@ export class OpenAICompatibleProvider {
     if (config.maxTokens !== undefined) baseParams.max_tokens = config.maxTokens;
     if (config.topP !== undefined) baseParams.top_p = config.topP;
 
+    logger.debug(`[OpenAICompatibleProvider] Parâmetros da requisição:`, JSON.stringify({
+      model: baseParams.model,
+      messagesCount: baseParams.messages.length,
+      temperature: baseParams.temperature,
+      max_tokens: baseParams.max_tokens,
+      top_p: baseParams.top_p,
+      stream: config.stream
+    }, null, 2));
+
+    // Log detalhado das mensagens
+    logger.debug(`[OpenAICompatibleProvider] Mensagens completas:`);
+    baseParams.messages.forEach((msg, index) => {
+      const content = typeof msg.content === 'string' ? msg.content : JSON.stringify(msg.content);
+      logger.debug(`  [${index}] role: ${msg.role}, content: "${content?.substring(0, 200)}${content?.length > 200 ? '...' : ''}"`);
+    });
+
     // Processar resposta (streaming ou síncrona)
     if (config.stream) {
-      // Resposta em streaming
-      const streamResp = await this.client.chat.completions.create({
-        ...baseParams,
-        stream: true,
-      });
+      logger.info(`[OpenAICompatibleProvider] Iniciando requisição com streaming`);
+      try {
+        // Resposta em streaming
+        const streamResp = await this.client.chat.completions.create({
+          ...baseParams,
+          stream: true,
+        });
+        logger.debug(`[OpenAICompatibleProvider] Streaming iniciado com sucesso`);
 
-      let fullContent = '';
-      for await (const chunk of stream(streamResp)) {
-        const delta: any = (chunk as any)?.choices?.[0]?.delta ?? {};
-        // Fallback para reasoning_content se content estiver vazio
-        fullContent += delta.content ?? delta.reasoning_content ?? '';
+        let fullContent = '';
+        try {
+          for await (const chunk of stream(streamResp)) {
+            const delta: any = (chunk as any)?.choices?.[0]?.delta ?? {};
+            // Fallback para reasoning_content se content estiver vazio
+            fullContent += delta.content ?? delta.reasoning_content ?? '';
+          }
+          logger.debug(`[OpenAICompatibleProvider] Streaming concluído, conteúdo: ${fullContent.substring(0, 100)}...`);
+          return { role: 'assistant', content: fullContent } as IProviderResponse;
+        } catch (error) {
+          logger.error(`[OpenAICompatibleProvider] Erro durante streaming:`, error);
+          throw error;
+        }
+      } catch (error) {
+        logger.error(`[OpenAICompatibleProvider] Erro ao criar streaming:`, error);
+        throw error;
       }
-      return { role: 'assistant', content: fullContent } as IProviderResponse;
     }
 
     // Resposta síncrona
-    const response = await this.client.chat.completions.create({
-      ...baseParams,
-      stream: false,
-    });
+    logger.info(`[OpenAICompatibleProvider] Iniciando requisição síncrona`);
+    try {
+      const response = await this.client.chat.completions.create({
+        ...baseParams,
+        stream: false,
+      });
+      logger.debug(`[OpenAICompatibleProvider] Requisição síncrona concluída com sucesso`);
 
-    // Extrair conteúdo com fallback para reasoning_content
-    const msg = response.choices[0].message as any;
-    const content = msg?.content ?? msg?.reasoning_content ?? null;
-    
-    // Retornar no formato IProviderResponse
-    return {
-      role: 'assistant',
-      content,
-      metadata: {
-        model: (response as any).model,
-        usage: (response as any).usage,
-        raw: response,
-      },
-    } as IProviderResponse;
+      // Extrair conteúdo com fallback para reasoning_content
+      const msg = response.choices[0].message as any;
+      const content = msg?.content ?? msg?.reasoning_content ?? null;
+      logger.debug(`[OpenAICompatibleProvider] Conteúdo recebido: ${content?.substring(0, 100)}...`);
+
+      // Retornar no formato IProviderResponse
+      return {
+        role: 'assistant',
+        content,
+        metadata: {
+          model: (response as any).model,
+          usage: (response as any).usage,
+          raw: response,
+        },
+      } as IProviderResponse;
+    } catch (error) {
+      logger.error(`[OpenAICompatibleProvider] Erro na requisição síncrona:`, error);
+      throw error;
+    }
   }
 }

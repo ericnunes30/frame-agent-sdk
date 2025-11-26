@@ -43,7 +43,12 @@ export function createAgentNode(options: IAgentNodeOptions): GraphNode {
     };
     // Adiciona ao histórico apenas se skipMemoryCommit não estiver ativo
     if (content && !skipMemoryCommit) {
-      engine.addMessage({ role: 'assistant', content });
+      const assistantMessage: Message = { role: 'assistant', content };
+      // Retornar a mensagem no resultado - o mergeState cuidará de adicionar ao ChatHistoryManager
+      updates = {
+        ...updates,
+        messages: [assistantMessage]
+      };
     }
 
     // Se auto-execução de tools está habilitada, detecta e executa

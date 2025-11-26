@@ -1,5 +1,6 @@
 // src/tools/toolRegistry.ts
 import { ITool, IToolParams } from '@/tools/core/interfaces';
+import { logger } from '@/utils/logger';
 
 /**
  * Registry centralizado para gerenciar e fornecer instâncias de ferramentas.
@@ -88,7 +89,7 @@ class ToolRegistry {
    */
   public register(toolInstance: ITool<IToolParams, unknown>): void {
     if (this.toolInstances.has(toolInstance.name)) {
-      console.warn(
+      logger.warn(
         `[ToolRegistry] A ferramenta com o nome '${toolInstance.name}' ` +
         `já está registrada e será sobrescrita.`
       );

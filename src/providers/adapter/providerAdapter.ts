@@ -1,5 +1,6 @@
 import { ProviderConfig } from './providerAdapter.interface';
 import { getProvider } from '../providers';
+import { logger } from '@/utils/logger';
 
 /**
  * Adaptador genérico unificado para provedores de LLM.
@@ -103,8 +104,11 @@ export class ProviderAdapter {
    * @see {@link ProviderConfig} Para formato da configuração
    */
   static async chatCompletion(config: ProviderConfig): Promise<any> {
+    logger.info(`[ProviderAdapter] Iniciando chatCompletion com modelo: ${config.model}`);
+
     // Inferir nome do provedor baseado no modelo
     let providerName = config.model.split('-')[0];
+    logger.debug(`[ProviderAdapter] Provedor inferido: ${providerName}`);
 
     // Aplicar defaults para parâmetros não especificados
     config.temperature = config.temperature ?? 0.7; // Default comum
@@ -113,6 +117,7 @@ export class ProviderAdapter {
     // Fallback inteligente: se provedor não existe mas temos baseUrl,
     // assumir provedor compatível com OpenAI (ex: OpenRouter, Claude, etc.)
     if (!ProviderAdapter.hasProvider(providerName) && config.baseUrl) {
+      logger.warn(`[ProviderAdapter] Provedor ${providerName} não encontrado, usando openaiCompatible (baseUrl: ${config.baseUrl})`);
       providerName = 'openaiCompatible';
     }
 
@@ -120,13 +125,16 @@ export class ProviderAdapter {
     ProviderAdapter._logPromptDetails(providerName, config);
 
     // Obter e instanciar o provedor
+    logger.debug(`[ProviderAdapter] Obtendo provedor: ${providerName}`);
     const ProviderClass: any = getProvider(providerName);
+    logger.debug(`[ProviderAdapter] Criando instância do provedor`);
     const provider = new ProviderClass(config.apiKey);
-    
+
     // Extrair nome do modelo sem o prefixo do provedor
     const model = config.model.startsWith(providerName + '-')
       ? config.model.slice(providerName.length + 1)
       : config.model;
+    logger.debug(`[ProviderAdapter] Modelo final: ${model}`);
 
     // Validar que o provedor implementa o método necessário
     if (typeof provider.chatCompletion !== 'function') {
@@ -134,7 +142,15 @@ export class ProviderAdapter {
     }
 
     // Chamar o provedor com configuração unificada
-    return provider.chatCompletion({ ...config, model });
+    logger.debug(`[ProviderAdapter] Chamando chatCompletion do provedor`);
+    try {
+      const result = await provider.chatCompletion({ ...config, model });
+      logger.debug(`[ProviderAdapter] chatCompletion concluído com sucesso`);
+      return result;
+    } catch (error) {
+      logger.error(`[ProviderAdapter] Erro no chatCompletion:`, error);
+      throw error;
+    }
   }
 
   /** 
@@ -174,31 +190,31 @@ export class ProviderAdapter {
    * @param config Configuração completa
    */
   private static _logPromptDetails(providerName: string, config: ProviderConfig): void {
-    console.log('\n' + '='.repeat(80));
-    console.log('🤖 PROMPT COMPLETO ANTES DA CHAMADA AO LLM');
-    console.log('='.repeat(80));
-    console.log(`📋 Provider: ${providerName}`);
-    console.log(`🎯 Modelo: ${config.model}`);
-    console.log(`🌡️  Temperatura: ${config.temperature || 'default'}`);
-    console.log(`🔢 Max Tokens: ${config.maxTokens || 'default'}`);
-    console.log('='.repeat(80));
+    logger.debug('\\n' + '='.repeat(80));
+    logger.debug('🤖 PROMPT COMPLETO ANTES DA CHAMADA AO LLM');
+    logger.debug('='.repeat(80));
+    logger.debug(`📋 Provider: ${providerName}`);
+    logger.debug(`🎯 Modelo: ${config.model}`);
+    logger.debug(`🌡️  Temperatura: ${config.temperature || 'default'}`);
+    logger.debug(`🔢 Max Tokens: ${config.maxTokens || 'default'}`);
+    logger.debug('='.repeat(80));
 
     // Log do system prompt completo
     if (config.systemPrompt) {
-      console.log('\n📄 SYSTEM PROMPT COMPLETO:');
-      console.log('-'.repeat(60));
-      console.log(config.systemPrompt);
-      console.log('-'.repeat(60));
+      logger.debug('\\n📄 SYSTEM PROMPT COMPLETO:');
+      logger.debug('-'.repeat(60));
+      logger.debug(config.systemPrompt);
+      logger.debug('-'.repeat(60));
     }
 
     // Log das mensagens (preview)
     if (config.messages && config.messages.length > 0) {
-      console.log('\n💬 MENSAGENS DA CONVERSA:');
-      console.log('-'.repeat(60));
+      logger.debug('\\n💬 MENSAGENS DA CONVERSA:');
+      logger.debug('-'.repeat(60));
       config.messages.forEach((msg, index) => {
-        console.log(`${index + 1}. [${msg.role}] ${msg.content.substring(0, 100)}${msg.content.length > 100 ? '...' : ''}`);
+        logger.debug(`${index + 1}. [${msg.role}] ${msg.content.substring(0, 100)}${msg.content.length > 100 ? '...' : ''}`);
       });
-      console.log('-'.repeat(60));
+      logger.debug('-'.repeat(60));
     }
   }
 }

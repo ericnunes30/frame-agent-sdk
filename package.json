@@ -70,8 +70,17 @@
     "ai",
     "framework"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Eric Nunes",
+  "license": "UNLICENSED",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ericnunes30/frame-agent-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ericnunes30/frame-agent-sdk/issues"
+  },
+  "homepage": "https://github.com/ericnunes30/frame-agent-sdk#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.22.0",
     "dotenv": "^17.2.3",

@@ -6,6 +6,7 @@ import type {
   AgentRegistrationOptions
 } from '../interfaces/AgentRegistry.interface';
 import type { IAgent, IAgentConfig } from '@/agent/interfaces';
+import { logger } from '@/utils/logger';
 
 /**
  * Implementação do sistema de registro centralizado de agentes de IA.
@@ -99,7 +100,7 @@ import type { IAgent, IAgentConfig } from '@/agent/interfaces';
 export class AgentRegistry implements IAgentRegistry {
   /** Instância singleton do registry */
   private static instance: AgentRegistry;
-  
+
   /** Mapa interno de agentes registrados */
   private agents: Map<string, {
     /** Classe construtora do agente */
@@ -257,7 +258,7 @@ export class AgentRegistry implements IAgentRegistry {
       return true;
 
     } catch (error) {
-      console.error(`Erro ao registrar agente '${name}': ${error instanceof Error ? error.message : String(error)}`, 'AgentRegistry');
+      logger.error(`Erro ao registrar agente '${name}': ${error instanceof Error ? error.message : String(error)}`, 'AgentRegistry');
       return false;
     }
   }
@@ -269,7 +270,7 @@ export class AgentRegistry implements IAgentRegistry {
     const registration = this.agents.get(name);
 
     if (!registration) {
-      console.warn(`Agente '${name}' não encontrado no registro`, 'AgentRegistry');
+      logger.warn(`Agente '${name}' não encontrado no registro`, 'AgentRegistry');
       return null;
     }
 
@@ -289,7 +290,7 @@ export class AgentRegistry implements IAgentRegistry {
       return agent;
 
     } catch (error) {
-      console.error(`Erro ao criar instância do agente '${name}': ${error instanceof Error ? error.message : String(error)}`, 'AgentRegistry');
+      logger.error(`Erro ao criar instância do agente '${name}': ${error instanceof Error ? error.message : String(error)}`, 'AgentRegistry');
       return null;
     }
   }
@@ -313,7 +314,7 @@ export class AgentRegistry implements IAgentRegistry {
    */
   public unregister(name: string): boolean {
     if (!this.agents.has(name)) {
-      console.warn(`Agente '${name}' não encontrado para remoção`, 'AgentRegistry');
+      logger.warn(`Agente '${name}' não encontrado para remoção`, 'AgentRegistry');
       return false;
     }
 

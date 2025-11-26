@@ -3,6 +3,7 @@
 import { ITool } from '@/tools/core/interfaces';
 import type { SchemaProperties, PropertyDescriptor, PropertyType } from '@/tools/core/interfaces';
 import { MCPToSAPConverter } from '@/tools/constructor/mcpToSapConverter';
+import { logger } from '@/utils/logger';
 
 /**
  * Gerador de schemas tipados para ferramentas do sistema.
@@ -202,7 +203,7 @@ export function generateTypedSchema(tool: ITool): string {
     try {
       return MCPToSAPConverter.convertJsonSchemaToSAP(tool.parameterSchema, tool.name);
     } catch (error) {
-      console.warn(`Falha ao converter JSON Schema para tool ${tool.name}, fallback para default:`, error);
+      logger.warn(`Falha ao converter JSON Schema para tool ${tool.name}, fallback para default:`, error);
     }
   }
 
