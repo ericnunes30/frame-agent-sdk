@@ -2,6 +2,7 @@ import { AgentRegistryInstance } from '@/agent/registry/AgentRegistry';
 import type { IAgent } from '@/agent/interfaces';
 import type { GraphNode, GraphNodeResult } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
 import type { IRegisteredAgentNodeOptions } from '@/orchestrators/graph/nodes/interfaces/registeredAgentNode.interface';
+import { logger } from '@/utils/logger';
 
 export function createRegisteredAgentNode(options: IRegisteredAgentNodeOptions): GraphNode {
   assertOptions(options);
@@ -28,7 +29,7 @@ export function createRegisteredAgentNode(options: IRegisteredAgentNodeOptions):
 function resolveAgent(agentId: string, options: IRegisteredAgentNodeOptions): IAgent | null {
   const agent = AgentRegistryInstance.get(agentId, options.configOverride);
   if (agent) return agent;
-  console.warn(`Agent '${agentId}' not found in registry`, 'RegisteredAgentNode');
+  logger.warn(`Agent '${agentId}' not found in registry`, 'RegisteredAgentNode');
   return null;
 }
 

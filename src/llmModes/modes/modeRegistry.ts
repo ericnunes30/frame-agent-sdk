@@ -1,6 +1,7 @@
 // src/agents/modesAgents/AgentMode.ts
 import { PromptBuilder } from '@/promptBuilder';
 import type { PromptBuilderConfig, PromptMode } from '@/promptBuilder';
+import { logger } from '@/utils/logger';
 
 // Registra os modos padrão automaticamente
 import './chatMode';
@@ -20,7 +21,7 @@ export class AgentMode {
    */
   public static registerMode(modeName: string, modeFunction: (config: PromptBuilderConfig) => string): void {
     if (this.registeredModes.has(modeName)) {
-      console.warn(`Modo '${modeName}' já está registrado. Ignorando registro duplicado.`);
+      logger.warn(`Modo '${modeName}' já está registrado. Ignorando registro duplicado.`);
       return;
     }
 

@@ -47,4 +47,6 @@ class SimpleLogger implements Logger {
 }
 
 // Logger global
-export const logger = new SimpleLogger(LogLevel.DEBUG);
+// Logger global
+const isDebug = process.env.DEBUG === 'True' || process.env.DEBUG === 'true';
+export const logger = new SimpleLogger(isDebug ? LogLevel.DEBUG : LogLevel.WARN);
