@@ -13,19 +13,20 @@ PromptBuilder.addPromptMode('react' as PromptMode, (config: PromptBuilderConfig)
     '',
     '## Mode: ReAct (Schema Aligned Parsing)',
     '',
+    'CRITICAL: You must ALWAYS use a tool. Do NOT output raw text.',
     'Follow the pattern: Reason → Act → Observe → Answer',
   ].join('\n');
 
   const format = [
     'STRUCTURE (strict):',
     '',
-    'When a tool IS required:',
-    'Thought: <brief reasoning (1-2 sentences)>',
-    'Action: <toolName> = { "parameter": value }',
+    '1. To use a tool:',
+    'Thought: <reasoning about why tool is needed>',
+    'Action: <toolName> = { "param": value }',
     '',
-    'When you are DONE (no more tools needed):',
-    'Thought: <brief reasoning (1-2 sentences)>',
-    'Action: final_answer = { "answer": "<your answer>" }',
+    '2. To answer the user (including chat/greetings):',
+    'Thought: <reasoning about the answer>',
+    'Action: final_answer = { "answer": "<your response>" }',
   ].join('\n');
 
   const sapRules = [
@@ -40,6 +41,8 @@ PromptBuilder.addPromptMode('react' as PromptMode, (config: PromptBuilderConfig)
 
   const actPolicy = [
     'POLICIES:',
+    '- YOU MUST ALWAYS USE A TOOL. Do not output raw text.',
+    '- For general chat, greetings, or final results, use the "final_answer" tool.',
     '- Return exactly one Action per turn when acting',
     "- Do not add any text before 'Action:' when acting",
     "- Do not invent 'Observation:' — it will be provided after tool execution",

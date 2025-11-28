@@ -50,22 +50,29 @@ export interface ProviderConfig {
    * - Claude: 'claude-3-sonnet-20240229'
    */
   model: string;
-  
+
+  /**
+   * Nome do provedor explícito (opcional).
+   * Se fornecido, ignora a inferência baseada no nome do modelo.
+   * Ex: 'openai', 'anthropic', 'openaiCompatible'
+   */
+  provider?: string;
+
   /** 
    * Array de mensagens da conversa.
    * Cada mensagem deve ter role ('system', 'user', 'assistant') e content.
    */
-  messages: Array<{ 
-    role: string; 
-    content: string; 
+  messages: Array<{
+    role: string;
+    content: string;
   }>;
-  
+
   /** 
    * Chave de API do provedor.
    * Deve ser mantida segura e nunca hardcoded no código.
    */
   apiKey: string;
-  
+
   /** 
    * Controla a criatividade das respostas (0.0 - 2.0).
    * - 0.0: Respostas mais determinísticas e focadas
@@ -75,7 +82,7 @@ export interface ProviderConfig {
    * @default 0.7
    */
   temperature?: number;
-  
+
   /** 
    * Habilita resposta em streaming (tempo real).
    * Quando true, a resposta é retornada como um iterador assíncrono.
@@ -83,13 +90,13 @@ export interface ProviderConfig {
    * @default false
    */
   stream?: boolean;
-  
+
   /** 
    * Prompt do sistema que define o comportamento do assistente.
    * É enviado como primeira mensagem com role 'system'.
    */
   systemPrompt?: string;
-  
+
   /** 
    * URL base da API do provedor.
    * **Obrigatória** para provedores compatíveis com OpenAI.
@@ -109,7 +116,7 @@ export interface ProviderConfig {
    * @default 2048
    */
   maxTokens?: number;
-  
+
   /** 
    * Nucleus sampling parameter (0.0 - 1.0).
    * Alternativa ao temperature para controle de diversidade.
@@ -138,10 +145,10 @@ export interface ProviderConfig {
    * ]
    * ```
    */
-  tools?: Array<{ 
-    name: string; 
-    description: string; 
-    parameters: any; 
+  tools?: Array<{
+    name: string;
+    description: string;
+    parameters: any;
   }>;
 }
 

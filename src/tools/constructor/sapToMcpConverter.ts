@@ -28,20 +28,24 @@ export class SAPToMCPConverter {
       throw new Error('Nome da ferramenta inválido fornecido para conversão')
     }
 
-    logger.debug('SAPToMCPConverter - Convertendo formato SAP:', {
-      toolName,
-      sapFormat
-    })
+    logger.debug('🔄 SAPToMCPConverter - INICIANDO CONVERSÃO SAP → MCP');
+    logger.debug('='.repeat(80));
+    logger.debug(`🛠️  Tool Name: ${toolName}`);
+    logger.debug('📄 SAP Format Completo:');
+    logger.debug(sapFormat);
+    logger.debug('='.repeat(80));
 
     const parsedSAP = this.parseSAPFormat(sapFormat)
     const jsonSchema = this.convertParsedSAPToJSONSchema(parsedSAP)
 
-    logger.debug('SAPToMCPConverter - Conversão concluída:', {
-      toolName,
-      propertyCount: Object.keys(jsonSchema.properties || {}).length,
-      requiredCount: jsonSchema.required?.length || 0,
-      jsonSchema
-    })
+    logger.debug('✅ SAPToMCPConverter - CONVERSÃO CONCLUÍDA');
+    logger.debug('='.repeat(80));
+    logger.debug(`🛠️  Tool Name: ${toolName}`);
+    logger.debug(`📊 Propriedades Convertidas: ${Object.keys(jsonSchema.properties || {}).length}`);
+    logger.debug(`📋 Propriedades Obrigatórias: ${jsonSchema.required?.length || 0}`);
+    logger.debug('📋 JSON Schema Completo (MCP):');
+    logger.debug(JSON.stringify(jsonSchema, null, 2));
+    logger.debug('='.repeat(80));
 
     return jsonSchema
   }
@@ -52,6 +56,84 @@ export class SAPToMCPConverter {
   private static parseSAPFormat(sapFormat: string): any {
     const lines = sapFormat.split('\n').map(line => line.trim()).filter(line => line.length > 0)
 
+    // Verificar se é formato SAP simplificado (JSON encapsulado)
+    const hasClassDeclaration = lines.some(line => line.startsWith('class '));
+    const hasEqualsParenthesis = lines.some(line => line.includes('= (') || line.includes('=('));
+    
+    if (hasClassDeclaration && hasEqualsParenthesis) {
+      // Formato SAP simplificado: JSON encapsulado na classe
+      return this.parseSimplifiedSAPFormat(sapFormat);
+    }
+
+    // Formato SAP tradicional: propriedades individuais
+    return this.parseTraditionalSAPFormat(lines);
+  }
+
+  /**
+   * Analisa o formato SAP simplificado (JSON encapsulado)
+   */
+  private static parseSimplifiedSAPFormat(sapFormat: string): any {
+    const lines = sapFormat.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+    let inClassBody = false;
+    let braceCount = 0;
+    let jsonContent = '';
+
+    for (const line of lines) {
+      if (line.includes('{')) {
+        inClassBody = true;
+        braceCount += (line.match(/{/g) || []).length;
+        if (braceCount === 1) {
+          // Primeira chave - pular (é a chave da linha class = ()
+          continue;
+        } else if (braceCount === 2) {
+          // Segunda chave - começar a capturar o JSON real
+          const startIndex = line.indexOf('{', line.indexOf('{') + 1);
+          jsonContent = line.substring(startIndex);
+        } else {
+          // Chaves adicionais dentro do JSON
+          jsonContent += '\n' + line;
+        }
+        continue;
+      }
+
+      if (line.includes('}')) {
+        braceCount -= (line.match(/}/g) || []).length;
+        if (braceCount === 1) {
+          // Finalizar a captura do JSON (incluir a última chave de fechamento)
+          const endIndex = line.indexOf('}');
+          if (endIndex >= 0) {
+            jsonContent += '\n' + line.substring(0, endIndex + 1);
+          }
+          break;
+        } else if (braceCount > 1) {
+          // Chaves de fechamento de objetos internos
+          jsonContent += '\n' + line;
+        }
+        continue;
+      }
+
+      if (inClassBody) {
+        jsonContent += '\n' + line;
+      }
+    }
+
+    try {
+      // Parsear o JSON diretamente
+      const parsedJson = JSON.parse(jsonContent.trim());
+      logger.debug('✅ JSON parseado com sucesso do formato SAP simplificado');
+      return parsedJson;
+    } catch (error) {
+      logger.error('Erro ao parsear JSON do SAP simplificado:', error);
+      logger.error('JSON capturado:', jsonContent);
+      throw new Error('Formato SAP simplificado inválido: não foi possível parsear o JSON');
+    }
+  }
+
+  /**
+   * Analisa o formato SAP tradicional (propriedades individuais)
+   */
+  private static parseTraditionalSAPFormat(lines: string[]): any {
     // Encontrar a linha da classe
     const classLine = lines.find(line => line.startsWith('class ') && line.endsWith('{'))
     if (!classLine) {
@@ -81,12 +163,20 @@ export class SAPToMCPConverter {
       }
 
       if (inClassBody && line.includes(':')) {
+        logger.debug(`🔧 Processando linha SAP: ${line}`);
         const property = this.parseSAPProperty(line)
         if (property) {
+          logger.debug(`  ✅ Propriedade processada:`);
+          logger.debug(`     Nome: ${property.name}`);
+          logger.debug(`     Opcional: ${property.isOptional}`);
+          logger.debug(`     Schema: ${JSON.stringify(property.schema)}`);
+          
           properties[property.name] = property.schema
           if (!property.isOptional) {
             required.push(property.name)
           }
+        } else {
+          logger.debug(`  ❌ Falha ao processar propriedade`);
         }
       }
     }
@@ -131,13 +221,20 @@ export class SAPToMCPConverter {
     // Extrair comentários
     const comments = commentIndex !== -1 ? line.substring(commentIndex + 2).trim() : ''
 
-    const schema: any = {
-      type: jsonType
+    const schema: any = {}
+
+    // Definir tipo (pode ser string ou array para union types)
+    if (Array.isArray(jsonType)) {
+      schema.anyOf = jsonType.map(type => ({ type }))
+    } else {
+      schema.type = jsonType
     }
 
     // Processar comentários
     if (comments) {
+      logger.debug(`     Comentários: ${comments}`);
       this.parseCommentsIntoSchema(comments, schema)
+      logger.debug(`     Schema após comentários: ${JSON.stringify(schema)}`);
     }
 
     return {
@@ -172,19 +269,25 @@ export class SAPToMCPConverter {
    * Mapeia um tipo TypeScript individual para JSON Schema
    */
   private static mapSingleTypeScriptTypeToJSON(typeScriptType: string): string {
-    switch (typeScriptType) {
+    const trimmed = typeScriptType.trim().toLowerCase()
+    
+    switch (trimmed) {
       case 'string':
         return 'string'
       case 'number':
         return 'number'
       case 'boolean':
+      case 'bool':
         return 'boolean'
       case 'any':
         return 'object'
       case 'null':
         return 'null'
+      case 'undefined':
+        return 'object' // undefined não é um tipo válido no JSON Schema
       default:
-        logger.warn('SAPToMCPConverter - Tipo TypeScript não reconhecido:', typeScriptType)
+        // Para tipos complexos ou desconhecidos, assumir object
+        logger.debug(`SAPToMCPConverter - Tipo TypeScript mapeado para 'object': ${typeScriptType}`)
         return 'object'
     }
   }
@@ -335,6 +438,13 @@ export class SAPToMCPConverter {
    * Converte SAP parseado para JSON Schema final
    */
   private static convertParsedSAPToJSONSchema(parsedSAP: any): any {
+    // Se o parsedSAP já é um objeto JSON válido (formato simplificado), retornar diretamente
+    if (parsedSAP && typeof parsedSAP === 'object' && !parsedSAP.type) {
+      // Formato simplificado: o parsedSAP já é o JSON Schema final
+      return parsedSAP;
+    }
+
+    // Formato tradicional: converter para JSON Schema padrão
     const jsonSchema: any = {
       type: 'object',
       properties: {}

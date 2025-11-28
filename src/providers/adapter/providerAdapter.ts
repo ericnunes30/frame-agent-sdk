@@ -106,9 +106,9 @@ export class ProviderAdapter {
   static async chatCompletion(config: ProviderConfig): Promise<any> {
     logger.info(`[ProviderAdapter] Iniciando chatCompletion com modelo: ${config.model}`);
 
-    // Inferir nome do provedor baseado no modelo
-    let providerName = config.model.split('-')[0];
-    logger.debug(`[ProviderAdapter] Provedor inferido: ${providerName}`);
+    // Determinar provedor: usar explícito se disponível, senão inferir do modelo
+    let providerName = config.provider || config.model.split('-')[0];
+    logger.debug(`[ProviderAdapter] Provedor determinado: ${providerName} (Explícito: ${!!config.provider})`);
 
     // Aplicar defaults para parâmetros não especificados
     config.temperature = config.temperature ?? 0.7; // Default comum
@@ -117,7 +117,7 @@ export class ProviderAdapter {
     // Fallback inteligente: se provedor não existe mas temos baseUrl,
     // assumir provedor compatível com OpenAI (ex: OpenRouter, Claude, etc.)
     if (!ProviderAdapter.hasProvider(providerName) && config.baseUrl) {
-      logger.warn(`[ProviderAdapter] Provedor ${providerName} não encontrado, usando openaiCompatible (baseUrl: ${config.baseUrl})`);
+      logger.info(`[ProviderAdapter] Provedor específico ${providerName} não encontrado. Utilizando fallback 'openaiCompatible' (baseUrl: ${config.baseUrl})`);
       providerName = 'openaiCompatible';
     }
 

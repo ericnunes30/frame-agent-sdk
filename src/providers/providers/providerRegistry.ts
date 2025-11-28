@@ -28,10 +28,10 @@ export interface ProviderConstructor {
 export interface ProviderInstance {
   /** Nome identificador do provedor */
   name: string;
-  
+
   /** Método principal para chat completion */
   chatCompletion: (...args: any[]) => Promise<any>;
-  
+
   /** Propriedades adicionais específicas do provedor */
   [key: string]: any;
 }
@@ -89,13 +89,14 @@ export default class ProviderRegistry {
   static {
     // Registrar provedores padrão
     ProviderRegistry.providerMap.set('openai', OpenAIProvider);
-    
+
     // Alias comum para modelos OpenAI (gpt-4, gpt-3.5-turbo, etc.)
     ProviderRegistry.providerMap.set('gpt', OpenAIProvider);
-    
+
     // Provedores compatíveis com OpenAI
     ProviderRegistry.providerMap.set('openaiCompatible', OpenAICompatibleProvider);
-    
+    ProviderRegistry.providerMap.set('openai-compatible', OpenAICompatibleProvider);
+
     // Anthropic (descomente quando implementado)
     // ProviderRegistry.providerMap.set('anthropic', AnthropicProvider);
   }
