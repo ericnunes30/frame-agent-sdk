@@ -26,7 +26,13 @@ export function createToolExecutorNode(): GraphNode {
     }
     logger.info(`[ToolExecutorNode] Resultado da tool:`, toolResultStr);
 
-    engine.addMessage({ role: 'tool', content: toolResultStr });
+    // Adicionar resultado como mensagem de sistema para React + SAP
+    // No sistema React + SAP, o resultado da ferramenta é adicionado como uma mensagem normal
+    // para que o LLM possa processar no próximo prompt
+    engine.addMessage({ 
+      role: 'system', 
+      content: `# ${call.toolName} response\n${toolResultStr}`
+    });
 
     // Prepara resultado do node
     const nodeResult = {

@@ -1,4 +1,5 @@
 // Sistema de logging simples para o exemplo SAP Parser MCP
+import 'dotenv/config';
 
 export enum LogLevel {
   DEBUG = 0,
@@ -23,7 +24,7 @@ class SimpleLogger implements Logger {
 
   debug(message: string, ...args: unknown[]): void {
     if (this.logLevel <= LogLevel.DEBUG) {
-      console.debug(`[DEBUG] ${message}`, ...args);
+      console.log(`[DEBUG] ${message}`, ...args);
     }
   }
 

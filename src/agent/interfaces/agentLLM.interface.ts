@@ -148,6 +148,12 @@ export interface AgentLLMConfig {
     model: string;
 
     /**
+     * Nome do provedor explícito (opcional).
+     * Se fornecido, força o uso deste provedor ignorando inferência pelo modelo.
+     */
+    provider?: string;
+
+    /**
      * Chave de API para autenticação no provedor.
      * 
      * Token de acesso necessário para fazer requisições ao

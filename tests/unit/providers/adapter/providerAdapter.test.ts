@@ -50,6 +50,29 @@ describe('ProviderAdapter', () => {
             }));
         });
 
+        it('deve priorizar provedor explícito sobre inferência do modelo', async () => {
+            // Arrange
+            const config: ProviderConfig = {
+                model: 'mock-gpt-4',
+                provider: 'explicit-provider',
+                apiKey: 'key',
+                messages: [],
+                systemPrompt: 'System'
+            };
+
+            (getProvider as jest.Mock).mockImplementation((name) => {
+                if (name === 'explicit-provider') return MockProvider;
+                throw new Error(`Provider ${name} not found`);
+            });
+
+            // Act
+            await ProviderAdapter.chatCompletion(config);
+
+            // Assert
+            expect(getProvider).toHaveBeenCalledWith('explicit-provider');
+            // Não deve tentar inferir 'mock' do modelo 'mock-gpt-4'
+        });
+
         it('deve usar openaiCompatible se provider não existir mas tiver baseUrl', async () => {
             // Arrange
             (getProvider as jest.Mock).mockImplementation((name) => {

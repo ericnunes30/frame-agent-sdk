@@ -87,6 +87,8 @@ export class AgentLLM {
   private readonly defaults: ProviderDefaults;
   /** URL base customizada (opcional) */
   private readonly baseUrl?: string;
+  /** Provedor explícito (opcional) */
+  private readonly provider?: string;
 
   /**
    * Cria uma instância de AgentLLM a partir de uma configuração estruturada.
@@ -119,6 +121,7 @@ export class AgentLLM {
   static fromConfig(config: AgentLLMConfig): AgentLLM {
     return new AgentLLM({
       model: config.model,
+      provider: config.provider,
       apiKey: config.apiKey,
       baseUrl: config.baseUrl,
       defaults: config.defaults,
@@ -156,8 +159,9 @@ export class AgentLLM {
    * 
    * @see {@link ProviderDefaults} Para parâmetros padrão
    */
-  constructor(params: { model: string; apiKey: string; defaults?: ProviderDefaults; baseUrl?: string }) {
+  constructor(params: { model: string; provider?: string; apiKey: string; defaults?: ProviderDefaults; baseUrl?: string }) {
     this.model = params.model;
+    this.provider = params.provider;
     this.apiKey = params.apiKey;
     this.defaults = params.defaults ?? {};
     this.baseUrl = params.baseUrl;
@@ -243,7 +247,7 @@ export class AgentLLM {
     // 1. Determinar system prompt (customizado ou gerado automaticamente)
     const promptResult = PromptBuilder.determineSystemPrompt(args);
     const systemPrompt = promptResult.systemPrompt;
-    
+
     // Preview do prompt para debugging (truncado se muito longo)
     const spPreview = systemPrompt.length > 1000 ? `${systemPrompt.slice(0, 1000)}...` : systemPrompt;
 
@@ -256,6 +260,7 @@ export class AgentLLM {
     // 3. Configurar ProviderAdapter
     const config: ProviderConfig = {
       model: this.model,
+      provider: this.provider,
       apiKey: this.apiKey,
       messages: args.messages,
       systemPrompt,
@@ -268,7 +273,7 @@ export class AgentLLM {
 
     // 4. Executar via ProviderAdapter
     const resp: IProviderResponse = await ProviderAdapter.chatCompletion(config);
-    
+
     // 5. Retornar resultado estruturado
     return { content: resp?.content ?? null, metadata: resp?.metadata };
   }
