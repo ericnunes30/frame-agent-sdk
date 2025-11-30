@@ -21,11 +21,23 @@ export interface ISAPError {
 export class SAPParser {
     // Aceita 'Action' e variações pt-BR ('Ação', 'Acao'), case-insensitive
     // Suporta nomes de ferramentas MCP com : e / (ex: mcp:context7/resolve-library-id)
-    private static readonly ACTION_HEADER = /(Action|Ação|Acao)\s*:\s*([A-Za-z0-9_:\/-]+)\s*=\s*\{/i;
+    private static readonly ACTION_HEADER = /(Action|Ação|Acao)\s*:\s*([A-Za-z0-9_:\/-]+)\s*[:=]?\s*\{/i;
 
     private static stripCodeFences(text: string): string {
         return text.replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, ''))
             .replace(/`+/g, '');
+    }
+
+    /**
+     * Corrige formatação comum de saída do LLM para o padrão esperado
+     * Converte: "Action: tool {" -> "Action: tool = {"
+     *          "Action: tool: {" -> "Action: tool = {"
+     */
+    private static correctActionHeader(text: string): string {
+        return text.replace(
+            /(Action|Ação|Acao)\s*:\s*([A-Za-z0-9_:\/-]+)\s*[:=]?\s*\{/gi,
+            '$1: $2 = {'
+        );
     }
 
     private static extractBalancedJson(text: string, startIndex: number): string | null {
