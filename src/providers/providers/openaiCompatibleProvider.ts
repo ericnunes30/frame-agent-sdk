@@ -278,7 +278,7 @@ export class OpenAICompatibleProvider {
       // Extrair conteúdo com fallback para reasoning_content
       const msg = response.choices[0].message as any;
       const content = msg?.content ?? msg?.reasoning_content ?? null;
-      logger.debug(`[OpenAICompatibleProvider] Conteúdo recebido: ${content?.substring(0, 100)}...`);
+      logger.debug(`[OpenAICompatibleProvider] Conteúdo recebido: ${content}`);
 
       // Retornar no formato IProviderResponse
       return {
