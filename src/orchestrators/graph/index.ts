@@ -18,6 +18,7 @@ export type { IGraphState } from './core/interfaces/graphState.interface';
 
 // Re-exportando funções de nodes
 export { createAgentNode } from './nodes/agentNode';
+export { createReactValidationNode } from './nodes/reactValidationNode';
 export { createHumanInLoopNode } from './nodes/humanInLoopNode';
 export { createToolExecutorNode } from './nodes/toolExecutorNode';
 
