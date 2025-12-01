@@ -15,6 +15,7 @@ export { GraphBuilder } from './builder/GraphBuilder';
 export { GraphStatus } from './core/enums/graphEngine.enum';
 export type { GraphDefinition } from './core/interfaces/graphEngine.interface';
 export type { IGraphState } from './core/interfaces/graphState.interface';
+export type { ExecuteOptions } from './core/interfaces/graphEngine.interface';
 
 // Re-exportando funções de nodes
 export { createAgentNode } from './nodes/agentNode';

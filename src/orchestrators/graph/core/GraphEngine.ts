@@ -1,5 +1,5 @@
 import type { Message } from '@/memory';
-import type { GraphDefinition, GraphNode, GraphRunResult } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
+import type { GraphDefinition, GraphNode, GraphRunResult, ExecuteOptions } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
 import type { IGraphState } from '@/orchestrators/graph/core/interfaces/graphState.interface';
 import { GraphStatus } from '@/orchestrators/graph/core/enums/graphEngine.enum';
 import { ChatHistoryManager, TokenizerService } from '@/memory';
@@ -337,48 +337,52 @@ export class GraphEngine {
 
   /**
    * Executa o grafo a partir do estado inicial fornecido.
-   * 
+   *
    * Este é o método principal do GraphEngine que coordena toda a execução
    * do grafo, gerenciando estado, fluxo de controle e comunicação entre nós.
-   * 
+   *
    * ## Fluxo de Execução
-   * 
+   *
    * 1. **Inicialização**: Configura ChatHistoryManager e sincroniza estado
    * 2. **Loop Principal**: Executa nós sequencialmente até conclusão
    * 3. **Execução de Nó**: Chama função do nó com estado atual
    * 4. **Merge de Estado**: Combina resultado do nó com estado global
    * 5. **Roteamento**: Determina próximo nó baseado em arestas
    * 6. **Controle de Fluxo**: Aplica pausas, limites e condições de parada
-   * 
+   *
    * @param initialState Estado inicial do grafo.
    * Deve incluir mensagens, dados e metadados iniciais.
-   * 
+   *
+   * @param options Opções de execução opcionais.
+   * Permite configurar sinal de cancelamento e outras opções.
+   *
    * @returns Promise que resolve para GraphRunResult.
    * Contém estado final e status da execução.
-   * 
+   *
    * @example
    * ```typescript
    * const engine = new GraphEngine(graphDefinition);
-   * 
+   *
    * const initialState: IGraphState = {
    *   messages: [{ role: 'user', content: 'Olá, preciso de ajuda!' }],
    *   data: { userId: '123' },
    *   metadata: { sessionId: 'abc-456' }
    * };
-   * 
+   *
    * const result = await engine.execute(initialState);
-   * 
+   *
    * console.log('Status:', result.status); // 'FINISHED', 'ERROR', 'PAUSED'
    * console.log('Final state:', result.state);
    * console.log('Messages:', result.state.messages);
    * console.log('Data:', result.state.data);
    * ```
-   * 
+   *
    * @see {@link IGraphState} Para formato do estado
    * @see {@link GraphRunResult} Para formato do resultado
    * @see {@link GraphStatus} Para status possíveis
+   * @see {@link ExecuteOptions} Para opções de execução
    */
-  public async execute(initialState: IGraphState): Promise<GraphRunResult> {
+  public async execute(initialState: IGraphState, options?: ExecuteOptions): Promise<GraphRunResult> {
     // 1. Inicializar ChatHistoryManager se necessário
     this.ensureChatHistoryManager(initialState);
     logger.info('GraphEngine executing...');
@@ -390,6 +394,13 @@ export class GraphEngine {
 
     // 3. Loop principal de execução
     while (state.status === GraphStatus.RUNNING) {
+      // Verificar cancelamento externo
+      if (options?.signal?.aborted) {
+        logger.info('[GraphEngine] Execução cancelada externamente');
+        state = { ...state, status: GraphStatus.INTERRUPTED };
+        break;
+      }
+
       // Verificar limite de passos
       this.assertMaxSteps(steps);
 

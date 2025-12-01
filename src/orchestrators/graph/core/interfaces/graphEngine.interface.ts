@@ -28,3 +28,14 @@ export interface GraphRunResult {
   state: IGraphState;
   status: GraphStatus;
 }
+
+/**
+ * Opções para execução do grafo
+ */
+export interface ExecuteOptions {
+  /**
+   * Sinal de cancelamento opcional (padrão Web API)
+   * Permite interrupção externa da execução
+   */
+  signal?: AbortSignal;
+}

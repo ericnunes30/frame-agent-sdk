@@ -3,4 +3,5 @@ export enum GraphStatus {
   PAUSED = 'PAUSED',
   FINISHED = 'FINISHED',
   ERROR = 'ERROR',
+  INTERRUPTED = 'INTERRUPTED',
 }
