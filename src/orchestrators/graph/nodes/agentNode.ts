@@ -19,10 +19,26 @@ export function createAgentNode(options: IAgentNodeOptions): GraphNode {
 
   return async (state, engine): Promise<GraphNodeResult> => {
     // Usa mensagens customizadas se fornecidas, senão usa o histórico do engine
-    const messages = hasCustomMessages ? options.customMessages! : engine.getMessagesForLLM();
+    let messages = hasCustomMessages ? options.customMessages! : engine.getMessagesForLLM();
 
     // Extrai taskList do metadata se existir
     const taskList = (state.metadata as any)?.taskList;
+
+    // Verificar se há erro de validação ReAct para adicionar feedback temporário
+    const validationError = (state.metadata as any)?.validation?.error;
+    if (validationError) {
+      // Criar uma cópia temporária das mensagens
+      const tempMessages = [...messages];
+      
+      // Adicionar mensagem de erro temporária (não salva no histórico permanente)
+      tempMessages.push({
+        role: 'system',
+        content: `⚠️ ERRO DE FORMATAÇÃO: ${validationError.message}\nPor favor, siga o formato ReAct:\nThought: [seu pensamento]\nAction: [nome_da_ferramenta]\nAction Input: [JSON com parâmetros]`
+      });
+      
+      // Usar as mensagens temporárias para esta chamada ao LLM
+      messages = tempMessages;
+    }
 
     // Cria options atualizadas com a taskList do estado
     const runtimeOptions = {

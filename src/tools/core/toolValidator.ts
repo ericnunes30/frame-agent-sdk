@@ -1,5 +1,6 @@
 // src/tools/core/toolValidator.ts
 import { ITool, PropertyDescriptor, PropertyType, SchemaProperties, ToolValidationIssue, ToolValidationResult } from '@/tools/core/interfaces';
+import { ToolDetector } from './toolDetector';
 
 /**
  * Utilitários de validação de parâmetros de ferramentas.
@@ -308,4 +309,107 @@ export function formatIssuesForLLM(issues: ToolValidationIssue[]): string {
     .map((i) => `- ${i.path}: ${i.message}`)
     .join('\n');
   return `Your tool output does not match the required schema. Fix these issues and try again using the exact JSON format.\n${bullets}`;
+}
+
+/**
+ * Validador de formato ReAct para integração com agentFlow.ts
+ * 
+ * Esta classe fornece uma interface simplificada para validar saídas do LLM
+ * no formato ReAct e determinar se o fluxo deve continuar ou retornar ao agente
+ * para correção.
+ * 
+ * ## Funcionalidades
+ * 
+ * - Validação completa do formato ReAct usando ToolDetector
+ * - Classificação de tipos de erro (parsing, validation, format, unknown)
+ * - Retorno estruturado booleano para controle de fluxo
+ * - Integração direta com o sistema de metadados do GraphEngine
+ * 
+ * ## Uso no agentFlow.ts
+ * 
+ * ```typescript
+ * // No router do agentFlow.ts
+ * const validation = state.metadata?.validation;
+ * if (validation?.isValid === false) {
+ *   return 'agent'; // Volta ao agente para correção
+ * }
+ * if (validation?.isValid === true) {
+ *   return 'execute'; // Continua para execução
+ * }
+ * ```
+ */
+export class ReActValidator {
+  /**
+   * Valida uma saída do LLM no formato ReAct
+   * 
+   * @param llmOutput Saída do LLM a ser validada
+   * @returns Objeto com isValid boolean e detalhes do erro ou toolCall
+   */
+  static validateReActFormat(llmOutput: string): {
+    isValid: boolean;
+    error?: {
+      message: string;
+      type: 'parsing' | 'validation' | 'format' | 'unknown';
+      details?: any;
+    };
+    toolCall?: any;
+  } {
+    try {
+      const result = ToolDetector.detect(llmOutput);
+      
+      if (result.success && result.toolCall) {
+        return {
+          isValid: true,
+          toolCall: result.toolCall
+        };
+      }
+      
+      if (result.error) {
+        return {
+          isValid: false,
+          error: {
+            message: result.error.message,
+            type: this.getErrorType(result.error.message),
+            details: result.error
+          }
+        };
+      }
+      
+      // Nenhuma tool detectada, mas também nenhum erro explícito
+      return {
+        isValid: false,
+        error: {
+          message: 'Nenhuma chamada de ferramenta detectada no formato ReAct',
+          type: 'format'
+        }
+      };
+    } catch (error) {
+      return {
+        isValid: false,
+        error: {
+          message: error instanceof Error ? error.message : 'Erro desconhecido na validação',
+          type: 'unknown'
+        }
+      };
+    }
+  }
+  
+  /**
+   * Classifica o tipo de erro com base na mensagem
+   * 
+   * @param errorMessage Mensagem de erro do ToolDetector
+   * @returns Tipo de erro classificado
+   */
+  private static getErrorType(errorMessage: string): 'parsing' | 'validation' | 'format' | 'unknown' {
+    if (errorMessage.includes('JSON inválido') || errorMessage.includes('JSON')) {
+      return 'parsing';
+    }
+    if (errorMessage.includes('Parâmetros inválidos') || errorMessage.includes('schema')) {
+      return 'validation';
+    }
+    if (errorMessage.includes('extrair uma chamada de ferramenta')) {
+      return 'format';
+    }
+    return 'unknown';
+  }
 }
