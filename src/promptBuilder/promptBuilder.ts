@@ -4,6 +4,7 @@ import {
   PromptMode,
   ToolSchema,
 } from './promptBuilder.interface';
+import { ISkill } from '@/skills/skill.interface';
 import { logger } from '@/utils/logger';
 import { toolRegistry } from '@/tools/core/toolRegistry';
 import { generateTypedSchema } from '@/tools/constructor/schemaGenerator';
@@ -315,10 +316,16 @@ export class PromptBuilder {
     // 5) Seção de tools (se fornecidas)
     parts.push(PromptBuilder.buildToolsPrompt(finalTools));
 
-    // 6) Regras específicas do modo (posicionadas no final para otimizar atenção)
+    // 6) Seção de skills (se fornecidas)
+    const skillsText = PromptBuilder.buildSkillsPrompt(config.skills);
+    if (skillsText) {
+      parts.push(skillsText);
+    }
+
+    // 7) Regras específicas do modo (posicionadas no final para otimizar atenção)
     parts.push(modeBuilder(config));
 
-    // 7) Montagem final do prompt
+    // 8) Montagem final do prompt
     const finalPrompt = parts.join('\n\n');
 
     // Log para debug (preview do prompt gerado)
@@ -326,6 +333,25 @@ export class PromptBuilder {
     logger.debug('[PromptBuilder.buildSystemPrompt] Generated prompt preview:', { preview });
 
     return finalPrompt;
+  }
+
+  /**
+   * Constrói a seção de skills do System Prompt.
+   * 
+   * Método privado que formata um array de ISkill em uma seção do prompt.
+   * 
+   * @param skills Array de ISkill a serem incluídas no prompt.
+   * Se vazio ou undefined, retorna string vazia.
+   * 
+   * @returns String formatada contendo a seção de skills do prompt,
+   * ou string vazia se não houver skills para exibir.
+   */
+  private static buildSkillsPrompt(skills?: ISkill[]): string {
+    if (!skills || skills.length === 0) return '';
+    
+    return `## Active Skills\n\n${skills.map(s => 
+      `### ${s.name}\n${s.instructions}`
+    ).join('\n\n')}`;
   }
 
   /**

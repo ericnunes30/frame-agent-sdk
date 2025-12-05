@@ -41,6 +41,7 @@ export interface AgentInfo {
 
 // Import da interface de tool
 import type { ITool } from '@/tools/core/interfaces';
+import type { ISkill } from '@/skills/skill.interface';
 
 /** 
  * Schema de uma ferramenta para uso no System Prompt.
@@ -205,5 +206,22 @@ export interface PromptBuilderConfig {
       status: 'pending' | 'in_progress' | 'completed';
     }>
   };
+  
+  /** 
+   * Skills ativas para esta execução.
+   * Útil para fornecer contexto especializado dinamicamente.
+   * 
+   * @optional
+   * @example
+   * ```typescript
+   * [{
+   *   name: 'solid-principles',
+   *   description: 'Princípios SOLID para desenvolvimento OOP',
+   *   keywords: ['class', 'interface', 'solid', 'oop'],
+   *   instructions: 'Siga os princípios SOLID...'
+   * }]
+   * ```
+   */
+  skills?: ISkill[];
 }
 

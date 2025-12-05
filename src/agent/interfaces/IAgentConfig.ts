@@ -1,6 +1,7 @@
 // src/agents/interfaces/IAgentConfig.ts
 import type { AgentInfo } from '../../promptBuilder';
 import type { ToolSchema } from '../../promptBuilder/promptBuilder.interface';
+import type { ISkillManager } from '../../skills/skill.interface';
 
 // Re-export ToolSchema for convenience
 export type { ToolSchema } from '../../promptBuilder/promptBuilder.interface';
@@ -187,6 +188,31 @@ export interface IAgentConfig {
    * @see {@link ToolSchema} Para formato dos schemas de ferramenta
    */
   tools?: ToolSchema[];
+
+  /**
+   * Gerenciador de Skills do agente.
+   * 
+   * Instância de SkillManager que contém as skills disponíveis
+   * para o agente. A responsabilidade de carregar skills do
+   * filesystem fica com a aplicação que consome o SDK.
+   * 
+   * @example
+   * ```typescript
+   * import { SkillManager } from 'frame-agent-sdk';
+   * 
+   * const skillManager = new SkillManager();
+   * // Skills são carregadas pela aplicação (CLI) usando SkillLoader
+   * 
+   * const config: IAgentConfig = {
+   *   // ... outras configurações
+   *   skillManager: skillManager
+   * };
+   * ```
+   * 
+   * @see {@link ISkillManager} Para interface do gerenciador
+   * @see {@link ISkill} Para estrutura de uma skill
+   */
+  skillManager?: ISkillManager;
 
   /**
    * Configurações específicas do modelo de linguagem.
