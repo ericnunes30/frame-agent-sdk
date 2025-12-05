@@ -1112,6 +1112,72 @@ try {
 - [Guia de Modos de Prompt](./modes.md)
 - [Integração com Agentes](../agents/README.md)
 
+## Integração com Skills
+
+O PromptBuilder foi estendido para suportar o sistema de Skills, permitindo a inclusão dinâmica de contexto especializado no prompt do agente.
+
+### PromptBuilderConfig com Skills
+
+A interface `PromptBuilderConfig` foi estendida com uma propriedade opcional `skills`:
+
+```typescript
+export interface PromptBuilderConfig {
+  mode: PromptMode;
+  agentInfo: AgentInfo;
+  additionalInstructions?: string;
+  tools?: ToolSchema[];
+  toolNames?: string[];
+  taskList?: {
+    items: Array<{
+      id: string;
+      title: string;
+      status: 'pending' | 'in_progress' | 'completed';
+    }>
+  };
+  // Nova propriedade para skills
+  skills?: ISkill[];
+}
+```
+
+### Formatação de Skills no Prompt
+
+O método `buildSkillsPrompt` formata os skills para inclusão no prompt:
+
+```typescript
+private static buildSkillsPrompt(skills?: ISkill[]): string {
+  if (!skills || skills.length === 0) return '';
+  
+  return `## Active Skills\n\n${skills.map(s => 
+    `### ${s.name}\n${s.instructions}`
+  ).join('\n\n')}`;
+}
+```
+
+### Uso com Skills
+
+```typescript
+import { PromptBuilder } from 'frame-agent-sdk/promptBuilder';
+import { SkillManager } from 'frame-agent-sdk/skills';
+
+// Carregar skills
+const skillManager = new SkillManager();
+const skills = await skillManager.loadSkillsFromDirectory('./.code-skills');
+
+// Obter skills relevantes
+const relevantSkills = skillManager.getRelevantSkills('mensagem do usuário');
+
+// Construir prompt com skills
+const prompt = PromptBuilder.buildSystemPrompt({
+  mode: 'react',
+  agentInfo: {
+    name: 'Agente',
+    goal: 'Objetivo do agente',
+    backstory: 'Contexto do agente'
+  },
+  skills: relevantSkills
+});
+```
+
 ## Notas Importantes
 
 1. **Modos Predefinidos**: Use 'chat' para conversas e 'react' para agentes com ferramentas

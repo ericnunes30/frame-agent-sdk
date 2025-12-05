@@ -50,6 +50,11 @@
       "require": "./dist/tools/index.js",
       "types": "./dist/tools/index.d.ts"
     },
+    "./skills": {
+      "import": "./dist/skills/index.js",
+      "require": "./dist/skills/index.js",
+      "types": "./dist/skills/index.d.ts"
+    },
     "./tools/mcp": {
       "import": "./dist/tools/tools/mcp/index.js",
       "require": "./dist/tools/tools/mcp/index.js",
