@@ -804,4 +804,70 @@ export class GraphEngine {
     // Se excedeu o limite, lançar erro
     throw new Error(`Exceeded max steps (${this.maxSteps})`);
   }
+
+  /**
+   * Obtém o ChatHistoryManager atual do grafo.
+   * 
+   * Retorna o gerenciador de histórico de chat utilizado pelo grafo
+   * para manter contexto durante a execução. Permite ao desenvolvedor
+   * acessar diretamente a memória do agente para implementar
+   * estratégias customizadas de compressão ou manipulação.
+   * 
+   * @returns O ChatHistoryManager atual ou undefined se não inicializado.
+   * 
+   * @example
+   * ```typescript
+   * const engine = new GraphEngine(graphDefinition);
+   * 
+   * // Acessar o gerenciador de memória
+   * const memory = engine.getChatHistoryManager();
+   * if (memory) {
+   *   // Implementar estratégia de compressão
+   *   const currentMessages = memory.exportHistory();
+   *   const compressed = compressMessages(currentMessages);
+   *   memory.importHistory(compressed);
+   * }
+   * ```
+   */
+  public getChatHistoryManager(): IChatHistoryManager | undefined {
+    return this.chatHistoryManager;
+  }
+
+  /**
+   * Substitui o ChatHistoryManager do grafo.
+   * 
+   * Permite ao desenvolvedor substituir o gerenciador de memória
+   * durante a execução do grafo, útil para implementar estratégias
+   * de compressão, persistência ou otimização de contexto.
+   * 
+   * @param manager O novo ChatHistoryManager a ser utilizado.
+   * 
+   * @throws {Error} Se o manager fornecido for inválido
+   * 
+   * @example
+   * ```typescript
+   * const engine = new GraphEngine(graphDefinition);
+   * 
+   * // Criar gerenciador com histórico compactado
+   * const compactedManager = new ChatHistoryManager({
+   *   maxContextTokens: 200000,
+   *   tokenizer: new TokenizerService('gpt-4')
+   * });
+   * 
+   * // Importar mensagens compactadas
+   * compactedManager.importHistory(compactedMessages);
+   * 
+   * // Substituir o gerenciador do grafo
+   * engine.setChatHistoryManager(compactedManager);
+   * ```
+   */
+  public setChatHistoryManager(manager: IChatHistoryManager): void {
+    if (!manager) {
+      throw new Error('ChatHistoryManager cannot be null or undefined');
+    }
+
+    this.chatHistoryManager = manager;
+    this.lastSyncedMessageCount = 0; // Resetar contador de sincronização
+    logger.info('[GraphEngine] ChatHistoryManager replaced by developer', this.moduleName);
+  }
 }

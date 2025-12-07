@@ -9,11 +9,13 @@
  * @example
  * ```typescript
  * const userMessage: Message = {
+ *   id: 'msg-123',
  *   role: 'user',
  *   content: 'Como funciona o aprendizado de máquina?'
  * };
  * 
  * const systemMessage: Message = {
+ *   id: 'msg-456',
  *   role: 'system',
  *   content: 'Você é um assistente especializado em IA.'
  * };
@@ -24,8 +26,16 @@
  * - 'user': Mensagens do usuário/contexto da conversa
  * - 'assistant': Respostas do modelo de linguagem
  * - 'tool': Resultados de chamadas de ferramentas (quando suportado)
+ * - 'id': Identificador único para operações de edição e remoção (gerado automaticamente)
  */
 export interface Message {
+  /** 
+   * Identificador único da mensagem.
+   * Usado para operações de edição, remoção e busca.
+   * Gerado automaticamente pelo ChatHistoryManager se não fornecido.
+   */
+  id?: string;
+  
   /** 
    * O papel/função da mensagem na conversa.
    * Valores aceitos: 'system', 'user', 'assistant', 'tool'
@@ -239,6 +249,120 @@ export interface IChatHistoryManager {
      * ```
      */
     clearHistory(): void;
+
+    /**
+     * Edita o conteúdo de uma mensagem específica no histórico.
+     * 
+     * Permite modificar o conteúdo de uma mensagem existente mantendo
+     * sua posição e outras propriedades. Útil para correções ou
+     * otimizações de conteúdo.
+     * 
+     * @param messageId Identificador único da mensagem a ser editada.
+     * @param newContent Novo conteúdo para a mensagem.
+     * 
+     * @throws {Error} Se a mensagem não for encontrada ou content for inválido
+     * 
+     * @example
+     * ```typescript
+     * // Corrigir uma mensagem
+     * history.editMessage('msg-123', 'Conteúdo corrigido');
+     * 
+     * // Otimizar para reduzir tokens
+     * history.editMessage('msg-456', 'Versão compactada da mensagem original');
+     * ```
+     */
+    editMessage(messageId: string, newContent: string): void;
+
+    /**
+     * Remove um range de mensagens do histórico.
+     * 
+     * Remove todas as mensagens entre startId e endId (inclusive),
+     * permitindo limpeza seletiva do histórico para compressão
+     * ou remoção de conversas irrelevantes.
+     * 
+     * @param startId ID da primeira mensagem a ser removida.
+     * @param endId ID da última mensagem a ser removida.
+     * 
+     * @throws {Error} Se os IDs não forem encontrados ou forem inválidos
+     * 
+     * @example
+     * ```typescript
+     * // Remover conversa antiga
+     * history.deleteMessageRange('msg-old-1', 'msg-old-10');
+     * 
+     * // Remover seção específica
+     * history.deleteMessageRange('msg-start', 'msg-end');
+     * ```
+     */
+    deleteMessageRange(startId: string, endId: string): void;
+
+    /**
+     * Busca uma mensagem específica por seu ID.
+     * 
+     * Retorna a mensagem correspondente ao ID fornecido ou undefined
+     * se não encontrada. Útil para operações de edição ou verificação.
+     * 
+     * @param messageId ID da mensagem a ser buscada.
+     * 
+     * @returns A mensagem encontrada ou undefined.
+     * 
+     * @example
+     * ```typescript
+     * const message = history.getMessageById('msg-123');
+     * if (message) {
+     *   console.log('Conteúdo:', message.content);
+     * }
+     * ```
+     */
+    getMessageById(messageId: string): Message | undefined;
+
+    /**
+     * Exporta todo o histórico de mensagens.
+     * 
+     * Retorna uma cópia completa do histórico atual, incluindo
+     * System Prompt e todas as mensagens, sem aplicação de truncamento.
+     * Útil para persistência ou análise.
+     * 
+     * @returns Array com todas as mensagens do histórico.
+     * 
+     * @example
+     * ```typescript
+     * // Salvar histórico
+     * const fullHistory = history.exportHistory();
+     * localStorage.setItem('chat-history', JSON.stringify(fullHistory));
+     * 
+     * // Analisar histórico
+     * const totalMessages = fullHistory.length;
+     * ```
+     */
+    exportHistory(): Message[];
+
+    /**
+     * Importa mensagens para o histórico.
+     * 
+     * Substitui o histórico atual pelas mensagens fornecidas.
+     * Útil para restaurar conversas anteriores ou mesclar
+     * históricos de diferentes fontes.
+     * 
+     * @param messages Array de mensagens a serem importadas.
+     * As mensagens devem estar em ordem cronológica.
+     * 
+     * @throws {Error} Se as mensagens forem inválidas ou null/undefined
+     * 
+     * @example
+     * ```typescript
+     * // Restaurar histórico salvo
+     * const savedHistory = JSON.parse(localStorage.getItem('chat-history'));
+     * history.importHistory(savedHistory);
+     * 
+     * // Importar de outra fonte
+     * history.importHistory([
+     *   { role: 'system', content: 'Você é útil' },
+     *   { role: 'user', content: 'Olá' }
+     * ]);
+     * ```
+     */
+    importHistory(messages: Message[]): void;
 }
 
 /**
