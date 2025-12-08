@@ -65,6 +65,9 @@ export class ChatHistoryManager implements IChatHistoryManager {
     /** O serviço injetado para calcular o custo em tokens */
     private tokenizer: ITokenizerService;
 
+    /** Contador para gerar IDs únicos de mensagens */
+    private messageIdCounter: number = 0;
+
     /**
      * Cria uma nova instância do ChatHistoryManager.
      * 
@@ -93,6 +96,15 @@ export class ChatHistoryManager implements IChatHistoryManager {
         this.maxContextTokens = config.maxContextTokens;
         this.tokenizer = config.tokenizer;
         logger.debug(`[ChatHistoryManager] ChatHistoryManager created with maxContextTokens: ${this.maxContextTokens}`);
+    }
+
+    /**
+     * Gera um ID único para uma mensagem.
+     * 
+     * @returns ID único no formato 'msg-<timestamp>-<counter>'
+     */
+    private generateMessageId(): string {
+        return `msg-${Date.now()}-${++this.messageIdCounter}`;
     }
 
     /**
@@ -126,7 +138,11 @@ export class ChatHistoryManager implements IChatHistoryManager {
      */
     public addSystemPrompt(prompt: string): void {
         logger.debug(`Adding system prompt`, 'ChatHistoryManager');
-        const systemMessage: Message = { role: 'system', content: prompt };
+        const systemMessage: Message = { 
+            id: this.generateMessageId(),
+            role: 'system', 
+            content: prompt 
+        };
 
         // Verifica se o System Prompt já está presente na primeira posição
         const hasHistory = this.history.length > 0;
@@ -190,7 +206,14 @@ export class ChatHistoryManager implements IChatHistoryManager {
             throw new Error('Message must have valid role and content');
         }
 
-        this.history.push(message);
+        // Garantir que a mensagem tenha ID
+        const messageWithId: Message = {
+            id: message.id || this.generateMessageId(),
+            role: message.role,
+            content: message.content
+        };
+
+        this.history.push(messageWithId);
     }
 
     /**
@@ -376,5 +399,104 @@ export class ChatHistoryManager implements IChatHistoryManager {
     public getRemainingBudget(): number {
         const used = this.tokenizer.countTokens(this.history);
         return Math.max(0, this.maxContextTokens - used);
+    }
+
+    /**
+     * Edita o conteúdo de uma mensagem específica no histórico.
+     * 
+     * @param messageId Identificador único da mensagem a ser editada.
+     * @param newContent Novo conteúdo para a mensagem.
+     * 
+     * @throws {Error} Se a mensagem não for encontrada ou content for inválido
+     */
+    public editMessage(messageId: string, newContent: string): void {
+        if (!newContent || newContent.trim() === '') {
+            throw new Error('New content cannot be empty');
+        }
+
+        const messageIndex = this.history.findIndex(msg => msg.id === messageId);
+        if (messageIndex === -1) {
+            throw new Error(`Message with ID ${messageId} not found`);
+        }
+
+        this.history[messageIndex].content = newContent;
+        logger.debug(`Message ${messageId} edited`, 'ChatHistoryManager');
+    }
+
+    /**
+     * Remove um range de mensagens do histórico.
+     * 
+     * @param startId ID da primeira mensagem a ser removida.
+     * @param endId ID da última mensagem a ser removida.
+     * 
+     * @throws {Error} Se os IDs não forem encontrados ou forem inválidos
+     */
+    public deleteMessageRange(startId: string, endId: string): void {
+        const startIndex = this.history.findIndex(msg => msg.id === startId);
+        const endIndex = this.history.findIndex(msg => msg.id === endId);
+
+        if (startIndex === -1) {
+            throw new Error(`Start message with ID ${startId} not found`);
+        }
+
+        if (endIndex === -1) {
+            throw new Error(`End message with ID ${endId} not found`);
+        }
+
+        if (startIndex > endIndex) {
+            throw new Error('Start message must come before end message');
+        }
+
+        const removedCount = endIndex - startIndex + 1;
+        this.history.splice(startIndex, removedCount);
+        logger.debug(`Removed ${removedCount} messages from ${startId} to ${endId}`, 'ChatHistoryManager');
+    }
+
+    /**
+     * Busca uma mensagem específica por seu ID.
+     * 
+     * @param messageId ID da mensagem a ser buscada.
+     * 
+     * @returns A mensagem encontrada ou undefined.
+     */
+    public getMessageById(messageId: string): Message | undefined {
+        return this.history.find(msg => msg.id === messageId);
+    }
+
+    /**
+     * Exporta todo o histórico de mensagens.
+     * 
+     * @returns Array com todas as mensagens do histórico.
+     */
+    public exportHistory(): Message[] {
+        return [...this.history];
+    }
+
+    /**
+     * Importa mensagens para o histórico.
+     * 
+     * @param messages Array de mensagens a serem importadas.
+     * 
+     * @throws {Error} Se as mensagens forem inválidas ou null/undefined
+     */
+    public importHistory(messages: Message[]): void {
+        if (!messages || !Array.isArray(messages)) {
+            throw new Error('Messages must be a valid array');
+        }
+
+        // Validar todas as mensagens
+        for (const message of messages) {
+            if (!message.role || !message.content) {
+                throw new Error('All messages must have valid role and content');
+            }
+            
+            // Garantir ID para mensagens importadas
+            if (!message.id) {
+                message.id = this.generateMessageId();
+            }
+        }
+
+        this.history = [...messages];
+        logger.debug(`Imported ${messages.length} messages to history`, 'ChatHistoryManager');
     }
 }

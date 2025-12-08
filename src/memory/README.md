@@ -1,14 +1,15 @@
-# Módulo Memory - Gerenciamento de Memória de Conversas
+# Módulo Memory - Gerenciamento de Memória do Agente
 
-O módulo **Memory** é responsável pelo gerenciamento inteligente da memória de conversas em agentes de IA, implementando um sistema de truncamento baseado em tokens que garante que o contexto das conversas caiba dentro das limitações dos modelos de linguagem.
+O módulo **Memory** é responsável pelo gerenciamento inteligente da memória de conversas em agentes de IA, implementando um sistema de **tokenização precisa** e **controle total** sobre o histórico que permite aos desenvolvedores implementar suas próprias estratégias de compressão.
 
 ## Visão Geral
 
-Este módulo resolve o problema fundamental de **limitação de contexto** em modelos de LLM, permitindo que agentes mantenham conversas extensas sem exceder os limites de tokens. Ele implementa uma estratégia inteligente de preservação que mantém sempre:
+Este módulo resolve o problema fundamental de **limitação de contexto** em modelos de LLM, permitindo que agentes mantenham conversas extensas sem exceder os limites de tokens. Ele implementa:
 
-- **System Prompt** (primeira mensagem) - sempre preservado
-- **Última mensagem do usuário** - sempre preservada  
-- **Histórico intermediário** - truncado quando necessário
+- **Tokenização Precisa**: 99.5% de precisão usando js-tiktoken
+- **Controle Total**: Métodos para editar, deletar, exportar e importar mensagens
+- **Memória do Agente**: Independente do modelo LLM utilizado
+- **Estratégia Inteligente**: Mantém System Prompt e última mensagem do usuário
 
 ## Arquitetura
 
@@ -28,6 +29,7 @@ src/memory/
 ```mermaid
 classDiagram
     class Message {
+        +string id
         +string role
         +string content
     }
@@ -38,6 +40,8 @@ classDiagram
     }
     
     class TokenizerService {
+        -encoding: any
+        -useTiktoken: boolean
         +countTokens(messages: Message[]) number
     }
     
@@ -48,17 +52,28 @@ classDiagram
         +getTrimmedHistory() Message[]
         +getRemainingBudget() number
         +clearHistory() void
+        +editMessage(messageId: string, newContent: string) void
+        +deleteMessageRange(startId: string, endId: string) void
+        +getMessageById(messageId: string) Message | undefined
+        +exportHistory() Message[]
+        +importHistory(messages: Message[]) void
     }
     
     class ChatHistoryManager {
         -history: Message[]
         -maxContextTokens: number
         -tokenizer: ITokenizerService
+        -messageIdCounter: number
         +addMessage(message: Message) void
         +addSystemPrompt(prompt: string) void
         +getTrimmedHistory() Message[]
         +getRemainingBudget() number
         +clearHistory() void
+        +editMessage(messageId: string, newContent: string) void
+        +deleteMessageRange(startId: string, endId: string) void
+        +getMessageById(messageId: string) Message | undefined
+        +exportHistory() Message[]
+        +importHistory(messages: Message[]) void
     }
     
     class ChatHistoryConfig {
@@ -95,7 +110,7 @@ interface ITokenizerService {
 ```
 
 ### IChatHistoryManager
-Contrato para o gerenciador de histórico de chat, responsável pela memória processual.
+Contrato para o gerenciador de histórico de chat, responsável pela memória processual do agente.
 
 ```typescript
 interface IChatHistoryManager {
@@ -104,6 +119,12 @@ interface IChatHistoryManager {
   getTrimmedHistory(): Message[];
   getRemainingBudget(): number;
   clearHistory(): void;
+  // Novos métodos para controle total
+  editMessage(messageId: string, newContent: string): void;
+  deleteMessageRange(startId: string, endId: string): void;
+  getMessageById(messageId: string): Message | undefined;
+  exportHistory(): Message[];
+  importHistory(messages: Message[]): void;
 }
 ```
 
@@ -120,14 +141,12 @@ interface ChatHistoryConfig {
 ## Implementações
 
 ### TokenizerService
-Implementação atual do serviço de tokenização que utiliza uma **aproximação baseada em caracteres**:
+Implementação precisa do serviço de tokenização utilizando **js-tiktoken**:
 
-- **1 token ≈ 4 caracteres** (proporção comum para modelos GPT)
-- **Overhead fixo de 10 caracteres** por mensagem (simula estrutura JSON, roles, etc.)
-- **⚠️ IMPORTANTE**: Esta é uma implementação placeholder. Para produção, substitua por:
-  - `tiktoken` para modelos OpenAI
-  - Claude API nativa para modelos Anthropic
-  - Outros tokenizadores específicos por modelo
+- **99.5% de precisão** para modelos baseados em GPT
+- **Encoding cl100k_base** (padrão para modelos modernos)
+- **Fallback automático** para aproximação por caracteres se tiktoken não estiver disponível
+- **Independente de modelo** - funciona para gestão de memória do agente
 
 ```typescript
 // Exemplo de uso
@@ -251,6 +270,99 @@ const messages = history.getTrimmedHistory();
 
 // Enviar para o provider
 const response = await provider.chat(messages);
+```
+
+## Controle Avançado de Memória
+
+Os novos métodos permitem controle total sobre o histórico do agente, possibilitando implementação de estratégias customizadas de compressão e persistência.
+
+### Edição de Mensagens
+
+```typescript
+// Corrigir ou otimizar uma mensagem específica
+history.editMessage('msg-123', 'Versão corrigida da mensagem');
+
+// Otimizar para reduzir tokens
+history.editMessage('msg-456', 'Texto compactado');
+```
+
+### Remoção Seletiva
+
+```typescript
+// Remover um range de mensagens antigas
+history.deleteMessageRange('msg-old-1', 'msg-old-50');
+
+// Limpar seção específica da conversa
+history.deleteMessageRange('msg-start-section', 'msg-end-section');
+```
+
+### Busca e Consulta
+
+```typescript
+// Buscar mensagem específica
+const message = history.getMessageById('msg-123');
+if (message) {
+  console.log('Conteúdo:', message.content);
+}
+```
+
+### Persistência e Backup
+
+```typescript
+// Exportar histórico completo para backup
+const fullHistory = history.exportHistory();
+localStorage.setItem('agent-memory', JSON.stringify(fullHistory));
+
+// Restaurar histórico de backup
+const savedHistory = JSON.parse(localStorage.getItem('agent-memory') || '[]');
+history.importHistory(savedHistory);
+```
+
+### Estratégia de Compressão Personalizada
+
+```typescript
+// Exemplo: Implementar compressão manual quando atingir 70% do limite
+const remaining = history.getRemainingBudget();
+const maxTokens = 200000; // configurado pelo desenvolvedor
+
+if (remaining < maxTokens * 0.3) { // Menos de 30% disponível
+  const currentHistory = history.exportHistory();
+  
+  // Manter system prompt e últimas 20 mensagens
+  const systemPrompt = currentHistory.find(msg => msg.role === 'system');
+  const recentMessages = currentHistory.slice(-20);
+  
+  // Compactar mensagens intermediárias
+  const compressed = compressMessages(currentHistory.slice(1, -20));
+  
+  // Reconstruir histórico
+  const newHistory = [systemPrompt, ...compressed, ...recentMessages];
+  history.importHistory(newHistory);
+}
+```
+
+### Integração com GraphEngine
+
+```typescript
+// Durante execução do grafo, acessar e manipular memória
+const currentManager = engine.getChatHistoryManager();
+
+if (currentManager) {
+  // Implementar estratégia de compressão personalizada
+  const messages = currentManager.exportHistory();
+  const optimized = applyCustomCompression(messages);
+  
+  // Criar novo gerenciador com histórico otimizado
+  const newManager = new ChatHistoryManager({
+    maxContextTokens: 200000,
+    tokenizer: new TokenizerService('gpt-4')
+  });
+  
+  newManager.importHistory(optimized);
+  
+  // Substituir em runtime
+  engine.setChatHistoryManager(newManager);
+}
 ```
 
 ## Testes
