@@ -1,6 +1,7 @@
 // src/tools/core/toolValidator.ts
 import { ITool, PropertyDescriptor, PropertyType, SchemaProperties, ToolValidationIssue, ToolValidationResult } from '@/tools/core/interfaces';
 import { ToolDetector } from './toolDetector';
+import { logger } from '@/utils/logger';
 
 /**
  * Utilitários de validação de parâmetros de ferramentas.
@@ -236,6 +237,13 @@ export function validateToolParams(tool: ITool, params: unknown): ToolValidation
   // 1. Extrair schema da ferramenta
   const schemaClass = tool.parameterSchema as { schemaProperties?: SchemaProperties } | undefined;
   const schemaProps: SchemaProperties = (schemaClass && schemaClass.schemaProperties) || {};
+
+  // Debug para identificar problema
+  logger.debug(`[ToolValidator] Validando tool: ${tool.name}`, {
+    schema: schemaProps,
+    params: params,
+    paramsType: typeof params
+  });
 
   const issues: ToolValidationIssue[] = [];
 

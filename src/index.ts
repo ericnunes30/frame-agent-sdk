@@ -22,7 +22,5 @@ export * from './tools';
 // Exportar MCP
 export * from './tools/tools/mcp';
 
-// Exportar skills
-export { ISkill, ISkillManager, SkillConfig } from './skills/skill.interface';
-export { SkillManager } from './skills/skillManager';
+
 

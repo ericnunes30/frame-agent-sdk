@@ -51,6 +51,19 @@ export interface ProviderDefaults {
      * ```
      */
     temperature?: number;
+    /**
+     * Máximo de tokens para o contexto (memória).
+     * 
+     * Define o limite máximo de tokens que podem ser usados
+     * para o contexto da conversa (system prompt + histórico).
+     * 
+     * @example
+     * ```typescript
+     * maxContextTokens: 128000  // Para modelos com grande contexto
+     * maxContextTokens: 8000     // Para modelos padrão
+     * ```
+     */
+    maxContextTokens?: number;
 
     /**
      * Núcleo de sampling (0.0 a 1.0).

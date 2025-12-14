@@ -249,6 +249,12 @@ export interface IToolCall {
    * Devem ser compatíveis com o parameterSchema da ferramenta especificada.
    */
   params: IToolParams;
+  
+  /** 
+   * Thought extraído da resposta do LLM (opcional).
+   * Usado para exibir o raciocínio do agente no terminal.
+   */
+  thought?: string;
 }
 
 // Validator-related shared interfaces (for class-based schema)

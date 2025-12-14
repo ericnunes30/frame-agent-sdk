@@ -233,7 +233,7 @@ export class OpenAICompatibleProvider {
     logger.debug(`[OpenAICompatibleProvider] Mensagens completas:`);
     baseParams.messages.forEach((msg, index) => {
       const content = typeof msg.content === 'string' ? msg.content : JSON.stringify(msg.content);
-      logger.debug(`  [${index}] role: ${msg.role}, content: "${content?.substring(0, 200)}${content?.length > 200 ? '...' : ''}"`);
+      logger.debug(`  [${index}] role: ${msg.role}, content: "${content}"`);
     });
 
     // Processar resposta (streaming ou síncrona)

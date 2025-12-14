@@ -230,7 +230,22 @@ export class GraphEngine {
       return [];
     }
 
-    return this.chatHistoryManager.getTrimmedHistory();
+    const messages = this.chatHistoryManager.getTrimmedHistory();
+    
+    // Log para debugging de uso de tokens
+    if (this.tokenizerService && messages.length > 0) {
+      const tokenCount = this.tokenizerService.countTokens(messages);
+      const maxTokens = this.llmConfig?.defaults?.maxContextTokens || 0;
+      const usagePercent = maxTokens > 0 ? (tokenCount / maxTokens * 100).toFixed(1) : 'N/A';
+      
+      logger.debug(`[GraphEngine] Token usage: ${tokenCount}/${maxTokens} (${usagePercent}%) - ${messages.length} messages`, this.moduleName);
+      
+      if (tokenCount > maxTokens) {
+        logger.error(`[GraphEngine] TOKEN LIMIT EXCEEDED: ${tokenCount} > ${maxTokens}`, this.moduleName);
+      }
+    }
+    
+    return messages;
   }
 
   /**
@@ -277,10 +292,10 @@ export class GraphEngine {
         return;
       }
 
-      // Extrair maxTokens da configuração do LLM
-      const maxTokens = this.llmConfig?.defaults?.maxTokens;
+      // Extrair maxContextTokens da configuração do LLM
+      const maxContextTokens = this.llmConfig?.defaults?.maxContextTokens;
       const config = {
-        maxContextTokens: maxTokens,
+        maxContextTokens: maxContextTokens,
         tokenizer: this.tokenizerService
       };
 
@@ -525,6 +540,10 @@ export class GraphEngine {
    * e trata erros de execução, garantindo que falhas em nós
    * individuais não quebrem toda a execução do grafo.
    * 
+   * Em vez de parar a execução com status ERROR, adicionamos
+   * a mensagem de erro ao histórico para que o agente possa
+   * tentar outra abordagem.
+   * 
    * @param node Função do nó a ser executada.
    * Deve aceitar estado atual e GraphEngine como parâmetros.
    * 
@@ -532,7 +551,7 @@ export class GraphEngine {
    * Passado para o nó para que possa tomar decisões baseadas no contexto.
    * 
    * @returns Promise com resultado da execução do nó.
-   * Em caso de erro, retorna estado de erro com logs.
+   * Em caso de erro, retorna mensagem de erro para o agente.
    * 
    * @private
    */
@@ -541,10 +560,17 @@ export class GraphEngine {
       const result = await node(state, this);
       return result;
     } catch (error) {
+      const errorMessage = `Erro na execução: ${(error as Error).message}`;
       logger.error(`Node execution failed: ${(error as Error).message}`, this.moduleName);
+      
+      // Em vez de definir status ERROR, adicionamos mensagem de erro
+      // para que o agente possa tentar outra abordagem
       return {
-        logs: [`Error in node: ${(error as Error).message}`],
-        status: GraphStatus.ERROR
+        logs: [errorMessage],
+        messages: [{
+          role: 'system' as const,
+          content: errorMessage
+        }]
       };
     }
   }
