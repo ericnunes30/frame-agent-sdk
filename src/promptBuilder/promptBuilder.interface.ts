@@ -41,7 +41,6 @@ export interface AgentInfo {
 
 // Import da interface de tool
 import type { ITool } from '@/tools/core/interfaces';
-import type { ISkill } from '@/skills/skill.interface';
 
 /** 
  * Schema de uma ferramenta para uso no System Prompt.
@@ -222,6 +221,6 @@ export interface PromptBuilderConfig {
    * }]
    * ```
    */
-  skills?: ISkill[];
+  
 }
 

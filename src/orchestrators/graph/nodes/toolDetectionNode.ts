@@ -29,10 +29,15 @@ export function createToolDetectionNode(): GraphNode {
             return { logs: ['No content to parse'] };
         }
 
-        // 2. Usar ToolDetector para analisar
+        // 2. Extrair o Thought da resposta bruta antes do parsing
+        const thought = contentToParse.match(/Thought\s*:\s*([\s\S]*?)(?=\n\s*(Action|Ação|Acao)\s*:)/i)
+            ? contentToParse.match(/Thought\s*:\s*([\s\S]*?)(?=\n\s*(Action|Ação|Acao)\s*:)/i)![1].trim()
+            : null;
+
+        // 3. Usar ToolDetector para analisar (sem extrair thought)
         const result: ToolDetectionResult = ToolDetector.detect(contentToParse);
 
-        // 3. Processar resultado
+        // 4. Processar resultado
         if (result.success && result.toolCall) {
             logger.info(`[ToolDetectionNode] Tool detectada: ${result.toolCall.toolName}`);
 
@@ -41,12 +46,15 @@ export function createToolDetectionNode(): GraphNode {
             delete (newMetadata as any).validationHint;
             delete (newMetadata as any).validationIssues;
 
-            // Salva APENAS saídas válidas no histórico
-            const assistantMessage: Message = { role: 'assistant', content: contentToParse };
+            // NÃO adiciona mensagem ao histórico - já foi adicionada pelo agentNode
+            // para evitar duplicação
 
             return {
-                lastToolCall: result.toolCall,
-                messages: [assistantMessage], // Salva no histórico apenas saídas válidas
+                lastToolCall: {
+                    ...result.toolCall,
+                    thought: thought // Incluir o thought extraído aqui
+                },
+                // Removido: messages: [assistantMessage] para evitar duplicação
                 metadata: newMetadata,
                 logs: [`Tool detected: ${result.toolCall.toolName}`]
             };

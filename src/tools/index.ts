@@ -3,7 +3,7 @@
 
 // Contratos base
 export { ITool, IToolParams, IToolCall, IToolResult } from '@/tools/core/interfaces';
-export { ToolExecutor } from '@/tools/core/toolExecutor';
+export { ToolExecutor } from './core/toolExecutor';
 
 // Componentes da arquitetura SAP
 export { ToolBase } from '@/tools/constructor/toolBase';
@@ -17,7 +17,7 @@ export { ToolDetector, ToolDetectionResult } from '@/tools/core/toolDetector';
 export { AskUserParams, AskUserTool } from '@/tools/tools/askUserTool';
 export { FinalAnswerParams, FinalAnswerTool } from '@/tools/tools/finalAnswerTool';
 export { ApprovalParams, ApprovalTool } from '@/tools/tools/approvalTool';
-export { TodoListParams, TodoListTool } from '@/tools/tools/todoListTool';
+export { ToDoIstParams, ToDoIstTool } from '@/tools/tools/toDoIstTool';
 
 // Ferramentas Externas para MCP
 export { MCPClient, MCPTransport } from '@/tools/tools/mcp'

@@ -1,6 +1,6 @@
 // src/orchestrators/steps/interfaces.ts
 import type { IChatHistoryManager } from '../../memory';
-import type { AgentLLM } from '../../agent';
+import type { AgentLLM, AgentLLMConfig } from '../../agent';
 import type { ToolSchema, AgentInfo } from '../../promptBuilder';
 import type { AgentMode } from '../../llmModes';
 
@@ -8,6 +8,22 @@ import type { AgentMode } from '../../llmModes';
 export interface StepsDeps {
   memory: IChatHistoryManager;
   llm: AgentLLM;
+}
+
+/** Configuração de agente com suporte a LLMConfig ou instância LLM */
+export interface AgentStepConfig {
+  mode: AgentMode;
+  agentInfo: AgentInfo;
+  additionalInstructions?: string;
+  tools?: ToolSchema[];
+  taskList?: {
+    items: Array<{
+      id: string
+      title: string
+      status: 'pending' | 'in_progress' | 'completed'
+    }>
+  };
+  llm?: AgentLLM | AgentLLMConfig; // Opcional - usa global se não fornecido
 }
 
 /** Configuração base para construção do system prompt do agente. */
@@ -63,4 +79,10 @@ export interface StepProviderOptions {
   stream?: boolean;
   topP?: number;
   maxTokens?: number;
+}
+
+/** Interface para StepsOrchestrator com suporte a múltiplos agentes */
+export interface IStepsOrchestrator {
+  addAgent(config: AgentStepConfig): IStepsOrchestrator;
+  executeAgents(input: string): Promise<{ final: string | null; state: OrchestrationState; pendingAskUser?: { question: string; details?: string } }>;
 }

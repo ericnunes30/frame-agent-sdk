@@ -76,4 +76,4 @@ export {
   ToolSchema
 } from './promptBuilder.interface';
 
-export type { ISkill } from '@/skills/skill.interface';
+

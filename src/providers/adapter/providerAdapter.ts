@@ -212,7 +212,7 @@ export class ProviderAdapter {
       logger.debug('\\n💬 MENSAGENS DA CONVERSA:');
       logger.debug('-'.repeat(60));
       config.messages.forEach((msg, index) => {
-        logger.debug(`${index + 1}. [${msg.role}] ${msg.content.substring(0, 100)}${msg.content.length > 100 ? '...' : ''}`);
+        logger.debug(`${index + 1}. [${msg.role}] ${msg.content}`);
       });
       logger.debug('-'.repeat(60));
     }
