@@ -32,7 +32,7 @@ interface ApplySearchReplaceResult {
 }
 
 export const FileEditTool = new class extends ToolBase<ApplySearchReplaceParams, ApplySearchReplaceResult> {
-  public readonly name = 'apply_search_replace';
+  public readonly name = 'file_edit';
   public readonly description = 'Aplica múltiplas substituições de texto em arquivos (busca e substituição cirúrgica)';
   public readonly parameterSchema = ApplySearchReplaceParams;
 
