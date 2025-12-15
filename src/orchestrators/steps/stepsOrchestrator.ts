@@ -1,4 +1,5 @@
-import type { StepsDeps, StepsConfig, OrchestrationState, Step, StepContext } from '@/orchestrators/steps/interfaces';
+import type { StepsDeps, StepsConfig, OrchestrationState, Step, StepContext, AgentStepConfig, IStepsOrchestrator } from '@/orchestrators/steps/interfaces';
+import type { AgentLLMConfig } from '../../agent';
 import { ToolDetector, ToolExecutor } from '../../tools';
 import { PromptBuilder } from '@/promptBuilder';
 import { AGENT_MODES } from '@/llmModes';
@@ -68,11 +69,13 @@ import type { AgentMode } from '@/llmModes';
  * @see {@link Step} Para definição de steps
  * @see {@link OrchestrationState} Para estado da orquestração
  */
-export class StepsOrchestrator {
+export class StepsOrchestrator implements IStepsOrchestrator {
   /** Dependências necessárias para execução */
   private readonly deps: StepsDeps;
   /** Configuração do orquestrador */
   private readonly config: StepsConfig;
+  /** Lista de agentes para execução sequencial */
+  private readonly agentConfigs: AgentStepConfig[] = [];
 
   /**
    * Construtor do StepsOrchestrator.
@@ -94,6 +97,135 @@ export class StepsOrchestrator {
   constructor(deps: StepsDeps, config: StepsConfig) {
     this.deps = deps;
     this.config = config;
+  }
+
+  /**
+   * Adiciona um agente à sequência de execução.
+   * 
+   * Este método permite configurar múltiplos agentes que serão executados
+   * sequencialmente. Cada agente terá sua própria configuração e será
+   * executado até completar (final_answer) antes de passar para o próximo.
+   * 
+   * @param config Configuração do agente a ser adicionado.
+   * @returns Instância do orquestrador para encadeamento (fluent interface).
+   * 
+   * @example
+   * ```typescript
+   * const orchestrator = new StepsOrchestrator(deps, baseConfig);
+   * await orchestrator
+   *   .addAgent({ mode: 'REACT', agentInfo: { name: 'Agent1' } })
+   *   .addAgent({ mode: 'REACT', agentInfo: { name: 'Agent2' } })
+   *   .run('Input inicial');
+   * ```
+   */
+  public addAgent(config: AgentStepConfig): this {
+    this.agentConfigs.push(config);
+    return this;
+  }
+
+  /**
+   * Executa uma sequência de agentes configurados.
+   * 
+   * Este método executa todos os agentes adicionados via addAgent() em sequência.
+   * Cada agente é executado até sua conclusão antes de passar para o próximo.
+   * 
+   * @param input Input inicial para o primeiro agente.
+   * @returns Resultado final da execução com estado e possível pendingAskUser.
+   * 
+   * @example
+   * ```typescript
+   * const result = await orchestrator.executeAgents('Processar pedido');
+   * console.log('Resultado:', result.final);
+   * ```
+   */
+  public async executeAgents(input: string): Promise<{
+    final: string | null;
+    state: OrchestrationState;
+    pendingAskUser?: { question: string; details?: string };
+  }> {
+    let currentInput = input;
+    let finalResult: string | null = null;
+    let finalState: OrchestrationState = { data: {}, final: undefined, lastModelOutput: null };
+    let pendingAskUser: { question: string; details?: string } | undefined;
+
+    // Se não há agentes configurados, usa o comportamento padrão
+    if (this.agentConfigs.length === 0) {
+      return this.runFlow(input);
+    }
+
+    // Executa cada agente em sequência
+    for (const agentConfig of this.agentConfigs) {
+      // Cria uma cópia das dependências se necessário para LLM específico
+      const deps = await this.prepareDepsForAgent(agentConfig);
+      
+      // Cria um orquestrador temporário para este agente
+      const tempOrchestrator = new StepsOrchestrator(deps, {
+        mode: agentConfig.mode,
+        agentInfo: agentConfig.agentInfo,
+        additionalInstructions: agentConfig.additionalInstructions,
+        tools: agentConfig.tools,
+        taskList: agentConfig.taskList
+      });
+
+      const result = await tempOrchestrator.runFlow(currentInput);
+      
+      // Atualiza estado acumulado
+      finalState.data = { ...finalState.data, ...result.state.data };
+      finalState.lastModelOutput = result.state.lastModelOutput;
+      
+      // Se houver pergunta pendente, interrompe a execução
+      if (result.pendingAskUser) {
+        pendingAskUser = result.pendingAskUser;
+        break;
+      }
+      
+      // Atualiza input para o próximo agente
+      currentInput = result.final || '';
+      finalResult = result.final;
+    }
+
+    finalState.final = finalResult ?? undefined;
+    return { final: finalResult, state: finalState, pendingAskUser };
+  }
+
+  /**
+   * Prepara as dependências para um agente específico.
+   * 
+   * @param agentConfig Configuração do agente.
+   * @returns Dependências preparadas para o agente.
+   */
+  private async prepareDepsForAgent(agentConfig: AgentStepConfig): Promise<StepsDeps> {
+    // Se o agente tem sua própria configuração LLM, cria uma nova instância
+    if (agentConfig.llm && this.isLLMConfig(agentConfig.llm)) {
+      const { AgentLLM } = await import('../../agent');
+      const llmInstance = new AgentLLM(agentConfig.llm as AgentLLMConfig);
+      
+      return {
+        memory: this.deps.memory,
+        llm: llmInstance
+      };
+    }
+    
+    // Se o agente tem uma instância LLM, usa ela diretamente
+    if (agentConfig.llm && !this.isLLMConfig(agentConfig.llm)) {
+      return {
+        memory: this.deps.memory,
+        llm: agentConfig.llm as any
+      };
+    }
+    
+    // Caso contrário, usa as dependências globais
+    return this.deps;
+  }
+
+  /**
+   * Verifica se um objeto é LLMConfig.
+   * 
+   * @param obj Objeto a verificar.
+   * @returns True se for LLMConfig, false se for instância AgentLLM.
+   */
+  private isLLMConfig(obj: any): obj is AgentLLMConfig {
+    return obj && typeof obj === 'object' && 'model' in obj && !('invoke' in obj);
   }
 
   /**

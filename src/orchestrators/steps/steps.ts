@@ -1,6 +1,6 @@
 // src/orchestrators/steps/steps.ts
-import type { Step, StepResultUpdate, StepProviderOptions } from '@/orchestrators/steps/interfaces';
-import { AgentLLM } from '@/agent';
+import type { Step, StepResultUpdate, StepProviderOptions, AgentStepConfig } from '@/orchestrators/steps/interfaces';
+import { AgentLLM, type AgentLLMConfig } from '@/agent';
 
 /**
  * Step que invoca o AgentLLM usando a memória atual.
@@ -21,6 +21,50 @@ export const stepAgent = (id: string): Step => ({
     return { data: { metadata } };
   },
 });
+
+/**
+ * Cria um step de agente com suporte a LLMConfig.
+ * Similar ao createAgentNode do Graph Engine.
+ * 
+ * @param id ID do step
+ * @param config Configuração do agente (pode incluir LLMConfig)
+ * @returns Step configurado
+ */
+export const createStepAgent = (id: string, config: AgentStepConfig): Step => ({
+  id,
+  async run(ctx): Promise<StepResultUpdate> {
+    // Determina qual LLM usar
+    let llm = ctx.deps.llm;
+    
+    // Se a configuração tem LLMConfig, cria nova instância
+    if (config.llm && isLLMConfig(config.llm)) {
+      llm = new AgentLLM(config.llm);
+    } else if (config.llm && !isLLMConfig(config.llm)) {
+      // Se é instância de AgentLLM, usa diretamente
+      llm = config.llm;
+    }
+    
+    const messages = ctx.deps.memory.getTrimmedHistory();
+    const { content, metadata } = await llm.invoke({
+      messages,
+      mode: config.mode,
+      agentInfo: config.agentInfo,
+      additionalInstructions: config.additionalInstructions,
+      tools: config.tools
+    });
+    
+    ctx.deps.memory.addMessage({ role: 'assistant', content: content ?? '' });
+    return { data: { metadata } };
+  },
+});
+
+/**
+ * Verifica se um objeto é LLMConfig.
+ * Função auxiliar para distinguish entre LLMConfig e instância AgentLLM.
+ */
+function isLLMConfig(obj: any): obj is AgentLLMConfig {
+  return obj && typeof obj === 'object' && 'model' in obj && !('invoke' in obj);
+}
 
 /**
  * Step que finaliza a orquestração com valor do estado.

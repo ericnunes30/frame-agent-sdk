@@ -1,5 +1,5 @@
-import { toolRegistry } from '@/tools/core/toolRegistry';
-import type { IToolCall, IToolResult } from '@/tools/core/interfaces';
+import { toolRegistry } from './toolRegistry';
+import type { IToolCall, IToolResult } from './interfaces';
 import { logger } from '@/utils/logger';
 
 /**

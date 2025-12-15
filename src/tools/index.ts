@@ -3,7 +3,7 @@
 
 // Contratos base
 export { ITool, IToolParams, IToolCall, IToolResult } from '@/tools/core/interfaces';
-export { ToolExecutor } from '@/tools/core/toolExecutor';
+export { ToolExecutor } from './core/toolExecutor';
 
 // Componentes da arquitetura SAP
 export { ToolBase } from '@/tools/constructor/toolBase';
