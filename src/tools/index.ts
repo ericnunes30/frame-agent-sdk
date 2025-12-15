@@ -19,6 +19,13 @@ export { FinalAnswerParams, FinalAnswerTool } from '@/tools/tools/finalAnswerToo
 export { ApprovalParams, ApprovalTool } from '@/tools/tools/approvalTool';
 export { ToDoIstParams, ToDoIstTool } from '@/tools/tools/toDoIstTool';
 
+// Ferramentas de Sistema e Arquivo
+export { FileReadTool } from '@/tools/tools/fileReadTool';
+export { FileEditTool } from '@/tools/tools/fileEditTool';
+export { FileCreateTool } from '@/tools/tools/fileCreateTool';
+export { TerminalTool } from '@/tools/tools/terminalTool';
+export { SearchTool, SearchTypeEnum, MatchCaseEnum, SearchModeEnum } from '@/tools/tools/searchTool';
+
 // Ferramentas Externas para MCP
 export { MCPClient, MCPTransport } from '@/tools/tools/mcp'
 export { MCPToolWrapper } from '@/tools/tools/mcp'
