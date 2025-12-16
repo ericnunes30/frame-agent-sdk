@@ -1,24 +1,34 @@
 {
-  "name": "frame-agent-sdk",
+  "name": "@ericnunes/frame-agent-sdk",
   "version": "0.0.1",
   "description": "Framework criador de agentes com motor baseado em grafos, módulos reutilizáveis e um orchestrator baseado em steps muito simples e fácil de configurar.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./agent": {
+      "import": "./dist/agent/index.js",
+      "require": "./dist/agent/index.js",
+      "types": "./dist/agent/index.d.ts"
+    },
     "./agents": {
-      "import": "./dist/agents/index.js",
-      "require": "./dist/agents/index.js",
-      "types": "./dist/agents/index.d.ts"
+      "import": "./dist/agent/index.js",
+      "require": "./dist/agent/index.js",
+      "types": "./dist/agent/index.d.ts"
+    },
+    "./llmModes": {
+      "import": "./dist/llmModes/index.js",
+      "require": "./dist/llmModes/index.js",
+      "types": "./dist/llmModes/index.d.ts"
     },
     "./llm": {
-      "import": "./dist/llm/index.js",
-      "require": "./dist/llm/index.js",
-      "types": "./dist/llm/index.d.ts"
+      "import": "./dist/llmModes/index.js",
+      "require": "./dist/llmModes/index.js",
+      "types": "./dist/llmModes/index.d.ts"
     },
     "./memory": {
       "import": "./dist/memory/index.js",
@@ -56,8 +66,17 @@
       "types": "./dist/tools/tools/mcp/index.d.ts"
     }
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "prepare": "npm run build",
     "clean:src": "bash scripts/clean-src-js.sh",
     "clean:all": "rm -rf dist/ && npm run clean:src",
     "test": "jest",
@@ -71,11 +90,10 @@
     "framework"
   ],
   "author": "Eric Nunes",
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ericnunes30/frame-agent-sdk.git"
+    "url": "git+https://github.com/ericnunes30/frame-agent-sdk.git"
   },
   "bugs": {
     "url": "https://github.com/ericnunes30/frame-agent-sdk/issues"
