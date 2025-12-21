@@ -29,6 +29,37 @@ export class SAPParser {
     }
 
     /**
+     * Converte o formato ReAct com "Action Input" para o formato SAP esperado.
+     *
+     * Converte:
+     * Action: toolName
+     * Action Input: { ... }
+     *
+     * Para:
+     * Action: toolName = { ... }
+     */
+    private static convertActionInputFormat(text: string): string {
+        const actionLine = text.match(/(Action|AÃ§Ã£o|Acao)\s*:\s*([A-Za-z0-9_:\/-]+)\s*(?:\r?\n|$)/i);
+        if (!actionLine || actionLine.index === undefined) return text;
+
+        const toolName = actionLine[2];
+        const afterAction = text.slice(actionLine.index + actionLine[0].length);
+        const inputHeader = afterAction.match(/Action Input\s*:\s*/i);
+        if (!inputHeader || inputHeader.index === undefined) return text;
+
+        const inputStart = actionLine.index + actionLine[0].length + inputHeader.index + inputHeader[0].length;
+        const braceStart = text.indexOf('{', inputStart);
+        if (braceStart < 0) return text;
+
+        const rawJson = this.extractBalancedJson(text, braceStart);
+        if (!rawJson) return text;
+
+        const before = text.slice(0, actionLine.index);
+        const after = text.slice(braceStart + rawJson.length);
+        return `${before}Action: ${toolName} = ${rawJson}${after}`;
+    }
+
+    /**
      * Corrige formatação comum de saída do LLM para o padrão esperado
      * Converte: "Action: tool {" -> "Action: tool = {"
      *          "Action: tool: {" -> "Action: tool = {"
@@ -56,7 +87,9 @@ export class SAPParser {
     }
 
     public static parseAndValidate(rawLLMOutput: string): IToolCall | ISAPError {
-        const normalized = this.stripCodeFences(rawLLMOutput || '');
+        let normalized = this.stripCodeFences(rawLLMOutput || '');
+        normalized = this.convertActionInputFormat(normalized);
+        normalized = this.correctActionHeader(normalized);
 
         // Fallback: mapear "Final: ..." para final_answer
         const finalMatch = normalized.match(/Final\s*:\s*([\s\S]+)/i);
@@ -69,7 +102,7 @@ export class SAPParser {
             return {
                 message: "Não foi possível extrair uma chamada de ferramenta (esperado: 'Action: toolName = {...}').",
                 rawOutput: rawLLMOutput,
-                llmHint: "Start with: Action: <toolName> = { ... } and ensure valid JSON.",
+                llmHint: "Use: Action: <toolName> = { ... } (ou Action: <toolName>\\nAction Input: { ... }) com JSON válido.",
             } as ISAPError;
         }
 

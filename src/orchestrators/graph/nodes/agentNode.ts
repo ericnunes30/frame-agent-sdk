@@ -168,6 +168,7 @@ async function invokeAgent(args: {
       trace: args.trace,
       telemetry: args.telemetry,
       traceContext: args.traceContext,
+      contextHooks: args.options.contextHooks,
     });
   }
 
@@ -187,5 +188,6 @@ async function invokeAgent(args: {
     trace: args.trace,
     telemetry: args.telemetry,
     traceContext: args.traceContext,
+    contextHooks: args.options.contextHooks,
   });
 }

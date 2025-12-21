@@ -11,27 +11,30 @@ export interface ValidationResponse {
 
 /**
  * Valida se o output do LLM segue o formato ReAct correto do SAP (Schema Aligned Parsing)
- * 
- * Formato esperado:
+ *
+ * Formatos aceitos:
  * Thought: [pensamento do modelo]
- * Action: [nome_da_ferramenta] = { [JSON com parâmetros] }
- * 
- * @param output - Texto gerado pelo LLM para validação
- * @returns Objeto com resultado da validação
+ * Action: [nome_da_ferramenta] = { [JSON com parÃ¢metros] }
+ *
+ * ou:
+ * Thought: [pensamento do modelo]
+ * Action: [nome_da_ferramenta]
+ * Action Input: { [JSON com parÃ¢metros] }
+ *
+ * @param output - Texto gerado pelo LLM para validaÃ§Ã£o
+ * @returns Objeto com resultado da validaÃ§Ã£o
  */
 export function validateReActFormat(output: string): ValidationResponse {
-  // Verificar se o output está vazio
   if (!output || output.trim().length === 0) {
     return {
       isValid: false,
       error: {
-        message: 'Output vazio ou inválido',
+        message: 'Output vazio ou invÃ¡lido',
         type: 'format'
       }
     };
   }
 
-  // Verificar se contém as seções obrigatórias
   const hasThought = output.includes('Thought:');
   const hasAction = output.includes('Action:');
 
@@ -39,7 +42,7 @@ export function validateReActFormat(output: string): ValidationResponse {
     return {
       isValid: false,
       error: {
-        message: 'Seção "Thought:" não encontrada. Por favor, inclua seu pensamento antes da ação.',
+        message: 'SeÃ§Ã£o "Thought:" nÃ£o encontrada. Por favor, inclua seu pensamento antes da aÃ§Ã£o.',
         type: 'missing_thought'
       }
     };
@@ -49,42 +52,92 @@ export function validateReActFormat(output: string): ValidationResponse {
     return {
       isValid: false,
       error: {
-        message: 'Seção "Action:" não encontrada. Por favor, especifique a ação a ser executada.',
+        message: 'SeÃ§Ã£o "Action:" nÃ£o encontrada. Por favor, especifique a aÃ§Ã£o a ser executada.',
         type: 'missing_action'
       }
     };
   }
 
-  // Verificar se Action tem o formato correto com parâmetros em JSON
-  const actionMatch = output.match(/Action:\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*({[\s\S]*?})(?:\n|$)/);
-  if (!actionMatch) {
-    return {
-      isValid: false,
-      error: {
-        message: 'Formato de Action inválido. Use: Action: <toolName> = { "param": value }',
-        type: 'format'
-      }
-    };
-  }
+  const directMatch = output.match(/Action:\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*({[\s\S]*?})(?:\r?\n|$)/);
 
-  // Verificar se o JSON de parâmetros é válido
-  const jsonParams = actionMatch[2];
-  if (jsonParams) {
-    try {
-      JSON.parse(jsonParams.trim());
-    } catch (e) {
+  let jsonParams: string | null = null;
+  if (directMatch) {
+    jsonParams = directMatch[2];
+  } else {
+    const actionLine = output.match(/Action:\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*(?:\r?\n|$)/);
+    if (!actionLine || actionLine.index === undefined) {
+      return invalidActionFormat();
+    }
+
+    const afterAction = output.slice(actionLine.index + actionLine[0].length);
+    const inputHeader = afterAction.match(/Action Input\s*:\s*/i);
+    if (!inputHeader || inputHeader.index === undefined) {
+      return invalidActionFormat();
+    }
+
+    const inputStart = actionLine.index + actionLine[0].length + inputHeader.index + inputHeader[0].length;
+    const braceStart = output.indexOf('{', inputStart);
+    if (braceStart < 0) {
       return {
         isValid: false,
         error: {
-          message: 'Parâmetros da Action não estão em formato JSON válido. Por favor, verifique a formatação.',
+          message: 'Action Input nÃ£o contÃ©m um objeto JSON (esperado: { ... }).',
+          type: 'format'
+        }
+      };
+    }
+
+    jsonParams = extractBalancedJson(output, braceStart);
+    if (!jsonParams) {
+      return {
+        isValid: false,
+        error: {
+          message: 'ParÃ¢metros da Action nÃ£o estÃ£o balanceados (chaves { } incompletas).',
           type: 'invalid_json'
         }
       };
     }
   }
 
-  // Se todas as validações passaram
+  if (jsonParams) {
+    try {
+      JSON.parse(jsonParams.trim());
+    } catch {
+      return {
+        isValid: false,
+        error: {
+          message: 'ParÃ¢metros da Action nÃ£o estÃ£o em formato JSON vÃ¡lido. Por favor, verifique a formataÃ§Ã£o.',
+          type: 'invalid_json'
+        }
+      };
+    }
+  }
+
+  return { isValid: true };
+}
+
+function invalidActionFormat(): ValidationResponse {
   return {
-    isValid: true
+    isValid: false,
+    error: {
+      message: 'Formato de Action invÃ¡lido. Use: Action: <toolName> = { ... } ou Action: <toolName> + Action Input: { ... }',
+      type: 'format'
+    }
   };
 }
+
+function extractBalancedJson(text: string, startIndex: number): string | null {
+  let depth = 0;
+  for (let i = startIndex; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '{') depth++;
+    if (ch === '}') {
+      depth--;
+      if (depth === 0) {
+        return text.slice(startIndex, i + 1);
+      }
+    }
+  }
+  return null;
+}
+

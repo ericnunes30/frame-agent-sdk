@@ -68,3 +68,7 @@ export {
     /** Gerenciador principal de histórico com truncamento inteligente */
     ChatHistoryManager 
 } from './chatHistoryManager';
+
+// ==================== Extensões (Hooks) ====================
+
+export type { ContextHooks, ContextBeforeRequestResult, ContextOnErrorResult } from './contextHooks.interface';

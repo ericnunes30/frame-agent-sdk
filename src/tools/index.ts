@@ -13,6 +13,10 @@ export { SAPParser, ISAPError } from '@/tools/constructor/sapParser'; // Adicion
 export { validateToolParams, formatIssuesForLLM } from '@/tools/core/toolValidator';
 export { ToolDetector, ToolDetectionResult } from '@/tools/core/toolDetector';
 
+// Policy (allow/deny)
+export { applyToolPolicyToToolNames, applyToolPolicyToToolSchemas, isToolAllowedByPolicy } from '@/tools/policy';
+export type { ToolPolicy } from '@/tools/policy';
+
 // Ferramentas Nativas
 export { AskUserParams, AskUserTool } from '@/tools/tools/askUserTool';
 export { FinalAnswerParams, FinalAnswerTool } from '@/tools/tools/finalAnswerTool';

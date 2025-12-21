@@ -71,8 +71,8 @@ function createAskUserNode(behavior: 'finish' | 'pause'): GraphNode {
   };
 }
 
-function createSafeToolExecutorNode(): GraphNode {
-  const inner = createToolExecutorNode();
+function createSafeToolExecutorNode(toolPolicy?: import('@/tools/policy/toolPolicy.interface').ToolPolicy): GraphNode {
+  const inner = createToolExecutorNode({ toolPolicy });
   return async (state, engine): Promise<GraphNodeResult> => {
     try {
       return await inner(state, engine);
@@ -123,7 +123,10 @@ export function createAgentFlowTemplate(options: AgentFlowTemplateOptions): Grap
   const agentNode = createAgentNode(options.agent);
   const reactValidationNode = createReactValidationNode();
   const toolDetectionNode = options.toolDetection ?? createToolDetectionNode();
-  const toolExecutorNode = options.toolExecutor ?? createSafeToolExecutorNode();
+  const toolPolicy = (options.agent as any)?.promptConfig?.toolPolicy as
+    | import('@/tools/policy/toolPolicy.interface').ToolPolicy
+    | undefined;
+  const toolExecutorNode = options.toolExecutor ?? createSafeToolExecutorNode(toolPolicy);
   const askUserNode = createAskUserNode(policies.askUserBehavior);
 
   const endNode: GraphNode = async (): Promise<GraphNodeResult> => ({ status: GraphStatus.FINISHED });
