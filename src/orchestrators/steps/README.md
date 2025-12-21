@@ -153,6 +153,23 @@ console.log('Estado final:', result.state);
 return processAgentResult(result);
 ```
 
+### Step de Subfluxo
+
+O `createStepSubflow` executa um subfluxo registrado e aplica automaticamente o `SharedPatch` em `state.data.shared`.
+
+```typescript
+import { createStepSubflow, stepFinalize } from '@/orchestrators/steps';
+import { FlowRegistryImpl, FlowRunnerImpl } from '@/flows';
+
+const registry = new FlowRegistryImpl();
+const runner = new FlowRunnerImpl(registry);
+
+const steps: Step[] = [
+  createStepSubflow('subflow', { runner, flowId: 'meu-subfluxo' }),
+  stepFinalize('final', 'shared')
+];
+```
+
 ## Structured Action Protocol (SAP)
 
 O modo REACT utiliza SAP para comunicação estruturada com ferramentas:

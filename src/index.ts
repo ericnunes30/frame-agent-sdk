@@ -10,6 +10,9 @@ export * from './memory';
 // Exportar orquestradores
 export * from './orchestrators';
 
+// Exportar flows
+export * from './flows';
+
 // Exportar prompt builder
 export * from './promptBuilder';
 
