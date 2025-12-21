@@ -41,6 +41,7 @@ export interface AgentInfo {
 
 // Import da interface de tool
 import type { ITool } from '@/tools/core/interfaces';
+import type { ToolPolicy } from '@/tools/policy/toolPolicy.interface';
 
 /** 
  * Schema de uma ferramenta para uso no System Prompt.
@@ -175,6 +176,12 @@ export interface PromptBuilderConfig {
    * @example ['search', 'file_create', 'terminal']
    */
   toolNames?: string[];
+
+  /**
+   * Política de ferramentas (allow/deny) aplicada antes de expor tools no prompt.
+   * Útil para cenários multi‑agente (Supervisor/Planner/Executor) sem duplicar filtros no app.
+   */
+  toolPolicy?: ToolPolicy;
   
   /** 
    * Lista de tarefas para acompanhamento no prompt.

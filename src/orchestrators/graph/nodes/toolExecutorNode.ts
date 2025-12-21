@@ -5,13 +5,38 @@ import { logger } from '@/utils/logger';
 import type { SharedState } from '@/flows/interfaces/sharedState.interface';
 import { applySharedPatch } from '@/flows/utils/sharedPatchApplier';
 import { createTraceId } from '@/telemetry/utils/id';
+import type { ToolPolicy } from '@/tools/policy/toolPolicy.interface';
+import { isToolAllowedByPolicy } from '@/tools/policy/toolPolicyApplier';
 
-export function createToolExecutorNode(): GraphNode {
+export function createToolExecutorNode(options?: { toolPolicy?: ToolPolicy }): GraphNode {
   return async (state, engine): Promise<GraphNodeResult> => {
     const call = state.lastToolCall;
     if (!call) {
       logger.warn('[ToolExecutorNode] No pending tool call');
       return { logs: ['No pending tool call'], lastToolCall: undefined };
+    }
+
+    if (options?.toolPolicy && !isToolAllowedByPolicy(call.toolName, options.toolPolicy)) {
+      engine.emitTrace(state, {
+        type: 'custom:tool_execution_denied',
+        level: 'warn',
+        tool: { name: call.toolName, toolCallId: call.toolCallId, params: call.params },
+        message: 'Tool denied by policy',
+      });
+
+      engine.addMessage({
+        role: 'system',
+        content: `Tool "${call.toolName}" is not allowed. Use only the tools exposed in the prompt.`,
+      });
+
+      return {
+        lastToolCall: undefined,
+        metadata: {
+          ...(state.metadata ?? {}),
+          toolPolicyViolation: { toolName: call.toolName },
+        },
+        logs: [`Tool denied by policy: ${call.toolName}`],
+      };
     }
 
     logger.info(`[ToolExecutorNode] Executando tool call:`, JSON.stringify(call));

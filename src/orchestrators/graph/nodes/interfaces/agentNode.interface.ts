@@ -1,6 +1,7 @@
 import type { PromptBuilderConfig, PromptMode, AgentInfo, ToolSchema } from '@/promptBuilder';
 import type { AgentLLM, AgentLLMConfig } from '@/agent';
 import type { Message } from '@/memory';
+import type { ContextHooks } from '@/memory';
 
 export interface IAgentNodeOptions {
   llm: AgentLLM | AgentLLMConfig;
@@ -35,4 +36,10 @@ export interface IAgentNodeOptions {
    * @default false
    */
   skipMemoryCommit?: boolean;
+
+  /**
+   * Hooks de contexto para trimming/rewrite e retry (ex.: overflow handling).
+   * Permite que apps (ex.: code-cli) pluguem estratégias avançadas sem wrappers de Graph.
+   */
+  contextHooks?: ContextHooks;
 }

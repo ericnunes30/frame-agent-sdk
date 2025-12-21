@@ -7,6 +7,7 @@ import {
 import { logger } from '@/utils/logger';
 import { toolRegistry } from '@/tools/core/toolRegistry';
 import { generateTypedSchema } from '@/tools/constructor/schemaGenerator';
+import { applyToolPolicyToToolNames, applyToolPolicyToToolSchemas } from '@/tools/policy/toolPolicyApplier';
 
 /**
  * Classe utilitária estática para gerenciar e construir System Prompts
@@ -250,7 +251,7 @@ export class PromptBuilder {
    * @see {@link PromptBuilderConfig} Para formato da configuração
    */
   public static buildSystemPrompt(config: PromptBuilderConfig): string {
-    const { mode, agentInfo, additionalInstructions, tools, toolNames } = config;
+    const { mode, agentInfo, additionalInstructions, tools, toolNames, toolPolicy } = config;
 
     // Validação básica da configuração
     if (!mode) {
@@ -264,8 +265,12 @@ export class PromptBuilder {
     // Determinar tools a usar: ou as já fornecidas, ou converter de toolNames
     let finalTools: ToolSchema[] | undefined = tools;
     if (!finalTools && toolNames && toolNames.length > 0) {
-      finalTools = PromptBuilder.buildToolSchemasByNames(toolNames);
+      const filteredNames = applyToolPolicyToToolNames(toolNames, toolPolicy);
+      finalTools = PromptBuilder.buildToolSchemasByNames(filteredNames);
     }
+
+    // Se tools foram fornecidas diretamente (ou geradas), aplicar policy na lista final.
+    finalTools = applyToolPolicyToToolSchemas(finalTools, toolPolicy);
 
     const parts: string[] = [];
 
@@ -475,6 +480,8 @@ export class PromptBuilder {
     agentInfo?: AgentInfo;
     additionalInstructions?: string;
     tools?: ToolSchema[];
+    toolNames?: string[];
+    toolPolicy?: import('@/tools/policy/toolPolicy.interface').ToolPolicy;
     taskList?: { items: Array<{ id: string; title: string; status: 'pending' | 'in_progress' | 'completed' }> };
   }): { systemPrompt: string; source: 'promptConfig' | 'systemPrompt' | 'mode+agentInfo+additionalInstructions' } {
 
@@ -498,6 +505,8 @@ export class PromptBuilder {
         agentInfo: args.agentInfo,
         additionalInstructions: args.additionalInstructions,
         tools: args.tools,
+        toolNames: args.toolNames,
+        toolPolicy: args.toolPolicy,
         taskList: args.taskList,
       };
       return {

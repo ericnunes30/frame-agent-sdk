@@ -10,6 +10,7 @@ import type { AgentLLMConfig, ProviderDefaults } from '../interfaces/agentLLM.in
 import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
 import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
 import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
+import type { ContextHooks } from '@/memory';
 
 /**
  * Cliente LLM especializado para agentes de IA.
@@ -18,40 +19,40 @@ import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.i
  * agentes de IA interagirem com modelos de linguagem, integrando
  * seamlessly com ProviderAdapter e PromptBuilder.
  * 
- * ## Características Principais
+ * ## CaracterÃ­sticas Principais
  * 
- * - **Configuração Fixa**: Mantém modelo e API key fixos para consistência
- * - **Geração Automática de Prompts**: Integração com PromptBuilder para system prompts
- * - **Parâmetros Flexíveis**: Suporte a overrides por chamada
- * - **Integração Completa**: Funciona com todos os provedores suportados
- * - **Metadados Ricos**: Retorna informações detalhadas da execução
+ * - **ConfiguraÃ§Ã£o Fixa**: MantÃ©m modelo e API key fixos para consistÃªncia
+ * - **GeraÃ§Ã£o AutomÃ¡tica de Prompts**: IntegraÃ§Ã£o com PromptBuilder para system prompts
+ * - **ParÃ¢metros FlexÃ­veis**: Suporte a overrides por chamada
+ * - **IntegraÃ§Ã£o Completa**: Funciona com todos os provedores suportados
+ * - **Metadados Ricos**: Retorna informaÃ§Ãµes detalhadas da execuÃ§Ã£o
  * 
- * ## Fluxo de Operação
+ * ## Fluxo de OperaÃ§Ã£o
  * 
- * 1. **Configuração**: Define modelo, API key e parâmetros padrão
- * 2. **Construção de Prompt**: Usa PromptBuilder para gerar system prompt
- * 3. **Execução**: Chama ProviderAdapter com configuração completa
- * 4. **Retorno**: Fornece conteúdo e metadados da resposta
+ * 1. **ConfiguraÃ§Ã£o**: Define modelo, API key e parÃ¢metros padrÃ£o
+ * 2. **ConstruÃ§Ã£o de Prompt**: Usa PromptBuilder para gerar system prompt
+ * 3. **ExecuÃ§Ã£o**: Chama ProviderAdapter com configuraÃ§Ã£o completa
+ * 4. **Retorno**: Fornece conteÃºdo e metadados da resposta
  * 
- * ## Integração com Módulos
+ * ## IntegraÃ§Ã£o com MÃ³dulos
  * 
- * - **ProviderAdapter**: Para comunicação com provedores LLM
- * - **PromptBuilder**: Para geração automática de system prompts
+ * - **ProviderAdapter**: Para comunicaÃ§Ã£o com provedores LLM
+ * - **PromptBuilder**: Para geraÃ§Ã£o automÃ¡tica de system prompts
  * - **Memory**: Para gerenciamento de mensagens e contexto
  * - **Tools**: Para suporte a ferramentas quando configurado
  * 
  * @example
  * ```typescript
- * // Configuração básica
+ * // ConfiguraÃ§Ã£o bÃ¡sica
  * const agentLLM = new AgentLLM({
  *   model: 'openai-gpt-4',
  *   apiKey: 'sk-...',
  *   defaults: { temperature: 0.7, maxTokens: 1000 }
  * });
  * 
- * // Execução com modo chat
+ * // ExecuÃ§Ã£o com modo chat
  * const result1 = await agentLLM.invoke({
- *   messages: [{ role: 'user', content: 'Olá!' }],
+ *   messages: [{ role: 'user', content: 'OlÃ¡!' }],
  *   mode: 'chat',
  *   agentInfo: {
  *     name: 'Assistant',
@@ -60,7 +61,7 @@ import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.i
  *   }
  * });
  * 
- * // Execução com ferramentas (modo react)
+ * // ExecuÃ§Ã£o com ferramentas (modo react)
  * const result2 = await agentLLM.invoke({
  *   messages: [{ role: 'user', content: 'Calcule 2+2' }],
  *   mode: 'react',
@@ -76,33 +77,33 @@ import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.i
  * console.log(result2.metadata);
  * ```
  * 
- * @see {@link AgentLLMConfig} Para configuração da classe
- * @see {@link ProviderDefaults} Para parâmetros padrão
- * @see {@link PromptBuilder} Para geração de prompts
- * @see {@link ProviderAdapter} Para comunicação com provedores
+ * @see {@link AgentLLMConfig} Para configuraÃ§Ã£o da classe
+ * @see {@link ProviderDefaults} Para parÃ¢metros padrÃ£o
+ * @see {@link PromptBuilder} Para geraÃ§Ã£o de prompts
+ * @see {@link ProviderAdapter} Para comunicaÃ§Ã£o com provedores
  */
 export class AgentLLM {
   /** Modelo de linguagem configurado */
   private readonly model: string;
   /** Chave de API do provedor */
   private readonly apiKey: string;
-  /** Parâmetros padrão de geração */
+  /** ParÃ¢metros padrÃ£o de geraÃ§Ã£o */
   private readonly defaults: ProviderDefaults;
   /** URL base customizada (opcional) */
   private readonly baseUrl?: string;
-  /** Provedor explícito (opcional) */
+  /** Provedor explÃ­cito (opcional) */
   private readonly provider?: string;
 
   /**
-   * Cria uma instância de AgentLLM a partir de uma configuração estruturada.
+   * Cria uma instÃ¢ncia de AgentLLM a partir de uma configuraÃ§Ã£o estruturada.
    * 
-   * Método factory que facilita a criação de instâncias usando
-   * a configuração completa AgentLLMConfig.
+   * MÃ©todo factory que facilita a criaÃ§Ã£o de instÃ¢ncias usando
+   * a configuraÃ§Ã£o completa AgentLLMConfig.
    * 
-   * @param config Configuração completa do AgentLLM.
+   * @param config ConfiguraÃ§Ã£o completa do AgentLLM.
    * Deve incluir model e apiKey obrigatoriamente.
    * 
-   * @returns Nova instância de AgentLLM configurada.
+   * @returns Nova instÃ¢ncia de AgentLLM configurada.
    * 
    * @example
    * ```typescript
@@ -119,7 +120,7 @@ export class AgentLLM {
    * const agentLLM = AgentLLM.fromConfig(config);
    * ```
    * 
-   * @see {@link AgentLLMConfig} Para formato da configuração
+   * @see {@link AgentLLMConfig} Para formato da configuraÃ§Ã£o
    */
   static fromConfig(config: AgentLLMConfig): AgentLLM {
     return new AgentLLM({
@@ -132,22 +133,22 @@ export class AgentLLM {
   }
 
   /**
-   * Cria uma instância de AgentLLM com parâmetros individuais.
+   * Cria uma instÃ¢ncia de AgentLLM com parÃ¢metros individuais.
    * 
-   * Construtor que permite especificar cada parâmetro separadamente,
-   * oferecendo máxima flexibilidade na configuração.
+   * Construtor que permite especificar cada parÃ¢metro separadamente,
+   * oferecendo mÃ¡xima flexibilidade na configuraÃ§Ã£o.
    * 
-   * @param params Parâmetros de configuração.
+   * @param params ParÃ¢metros de configuraÃ§Ã£o.
    * 
    * @example
    * ```typescript
-   * // Configuração simples
+   * // ConfiguraÃ§Ã£o simples
    * const agentLLM1 = new AgentLLM({
    *   model: 'openai-gpt-3.5-turbo',
    *   apiKey: 'sk-...'
    * });
    * 
-   * // Configuração com parâmetros padrão
+   * // ConfiguraÃ§Ã£o com parÃ¢metros padrÃ£o
    * const agentLLM2 = new AgentLLM({
    *   model: 'anthropic-claude-3-sonnet',
    *   apiKey: 'sk-ant-...',
@@ -160,7 +161,7 @@ export class AgentLLM {
    * });
    * ```
    * 
-   * @see {@link ProviderDefaults} Para parâmetros padrão
+   * @see {@link ProviderDefaults} Para parÃ¢metros padrÃ£o
    */
   constructor(params: { model: string; provider?: string; apiKey: string; defaults?: ProviderDefaults; baseUrl?: string }) {
     this.model = params.model;
@@ -171,21 +172,21 @@ export class AgentLLM {
   }
 
   /**
-   * Invoca o modelo de linguagem com parâmetros flexíveis.
+   * Invoca o modelo de linguagem com parÃ¢metros flexÃ­veis.
    * 
-   * Método principal que executa a interação com o LLM. Suporta
-   * tanto system prompts customizados quanto geração automática
+   * MÃ©todo principal que executa a interaÃ§Ã£o com o LLM. Suporta
+   * tanto system prompts customizados quanto geraÃ§Ã£o automÃ¡tica
    * via PromptBuilder usando mode e agentInfo.
    * 
-   * ## Estratégias de Prompt
+   * ## EstratÃ©gias de Prompt
    * 
    * - **systemPrompt direto**: Use systemPrompt para controle total
-   * - **Geração automática**: Use mode + agentInfo para prompts gerados
-   * - **PromptBuilder**: Integração automática com PromptBuilder
+   * - **GeraÃ§Ã£o automÃ¡tica**: Use mode + agentInfo para prompts gerados
+   * - **PromptBuilder**: IntegraÃ§Ã£o automÃ¡tica com PromptBuilder
    * 
-   * @param args Parâmetros de invocação flexíveis.
+   * @param args ParÃ¢metros de invocaÃ§Ã£o flexÃ­veis.
    * 
-   * @returns Promise com conteúdo e metadados da resposta.
+   * @returns Promise com conteÃºdo e metadados da resposta.
    * 
    * @example
    * ```typescript
@@ -196,7 +197,7 @@ export class AgentLLM {
    *   temperature: 0.7
    * });
    * 
-   * // Com geração automática de prompt
+   * // Com geraÃ§Ã£o automÃ¡tica de prompt
    * const result2 = await agentLLM.invoke({
    *   messages: [{ role: 'user', content: 'Help me with math' }],
    *   mode: 'chat',
@@ -208,13 +209,13 @@ export class AgentLLM {
    *   tools: [calculatorTool]
    * });
    * 
-   * // Com parâmetros específicos
+   * // Com parÃ¢metros especÃ­ficos
    * const result3 = await agentLLM.invoke({
    *   messages: messages,
    *   mode: 'react',
    *   agentInfo: agentInfo,
-   *   temperature: 0.3,  // Override do padrão
-   *   maxTokens: 2000,   // Override do padrão
+   *   temperature: 0.3,  // Override do padrÃ£o
+   *   maxTokens: 2000,   // Override do padrÃ£o
    *   stream: true       // Habilitar streaming
    * });
    * ```
@@ -224,66 +225,124 @@ export class AgentLLM {
     messages: Message[];
     /** Modo de prompt (chat, react, etc.) */
     mode?: PromptMode;
-    /** Informações do agente para geração automática de prompt */
+    /** InformaÃ§Ãµes do agente para geraÃ§Ã£o automÃ¡tica de prompt */
     agentInfo?: AgentInfo;
-    /** System prompt customizado (sobrescreve geração automática) */
+    /** System prompt customizado (sobrescreve geraÃ§Ã£o automÃ¡tica) */
     systemPrompt?: string;
-    /** Instruções adicionais para o agente */
+    /** InstruÃ§Ãµes adicionais para o agente */
     additionalInstructions?: string;
-    /** Ferramentas disponíveis para o agente */
+    /** Ferramentas disponÃ­veis para o agente */
     tools?: ToolSchema[];
     /** Lista de tarefas para incluir no prompt */
     taskList?: { items: Array<{ id: string; title: string; status: 'pending' | 'in_progress' | 'completed' }> };
-    /** Temperatura específica para esta chamada */
+    /** Temperatura especÃ­fica para esta chamada */
     temperature?: number;
-    /** TopP específico para esta chamada */
+    /** TopP especÃ­fico para esta chamada */
     topP?: number;
-    /** MaxTokens específico para esta chamada */
+    /** MaxTokens especÃ­fico para esta chamada */
     maxTokens?: number;
     /** Habilitar streaming de resposta */
     stream?: boolean;
-    /** Configuração customizada do PromptBuilder */
+    /** ConfiguraÃ§Ã£o customizada do PromptBuilder */
     promptConfig?: PromptBuilderConfig;
     trace?: TraceSink;
     telemetry?: TelemetryOptions;
     traceContext?: TraceContext;
+    /** Hooks de contexto (trim/rewrite/retry) */
+    contextHooks?: ContextHooks;
   }): Promise<{ content: string | null; metadata?: Record<string, unknown> }> {
-
-
     // 1. Determinar system prompt (customizado ou gerado automaticamente)
     const promptResult = PromptBuilder.determineSystemPrompt(args);
-    const systemPrompt = promptResult.systemPrompt;
+    let systemPrompt = promptResult.systemPrompt;
+    let messages = args.messages;
 
-    // Preview do prompt para debugging (truncado se muito longo)
-    const spPreview = systemPrompt.length > 1000 ? `${systemPrompt.slice(0, 1000)}...` : systemPrompt;
-
-    // 2. Resolver parâmetros (específicos > padrão > fallback)
+    // 2. Resolver parÃ¢metros (especÃ­ficos > padrÃ£o > fallback)
     const temperature = args.temperature ?? this.defaults.temperature ?? 0.5;
     const topP = args.topP ?? this.defaults.topP;
     const maxTokens = args.maxTokens ?? this.defaults.maxTokens;
     const stream = args.stream ?? false;
 
-    // 3. Configurar ProviderAdapter
-    const config: ProviderConfig = {
-      model: this.model,
-      provider: this.provider,
-      apiKey: this.apiKey,
-      messages: args.messages,
-      systemPrompt,
-      temperature,
-      stream,
-      topP,
-      maxTokens,
-      baseUrl: this.baseUrl,
-      trace: args.trace,
-      telemetry: args.telemetry,
-      traceContext: args.traceContext,
-    };
+    // 3. Hooks de contexto (trim/rewrite/retry) - retry sem acoplar no orchestrator
+    const hooks = args.contextHooks;
+    const maxRetries = Math.max(0, hooks?.maxRetries ?? 0);
 
-    // 4. Executar via ProviderAdapter
-    const resp: IProviderResponse = await ProviderAdapter.chatCompletion(config);
+    let lastError: Error | undefined;
 
-    // 5. Retornar resultado estruturado
-    return { content: resp?.content ?? null, metadata: resp?.metadata };
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        if (hooks?.beforeRequest) {
+          const before = await hooks.beforeRequest({
+            model: this.model,
+            attempt,
+            messages,
+            systemPrompt,
+          });
+
+          if (before?.messages) messages = before.messages;
+          if (typeof before?.systemPrompt === 'string') systemPrompt = before.systemPrompt;
+        }
+
+        const config: ProviderConfig = {
+          model: this.model,
+          provider: this.provider,
+          apiKey: this.apiKey,
+          messages,
+          systemPrompt,
+          temperature,
+          stream,
+          topP,
+          maxTokens,
+          baseUrl: this.baseUrl,
+          trace: args.trace,
+          telemetry: args.telemetry,
+          traceContext: args.traceContext,
+        };
+
+        const resp: IProviderResponse = await ProviderAdapter.chatCompletion(config);
+        return { content: resp?.content ?? null, metadata: resp?.metadata };
+      } catch (rawError) {
+        const error = rawError instanceof Error ? rawError : new Error(String(rawError));
+        lastError = error;
+
+        const isRetryable = hooks?.isRetryableError ? hooks.isRetryableError(error) : defaultIsRetryableError(error);
+        const canRetry = attempt < maxRetries && isRetryable;
+
+        if (!canRetry) throw error;
+
+        if (hooks?.onError) {
+          const decision = await hooks.onError({
+            model: this.model,
+            attempt,
+            error,
+            messages,
+            systemPrompt,
+          });
+
+          if (decision?.messages) messages = decision.messages;
+          if (typeof decision?.systemPrompt === 'string') systemPrompt = decision.systemPrompt;
+
+          if (decision?.retry !== true) throw error;
+        }
+      }
+    }
+
+    throw lastError ?? new Error('AgentLLM.invoke falhou sem erro (estado invÃ¡lido)');
   }
+}
+
+function defaultIsRetryableError(error: Error): boolean {
+  const message = (error.message ?? '').toLowerCase();
+  const keywords = [
+    'maximum context length',
+    'context length exceeded',
+    'maximum tokens',
+    'token limit',
+    'too many tokens',
+    'context window',
+    'tokens exceed',
+    'prompt is too long',
+    'exceeds the maximum',
+  ];
+
+  return keywords.some((k) => message.includes(k));
 }
