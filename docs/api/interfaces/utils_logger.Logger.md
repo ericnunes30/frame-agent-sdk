@@ -34,7 +34,7 @@
 
 #### Defined in
 
-[src/utils/logger.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/utils/logger.ts#L12)
+[src/utils/logger.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/utils/logger.ts#L12)
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 #### Defined in
 
-[src/utils/logger.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/utils/logger.ts#L15)
+[src/utils/logger.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/utils/logger.ts#L15)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-[src/utils/logger.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/utils/logger.ts#L13)
+[src/utils/logger.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/utils/logger.ts#L13)
 
 ___
 
@@ -109,4 +109,4 @@ ___
 
 #### Defined in
 
-[src/utils/logger.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/utils/logger.ts#L14)
+[src/utils/logger.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/utils/logger.ts#L14)

@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPClient.ts:20](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPClient.ts#L20)
+[src/tools/tools/mcp/MCPClient.ts:20](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPClient.ts#L20)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPClient.ts:21](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPClient.ts#L21)
+[src/tools/tools/mcp/MCPClient.ts:21](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPClient.ts#L21)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPClient.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPClient.ts#L19)
+[src/tools/tools/mcp/MCPClient.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPClient.ts#L19)

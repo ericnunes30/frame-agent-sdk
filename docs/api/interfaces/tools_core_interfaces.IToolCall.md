@@ -41,6 +41,7 @@ const result = await ToolExecutor.execute(toolCall);
 
 - [params](tools_core_interfaces.IToolCall.md#params)
 - [thought](tools_core_interfaces.IToolCall.md#thought)
+- [toolCallId](tools_core_interfaces.IToolCall.md#toolcallid)
 - [toolName](tools_core_interfaces.IToolCall.md#toolname)
 
 ## Properties
@@ -54,7 +55,7 @@ Devem ser compatíveis com o parameterSchema da ferramenta especificada.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:251](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/interfaces.ts#L251)
+[src/tools/core/interfaces.ts:251](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L251)
 
 ___
 
@@ -67,7 +68,20 @@ Usado para exibir o raciocínio do agente no terminal.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:257](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/interfaces.ts#L257)
+[src/tools/core/interfaces.ts:263](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L263)
+
+___
+
+### toolCallId
+
+• `Optional` **toolCallId**: `string`
+
+Identificador de correlaÇõÇœo para tool calls (telemetria).
+Permite correlacionar `tool_detected` com `tool_execution_*`.
+
+#### Defined in
+
+[src/tools/core/interfaces.ts:257](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L257)
 
 ___
 
@@ -80,4 +94,4 @@ Deve corresponder ao `name` de uma ferramenta registrada no ToolRegistry.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:245](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/interfaces.ts#L245)
+[src/tools/core/interfaces.ts:245](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L245)

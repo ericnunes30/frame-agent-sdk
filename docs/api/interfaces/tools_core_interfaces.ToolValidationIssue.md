@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:281](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/interfaces.ts#L281)
+[src/tools/core/interfaces.ts:287](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L287)
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:280](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/interfaces.ts#L280)
+[src/tools/core/interfaces.ts:286](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L286)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:279](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/interfaces.ts#L279)
+[src/tools/core/interfaces.ts:285](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L285)

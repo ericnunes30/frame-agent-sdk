@@ -14,4 +14,4 @@
 
 #### Defined in
 
-[src/tools/tools/fileReadTool.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/fileReadTool.ts#L22)
+[src/tools/tools/fileReadTool.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/fileReadTool.ts#L22)

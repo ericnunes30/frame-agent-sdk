@@ -33,7 +33,7 @@ Interface para StepsOrchestrator com suporte a múltiplos agentes
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:86](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L86)
+[src/orchestrators/steps/interfaces.ts:87](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L87)
 
 ___
 
@@ -53,4 +53,4 @@ ___
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:87](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L87)
+[src/orchestrators/steps/interfaces.ts:88](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L88)

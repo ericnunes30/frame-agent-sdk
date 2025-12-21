@@ -23,7 +23,7 @@ Configuração de agente com suporte a LLMConfig ou instância LLM
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L17)
+[src/orchestrators/steps/interfaces.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L17)
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:16](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L16)
+[src/orchestrators/steps/interfaces.ts:16](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L16)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:26](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L26)
+[src/orchestrators/steps/interfaces.ts:26](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L26)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L15)
+[src/orchestrators/steps/interfaces.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L15)
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L19)
+[src/orchestrators/steps/interfaces.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L19)
 
 ___
 
@@ -79,4 +79,4 @@ ___
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:18](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L18)
+[src/orchestrators/steps/interfaces.ts:18](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L18)

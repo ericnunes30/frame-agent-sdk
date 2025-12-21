@@ -161,7 +161,7 @@ informações sobre parâmetros e casos de uso.
 
 #### Defined in
 
-[src/tools/constructor/toolBase.ts:103](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/constructor/toolBase.ts#L103)
+[src/tools/constructor/toolBase.ts:103](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/toolBase.ts#L103)
 
 ___
 
@@ -181,7 +181,7 @@ claras (snake_case recomendado).
 
 #### Defined in
 
-[src/tools/constructor/toolBase.ts:94](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/constructor/toolBase.ts#L94)
+[src/tools/constructor/toolBase.ts:94](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/toolBase.ts#L94)
 
 ___
 
@@ -207,7 +207,7 @@ O schema é usado para:
 
 #### Defined in
 
-[src/tools/constructor/toolBase.ts:118](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/constructor/toolBase.ts#L118)
+[src/tools/constructor/toolBase.ts:118](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/toolBase.ts#L118)
 
 ## Methods
 
@@ -279,4 +279,4 @@ class FileReaderTool extends ToolBase<FileReaderParams, string> {
 
 #### Defined in
 
-[src/tools/constructor/toolBase.ts:170](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/constructor/toolBase.ts#L170)
+[src/tools/constructor/toolBase.ts:170](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/toolBase.ts#L170)

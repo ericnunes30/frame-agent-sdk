@@ -95,7 +95,7 @@ Log detalhado das informações do prompt para debugging.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.ts:192](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/adapter/providerAdapter.ts#L192)
+[src/providers/adapter/providerAdapter.ts:259](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.ts#L259)
 
 ___
 
@@ -175,7 +175,7 @@ for await (const chunk of streamResponse) {
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.ts:106](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/adapter/providerAdapter.ts#L106)
+[src/providers/adapter/providerAdapter.ts:108](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.ts#L108)
 
 ___
 
@@ -213,4 +213,4 @@ if (ProviderAdapter.hasProvider('anthropic')) {
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.ts:176](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/adapter/providerAdapter.ts#L176)
+[src/providers/adapter/providerAdapter.ts:243](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.ts#L243)

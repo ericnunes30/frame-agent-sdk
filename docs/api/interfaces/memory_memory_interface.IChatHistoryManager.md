@@ -83,7 +83,7 @@ history.addMessage({
 
 #### Defined in
 
-[src/memory/memory.interface.ts:154](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L154)
+[src/memory/memory.interface.ts:154](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L154)
 
 ___
 
@@ -124,7 +124,7 @@ history.addSystemPrompt(`
 
 #### Defined in
 
-[src/memory/memory.interface.ts:179](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L179)
+[src/memory/memory.interface.ts:179](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L179)
 
 ___
 
@@ -160,7 +160,7 @@ history.addSystemPrompt(''); // Remove prompt também
 
 #### Defined in
 
-[src/memory/memory.interface.ts:251](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L251)
+[src/memory/memory.interface.ts:251](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L251)
 
 ___
 
@@ -201,7 +201,7 @@ history.deleteMessageRange('msg-start', 'msg-end');
 
 #### Defined in
 
-[src/memory/memory.interface.ts:297](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L297)
+[src/memory/memory.interface.ts:297](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L297)
 
 ___
 
@@ -242,7 +242,7 @@ history.editMessage('msg-456', 'Versão compactada da mensagem original');
 
 #### Defined in
 
-[src/memory/memory.interface.ts:274](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L274)
+[src/memory/memory.interface.ts:274](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L274)
 
 ___
 
@@ -275,7 +275,7 @@ const totalMessages = fullHistory.length;
 
 #### Defined in
 
-[src/memory/memory.interface.ts:338](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L338)
+[src/memory/memory.interface.ts:338](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L338)
 
 ___
 
@@ -311,7 +311,7 @@ if (message) {
 
 #### Defined in
 
-[src/memory/memory.interface.ts:317](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L317)
+[src/memory/memory.interface.ts:317](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L317)
 
 ___
 
@@ -344,7 +344,7 @@ if (remaining < 100) {
 
 #### Defined in
 
-[src/memory/memory.interface.ts:228](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L228)
+[src/memory/memory.interface.ts:228](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L228)
 
 ___
 
@@ -385,7 +385,7 @@ const response = await provider.chat(messages);
 
 #### Defined in
 
-[src/memory/memory.interface.ts:207](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L207)
+[src/memory/memory.interface.ts:207](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L207)
 
 ___
 
@@ -429,4 +429,4 @@ history.importHistory([
 
 #### Defined in
 
-[src/memory/memory.interface.ts:365](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L365)
+[src/memory/memory.interface.ts:365](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L365)

@@ -75,7 +75,7 @@ additionalInstructions: 'Use simple language and examples'
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:993](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L993)
+[src/agent/interfaces/IAgentRegistry.ts:993](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L993)
 
 ___
 
@@ -103,7 +103,7 @@ context: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:1089](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L1089)
+[src/agent/interfaces/IAgentRegistry.ts:1089](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L1089)
 
 ___
 
@@ -126,7 +126,7 @@ maxTokens: 4000  // Resposta longa
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:1054](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L1054)
+[src/agent/interfaces/IAgentRegistry.ts:1054](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L1054)
 
 ___
 
@@ -149,7 +149,7 @@ stream: false  // Resposta completa (padrão)
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:1069](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L1069)
+[src/agent/interfaces/IAgentRegistry.ts:1069](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L1069)
 
 ___
 
@@ -172,7 +172,7 @@ temperature: 1.0  // Mais criativo
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:1024](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L1024)
+[src/agent/interfaces/IAgentRegistry.ts:1024](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L1024)
 
 ___
 
@@ -198,7 +198,7 @@ ToolSchema Para formato das ferramentas
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:1009](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L1009)
+[src/agent/interfaces/IAgentRegistry.ts:1009](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L1009)
 
 ___
 
@@ -221,4 +221,4 @@ topP: 1.0   // Sem limitação
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:1039](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L1039)
+[src/agent/interfaces/IAgentRegistry.ts:1039](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L1039)

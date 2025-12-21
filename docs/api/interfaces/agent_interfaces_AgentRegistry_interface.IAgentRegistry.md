@@ -108,7 +108,7 @@ console.log('Total de agentes:', registry.list().length); // 0
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:226](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L226)
+[src/agent/interfaces/AgentRegistry.interface.ts:226](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L226)
 
 ___
 
@@ -153,7 +153,7 @@ if (agent2) {
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:137](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L137)
+[src/agent/interfaces/AgentRegistry.interface.ts:137](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L137)
 
 ___
 
@@ -189,7 +189,7 @@ console.log('Criado em:', stats.createdAt);
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:248](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L248)
+[src/agent/interfaces/AgentRegistry.interface.ts:248](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L248)
 
 ___
 
@@ -226,7 +226,7 @@ if (registry.has('researcher')) {
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:209](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L209)
+[src/agent/interfaces/AgentRegistry.interface.ts:209](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L209)
 
 ___
 
@@ -265,7 +265,7 @@ agents.forEach(agent => {
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:162](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L162)
+[src/agent/interfaces/AgentRegistry.interface.ts:162](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L162)
 
 ___
 
@@ -320,7 +320,7 @@ registry.register('researcher', ResearchAgent, researchConfig, {
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:106](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L106)
+[src/agent/interfaces/AgentRegistry.interface.ts:106](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L106)
 
 ___
 
@@ -362,4 +362,4 @@ if (!registry.has('old-agent')) {
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:188](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L188)
+[src/agent/interfaces/AgentRegistry.interface.ts:188](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L188)

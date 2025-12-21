@@ -54,7 +54,7 @@ Este valor deve corresponder ao limite do modelo de LLM sendo usado:
 
 #### Defined in
 
-[src/memory/memory.interface.ts:406](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L406)
+[src/memory/memory.interface.ts:406](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L406)
 
 ___
 
@@ -78,4 +78,4 @@ Pode ser qualquer implementação da interface ITokenizerService:
 
 #### Defined in
 
-[src/memory/memory.interface.ts:422](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/memory.interface.ts#L422)
+[src/memory/memory.interface.ts:422](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L422)

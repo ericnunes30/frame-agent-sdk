@@ -112,7 +112,7 @@ Construtor - inicializa caminho de persistência e carrega dados existentes
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:152](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L152)
+[src/tools/tools/toDoIstTool.ts:152](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L152)
 
 ## Properties
 
@@ -130,7 +130,7 @@ TaskList da instância atual (sem cache estático)
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:141](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L141)
+[src/tools/tools/toDoIstTool.ts:141](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L141)
 
 ___
 
@@ -146,7 +146,7 @@ Descrição da funcionalidade da ferramenta
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:136](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L136)
+[src/tools/tools/toDoIstTool.ts:136](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L136)
 
 ___
 
@@ -162,7 +162,7 @@ Nome da ferramenta no sistema
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:134](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L134)
+[src/tools/tools/toDoIstTool.ts:134](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L134)
 
 ___
 
@@ -174,7 +174,7 @@ Contador para gerar IDs sequenciais
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:144](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L144)
+[src/tools/tools/toDoIstTool.ts:144](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L144)
 
 ___
 
@@ -190,7 +190,7 @@ Schema de parâmetros para validação
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:138](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L138)
+[src/tools/tools/toDoIstTool.ts:138](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L138)
 
 ___
 
@@ -202,7 +202,7 @@ Caminho para arquivo de persistência
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:147](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L147)
+[src/tools/tools/toDoIstTool.ts:147](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L147)
 
 ## Methods
 
@@ -254,7 +254,7 @@ console.log(result2.observation); // "Status da tarefa task-id-123 atualizado pa
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:283](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L283)
+[src/tools/tools/toDoIstTool.ts:283](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L283)
 
 ___
 
@@ -284,7 +284,7 @@ console.log(tasks.items.length); // Número de tarefas
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:179](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L179)
+[src/tools/tools/toDoIstTool.ts:179](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L179)
 
 ___
 
@@ -302,7 +302,7 @@ Próximo ID numérico como string.
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:188](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L188)
+[src/tools/tools/toDoIstTool.ts:188](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L188)
 
 ___
 
@@ -318,7 +318,7 @@ Carrega a lista e o contador do disco.
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:238](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L238)
+[src/tools/tools/toDoIstTool.ts:238](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L238)
 
 ___
 
@@ -335,7 +335,7 @@ Ordena por ID numérico antes de recalcular para manter ordem correta.
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:196](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L196)
+[src/tools/tools/toDoIstTool.ts:196](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L196)
 
 ___
 
@@ -352,7 +352,7 @@ Reordena tarefas pelo ID (numérico).
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:214](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L214)
+[src/tools/tools/toDoIstTool.ts:214](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L214)
 
 ___
 
@@ -368,4 +368,4 @@ Salva a lista atual e o contador no disco.
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:223](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L223)
+[src/tools/tools/toDoIstTool.ts:223](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L223)

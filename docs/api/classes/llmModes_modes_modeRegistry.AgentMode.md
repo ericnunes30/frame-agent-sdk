@@ -39,7 +39,7 @@ de comportamento de agentes no PromptBuilder.
 
 #### Defined in
 
-[src/llmModes/modes/modeRegistry.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/llmModes/modes/modeRegistry.ts#L17)
+[src/llmModes/modes/modeRegistry.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/llmModes/modes/modeRegistry.ts#L17)
 
 ## Methods
 
@@ -62,4 +62,4 @@ Registra um novo modo de agente no PromptBuilder
 
 #### Defined in
 
-[src/llmModes/modes/modeRegistry.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/llmModes/modes/modeRegistry.ts#L22)
+[src/llmModes/modes/modeRegistry.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/llmModes/modes/modeRegistry.ts#L22)

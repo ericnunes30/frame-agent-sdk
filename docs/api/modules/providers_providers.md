@@ -67,7 +67,7 @@ try {
 
 #### Defined in
 
-[src/providers/providers/index.ts:4](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/providers/index.ts#L4)
+[src/providers/providers/index.ts:4](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/index.ts#L4)
 
 ___
 
@@ -104,4 +104,4 @@ if (availableProviders.includes('anthropic')) {
 
 #### Defined in
 
-[src/providers/providers/index.ts:5](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/providers/index.ts#L5)
+[src/providers/providers/index.ts:5](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/index.ts#L5)

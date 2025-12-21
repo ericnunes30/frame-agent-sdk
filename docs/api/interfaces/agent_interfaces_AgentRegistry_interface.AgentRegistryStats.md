@@ -23,7 +23,7 @@ Agentes por tipo
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:380](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L380)
+[src/agent/interfaces/AgentRegistry.interface.ts:380](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L380)
 
 ___
 
@@ -35,7 +35,7 @@ Data da criação do registro
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:390](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L390)
+[src/agent/interfaces/AgentRegistry.interface.ts:390](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L390)
 
 ___
 
@@ -47,7 +47,7 @@ Agentes mais usados
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:385](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L385)
+[src/agent/interfaces/AgentRegistry.interface.ts:385](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L385)
 
 ___
 
@@ -59,4 +59,4 @@ Total de agentes registrados
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:375](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L375)
+[src/agent/interfaces/AgentRegistry.interface.ts:375](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L375)

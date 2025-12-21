@@ -58,7 +58,7 @@ customConfig: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:558](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L558)
+[src/agent/interfaces/IAgentRegistry.ts:558](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L558)
 
 ___
 
@@ -81,4 +81,4 @@ fresh: false  // Pode herdar estado (padrão)
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:573](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L573)
+[src/agent/interfaces/IAgentRegistry.ts:573](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L573)

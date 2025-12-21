@@ -15,7 +15,7 @@ export function createSubflowNode(args: {
   runner: FlowRunner;
   flowId: string;
 }): GraphNode {
-  return async (state): Promise<GraphNodeResult> => {
+  return async (state, engine): Promise<GraphNodeResult> => {
     if (!args.registry.has(args.flowId)) {
       throw new Error(`Flow '${args.flowId}' not registered`);
     }
@@ -32,7 +32,10 @@ export function createSubflowNode(args: {
       flowId: args.flowId,
       input,
       shared,
-      childState
+      childState,
+      trace: engine.getTraceSink(),
+      telemetry: engine.getTelemetryOptions(),
+      traceContext: engine.getTraceContext(),
     });
 
     const nextShared = applySharedPatch(shared, result.patch);

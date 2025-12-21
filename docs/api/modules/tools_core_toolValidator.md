@@ -53,7 +53,7 @@ console.log(feedback);
 
 #### Defined in
 
-[src/tools/core/toolValidator.ts:315](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/toolValidator.ts#L315)
+[src/tools/core/toolValidator.ts:315](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/toolValidator.ts#L315)
 
 ___
 
@@ -104,4 +104,4 @@ console.log(result.issues); // [
 
 #### Defined in
 
-[src/tools/core/toolValidator.ts:236](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/toolValidator.ts#L236)
+[src/tools/core/toolValidator.ts:236](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/toolValidator.ts#L236)

@@ -47,7 +47,7 @@ Executa subfluxos com isolamento de memoria para agentFlow.
 
 #### Defined in
 
-src/flows/runner/flowRunnerImpl.ts:30
+[src/flows/runner/flowRunnerImpl.ts:34](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L34)
 
 ## Properties
 
@@ -57,7 +57,7 @@ src/flows/runner/flowRunnerImpl.ts:30
 
 #### Defined in
 
-src/flows/runner/flowRunnerImpl.ts:28
+[src/flows/runner/flowRunnerImpl.ts:32](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L32)
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 #### Defined in
 
-src/flows/runner/flowRunnerImpl.ts:26
+[src/flows/runner/flowRunnerImpl.ts:30](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L30)
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 #### Defined in
 
-src/flows/runner/flowRunnerImpl.ts:27
+[src/flows/runner/flowRunnerImpl.ts:31](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L31)
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 #### Defined in
 
-src/flows/runner/flowRunnerImpl.ts:25
+[src/flows/runner/flowRunnerImpl.ts:29](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L29)
 
 ## Methods
 
@@ -107,7 +107,7 @@ src/flows/runner/flowRunnerImpl.ts:25
 
 #### Defined in
 
-src/flows/runner/flowRunnerImpl.ts:109
+[src/flows/runner/flowRunnerImpl.ts:135](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L135)
 
 ___
 
@@ -127,6 +127,9 @@ Executa um fluxo registrado e retorna status, output, patch e childState.
 | `args.input` | `Record`\<`string`, `unknown`\> |
 | `args.policy?` | [`SubflowPolicy`](../interfaces/flows_interfaces_subflowPolicy_interface.SubflowPolicy.md) |
 | `args.shared` | [`SharedState`](../interfaces/flows_interfaces_sharedState_interface.SharedState.md) |
+| `args.telemetry?` | [`TelemetryOptions`](../interfaces/telemetry_interfaces_telemetryOptions_interface.TelemetryOptions.md) |
+| `args.trace?` | [`TraceSink`](../interfaces/telemetry_interfaces_traceSink_interface.TraceSink.md) |
+| `args.traceContext?` | [`TraceContext`](../interfaces/telemetry_interfaces_traceContext_interface.TraceContext.md) |
 
 #### Returns
 
@@ -138,4 +141,4 @@ Executa um fluxo registrado e retorna status, output, patch e childState.
 
 #### Defined in
 
-src/flows/runner/flowRunnerImpl.ts:40
+[src/flows/runner/flowRunnerImpl.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L44)

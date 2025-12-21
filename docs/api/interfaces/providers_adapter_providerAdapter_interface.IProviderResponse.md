@@ -47,7 +47,7 @@ Pode ser null em caso de erro ou quando a resposta está sendo processada.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:191](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/adapter/providerAdapter.interface.ts#L191)
+[src/providers/adapter/providerAdapter.interface.ts:211](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L211)
 
 ___
 
@@ -78,7 +78,7 @@ metadata: {
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:214](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/adapter/providerAdapter.interface.ts#L214)
+[src/providers/adapter/providerAdapter.interface.ts:234](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L234)
 
 ___
 
@@ -91,4 +91,4 @@ Sempre será 'assistant' para respostas do modelo de linguagem.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:185](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/adapter/providerAdapter.interface.ts#L185)
+[src/providers/adapter/providerAdapter.interface.ts:205](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L205)

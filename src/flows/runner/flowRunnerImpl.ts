@@ -10,6 +10,10 @@ import type { IChatHistoryManager } from '@/memory';
 import { GraphEngine } from '@/orchestrators/graph/core/GraphEngine';
 import { GraphStatus } from '@/orchestrators/graph/core/enums/graphEngine.enum';
 import type { IGraphState } from '@/orchestrators/graph/core/interfaces/graphState.interface';
+import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
+import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
+import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
+import { getActiveTelemetry } from '@/telemetry/context/telemetryStore';
 
 type FlowRunnerDeps = Record<string, unknown> & {
   llmConfig?: AgentLLMConfig;
@@ -43,12 +47,20 @@ export class FlowRunnerImpl implements FlowRunner {
     shared: SharedState;
     policy?: SubflowPolicy;
     childState?: IGraphState;
+    trace?: TraceSink;
+    telemetry?: TelemetryOptions;
+    traceContext?: TraceContext;
   }): Promise<{
     status: 'success' | 'failed' | 'paused';
     output: Record<string, unknown>;
     patch: SharedPatch[];
     childState?: IGraphState;
   }> {
+    const active = getActiveTelemetry();
+    const trace = args.trace ?? active?.trace;
+    const telemetry = args.telemetry ?? active?.telemetry;
+    const parentTraceContext = args.traceContext ?? active?.traceContext;
+
     const flow = this.registry.get(args.flowId);
     if (flow.kind === 'agentFlow') {
       if (!this.llmConfig) {
@@ -61,11 +73,19 @@ export class FlowRunnerImpl implements FlowRunner {
     const graph = this.resolveGraph(flow);
 
     const chatManager = flow.kind === 'agentFlow' ? undefined : this.chatHistoryManager;
-    const engine = new GraphEngine(
-      graph,
-      chatManager ? { chatHistoryManager: chatManager } : undefined,
-      this.llmConfig
-    );
+    const traceContextBase = {
+      ...(parentTraceContext?.agent ? { agent: parentTraceContext.agent } : {}),
+      flow: { id: flow.id, kind: flow.kind }
+    };
+
+    const engineOptions = {
+      ...(chatManager ? { chatHistoryManager: chatManager } : {}),
+      ...(trace ? { trace } : {}),
+      ...(telemetry ? { telemetry } : {}),
+      traceContext: traceContextBase
+    };
+
+    const engine = new GraphEngine(graph, engineOptions, this.llmConfig);
 
     let result;
     if (args.childState) {
@@ -79,6 +99,10 @@ export class FlowRunnerImpl implements FlowRunner {
           ...(args.childState.data ?? {}),
           ...(args.input ?? {}),
           shared: cloneShared(args.shared ?? (args.childState.data?.shared ?? {}))
+        },
+        metadata: {
+          ...(args.childState.metadata ?? {}),
+          ...(parentTraceContext?.runId ? { parentRunId: parentTraceContext.runId } : {})
         }
       };
 
@@ -87,7 +111,9 @@ export class FlowRunnerImpl implements FlowRunner {
       const initialState: IGraphState = {
         messages: [],
         data: { ...(args.input ?? {}), shared: cloneShared(args.shared ?? {}) },
-        metadata: {},
+        metadata: {
+          ...(parentTraceContext?.runId ? { parentRunId: parentTraceContext.runId } : {})
+        },
         logs: [],
         status: GraphStatus.RUNNING
       };

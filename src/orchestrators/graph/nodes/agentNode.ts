@@ -5,6 +5,9 @@ import type { GraphNode, GraphNodeResult } from '@/orchestrators/graph/core/inte
 import type { IAgentNodeOptions } from '@/orchestrators/graph/nodes/interfaces/agentNode.interface';
 import { createToolDetectionNode } from '@/orchestrators/graph/nodes/toolDetectionNode';
 import { createToolExecutorNode } from '@/orchestrators/graph/nodes/toolExecutorNode';
+import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
+import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
+import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
 
 export function createAgentNode(options: IAgentNodeOptions): GraphNode {
   assertOptions(options);
@@ -46,11 +49,25 @@ export function createAgentNode(options: IAgentNodeOptions): GraphNode {
       taskList: taskList || options.taskList
     };
 
+    const baseTraceContext = engine.getTraceContext();
+    const traceContext: TraceContext | undefined = baseTraceContext
+      ? {
+        ...baseTraceContext,
+        agent: {
+          ...(baseTraceContext.agent ?? {}),
+          label: (runtimeOptions.agentInfo as any)?.name ?? baseTraceContext.agent?.label,
+        },
+      }
+      : undefined;
+
     const response = await invokeAgent({
       options: runtimeOptions,
       messages,
       usePromptConfig: hasPromptConfig,
       taskList: runtimeOptions.taskList, // Passa taskList para invokeAgent
+      trace: engine.getTraceSink(),
+      telemetry: engine.getTelemetryOptions(),
+      traceContext,
     });
     const content = response.content ?? null;
     let updates: GraphNodeResult = {
@@ -129,6 +146,9 @@ async function invokeAgent(args: {
   messages: Message[];
   usePromptConfig: boolean;
   taskList?: { items: Array<{ id: string; title: string; status: 'pending' | 'in_progress' | 'completed' }> };
+  trace?: TraceSink;
+  telemetry?: TelemetryOptions;
+  traceContext?: TraceContext;
 }): Promise<{ content: string | null; metadata?: Record<string, unknown> }> {
 
 
@@ -145,6 +165,9 @@ async function invokeAgent(args: {
       temperature: args.options.temperature,
       topP: args.options.topP,
       maxTokens: args.options.maxTokens,
+      trace: args.trace,
+      telemetry: args.telemetry,
+      traceContext: args.traceContext,
     });
   }
 
@@ -161,5 +184,8 @@ async function invokeAgent(args: {
     temperature: args.options.temperature,
     topP: args.options.topP,
     maxTokens: args.options.maxTokens,
+    trace: args.trace,
+    telemetry: args.telemetry,
+    traceContext: args.traceContext,
   });
 }

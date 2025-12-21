@@ -11,6 +11,7 @@ Estado compartilhado no fluxo de orquestração entre steps.
 - [data](orchestrators_steps_interfaces.OrchestrationState.md#data)
 - [final](orchestrators_steps_interfaces.OrchestrationState.md#final)
 - [lastModelOutput](orchestrators_steps_interfaces.OrchestrationState.md#lastmodeloutput)
+- [metadata](orchestrators_steps_interfaces.OrchestrationState.md#metadata)
 
 ## Properties
 
@@ -20,7 +21,7 @@ Estado compartilhado no fluxo de orquestração entre steps.
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:46](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L46)
+[src/orchestrators/steps/interfaces.ts:46](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L46)
 
 ___
 
@@ -30,7 +31,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:47](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L47)
+[src/orchestrators/steps/interfaces.ts:48](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L48)
 
 ___
 
@@ -40,4 +41,14 @@ ___
 
 #### Defined in
 
-[src/orchestrators/steps/interfaces.ts:48](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/interfaces.ts#L48)
+[src/orchestrators/steps/interfaces.ts:49](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L49)
+
+___
+
+### metadata
+
+• `Optional` **metadata**: `Record`\<`string`, `unknown`\>
+
+#### Defined in
+
+[src/orchestrators/steps/interfaces.ts:47](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/interfaces.ts#L47)

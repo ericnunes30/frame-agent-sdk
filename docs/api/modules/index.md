@@ -30,6 +30,7 @@
 - [ChatHistoryManager](index.md#chathistorymanager)
 - [ConditionalEdge](index.md#conditionaledge)
 - [DEFAULT\_AGENT\_CONFIG](index.md#default_agent_config)
+- [DEFAULT\_TELEMETRY\_OPTIONS](index.md#default_telemetry_options)
 - [ExecuteOptions](index.md#executeoptions)
 - [FileCreateTool](index.md#filecreatetool)
 - [FileEditTool](index.md#fileedittool)
@@ -75,6 +76,7 @@
 - [MapOut](index.md#mapout)
 - [MatchCaseEnum](index.md#matchcaseenum)
 - [Message](index.md#message)
+- [MultiplexTraceSink](index.md#multiplextracesink)
 - [OrchestrationState](index.md#orchestrationstate)
 - [PromptBuilder](index.md#promptbuilder)
 - [PromptBuilderConfig](index.md#promptbuilderconfig)
@@ -96,6 +98,7 @@
 - [StepsDeps](index.md#stepsdeps)
 - [StepsOrchestrator](index.md#stepsorchestrator)
 - [SubflowPolicy](index.md#subflowpolicy)
+- [TelemetryOptions](index.md#telemetryoptions)
 - [TerminalTool](index.md#terminaltool)
 - [ToDoIstParams](index.md#todoistparams)
 - [ToDoIstTool](index.md#todoisttool)
@@ -106,6 +109,12 @@
 - [ToolExecutor](index.md#toolexecutor)
 - [ToolRouterKey](index.md#toolrouterkey)
 - [ToolSchema](index.md#toolschema)
+- [TraceContext](index.md#tracecontext)
+- [TraceEvent](index.md#traceevent)
+- [TraceEventType](index.md#traceeventtype)
+- [TraceLevel](index.md#tracelevel)
+- [TraceOrchestrator](index.md#traceorchestrator)
+- [TraceSink](index.md#tracesink)
 - [applySharedPatch](index.md#applysharedpatch)
 - [cloneShared](index.md#cloneshared)
 - [createAgentNode](index.md#createagentnode)
@@ -118,11 +127,17 @@
 - [createToolDetectionNode](index.md#createtooldetectionnode)
 - [createToolExecutorNode](index.md#createtoolexecutornode)
 - [createToolRouter](index.md#createtoolrouter)
+- [createTraceId](index.md#createtraceid)
+- [emitTrace](index.md#emittrace)
 - [formatIssuesForLLM](index.md#formatissuesforllm)
 - [generateTypedSchema](index.md#generatetypedschema)
+- [getActiveTelemetry](index.md#getactivetelemetry)
 - [getProvider](index.md#getprovider)
 - [listProviders](index.md#listproviders)
+- [materializeTrace](index.md#materializetrace)
+- [noopTraceSink](index.md#nooptracesink)
 - [roocodeMcpConfig](index.md#roocodemcpconfig)
+- [runWithTelemetry](index.md#runwithtelemetry)
 - [stepAgent](index.md#stepagent)
 - [stepAgentCustom](index.md#stepagentcustom)
 - [stepFinalize](index.md#stepfinalize)
@@ -286,6 +301,12 @@ ___
 ### DEFAULT\_AGENT\_CONFIG
 
 Re-exports [DEFAULT_AGENT_CONFIG](agent_interfaces_IAgentConfig.md#default_agent_config)
+
+___
+
+### DEFAULT\_TELEMETRY\_OPTIONS
+
+Re-exports [DEFAULT_TELEMETRY_OPTIONS](telemetry_interfaces_telemetryOptions_interface.md#default_telemetry_options)
 
 ___
 
@@ -559,6 +580,12 @@ Re-exports [Message](../interfaces/memory_memory_interface.Message.md)
 
 ___
 
+### MultiplexTraceSink
+
+Re-exports [MultiplexTraceSink](../classes/telemetry_sinks_multiplexTraceSink.MultiplexTraceSink.md)
+
+___
+
 ### OrchestrationState
 
 Re-exports [OrchestrationState](../interfaces/orchestrators_steps_interfaces.OrchestrationState.md)
@@ -685,6 +712,12 @@ Re-exports [SubflowPolicy](../interfaces/flows_interfaces_subflowPolicy_interfac
 
 ___
 
+### TelemetryOptions
+
+Re-exports [TelemetryOptions](../interfaces/telemetry_interfaces_telemetryOptions_interface.TelemetryOptions.md)
+
+___
+
 ### TerminalTool
 
 Re-exports [TerminalTool](tools_tools_terminalTool.md#terminaltool)
@@ -742,6 +775,42 @@ ___
 ### ToolSchema
 
 Re-exports [ToolSchema](promptBuilder_promptBuilder_interface.md#toolschema)
+
+___
+
+### TraceContext
+
+Re-exports [TraceContext](../interfaces/telemetry_interfaces_traceContext_interface.TraceContext.md)
+
+___
+
+### TraceEvent
+
+Re-exports [TraceEvent](../interfaces/telemetry_interfaces_traceEvent_interface.TraceEvent.md)
+
+___
+
+### TraceEventType
+
+Re-exports [TraceEventType](telemetry_interfaces_traceEventType_interface.md#traceeventtype)
+
+___
+
+### TraceLevel
+
+Re-exports [TraceLevel](telemetry_interfaces_traceEvent_interface.md#tracelevel)
+
+___
+
+### TraceOrchestrator
+
+Re-exports [TraceOrchestrator](telemetry_interfaces_traceEvent_interface.md#traceorchestrator)
+
+___
+
+### TraceSink
+
+Re-exports [TraceSink](../interfaces/telemetry_interfaces_traceSink_interface.TraceSink.md)
 
 ___
 
@@ -817,6 +886,18 @@ Re-exports [createToolRouter](orchestrators_graph_routing_toolRouter.md#createto
 
 ___
 
+### createTraceId
+
+Re-exports [createTraceId](telemetry_utils_id.md#createtraceid)
+
+___
+
+### emitTrace
+
+Re-exports [emitTrace](telemetry_utils_traceEmitter.md#emittrace)
+
+___
+
 ### formatIssuesForLLM
 
 Re-exports [formatIssuesForLLM](tools_core_toolValidator.md#formatissuesforllm)
@@ -826,6 +907,12 @@ ___
 ### generateTypedSchema
 
 Re-exports [generateTypedSchema](tools_constructor_schemaGenerator.md#generatetypedschema)
+
+___
+
+### getActiveTelemetry
+
+Re-exports [getActiveTelemetry](telemetry_context_telemetryStore.md#getactivetelemetry)
 
 ___
 
@@ -841,9 +928,27 @@ Re-exports [listProviders](providers_providers.md#listproviders)
 
 ___
 
+### materializeTrace
+
+Re-exports [materializeTrace](telemetry_utils_traceEmitter.md#materializetrace)
+
+___
+
+### noopTraceSink
+
+Re-exports [noopTraceSink](telemetry_sinks_noopTraceSink.md#nooptracesink)
+
+___
+
 ### roocodeMcpConfig
 
 Re-exports [roocodeMcpConfig](tools_tools_mcp_roocode_mcp_config.md#roocodemcpconfig)
+
+___
+
+### runWithTelemetry
+
+Re-exports [runWithTelemetry](telemetry_context_telemetryStore.md#runwithtelemetry)
 
 ___
 

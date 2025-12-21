@@ -86,7 +86,7 @@ additionalInstructions: 'Foque em soluções sustentáveis e econômicas'
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:316](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L316)
+[src/agent/interfaces/IAgent.ts:316](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L316)
 
 ___
 
@@ -113,7 +113,7 @@ context: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:420](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L420)
+[src/agent/interfaces/IAgent.ts:420](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L420)
 
 ___
 
@@ -138,7 +138,7 @@ maxTokens: 2000  // Resposta longa
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:387](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L387)
+[src/agent/interfaces/IAgent.ts:387](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L387)
 
 ___
 
@@ -160,7 +160,7 @@ stream: false // Para processamento batch (padrão)
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:401](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L401)
+[src/agent/interfaces/IAgent.ts:401](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L401)
 
 ___
 
@@ -185,7 +185,7 @@ temperature: 0.9  // Para tarefas criativas
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:352](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L352)
+[src/agent/interfaces/IAgent.ts:352](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L352)
 
 ___
 
@@ -214,7 +214,7 @@ tools: [
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:335](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L335)
+[src/agent/interfaces/IAgent.ts:335](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L335)
 
 ___
 
@@ -240,4 +240,4 @@ topP: 0.9   // Respostas mais diversificadas
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:370](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L370)
+[src/agent/interfaces/IAgent.ts:370](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L370)

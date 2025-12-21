@@ -34,7 +34,7 @@ Step configurado
 
 #### Defined in
 
-[src/orchestrators/steps/steps.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/steps.ts#L36)
+[src/orchestrators/steps/steps.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/steps.ts#L36)
 
 ___
 
@@ -59,7 +59,7 @@ Cria um step que executa um subfluxo e aplica SharedPatch em data.shared.
 
 #### Defined in
 
-[src/orchestrators/steps/steps.ts:120](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/steps.ts#L120)
+[src/orchestrators/steps/steps.ts:120](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/steps.ts#L120)
 
 ___
 
@@ -82,7 +82,7 @@ Usa o AgentLLM injetado nas dependências.
 
 #### Defined in
 
-[src/orchestrators/steps/steps.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/steps.ts#L12)
+[src/orchestrators/steps/steps.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/steps.ts#L12)
 
 ___
 
@@ -106,7 +106,7 @@ Step que cria um AgentLLM customizado para esse step específico.
 
 #### Defined in
 
-[src/orchestrators/steps/steps.ts:88](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/steps.ts#L88)
+[src/orchestrators/steps/steps.ts:88](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/steps.ts#L88)
 
 ___
 
@@ -129,4 +129,4 @@ Step que finaliza a orquestração com valor do estado.
 
 #### Defined in
 
-[src/orchestrators/steps/steps.ts:75](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/steps.ts#L75)
+[src/orchestrators/steps/steps.ts:75](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/steps.ts#L75)

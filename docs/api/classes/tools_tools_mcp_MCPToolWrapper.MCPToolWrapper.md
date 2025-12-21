@@ -134,7 +134,7 @@ class SearchTool extends ToolBase<SearchParams, SearchResult> {
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPToolWrapper.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPToolWrapper.ts#L13)
+[src/tools/tools/mcp/MCPToolWrapper.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPToolWrapper.ts#L13)
 
 ## Properties
 
@@ -144,7 +144,7 @@ class SearchTool extends ToolBase<SearchParams, SearchResult> {
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPToolWrapper.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPToolWrapper.ts#L10)
+[src/tools/tools/mcp/MCPToolWrapper.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPToolWrapper.ts#L10)
 
 ___
 
@@ -164,7 +164,7 @@ informações sobre parâmetros e casos de uso.
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPToolWrapper.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPToolWrapper.ts#L8)
+[src/tools/tools/mcp/MCPToolWrapper.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPToolWrapper.ts#L8)
 
 ___
 
@@ -174,7 +174,7 @@ ___
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPToolWrapper.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPToolWrapper.ts#L11)
+[src/tools/tools/mcp/MCPToolWrapper.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPToolWrapper.ts#L11)
 
 ___
 
@@ -194,7 +194,7 @@ claras (snake_case recomendado).
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPToolWrapper.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPToolWrapper.ts#L7)
+[src/tools/tools/mcp/MCPToolWrapper.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPToolWrapper.ts#L7)
 
 ___
 
@@ -220,7 +220,7 @@ O schema é usado para:
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPToolWrapper.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPToolWrapper.ts#L9)
+[src/tools/tools/mcp/MCPToolWrapper.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPToolWrapper.ts#L9)
 
 ## Methods
 
@@ -292,4 +292,4 @@ class FileReaderTool extends ToolBase<FileReaderParams, string> {
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPToolWrapper.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/mcp/MCPToolWrapper.ts#L22)
+[src/tools/tools/mcp/MCPToolWrapper.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPToolWrapper.ts#L22)

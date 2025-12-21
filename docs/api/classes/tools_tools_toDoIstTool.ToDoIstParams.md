@@ -48,7 +48,7 @@ Ação a ser executada na lista de tarefas
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L15)
+[src/tools/tools/toDoIstTool.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L15)
 
 ___
 
@@ -60,7 +60,7 @@ Status padrão para novas tarefas (para ação create)
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L27)
+[src/tools/tools/toDoIstTool.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L27)
 
 ___
 
@@ -72,7 +72,7 @@ ID da tarefa (para ações que referenciam tarefas específicas)
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L19)
+[src/tools/tools/toDoIstTool.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L19)
 
 ___
 
@@ -84,7 +84,7 @@ Novo ID da tarefa (para ação edit)
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:21](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L21)
+[src/tools/tools/toDoIstTool.ts:21](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L21)
 
 ___
 
@@ -96,7 +96,7 @@ Status da tarefa (pending, in_progress, completed)
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:23](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L23)
+[src/tools/tools/toDoIstTool.ts:23](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L23)
 
 ___
 
@@ -108,7 +108,7 @@ Lista de títulos de tarefas (para ação create)
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:25](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L25)
+[src/tools/tools/toDoIstTool.ts:25](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L25)
 
 ___
 
@@ -120,7 +120,7 @@ Título da tarefa (para ações add e edit)
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L17)
+[src/tools/tools/toDoIstTool.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L17)
 
 ___
 
@@ -163,4 +163,4 @@ Schema de validação para os parâmetros
 
 #### Defined in
 
-[src/tools/tools/toDoIstTool.ts:30](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/toDoIstTool.ts#L30)
+[src/tools/tools/toDoIstTool.ts:30](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/toDoIstTool.ts#L30)

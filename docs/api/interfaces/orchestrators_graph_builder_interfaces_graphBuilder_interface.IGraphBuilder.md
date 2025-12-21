@@ -37,7 +37,7 @@
 
 #### Defined in
 
-[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L11)
+[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L11)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L10)
+[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L10)
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L9)
+[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L9)
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L14)
+[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L14)
 
 ___
 
@@ -107,7 +107,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L15)
+[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L15)
 
 ___
 
@@ -127,7 +127,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L13)
+[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L13)
 
 ___
 
@@ -147,4 +147,4 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L12)
+[src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/interfaces/graphBuilder.interface.ts#L12)

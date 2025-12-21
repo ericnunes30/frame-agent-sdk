@@ -114,7 +114,7 @@ console.log('Agentes restantes:', registry.list().length); // 0
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:419](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L419)
+[src/agent/interfaces/IAgentRegistry.ts:419](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L419)
 
 ___
 
@@ -168,7 +168,7 @@ agent2.configure({ temperature: 0.9 }); // Não afeta agent1
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:169](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L169)
+[src/agent/interfaces/IAgentRegistry.ts:169](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L169)
 
 ___
 
@@ -229,7 +229,7 @@ if (result2.success) {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:378](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L378)
+[src/agent/interfaces/IAgentRegistry.ts:378](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L378)
 
 ___
 
@@ -268,7 +268,7 @@ console.log('Agentes de Chat:', chatAgents);
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:297](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L297)
+[src/agent/interfaces/IAgentRegistry.ts:297](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L297)
 
 ___
 
@@ -313,7 +313,7 @@ agent.configure({ temperature: 0.1 }); // Afeta todos os usuários
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:133](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L133)
+[src/agent/interfaces/IAgentRegistry.ts:133](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L133)
 
 ___
 
@@ -359,7 +359,7 @@ console.log('Registrado em:', info.registeredAt);
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:257](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L257)
+[src/agent/interfaces/IAgentRegistry.ts:257](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L257)
 
 ___
 
@@ -397,7 +397,7 @@ console.log('Mais usados:', stats.mostUsedAgents);
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:402](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L402)
+[src/agent/interfaces/IAgentRegistry.ts:402](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L402)
 
 ___
 
@@ -435,7 +435,7 @@ if (registry.has('researcher')) {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:208](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L208)
+[src/agent/interfaces/IAgentRegistry.ts:208](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L208)
 
 ___
 
@@ -464,7 +464,7 @@ console.log('Agentes registrados:', allAgents);
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:186](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L186)
+[src/agent/interfaces/IAgentRegistry.ts:186](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L186)
 
 ___
 
@@ -493,7 +493,7 @@ console.log('Tipos disponíveis:', types);
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:274](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L274)
+[src/agent/interfaces/IAgentRegistry.ts:274](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L274)
 
 ___
 
@@ -547,7 +547,7 @@ registry.register('researcher', researchConfig, {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:108](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L108)
+[src/agent/interfaces/IAgentRegistry.ts:108](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L108)
 
 ___
 
@@ -586,7 +586,7 @@ console.log('Ainda existe?', registry.has('old-agent')); // false
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:231](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L231)
+[src/agent/interfaces/IAgentRegistry.ts:231](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L231)
 
 ___
 
@@ -639,7 +639,7 @@ registry.update('coder', {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:334](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L334)
+[src/agent/interfaces/IAgentRegistry.ts:334](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L334)
 
 ___
 
@@ -674,4 +674,4 @@ if (errors.length === 0) {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:442](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L442)
+[src/agent/interfaces/IAgentRegistry.ts:442](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L442)
