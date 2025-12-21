@@ -77,7 +77,7 @@ config: {
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:336](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L336)
+[src/agent/interfaces/AgentRegistry.interface.ts:336](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L336)
 
 ___
 
@@ -100,7 +100,7 @@ description: 'Assistente para criação de conteúdo técnico'
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:313](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L313)
+[src/agent/interfaces/AgentRegistry.interface.ts:313](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L313)
 
 ___
 
@@ -115,7 +115,7 @@ o agente no sistema. Deve ser único entre todos os agentes.
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:289](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L289)
+[src/agent/interfaces/AgentRegistry.interface.ts:289](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L289)
 
 ___
 
@@ -136,7 +136,7 @@ registeredAt: new Date('2024-01-15T10:30:00Z')
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:349](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L349)
+[src/agent/interfaces/AgentRegistry.interface.ts:349](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L349)
 
 ___
 
@@ -152,7 +152,7 @@ e descoberta por tipo.
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:298](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L298)
+[src/agent/interfaces/AgentRegistry.interface.ts:298](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L298)
 
 ___
 
@@ -176,4 +176,4 @@ usageCount: 150  // Muito usado
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:365](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L365)
+[src/agent/interfaces/AgentRegistry.interface.ts:365](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L365)

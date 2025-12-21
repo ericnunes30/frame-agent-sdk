@@ -2,6 +2,7 @@ import { ToolDetector, ToolDetectionResult } from '@/tools/core/toolDetector';
 import type { GraphNode, GraphNodeResult } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
 import type { Message } from '@/memory';
 import { logger } from '@/utils/logger';
+import { createTraceId } from '@/telemetry/utils/id';
 
 /**
  * Cria um nó de detecção de ferramentas.
@@ -41,6 +42,14 @@ export function createToolDetectionNode(): GraphNode {
         if (result.success && result.toolCall) {
             logger.info(`[ToolDetectionNode] Tool detectada: ${result.toolCall.toolName}`);
 
+            const toolCallId = result.toolCall.toolCallId ?? createTraceId();
+            engine.emitTrace(state, {
+                type: 'tool_detected',
+                level: 'info',
+                tool: { name: result.toolCall.toolName, toolCallId, params: result.toolCall.params },
+                data: thought ? { thoughtPreview: thought } : undefined,
+            });
+
             // Limpa metadados de erro anteriores se houver
             const newMetadata = { ...(state.metadata || {}) };
             delete (newMetadata as any).validationHint;
@@ -52,6 +61,7 @@ export function createToolDetectionNode(): GraphNode {
             return {
                 lastToolCall: {
                     ...result.toolCall,
+                    toolCallId,
                     thought: thought // Incluir o thought extraído aqui
                 },
                 // Removido: messages: [assistantMessage] para evitar duplicação

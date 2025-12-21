@@ -1,6 +1,8 @@
 import { ProviderConfig } from './providerAdapter.interface';
 import { getProvider } from '../providers';
 import { logger } from '@/utils/logger';
+import { emitTrace } from '@/telemetry/utils/traceEmitter';
+import { createTraceId } from '@/telemetry/utils/id';
 
 /**
  * Adaptador genérico unificado para provedores de LLM.
@@ -122,7 +124,9 @@ export class ProviderAdapter {
     }
 
     // Log detalhado para debugging
-    ProviderAdapter._logPromptDetails(providerName, config);
+    if (config.telemetry?.includePrompts && config.telemetry?.level === 'debug') {
+      ProviderAdapter._logPromptDetails(providerName, config);
+    }
 
     // Obter e instanciar o provedor
     logger.debug(`[ProviderAdapter] Obtendo provedor: ${providerName}`);
@@ -143,12 +147,75 @@ export class ProviderAdapter {
 
     // Chamar o provedor com configuração unificada
     logger.debug(`[ProviderAdapter] Chamando chatCompletion do provedor`);
+
+    const traceContext = config.traceContext;
+    const spanId = createTraceId();
+    const startedAt = Date.now();
+    if (traceContext) {
+      emitTrace({
+        trace: config.trace,
+        options: config.telemetry,
+        ctx: traceContext,
+        event: {
+          type: 'llm_request_started',
+          level: 'info',
+          spanId,
+          llm: { provider: providerName, model: config.model, stream: Boolean(config.stream) },
+          data: { temperature: config.temperature, maxTokens: config.maxTokens, topP: config.topP },
+        },
+      });
+    }
     try {
       const result = await provider.chatCompletion({ ...config, model });
       logger.debug(`[ProviderAdapter] chatCompletion concluído com sucesso`);
+      if (traceContext) {
+        const md = (result as any)?.metadata as Record<string, unknown> | undefined;
+        const usageFromMetadata = (md as any)?.usage ?? (md as any)?.tokens ?? undefined;
+        const tokensUsed = (md as any)?.tokensUsed as number | undefined;
+        const usage =
+          usageFromMetadata && typeof usageFromMetadata === 'object'
+            ? {
+              prompt: (usageFromMetadata as any).prompt_tokens ?? (usageFromMetadata as any).prompt,
+              completion: (usageFromMetadata as any).completion_tokens ?? (usageFromMetadata as any).completion,
+              total: (usageFromMetadata as any).total_tokens ?? (usageFromMetadata as any).total ?? tokensUsed,
+            }
+            : tokensUsed
+              ? { total: tokensUsed }
+              : undefined;
+
+        const finishReason = (md as any)?.finishReason ?? (md as any)?.finish_reason;
+
+        emitTrace({
+          trace: config.trace,
+          options: config.telemetry,
+          ctx: traceContext,
+          event: {
+            type: 'llm_request_finished',
+            level: 'info',
+            spanId,
+            timing: { startedAt: new Date(startedAt).toISOString(), durationMs: Date.now() - startedAt },
+            llm: { provider: providerName, model: config.model, stream: Boolean(config.stream), usage, finishReason },
+          },
+        });
+      }
       return result;
     } catch (error) {
       logger.error(`[ProviderAdapter] Erro no chatCompletion:`, error);
+      if (traceContext) {
+        emitTrace({
+          trace: config.trace,
+          options: config.telemetry,
+          ctx: traceContext,
+          event: {
+            type: 'llm_request_failed',
+            level: 'error',
+            spanId,
+            timing: { startedAt: new Date(startedAt).toISOString(), durationMs: Date.now() - startedAt },
+            llm: { provider: providerName, model: config.model, stream: Boolean(config.stream) },
+            message: (error as Error).message,
+          },
+        });
+      }
       throw error;
     }
   }

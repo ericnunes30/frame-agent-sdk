@@ -249,6 +249,12 @@ export interface IToolCall {
    * Devem ser compatíveis com o parameterSchema da ferramenta especificada.
    */
   params: IToolParams;
+
+  /**
+   * Identificador de correlaÇõÇœo para tool calls (telemetria).
+   * Permite correlacionar `tool_detected` com `tool_execution_*`.
+   */
+  toolCallId?: string;
   
   /** 
    * Thought extraído da resposta do LLM (opcional).

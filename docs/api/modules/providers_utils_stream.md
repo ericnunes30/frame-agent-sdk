@@ -28,7 +28,7 @@ de dados em tempo real.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `stream` | `AsyncIterable`\<`T`, `any`, `any`\> | Stream de chunks retornado pela API. Pode ser um AsyncIterable de qualquer tipo de dados. |
+| `stream` | `AsyncIterable`\<`T`\> | Stream de chunks retornado pela API. Pode ser um AsyncIterable de qualquer tipo de dados. |
 
 #### Returns
 
@@ -78,4 +78,4 @@ for await (const chunk of stream(compatibleStream)) {
 
 #### Defined in
 
-[src/providers/utils/stream.ts:57](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/utils/stream.ts#L57)
+[src/providers/utils/stream.ts:57](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/utils/stream.ts#L57)

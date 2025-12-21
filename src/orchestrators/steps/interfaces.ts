@@ -44,6 +44,7 @@ export interface StepsConfig {
 /** Estado compartilhado no fluxo de orquestração entre steps. */
 export interface OrchestrationState {
   data: Record<string, unknown>;
+  metadata?: Record<string, unknown>;
   final?: string;
   lastModelOutput?: string | null;
 }

@@ -34,4 +34,4 @@ ToolRegistry Para documentação da classe
 
 #### Defined in
 
-[src/tools/core/toolRegistry.ts:284](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/toolRegistry.ts#L284)
+[src/tools/core/toolRegistry.ts:284](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/toolRegistry.ts#L284)

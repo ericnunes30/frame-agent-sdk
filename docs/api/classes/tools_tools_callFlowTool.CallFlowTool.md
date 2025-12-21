@@ -128,7 +128,7 @@ class SearchTool extends ToolBase<SearchParams, SearchResult> {
 
 #### Defined in
 
-src/tools/tools/callFlowTool.ts:13
+[src/tools/tools/callFlowTool.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/callFlowTool.ts#L14)
 
 ## Properties
 
@@ -148,7 +148,7 @@ informações sobre parâmetros e casos de uso.
 
 #### Defined in
 
-src/tools/tools/callFlowTool.ts:8
+[src/tools/tools/callFlowTool.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/callFlowTool.ts#L9)
 
 ___
 
@@ -168,7 +168,7 @@ claras (snake_case recomendado).
 
 #### Defined in
 
-src/tools/tools/callFlowTool.ts:7
+[src/tools/tools/callFlowTool.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/callFlowTool.ts#L8)
 
 ___
 
@@ -194,7 +194,7 @@ O schema é usado para:
 
 #### Defined in
 
-src/tools/tools/callFlowTool.ts:9
+[src/tools/tools/callFlowTool.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/callFlowTool.ts#L10)
 
 ___
 
@@ -204,7 +204,7 @@ ___
 
 #### Defined in
 
-src/tools/tools/callFlowTool.ts:11
+[src/tools/tools/callFlowTool.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/callFlowTool.ts#L12)
 
 ## Methods
 
@@ -276,4 +276,4 @@ class FileReaderTool extends ToolBase<FileReaderParams, string> {
 
 #### Defined in
 
-src/tools/tools/callFlowTool.ts:18
+[src/tools/tools/callFlowTool.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/callFlowTool.ts#L19)

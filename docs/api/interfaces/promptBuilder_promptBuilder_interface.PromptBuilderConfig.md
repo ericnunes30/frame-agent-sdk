@@ -62,7 +62,7 @@ São adicionadas como seção separada no System Prompt.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:150](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.interface.ts#L150)
+[src/promptBuilder/promptBuilder.interface.ts:150](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L150)
 
 ___
 
@@ -75,7 +75,7 @@ Define identidade, objetivo e contexto do agente.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:136](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.interface.ts#L136)
+[src/promptBuilder/promptBuilder.interface.ts:136](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L136)
 
 ___
 
@@ -94,7 +94,7 @@ Define o tipo de comportamento e estratégia de prompting.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:130](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.interface.ts#L130)
+[src/promptBuilder/promptBuilder.interface.ts:130](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L130)
 
 ___
 
@@ -127,7 +127,7 @@ Lista de tarefas para acompanhamento no prompt.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:195](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.interface.ts#L195)
+[src/promptBuilder/promptBuilder.interface.ts:195](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L195)
 
 ___
 
@@ -154,7 +154,7 @@ O PromptBuilder irá buscar e converter as tools automaticamente.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:177](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.interface.ts#L177)
+[src/promptBuilder/promptBuilder.interface.ts:177](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L177)
 
 ___
 
@@ -178,4 +178,4 @@ Usado quando as tools já estão no formato correto.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:163](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.interface.ts#L163)
+[src/promptBuilder/promptBuilder.interface.ts:163](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L163)

@@ -75,7 +75,7 @@ apiKey: 'sk-ant-1234567890...'    // Anthropic
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:182](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/agentLLM.interface.ts#L182)
+[src/agent/interfaces/agentLLM.interface.ts:182](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L182)
 
 ___
 
@@ -99,7 +99,7 @@ baseUrl: 'https://api.cohere.ai'               // Cohere
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:198](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/agentLLM.interface.ts#L198)
+[src/agent/interfaces/agentLLM.interface.ts:198](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L198)
 
 ___
 
@@ -129,7 +129,7 @@ defaults: {
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:218](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/agentLLM.interface.ts#L218)
+[src/agent/interfaces/agentLLM.interface.ts:218](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L218)
 
 ___
 
@@ -153,7 +153,7 @@ model: 'claude-3-sonnet'    // Anthropic Claude 3 Sonnet
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:161](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/agentLLM.interface.ts#L161)
+[src/agent/interfaces/agentLLM.interface.ts:161](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L161)
 
 ___
 
@@ -166,4 +166,4 @@ Se fornecido, força o uso deste provedor ignorando inferência pelo modelo.
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:167](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/agentLLM.interface.ts#L167)
+[src/agent/interfaces/agentLLM.interface.ts:167](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L167)

@@ -31,6 +31,9 @@ Implementacoes podem exigir memoria isolada para flows do tipo agentFlow.
 | `args.input` | `Record`\<`string`, `unknown`\> |
 | `args.policy?` | [`SubflowPolicy`](flows_interfaces_subflowPolicy_interface.SubflowPolicy.md) |
 | `args.shared` | [`SharedState`](flows_interfaces_sharedState_interface.SharedState.md) |
+| `args.telemetry?` | [`TelemetryOptions`](telemetry_interfaces_telemetryOptions_interface.TelemetryOptions.md) |
+| `args.trace?` | [`TraceSink`](telemetry_interfaces_traceSink_interface.TraceSink.md) |
+| `args.traceContext?` | [`TraceContext`](telemetry_interfaces_traceContext_interface.TraceContext.md) |
 
 #### Returns
 
@@ -38,4 +41,4 @@ Implementacoes podem exigir memoria isolada para flows do tipo agentFlow.
 
 #### Defined in
 
-src/flows/interfaces/flowRunner.interface.ts:11
+[src/flows/interfaces/flowRunner.interface.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowRunner.interface.ts#L14)

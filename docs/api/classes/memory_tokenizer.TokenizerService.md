@@ -84,7 +84,7 @@ const tokenizer = new TokenizerService('claude-3');
 
 #### Defined in
 
-[src/memory/tokenizer.ts:65](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/tokenizer.ts#L65)
+[src/memory/tokenizer.ts:65](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/tokenizer.ts#L65)
 
 ## Properties
 
@@ -96,7 +96,7 @@ Proporção de caracteres por token (fallback)
 
 #### Defined in
 
-[src/memory/tokenizer.ts:47](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/tokenizer.ts#L47)
+[src/memory/tokenizer.ts:47](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/tokenizer.ts#L47)
 
 ___
 
@@ -109,7 +109,7 @@ Inclui: role, id, chaves JSON, formatação, caracteres especiais, etc.
 
 #### Defined in
 
-[src/memory/tokenizer.ts:53](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/tokenizer.ts#L53)
+[src/memory/tokenizer.ts:53](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/tokenizer.ts#L53)
 
 ___
 
@@ -121,7 +121,7 @@ Encoding do tiktoken para contagem precisa de tokens
 
 #### Defined in
 
-[src/memory/tokenizer.ts:41](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/tokenizer.ts#L41)
+[src/memory/tokenizer.ts:41](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/tokenizer.ts#L41)
 
 ___
 
@@ -133,7 +133,7 @@ O nome do modelo para compatibilidade com a interface
 
 #### Defined in
 
-[src/memory/tokenizer.ts:38](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/tokenizer.ts#L38)
+[src/memory/tokenizer.ts:38](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/tokenizer.ts#L38)
 
 ___
 
@@ -145,7 +145,7 @@ Flag para indicar se tiktoken está disponível
 
 #### Defined in
 
-[src/memory/tokenizer.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/tokenizer.ts#L44)
+[src/memory/tokenizer.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/tokenizer.ts#L44)
 
 ## Methods
 
@@ -198,7 +198,7 @@ const multiple = tokenizer.countTokens([
 
 #### Defined in
 
-[src/memory/tokenizer.ts:109](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/tokenizer.ts#L109)
+[src/memory/tokenizer.ts:109](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/tokenizer.ts#L109)
 
 ___
 
@@ -222,7 +222,7 @@ Número aproximado de tokens
 
 #### Defined in
 
-[src/memory/tokenizer.ts:164](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/tokenizer.ts#L164)
+[src/memory/tokenizer.ts:164](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/tokenizer.ts#L164)
 
 ___
 
@@ -246,4 +246,4 @@ Número preciso de tokens
 
 #### Defined in
 
-[src/memory/tokenizer.ts:131](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/memory/tokenizer.ts#L131)
+[src/memory/tokenizer.ts:131](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/tokenizer.ts#L131)

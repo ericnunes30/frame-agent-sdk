@@ -42,7 +42,7 @@ Resposta final a ser retornada ao usuário
 
 #### Defined in
 
-[src/tools/tools/finalAnswerTool.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/finalAnswerTool.ts#L13)
+[src/tools/tools/finalAnswerTool.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/finalAnswerTool.ts#L13)
 
 ___
 
@@ -63,4 +63,4 @@ Schema de validação para os parâmetros
 
 #### Defined in
 
-[src/tools/tools/finalAnswerTool.ts:16](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/finalAnswerTool.ts#L16)
+[src/tools/tools/finalAnswerTool.ts:16](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/finalAnswerTool.ts#L16)

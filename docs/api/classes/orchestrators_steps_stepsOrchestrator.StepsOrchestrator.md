@@ -82,12 +82,18 @@ console.log('Resposta:', result.final);
 
 - [agentConfigs](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#agentconfigs)
 - [config](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#config)
+- [currentTraceContext](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#currenttracecontext)
 - [deps](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#deps)
+- [telemetry](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#telemetry)
+- [trace](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#trace)
+- [traceContextBase](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#tracecontextbase)
 
 ### Methods
 
 - [addAgent](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#addagent)
+- [emitTrace](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#emittrace)
 - [executeAgents](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#executeagents)
+- [getTraceContext](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#gettracecontext)
 - [isLLMConfig](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#isllmconfig)
 - [prepareDepsForAgent](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#preparedepsforagent)
 - [run](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md#run)
@@ -97,7 +103,7 @@ console.log('Resposta:', result.final);
 
 ### constructor
 
-• **new StepsOrchestrator**(`deps`, `config`): [`StepsOrchestrator`](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md)
+• **new StepsOrchestrator**(`deps`, `config`, `options?`): [`StepsOrchestrator`](orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md)
 
 Construtor do StepsOrchestrator.
 
@@ -110,6 +116,10 @@ preparando-o para executar steps ou fluxos de agente.
 | :------ | :------ | :------ |
 | `deps` | [`StepsDeps`](../interfaces/orchestrators_steps_interfaces.StepsDeps.md) | Dependências necessárias (memory, llm, tools). |
 | `config` | [`StepsConfig`](../interfaces/orchestrators_steps_interfaces.StepsConfig.md) | Configuração do orquestrador (mode, agentInfo, etc.). |
+| `options?` | `Object` | - |
+| `options.telemetry?` | [`TelemetryOptions`](../interfaces/telemetry_interfaces_telemetryOptions_interface.TelemetryOptions.md) | Opções de telemetria (volume/persistência/redaction) (opcional). |
+| `options.trace?` | [`TraceSink`](../interfaces/telemetry_interfaces_traceSink_interface.TraceSink.md) | Sink de telemetria (push) em tempo real (opcional). |
+| `options.traceContext?` | `Omit`\<[`TraceContext`](../interfaces/telemetry_interfaces_traceContext_interface.TraceContext.md), ``"runId"`` \| ``"parentRunId"`` \| ``"orchestrator"``\> | Contexto base de telemetria (sem runId/orchestrator) (opcional). |
 
 #### Returns
 
@@ -128,7 +138,7 @@ const orchestrator = new StepsOrchestrator(deps, config);
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:97](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L97)
+[src/orchestrators/steps/stepsOrchestrator.ts:109](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L109)
 
 ## Properties
 
@@ -140,7 +150,7 @@ Lista de agentes para execução sequencial
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:78](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L78)
+[src/orchestrators/steps/stepsOrchestrator.ts:86](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L86)
 
 ___
 
@@ -152,7 +162,17 @@ Configuração do orquestrador
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:76](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L76)
+[src/orchestrators/steps/stepsOrchestrator.ts:84](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L84)
+
+___
+
+### currentTraceContext
+
+• `Private` `Optional` **currentTraceContext**: [`TraceContext`](../interfaces/telemetry_interfaces_traceContext_interface.TraceContext.md)
+
+#### Defined in
+
+[src/orchestrators/steps/stepsOrchestrator.ts:90](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L90)
 
 ___
 
@@ -164,7 +184,37 @@ Dependências necessárias para execução
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:74](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L74)
+[src/orchestrators/steps/stepsOrchestrator.ts:82](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L82)
+
+___
+
+### telemetry
+
+• `Private` `Optional` `Readonly` **telemetry**: [`TelemetryOptions`](../interfaces/telemetry_interfaces_telemetryOptions_interface.TelemetryOptions.md)
+
+#### Defined in
+
+[src/orchestrators/steps/stepsOrchestrator.ts:88](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L88)
+
+___
+
+### trace
+
+• `Private` `Readonly` **trace**: [`TraceSink`](../interfaces/telemetry_interfaces_traceSink_interface.TraceSink.md)
+
+#### Defined in
+
+[src/orchestrators/steps/stepsOrchestrator.ts:87](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L87)
+
+___
+
+### traceContextBase
+
+• `Private` `Optional` `Readonly` **traceContextBase**: `Omit`\<[`TraceContext`](../interfaces/telemetry_interfaces_traceContext_interface.TraceContext.md), ``"runId"`` \| ``"parentRunId"`` \| ``"orchestrator"``\>
+
+#### Defined in
+
+[src/orchestrators/steps/stepsOrchestrator.ts:89](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L89)
 
 ## Methods
 
@@ -172,33 +222,17 @@ Dependências necessárias para execução
 
 ▸ **addAgent**(`config`): `this`
 
-Adiciona um agente à sequência de execução.
-
-Este método permite configurar múltiplos agentes que serão executados
-sequencialmente. Cada agente terá sua própria configuração e será
-executado até completar (final_answer) antes de passar para o próximo.
+Adiciona um agente na sequencia.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config` | [`AgentStepConfig`](../interfaces/orchestrators_steps_interfaces.AgentStepConfig.md) | Configuração do agente a ser adicionado. |
+| `config` | [`AgentStepConfig`](../interfaces/orchestrators_steps_interfaces.AgentStepConfig.md) | Config do agente. |
 
 #### Returns
 
 `this`
-
-Instância do orquestrador para encadeamento (fluent interface).
-
-**`Example`**
-
-```typescript
-const orchestrator = new StepsOrchestrator(deps, baseConfig);
-await orchestrator
-  .addAgent({ mode: 'REACT', agentInfo: { name: 'Agent1' } })
-  .addAgent({ mode: 'REACT', agentInfo: { name: 'Agent2' } })
-  .run('Input inicial');
-```
 
 #### Implementation of
 
@@ -206,7 +240,29 @@ await orchestrator
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:121](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L121)
+[src/orchestrators/steps/stepsOrchestrator.ts:172](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L172)
+
+___
+
+### emitTrace
+
+▸ **emitTrace**(`state`, `event`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `state` | `Object` |
+| `state.metadata?` | `Record`\<`string`, `unknown`\> |
+| `event` | `Omit`\<[`TraceEvent`](../interfaces/telemetry_interfaces_traceEvent_interface.TraceEvent.md), ``"ts"`` \| ``"runId"`` \| ``"parentRunId"`` \| ``"orchestrator"``\> |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[src/orchestrators/steps/stepsOrchestrator.ts:154](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L154)
 
 ___
 
@@ -244,7 +300,23 @@ console.log('Resultado:', result.final);
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:141](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L141)
+[src/orchestrators/steps/stepsOrchestrator.ts:192](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L192)
+
+___
+
+### getTraceContext
+
+▸ **getTraceContext**(): [`TraceContext`](../interfaces/telemetry_interfaces_traceContext_interface.TraceContext.md)
+
+Retorna o TraceContext atual (apenas durante `run()`).
+
+#### Returns
+
+[`TraceContext`](../interfaces/telemetry_interfaces_traceContext_interface.TraceContext.md)
+
+#### Defined in
+
+[src/orchestrators/steps/stepsOrchestrator.ts:150](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L150)
 
 ___
 
@@ -268,7 +340,7 @@ True se for LLMConfig, false se for instância AgentLLM.
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:227](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L227)
+[src/orchestrators/steps/stepsOrchestrator.ts:285](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L285)
 
 ___
 
@@ -292,7 +364,7 @@ Dependências preparadas para o agente.
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:197](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L197)
+[src/orchestrators/steps/stepsOrchestrator.ts:255](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L255)
 
 ___
 
@@ -387,7 +459,7 @@ console.log('Estado:', result.state);
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:303](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L303)
+[src/orchestrators/steps/stepsOrchestrator.ts:361](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L361)
 
 ___
 
@@ -502,4 +574,4 @@ if (reactResult.pendingAskUser) {
 
 #### Defined in
 
-[src/orchestrators/steps/stepsOrchestrator.ts:425](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/orchestrators/steps/stepsOrchestrator.ts#L425)
+[src/orchestrators/steps/stepsOrchestrator.ts:525](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/steps/stepsOrchestrator.ts#L525)

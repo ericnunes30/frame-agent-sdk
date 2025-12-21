@@ -43,7 +43,7 @@ Inclui especializações, experiência e características relevantes.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:39](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.interface.ts#L39)
+[src/promptBuilder/promptBuilder.interface.ts:39](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L39)
 
 ___
 
@@ -56,7 +56,7 @@ Define o que o agente deve fazer e como deve se comportar.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:33](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.interface.ts#L33)
+[src/promptBuilder/promptBuilder.interface.ts:33](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L33)
 
 ___
 
@@ -69,4 +69,4 @@ Deve ser descritivo e único para o tipo de agente.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.interface.ts#L27)
+[src/promptBuilder/promptBuilder.interface.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L27)

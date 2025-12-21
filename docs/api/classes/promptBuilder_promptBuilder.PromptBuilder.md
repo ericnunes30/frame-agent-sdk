@@ -88,7 +88,7 @@ Mapeia nomes de modo para funções construtoras de prompt.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:60](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.ts#L60)
+[src/promptBuilder/promptBuilder.ts:60](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L60)
 
 ## Methods
 
@@ -157,7 +157,7 @@ PromptBuilder.addPromptMode('researcher', (config) => `
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:111](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.ts#L111)
+[src/promptBuilder/promptBuilder.ts:111](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L111)
 
 ___
 
@@ -239,7 +239,7 @@ const advancedPrompt = PromptBuilder.buildSystemPrompt({
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:252](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.ts#L252)
+[src/promptBuilder/promptBuilder.ts:252](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L252)
 
 ___
 
@@ -296,7 +296,7 @@ const taskListSection = PromptBuilder.buildTaskListPrompt(taskList);
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:549](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.ts#L549)
+[src/promptBuilder/promptBuilder.ts:549](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L549)
 
 ___
 
@@ -361,7 +361,7 @@ console.log(schemas);
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:165](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.ts#L165)
+[src/promptBuilder/promptBuilder.ts:165](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L165)
 
 ___
 
@@ -411,7 +411,7 @@ const toolsSection = PromptBuilder.buildToolsPrompt(tools);
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:367](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.ts#L367)
+[src/promptBuilder/promptBuilder.ts:367](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L367)
 
 ___
 
@@ -491,4 +491,4 @@ const result3 = PromptBuilder.determineSystemPrompt({
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:471](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/promptBuilder/promptBuilder.ts#L471)
+[src/promptBuilder/promptBuilder.ts:471](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L471)

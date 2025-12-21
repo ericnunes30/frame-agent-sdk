@@ -86,7 +86,7 @@ agentInfo: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:733](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L733)
+[src/agent/interfaces/IAgentRegistry.ts:733](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L733)
 
 ___
 
@@ -102,7 +102,7 @@ Contador que incrementa a cada vez que o agente
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:757](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L757)
+[src/agent/interfaces/IAgentRegistry.ts:757](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L757)
 
 ___
 
@@ -117,7 +117,7 @@ Deve ser único entre todos os agentes registrados.
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:691](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L691)
+[src/agent/interfaces/IAgentRegistry.ts:691](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L691)
 
 ___
 
@@ -142,7 +142,7 @@ lastError: 'Timeout after 30 seconds'              // Erro de timeout
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:793](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L793)
+[src/agent/interfaces/IAgentRegistry.ts:793](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L793)
 
 ___
 
@@ -158,7 +158,7 @@ identificar agentes inativos.
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:802](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L802)
+[src/agent/interfaces/IAgentRegistry.ts:802](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L802)
 
 ___
 
@@ -185,7 +185,7 @@ metadata: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:776](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L776)
+[src/agent/interfaces/IAgentRegistry.ts:776](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L776)
 
 ___
 
@@ -200,7 +200,7 @@ Nome do modelo conforme suportado pelo provedor
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:716](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L716)
+[src/agent/interfaces/IAgentRegistry.ts:716](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L716)
 
 ___
 
@@ -215,7 +215,7 @@ Identifica qual provedor LLM é usado pelo agente
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:708](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L708)
+[src/agent/interfaces/IAgentRegistry.ts:708](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L708)
 
 ___
 
@@ -230,7 +230,7 @@ ao registry. Útil para auditoria e versionamento.
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:748](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L748)
+[src/agent/interfaces/IAgentRegistry.ts:748](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L748)
 
 ___
 
@@ -246,4 +246,4 @@ Usado para agrupamento e filtragem.
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:700](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L700)
+[src/agent/interfaces/IAgentRegistry.ts:700](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L700)

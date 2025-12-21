@@ -31,7 +31,7 @@
 
 #### Defined in
 
-src/flows/interfaces/flowDefinition.interface.ts:12
+[src/flows/interfaces/flowDefinition.interface.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowDefinition.interface.ts#L12)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-src/flows/interfaces/flowDefinition.interface.ts:9
+[src/flows/interfaces/flowDefinition.interface.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowDefinition.interface.ts#L9)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-src/flows/interfaces/flowDefinition.interface.ts:17
+[src/flows/interfaces/flowDefinition.interface.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowDefinition.interface.ts#L17)
 
 ___
 
@@ -75,7 +75,7 @@ ___
 
 #### Defined in
 
-src/flows/interfaces/flowDefinition.interface.ts:16
+[src/flows/interfaces/flowDefinition.interface.ts:16](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowDefinition.interface.ts#L16)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-src/flows/interfaces/flowDefinition.interface.ts:6
+[src/flows/interfaces/flowDefinition.interface.ts:6](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowDefinition.interface.ts#L6)
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 #### Defined in
 
-src/flows/interfaces/flowDefinition.interface.ts:10
+[src/flows/interfaces/flowDefinition.interface.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowDefinition.interface.ts#L10)
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 #### Defined in
 
-src/flows/interfaces/flowDefinition.interface.ts:8
+[src/flows/interfaces/flowDefinition.interface.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowDefinition.interface.ts#L8)
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-src/flows/interfaces/flowDefinition.interface.ts:11
+[src/flows/interfaces/flowDefinition.interface.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowDefinition.interface.ts#L11)
 
 ___
 
@@ -125,4 +125,4 @@ ___
 
 #### Defined in
 
-src/flows/interfaces/flowDefinition.interface.ts:7
+[src/flows/interfaces/flowDefinition.interface.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/interfaces/flowDefinition.interface.ts#L7)

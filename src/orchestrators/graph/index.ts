@@ -5,6 +5,8 @@ export * from './builder/GraphBuilder';
 export * from './builder/interfaces/graphBuilder.interface';
 export * from './nodes';
 export * from './routing';
+export * from './templates';
+export * from './utils/graphStateUtils';
 
 // Exportando interface e factory para configuração de LLM
 

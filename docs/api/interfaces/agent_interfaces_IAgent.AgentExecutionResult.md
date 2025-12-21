@@ -100,7 +100,7 @@ content: null
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:501](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L501)
+[src/agent/interfaces/IAgent.ts:501](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L501)
 
 ___
 
@@ -124,7 +124,7 @@ error: 'Ferramenta calculator não registrada'
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:633](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L633)
+[src/agent/interfaces/IAgent.ts:633](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L633)
 
 ___
 
@@ -154,7 +154,7 @@ messages: [
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:521](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L521)
+[src/agent/interfaces/IAgent.ts:521](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L521)
 
 ___
 
@@ -202,7 +202,7 @@ configurações específicas, IDs de requisição, etc.
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:555](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L555)
+[src/agent/interfaces/IAgent.ts:555](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L555)
 
 ___
 
@@ -224,7 +224,7 @@ success: false  // Erro na execução
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:617](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L617)
+[src/agent/interfaces/IAgent.ts:617](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L617)
 
 ___
 
@@ -245,4 +245,4 @@ toolsUsed: ['calculator', 'search', 'code_analyzer']
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:534](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgent.ts#L534)
+[src/agent/interfaces/IAgent.ts:534](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L534)

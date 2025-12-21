@@ -6,6 +6,14 @@ import { ChatHistoryManager, TokenizerService } from '@/memory';
 import type { IChatHistoryManager } from '@/memory';
 import type { AgentLLMConfig } from '@/agent';
 import { logger } from '@/utils/logger';
+import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
+import type { TraceEvent } from '@/telemetry/interfaces/traceEvent.interface';
+import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
+import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
+import { emitTrace } from '@/telemetry/utils/traceEmitter';
+import { createTraceId } from '@/telemetry/utils/id';
+import { noopTraceSink } from '@/telemetry/sinks/noopTraceSink';
+import { runWithTelemetry } from '@/telemetry/context/telemetryStore';
 
 /**
  * Motor de execução de grafos para orquestração de agentes de IA.
@@ -91,6 +99,10 @@ export class GraphEngine {
   private tokenizerService?: TokenizerService;
   /** Configuração do LLM (opcional) */
   private readonly llmConfig?: AgentLLMConfig;
+  private readonly trace: TraceSink;
+  private readonly telemetry?: TelemetryOptions;
+  private readonly traceContextBase?: Omit<TraceContext, 'runId' | 'parentRunId' | 'orchestrator'>;
+  private currentTraceContext?: TraceContext;
 
   /**
    * Construtor do GraphEngine.
@@ -139,12 +151,21 @@ export class GraphEngine {
     options?: {
       maxSteps?: number;
       chatHistoryManager?: IChatHistoryManager;
+      /** Sink de telemetria (push) em tempo real (opcional). */
+      trace?: TraceSink;
+      /** Opções de telemetria (volume/persistência/redaction) (opcional). */
+      telemetry?: TelemetryOptions;
+      /** Contexto base de telemetria (sem runId/orchestrator) (opcional). */
+      traceContext?: Omit<TraceContext, 'runId' | 'parentRunId' | 'orchestrator'>;
     },
     llmConfig?: AgentLLMConfig
   ) {
     this.definition = definition;
     this.maxSteps = options?.maxSteps;
     this.llmConfig = llmConfig;
+    this.trace = options?.trace ?? noopTraceSink;
+    this.telemetry = options?.telemetry;
+    this.traceContextBase = options?.traceContext;
 
     // Configurar ChatHistoryManager fornecido
     if (options?.chatHistoryManager) {
@@ -157,7 +178,7 @@ export class GraphEngine {
     }
   }
 
-  /**
+  /*
    * Adiciona uma mensagem ao histórico de chat do grafo.
    * 
    * Método utilitário para adicionar mensagens ao ChatHistoryManager
@@ -184,6 +205,45 @@ export class GraphEngine {
    * ```
    * 
    * @see {@link Message} Para formato das mensagens
+   */
+  /**
+   * Retorna o TraceContext atual (apenas durante `execute()`/`resume()`).
+   */
+  public getTraceContext(): TraceContext | undefined {
+    return this.currentTraceContext;
+  }
+
+  /**
+   * Retorna o sink de telemetria configurado no engine.
+   */
+  public getTraceSink(): TraceSink {
+    return this.trace;
+  }
+
+  /**
+   * Retorna as opções de telemetria configuradas no engine.
+   */
+  public getTelemetryOptions(): TelemetryOptions | undefined {
+    return this.telemetry;
+  }
+
+  public emitTrace(
+    state: { metadata?: Record<string, unknown> } | undefined,
+    event: Omit<TraceEvent, 'ts' | 'runId' | 'parentRunId' | 'orchestrator'>
+  ): void {
+    if (!this.currentTraceContext) return;
+    emitTrace({
+      trace: this.trace,
+      options: this.telemetry,
+      ctx: this.currentTraceContext,
+      state,
+      event,
+    });
+  }
+
+  /**
+   * Adiciona uma mensagem ao historico interno (ChatHistoryManager).
+   * @param message Mensagem a ser adicionada.
    */
   public addMessage(message: Message): void {
     if (!this.chatHistoryManager) {
@@ -407,8 +467,31 @@ export class GraphEngine {
     let state = this.bootstrapState(initialState, this.definition.entryPoint);
     let steps = 0;
 
+    const metadata = { ...(state.metadata ?? {}) } as Record<string, unknown>;
+    const runId = (metadata.runId as string | undefined) ?? createTraceId();
+    const parentRunId = metadata.parentRunId as string | undefined;
+    metadata.runId = runId;
+    if (parentRunId) metadata.parentRunId = parentRunId;
+    state = { ...state, metadata };
+
+    this.currentTraceContext = {
+      runId,
+      parentRunId,
+      orchestrator: 'graph',
+      ...(this.traceContextBase ?? {}),
+    };
+
+    const runStartedAt = Date.now();
+    this.emitTrace(state, {
+      type: 'run_started',
+      level: 'info',
+      data: { entryPoint: this.definition.entryPoint, resume: Boolean((initialState.metadata as any)?.runId) },
+    });
+
     // 3. Loop principal de execução
-    while (state.status === GraphStatus.RUNNING) {
+    let didEmitFinish = false;
+    try {
+      while (state.status === GraphStatus.RUNNING) {
       // Verificar cancelamento externo
       if (options?.signal?.aborted) {
         logger.info('[GraphEngine] Execução cancelada externamente');
@@ -426,7 +509,7 @@ export class GraphEngine {
       if (!node) throw new Error(`Node '${nodeName}' not found`);
 
       // 4. Executar nó atual
-      const delta = await this.runNode(node, state);
+      const delta = await this.runNode(nodeName, node, state);
 
       // 5. Merge do resultado com estado global
       state = this.mergeState(state, delta);
@@ -459,7 +542,25 @@ export class GraphEngine {
     }
 
     // 10. Retornar resultado final
+    this.emitTrace(state, {
+      type: 'run_finished',
+      level: 'info',
+      timing: { startedAt: new Date(runStartedAt).toISOString(), durationMs: Date.now() - runStartedAt },
+      data: { status: state.status, steps },
+    });
+    didEmitFinish = true;
     return { state, status: state.status };
+    } finally {
+      if (!didEmitFinish) {
+        this.emitTrace(state, {
+          type: 'run_finished',
+          level: 'error',
+          timing: { startedAt: new Date(runStartedAt).toISOString(), durationMs: Date.now() - runStartedAt },
+          data: { status: 'ERROR', steps, unhandled: true },
+        });
+      }
+      this.currentTraceContext = undefined;
+    }
   }
 
   /**
@@ -512,7 +613,7 @@ export class GraphEngine {
   public async resume(savedState: IGraphState, userInput?: Message): Promise<GraphRunResult> {
     // 1. Preparar estado para retomada
     let resumed = { ...savedState };
-    resumed = { ...resumed, shouldPause: false, status: GraphStatus.RUNNING };
+    resumed = { ...resumed, shouldPause: false, pendingAskUser: undefined, status: GraphStatus.RUNNING };
 
     // 2. Adicionar input do usuário se fornecido
     if (userInput) {
@@ -555,13 +656,34 @@ export class GraphEngine {
    * 
    * @private
    */
-  private async runNode(node: GraphNode, state: IGraphState) {
+  private async runNode(nodeName: string, node: GraphNode, state: IGraphState) {
+    const startedAt = Date.now();
+    const spanId = createTraceId();
+    this.emitTrace(state, { type: 'node_started', level: 'info', spanId, node: { id: nodeName } });
     try {
-      const result = await node(state, this);
+      const result = await runWithTelemetry(
+        { trace: this.trace, telemetry: this.telemetry, traceContext: this.currentTraceContext },
+        () => node(state, this)
+      );
+      this.emitTrace(state, {
+        type: 'node_finished',
+        level: 'info',
+        spanId,
+        node: { id: nodeName },
+        timing: { startedAt: new Date(startedAt).toISOString(), durationMs: Date.now() - startedAt },
+      });
       return result;
     } catch (error) {
       const errorMessage = `Erro na execução: ${(error as Error).message}`;
       logger.error(`Node execution failed: ${(error as Error).message}`, this.moduleName);
+      this.emitTrace(state, {
+        type: 'node_error',
+        level: 'error',
+        spanId,
+        node: { id: nodeName },
+        timing: { startedAt: new Date(startedAt).toISOString(), durationMs: Date.now() - startedAt },
+        message: (error as Error).message,
+      });
       
       // Em vez de definir status ERROR, adicionamos mensagem de erro
       // para que o agente possa tentar outra abordagem
@@ -631,10 +753,10 @@ export class GraphEngine {
     }
 
     // 4. Propriedades especiais (preservar se não fornecidas)
-    newState = { ...newState, lastToolCall: delta.lastToolCall ?? newState.lastToolCall };
-    newState = { ...newState, lastModelOutput: delta.lastModelOutput ?? newState.lastModelOutput };
-    newState = { ...newState, pendingAskUser: delta.pendingAskUser ?? newState.pendingAskUser };
-    newState = { ...newState, shouldPause: delta.shouldPause ?? newState.shouldPause };
+    if ('lastToolCall' in delta) newState = { ...newState, lastToolCall: delta.lastToolCall };
+    if ('lastModelOutput' in delta) newState = { ...newState, lastModelOutput: delta.lastModelOutput };
+    if ('pendingAskUser' in delta) newState = { ...newState, pendingAskUser: delta.pendingAskUser };
+    if ('shouldPause' in delta) newState = { ...newState, shouldPause: delta.shouldPause };
 
     // 5. Processar logs (concatenar)
     if (delta.logs && delta.logs.length > 0) {

@@ -4,6 +4,7 @@ import type { GraphNode, GraphNodeResult } from '@/orchestrators/graph/core/inte
 import { logger } from '@/utils/logger';
 import type { SharedState } from '@/flows/interfaces/sharedState.interface';
 import { applySharedPatch } from '@/flows/utils/sharedPatchApplier';
+import { createTraceId } from '@/telemetry/utils/id';
 
 export function createToolExecutorNode(): GraphNode {
   return async (state, engine): Promise<GraphNodeResult> => {
@@ -16,7 +17,27 @@ export function createToolExecutorNode(): GraphNode {
     logger.info(`[ToolExecutorNode] Executando tool call:`, JSON.stringify(call));
 
     // Execute tool e recebe resultado estruturado
-    const toolResult = await executeTool(call);
+    const toolCallId = call.toolCallId ?? createTraceId();
+    const startedAt = Date.now();
+    engine.emitTrace(state, {
+      type: 'tool_execution_started',
+      level: 'info',
+      tool: { name: call.toolName, toolCallId, params: call.params },
+    });
+
+    let toolResult;
+    try {
+      toolResult = await executeTool(call.toolCallId ? call : { ...call, toolCallId });
+    } catch (error) {
+      engine.emitTrace(state, {
+        type: 'tool_execution_failed',
+        level: 'error',
+        tool: { name: call.toolName, toolCallId },
+        timing: { startedAt: new Date(startedAt).toISOString(), durationMs: Date.now() - startedAt },
+        message: (error as Error).message,
+      });
+      throw error;
+    }
     const observation = toolResult.observation;
     const toolMetadata = toolResult.metadata;
 
@@ -27,6 +48,8 @@ export function createToolExecutorNode(): GraphNode {
       toolResultStr = String(observation);
     }
     logger.info(`[ToolExecutorNode] Resultado da tool:`, toolResultStr);
+
+    const observationPreview = toolResultStr.length > 1000 ? `${toolResultStr.slice(0, 1000)}…(truncated)` : toolResultStr;
 
     // Adicionar resultado como mensagem de sistema para React + SAP
     // No sistema React + SAP, o resultado da ferramenta é adicionado como uma mensagem normal
@@ -43,15 +66,30 @@ export function createToolExecutorNode(): GraphNode {
     };
 
     let nextData: Record<string, unknown> | undefined;
+    let patchOpsCount = 0;
     if (toolMetadata && typeof toolMetadata === 'object') {
       const metadataObj = toolMetadata as { sharedPatch?: unknown; patch?: unknown };
       const patch = metadataObj.sharedPatch ?? metadataObj.patch;
       if (Array.isArray(patch)) {
+        patchOpsCount = patch.length;
         const currentShared = (state.data?.shared ?? {}) as SharedState;
         const nextShared = applySharedPatch(currentShared, patch);
         nextData = { ...(state.data ?? {}), shared: nextShared };
       }
     }
+
+    engine.emitTrace(state, {
+      type: 'tool_execution_finished',
+      level: 'info',
+      tool: { name: call.toolName, toolCallId, observationPreview },
+      timing: { startedAt: new Date(startedAt).toISOString(), durationMs: Date.now() - startedAt },
+      data: {
+        ...(patchOpsCount ? { patchOpsCount } : {}),
+        ...(toolMetadata && typeof toolMetadata === 'object'
+          ? { metadataKeys: Object.keys(toolMetadata as Record<string, unknown>).slice(0, 32) }
+          : {}),
+      },
+    });
 
     // Se a tool retornou metadata, propaga para o state
     if (toolMetadata && Object.keys(toolMetadata).length > 0) {

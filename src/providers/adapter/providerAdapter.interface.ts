@@ -1,3 +1,7 @@
+import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
+import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
+import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
+
 /**
  * Interface para definir o contrato de um provedor
  * 
@@ -150,6 +154,22 @@ export interface ProviderConfig {
     description: string;
     parameters: any;
   }>;
+
+  /**
+   * Sink de telemetria (push) em tempo real.
+   * Opcional: o SDK não deve depender de console/arquivo diretamente.
+   */
+  trace?: TraceSink;
+
+  /**
+   * Opções de telemetria (volume/persistência/redaction).
+   */
+  telemetry?: TelemetryOptions;
+
+  /**
+   * Contexto de telemetria para correlação (runId/orchestrator/agent).
+   */
+  traceContext?: TraceContext;
 }
 
 /** 

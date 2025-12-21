@@ -147,7 +147,7 @@ const agentLLM2 = new AgentLLM({
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:162](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/llm/agentLLM.ts#L162)
+[src/agent/llm/agentLLM.ts:165](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L165)
 
 ## Properties
 
@@ -159,7 +159,7 @@ Chave de API do provedor
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:85](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/llm/agentLLM.ts#L85)
+[src/agent/llm/agentLLM.ts:88](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L88)
 
 ___
 
@@ -171,7 +171,7 @@ URL base customizada (opcional)
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:89](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/llm/agentLLM.ts#L89)
+[src/agent/llm/agentLLM.ts:92](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L92)
 
 ___
 
@@ -183,7 +183,7 @@ Parâmetros padrão de geração
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:87](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/llm/agentLLM.ts#L87)
+[src/agent/llm/agentLLM.ts:90](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L90)
 
 ___
 
@@ -195,7 +195,7 @@ Modelo de linguagem configurado
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:83](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/llm/agentLLM.ts#L83)
+[src/agent/llm/agentLLM.ts:86](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L86)
 
 ___
 
@@ -207,7 +207,7 @@ Provedor explícito (opcional)
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:91](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/llm/agentLLM.ts#L91)
+[src/agent/llm/agentLLM.ts:94](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L94)
 
 ## Methods
 
@@ -242,9 +242,12 @@ via PromptBuilder usando mode e agentInfo.
 | `args.systemPrompt?` | `string` | System prompt customizado (sobrescreve geração automática) |
 | `args.taskList?` | `Object` | Lista de tarefas para incluir no prompt |
 | `args.taskList.items` | \{ `id`: `string` ; `status`: ``"pending"`` \| ``"in_progress"`` \| ``"completed"`` ; `title`: `string`  }[] | - |
+| `args.telemetry?` | [`TelemetryOptions`](../interfaces/telemetry_interfaces_telemetryOptions_interface.TelemetryOptions.md) | - |
 | `args.temperature?` | `number` | Temperatura específica para esta chamada |
 | `args.tools?` | [`ToolSchema`](../modules/promptBuilder_promptBuilder_interface.md#toolschema)[] | Ferramentas disponíveis para o agente |
 | `args.topP?` | `number` | TopP específico para esta chamada |
+| `args.trace?` | [`TraceSink`](../interfaces/telemetry_interfaces_traceSink_interface.TraceSink.md) | - |
+| `args.traceContext?` | [`TraceContext`](../interfaces/telemetry_interfaces_traceContext_interface.TraceContext.md) | - |
 
 #### Returns
 
@@ -287,7 +290,7 @@ const result3 = await agentLLM.invoke({
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:219](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/llm/agentLLM.ts#L219)
+[src/agent/llm/agentLLM.ts:222](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L222)
 
 ___
 
@@ -334,4 +337,4 @@ const agentLLM = AgentLLM.fromConfig(config);
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:121](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/llm/agentLLM.ts#L121)
+[src/agent/llm/agentLLM.ts:124](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L124)

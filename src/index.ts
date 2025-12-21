@@ -25,5 +25,8 @@ export * from './tools';
 // Exportar MCP
 export * from './tools/tools/mcp';
 
+// Exportar telemetria/observabilidade
+export * from './telemetry';
+
 
 

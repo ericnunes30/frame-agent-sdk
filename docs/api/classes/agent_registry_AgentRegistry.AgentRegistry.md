@@ -148,7 +148,7 @@ const testRegistry = new AgentRegistry();
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:136](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L136)
+[src/agent/registry/AgentRegistry.ts:136](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L136)
 
 ## Properties
 
@@ -160,7 +160,7 @@ Mapa interno de agentes registrados
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:105](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L105)
+[src/agent/registry/AgentRegistry.ts:105](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L105)
 
 ___
 
@@ -172,7 +172,7 @@ Estatísticas do registry
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:119](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L119)
+[src/agent/registry/AgentRegistry.ts:119](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L119)
 
 ___
 
@@ -184,7 +184,7 @@ Instância singleton do registry
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:102](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L102)
+[src/agent/registry/AgentRegistry.ts:102](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L102)
 
 ## Methods
 
@@ -204,7 +204,7 @@ Limpa todos os registros
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:337](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L337)
+[src/agent/registry/AgentRegistry.ts:337](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L337)
 
 ___
 
@@ -231,7 +231,7 @@ Obtém um agente registrado
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:269](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L269)
+[src/agent/registry/AgentRegistry.ts:269](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L269)
 
 ___
 
@@ -251,7 +251,7 @@ Obtém estatísticas do registro
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:350](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L350)
+[src/agent/registry/AgentRegistry.ts:350](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L350)
 
 ___
 
@@ -277,7 +277,7 @@ Verifica se um agente está registrado
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:330](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L330)
+[src/agent/registry/AgentRegistry.ts:330](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L330)
 
 ___
 
@@ -297,7 +297,7 @@ Lista todos os agentes registrados
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:301](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L301)
+[src/agent/registry/AgentRegistry.ts:301](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L301)
 
 ___
 
@@ -352,7 +352,7 @@ registry.register('researcher', ResearchAgent, researchConfig, {
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:205](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L205)
+[src/agent/registry/AgentRegistry.ts:205](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L205)
 
 ___
 
@@ -378,7 +378,7 @@ Remove um agente do registro
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:315](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L315)
+[src/agent/registry/AgentRegistry.ts:315](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L315)
 
 ___
 
@@ -394,7 +394,7 @@ Atualiza as estatísticas do registro
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:357](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L357)
+[src/agent/registry/AgentRegistry.ts:357](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L357)
 
 ___
 
@@ -428,4 +428,4 @@ console.log(registry1 === registry2); // true
 
 #### Defined in
 
-[src/agent/registry/AgentRegistry.ts:165](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/registry/AgentRegistry.ts#L165)
+[src/agent/registry/AgentRegistry.ts:165](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/registry/AgentRegistry.ts#L165)

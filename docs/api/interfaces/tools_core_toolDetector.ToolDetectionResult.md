@@ -26,7 +26,7 @@ Erro detalhado da detecção (apenas se success = false)
 
 #### Defined in
 
-[src/tools/core/toolDetector.ts:18](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/toolDetector.ts#L18)
+[src/tools/core/toolDetector.ts:18](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/toolDetector.ts#L18)
 
 ___
 
@@ -38,7 +38,7 @@ Indica se a detecção foi bem-sucedida
 
 #### Defined in
 
-[src/tools/core/toolDetector.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/toolDetector.ts#L14)
+[src/tools/core/toolDetector.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/toolDetector.ts#L14)
 
 ___
 
@@ -50,4 +50,4 @@ Chamada de ferramenta detectada (apenas se success = true)
 
 #### Defined in
 
-[src/tools/core/toolDetector.ts:16](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/core/toolDetector.ts#L16)
+[src/tools/core/toolDetector.ts:16](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/toolDetector.ts#L16)

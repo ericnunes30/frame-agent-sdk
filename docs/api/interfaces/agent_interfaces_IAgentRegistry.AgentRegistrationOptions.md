@@ -57,7 +57,7 @@ metadata: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:515](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L515)
+[src/agent/interfaces/IAgentRegistry.ts:515](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L515)
 
 ___
 
@@ -80,7 +80,7 @@ overwrite: false  // Falha se ID já existe (padrão)
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:481](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L481)
+[src/agent/interfaces/IAgentRegistry.ts:481](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L481)
 
 ___
 
@@ -103,4 +103,4 @@ validate: false  // Pula validação (mais rápido)
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:496](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L496)
+[src/agent/interfaces/IAgentRegistry.ts:496](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L496)

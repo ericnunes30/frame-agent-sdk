@@ -30,4 +30,4 @@ Pausas do subfluxo sao propagadas sem pendingAskUser para o grafo pai.
 
 #### Defined in
 
-src/orchestrators/graph/nodes/subflowNode.ts:13
+[src/orchestrators/graph/nodes/subflowNode.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/subflowNode.ts#L13)

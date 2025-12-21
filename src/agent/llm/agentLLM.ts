@@ -7,6 +7,9 @@ import { PromptBuilder } from '../../promptBuilder';
 import type { PromptBuilderConfig, PromptMode, AgentInfo, ToolSchema } from '../../promptBuilder';
 
 import type { AgentLLMConfig, ProviderDefaults } from '../interfaces/agentLLM.interface';
+import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
+import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
+import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
 
 /**
  * Cliente LLM especializado para agentes de IA.
@@ -241,6 +244,9 @@ export class AgentLLM {
     stream?: boolean;
     /** Configuração customizada do PromptBuilder */
     promptConfig?: PromptBuilderConfig;
+    trace?: TraceSink;
+    telemetry?: TelemetryOptions;
+    traceContext?: TraceContext;
   }): Promise<{ content: string | null; metadata?: Record<string, unknown> }> {
 
 
@@ -269,6 +275,9 @@ export class AgentLLM {
       topP,
       maxTokens,
       baseUrl: this.baseUrl,
+      trace: args.trace,
+      telemetry: args.telemetry,
+      traceContext: args.traceContext,
     };
 
     // 4. Executar via ProviderAdapter

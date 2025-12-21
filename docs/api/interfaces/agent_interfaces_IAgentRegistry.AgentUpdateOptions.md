@@ -53,7 +53,7 @@ applyOnlyToNewInstances: false  // Todas as instâncias (padrão)
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:627](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L627)
+[src/agent/interfaces/IAgentRegistry.ts:627](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L627)
 
 ___
 
@@ -79,7 +79,7 @@ metadata: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:645](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L645)
+[src/agent/interfaces/IAgentRegistry.ts:645](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L645)
 
 ___
 
@@ -102,4 +102,4 @@ validate: false  // Aplica diretamente (mais rápido)
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:611](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L611)
+[src/agent/interfaces/IAgentRegistry.ts:611](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L611)

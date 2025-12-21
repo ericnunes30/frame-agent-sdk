@@ -41,7 +41,7 @@ para o formato tipado IToolCall.
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:24](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/constructor/sapParser.ts#L24)
+[src/tools/constructor/sapParser.ts:24](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L24)
 
 ## Methods
 
@@ -65,7 +65,7 @@ Converte: "Action: tool {" -> "Action: tool = {"
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/constructor/sapParser.ts#L36)
+[src/tools/constructor/sapParser.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L36)
 
 ___
 
@@ -86,7 +86,7 @@ ___
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:43](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/constructor/sapParser.ts#L43)
+[src/tools/constructor/sapParser.ts:43](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L43)
 
 ___
 
@@ -106,7 +106,7 @@ ___
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:58](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/constructor/sapParser.ts#L58)
+[src/tools/constructor/sapParser.ts:58](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L58)
 
 ___
 
@@ -126,4 +126,4 @@ ___
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:26](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/constructor/sapParser.ts#L26)
+[src/tools/constructor/sapParser.ts:26](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L26)

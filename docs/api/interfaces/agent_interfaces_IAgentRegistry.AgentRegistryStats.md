@@ -74,7 +74,7 @@ Indicador de performance geral do sistema.
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:915](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L915)
+[src/agent/interfaces/IAgentRegistry.ts:915](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L915)
 
 ___
 
@@ -100,7 +100,7 @@ distributionByType: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:882](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L882)
+[src/agent/interfaces/IAgentRegistry.ts:882](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L882)
 
 ___
 
@@ -126,7 +126,7 @@ mostUsedAgents: [
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:933](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L933)
+[src/agent/interfaces/IAgentRegistry.ts:933](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L933)
 
 ___
 
@@ -149,7 +149,7 @@ successRate: 1.0   // 100% de sucesso
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:906](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L906)
+[src/agent/interfaces/IAgentRegistry.ts:906](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L906)
 
 ___
 
@@ -164,7 +164,7 @@ do tipo ou status. Útil para entender o tamanho do sistema.
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:856](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L856)
+[src/agent/interfaces/IAgentRegistry.ts:856](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L856)
 
 ___
 
@@ -180,7 +180,7 @@ geral do sistema.
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:891](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L891)
+[src/agent/interfaces/IAgentRegistry.ts:891](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L891)
 
 ___
 
@@ -195,4 +195,4 @@ Indica a diversidade de capacidades do sistema.
 
 #### Defined in
 
-[src/agent/interfaces/IAgentRegistry.ts:864](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/IAgentRegistry.ts#L864)
+[src/agent/interfaces/IAgentRegistry.ts:864](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentRegistry.ts#L864)

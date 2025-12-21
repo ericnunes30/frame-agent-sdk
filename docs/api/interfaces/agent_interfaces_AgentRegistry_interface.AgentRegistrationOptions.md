@@ -21,7 +21,7 @@ Descrição do agente
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:400](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L400)
+[src/agent/interfaces/AgentRegistry.interface.ts:400](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L400)
 
 ___
 
@@ -33,4 +33,4 @@ Se deve sobrescrever se já existir
 
 #### Defined in
 
-[src/agent/interfaces/AgentRegistry.interface.ts:405](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/interfaces/AgentRegistry.interface.ts#L405)
+[src/agent/interfaces/AgentRegistry.interface.ts:405](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/AgentRegistry.interface.ts#L405)

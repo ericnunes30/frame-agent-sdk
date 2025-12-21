@@ -74,7 +74,7 @@ Mapa interno de provedores registrados (nome → construtor)
 
 #### Defined in
 
-[src/providers/providers/providerRegistry.ts:83](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/providers/providerRegistry.ts#L83)
+[src/providers/providers/providerRegistry.ts:83](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/providerRegistry.ts#L83)
 
 ## Methods
 
@@ -126,7 +126,7 @@ try {
 
 #### Defined in
 
-[src/providers/providers/providerRegistry.ts:135](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/providers/providerRegistry.ts#L135)
+[src/providers/providers/providerRegistry.ts:135](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/providerRegistry.ts#L135)
 
 ___
 
@@ -167,7 +167,7 @@ if (!ProviderRegistry.hasProvider('anthropic')) {
 
 #### Defined in
 
-[src/providers/providers/providerRegistry.ts:250](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/providers/providerRegistry.ts#L250)
+[src/providers/providers/providerRegistry.ts:250](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/providerRegistry.ts#L250)
 
 ___
 
@@ -204,7 +204,7 @@ if (availableProviders.includes('anthropic')) {
 
 #### Defined in
 
-[src/providers/providers/providerRegistry.ts:168](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/providers/providerRegistry.ts#L168)
+[src/providers/providers/providerRegistry.ts:168](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/providerRegistry.ts#L168)
 
 ___
 
@@ -253,7 +253,7 @@ const provider = new CustomConstructor('api-key');
 
 #### Defined in
 
-[src/providers/providers/providerRegistry.ts:199](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/providers/providerRegistry.ts#L199)
+[src/providers/providers/providerRegistry.ts:199](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/providerRegistry.ts#L199)
 
 ___
 
@@ -292,4 +292,4 @@ ProviderRegistry.unregisterProvider('openai'); // false
 
 #### Defined in
 
-[src/providers/providers/providerRegistry.ts:225](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/providers/providers/providerRegistry.ts#L225)
+[src/providers/providers/providerRegistry.ts:225](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/providerRegistry.ts#L225)

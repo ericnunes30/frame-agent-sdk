@@ -129,7 +129,7 @@ Descrição da funcionalidade da ferramenta
 
 #### Defined in
 
-[src/tools/tools/approvalTool.ts:109](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/approvalTool.ts#L109)
+[src/tools/tools/approvalTool.ts:109](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/approvalTool.ts#L109)
 
 ___
 
@@ -145,7 +145,7 @@ Nome da ferramenta no sistema
 
 #### Defined in
 
-[src/tools/tools/approvalTool.ts:107](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/approvalTool.ts#L107)
+[src/tools/tools/approvalTool.ts:107](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/approvalTool.ts#L107)
 
 ___
 
@@ -161,7 +161,7 @@ Schema de parâmetros para validação
 
 #### Defined in
 
-[src/tools/tools/approvalTool.ts:111](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/approvalTool.ts#L111)
+[src/tools/tools/approvalTool.ts:111](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/approvalTool.ts#L111)
 
 ## Methods
 
@@ -210,4 +210,4 @@ console.log(result);
 
 #### Defined in
 
-[src/tools/tools/approvalTool.ts:140](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/tools/tools/approvalTool.ts#L140)
+[src/tools/tools/approvalTool.ts:140](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/approvalTool.ts#L140)

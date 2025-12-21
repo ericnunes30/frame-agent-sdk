@@ -4,6 +4,14 @@ import { ToolDetector, ToolExecutor } from '../../tools';
 import { PromptBuilder } from '@/promptBuilder';
 import { AGENT_MODES } from '@/llmModes';
 import type { AgentMode } from '@/llmModes';
+import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
+import type { TraceEvent } from '@/telemetry/interfaces/traceEvent.interface';
+import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
+import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
+import { noopTraceSink } from '@/telemetry/sinks/noopTraceSink';
+import { emitTrace } from '@/telemetry/utils/traceEmitter';
+import { createTraceId } from '@/telemetry/utils/id';
+import { runWithTelemetry } from '@/telemetry/context/telemetryStore';
 
 /**
  * Orquestrador de steps sequenciais para agentes de IA.
@@ -76,6 +84,10 @@ export class StepsOrchestrator implements IStepsOrchestrator {
   private readonly config: StepsConfig;
   /** Lista de agentes para execução sequencial */
   private readonly agentConfigs: AgentStepConfig[] = [];
+  private readonly trace: TraceSink;
+  private readonly telemetry?: TelemetryOptions;
+  private readonly traceContextBase?: Omit<TraceContext, 'runId' | 'parentRunId' | 'orchestrator'>;
+  private currentTraceContext?: TraceContext;
 
   /**
    * Construtor do StepsOrchestrator.
@@ -94,12 +106,26 @@ export class StepsOrchestrator implements IStepsOrchestrator {
    * @see {@link StepsDeps} Para dependências necessárias
    * @see {@link StepsConfig} Para configuração disponível
    */
-  constructor(deps: StepsDeps, config: StepsConfig) {
+  constructor(
+    deps: StepsDeps,
+    config: StepsConfig,
+    options?: {
+      /** Sink de telemetria (push) em tempo real (opcional). */
+      trace?: TraceSink;
+      /** Opções de telemetria (volume/persistência/redaction) (opcional). */
+      telemetry?: TelemetryOptions;
+      /** Contexto base de telemetria (sem runId/orchestrator) (opcional). */
+      traceContext?: Omit<TraceContext, 'runId' | 'parentRunId' | 'orchestrator'>;
+    }
+  ) {
     this.deps = deps;
     this.config = config;
+    this.trace = options?.trace ?? noopTraceSink;
+    this.telemetry = options?.telemetry;
+    this.traceContextBase = options?.traceContext;
   }
 
-  /**
+  /*
    * Adiciona um agente à sequência de execução.
    * 
    * Este método permite configurar múltiplos agentes que serão executados
@@ -117,6 +143,31 @@ export class StepsOrchestrator implements IStepsOrchestrator {
    *   .addAgent({ mode: 'REACT', agentInfo: { name: 'Agent2' } })
    *   .run('Input inicial');
    * ```
+   */
+  /**
+   * Retorna o TraceContext atual (apenas durante `run()`).
+   */
+  public getTraceContext(): TraceContext | undefined {
+    return this.currentTraceContext;
+  }
+
+  private emitTrace(
+    state: { metadata?: Record<string, unknown> } | undefined,
+    event: Omit<TraceEvent, 'ts' | 'runId' | 'parentRunId' | 'orchestrator'>
+  ): void {
+    if (!this.currentTraceContext) return;
+    emitTrace({
+      trace: this.trace,
+      options: this.telemetry,
+      ctx: this.currentTraceContext,
+      state,
+      event,
+    });
+  }
+
+  /**
+   * Adiciona um agente na sequencia.
+   * @param config Config do agente.
    */
   public addAgent(config: AgentStepConfig): this {
     this.agentConfigs.push(config);
@@ -165,6 +216,13 @@ export class StepsOrchestrator implements IStepsOrchestrator {
         additionalInstructions: agentConfig.additionalInstructions,
         tools: agentConfig.tools,
         taskList: agentConfig.taskList
+      }, {
+        trace: this.trace,
+        telemetry: this.telemetry,
+        traceContext: {
+          ...(this.traceContextBase ?? {}),
+          agent: { label: agentConfig.agentInfo?.name },
+        }
       });
 
       const result = await tempOrchestrator.runFlow(currentInput);
@@ -302,10 +360,32 @@ export class StepsOrchestrator implements IStepsOrchestrator {
    */
   public async run(steps: Step[], userInput: string): Promise<{ final: string | null; state: OrchestrationState }> {
     // initialize state
-    const state: OrchestrationState = { data: {}, final: undefined, lastModelOutput: null };
+    const state: OrchestrationState = { data: {}, metadata: {}, final: undefined, lastModelOutput: null };
+
+    const metadata = (state.metadata ??= {});
+    const runId = (metadata.runId as string | undefined) ?? createTraceId();
+    const parentRunId = metadata.parentRunId as string | undefined;
+    metadata.runId = runId;
+    if (parentRunId) metadata.parentRunId = parentRunId;
+
+    const prevTraceContext = this.currentTraceContext;
+    this.currentTraceContext = {
+      runId,
+      parentRunId,
+      orchestrator: 'steps',
+      ...(this.traceContextBase ?? {}),
+      agent: { label: this.config.agentInfo?.name },
+    };
+
+    const runStartedAt = Date.now();
+    let didEmitFinish = false;
+    this.emitTrace(state, { type: 'run_started', level: 'info', data: { mode: this.config.mode } });
 
     // seed user input
+    try {
     this.deps.memory.addMessage({ role: 'user', content: userInput });
+
+    // turns já inicializado no início do runFlow para telemetria
 
     // step iteration
     let index = 0;
@@ -329,6 +409,26 @@ export class StepsOrchestrator implements IStepsOrchestrator {
     }
 
     return { final: state.final ?? null, state };
+    } catch (error) {
+      this.emitTrace(state, {
+        type: 'run_finished',
+        level: 'error',
+        timing: { startedAt: new Date(runStartedAt).toISOString(), durationMs: Date.now() - runStartedAt },
+        message: (error as Error).message,
+      });
+      didEmitFinish = true;
+      throw error;
+    } finally {
+      if (!didEmitFinish) {
+        this.emitTrace(state, {
+          type: 'run_finished',
+          level: 'info',
+          timing: { startedAt: new Date(runStartedAt).toISOString(), durationMs: Date.now() - runStartedAt },
+          data: { kind: 'steps', stepsCount: steps.length },
+        });
+      }
+      this.currentTraceContext = prevTraceContext;
+    }
   }
 
   /**
@@ -430,7 +530,29 @@ export class StepsOrchestrator implements IStepsOrchestrator {
     /** Número máximo de turnos para modo REACT (padrão: 8) */
     const maxTurns = opts?.maxTurns ?? 8;
     /** Estado inicial da orquestração */
-    const state: OrchestrationState = { data: {}, final: undefined, lastModelOutput: null };
+    const state: OrchestrationState = { data: {}, metadata: {}, final: undefined, lastModelOutput: null };
+
+    const metadata = (state.metadata ??= {});
+    const runId = (metadata.runId as string | undefined) ?? createTraceId();
+    const parentRunId = metadata.parentRunId as string | undefined;
+    metadata.runId = runId;
+    if (parentRunId) metadata.parentRunId = parentRunId;
+
+    const prevTraceContext = this.currentTraceContext;
+    this.currentTraceContext = {
+      runId,
+      parentRunId,
+      orchestrator: 'steps',
+      ...(this.traceContextBase ?? {}),
+      agent: { label: this.config.agentInfo?.name },
+    };
+
+    const runStartedAt = Date.now();
+    let didEmitFinish = false;
+    let turns = 0;
+    this.emitTrace(state, { type: 'run_started', level: 'info', data: { kind: 'flow', mode: this.config.mode } });
+
+    try {
 
     // Adiciona input inicial do usuário ao histórico de memória
     this.deps.memory.addMessage({ role: 'user', content: userInput });
@@ -444,6 +566,9 @@ export class StepsOrchestrator implements IStepsOrchestrator {
       const { content, metadata } = await this.deps.llm.invoke({
         messages: this.deps.memory.getTrimmedHistory(),
         systemPrompt,
+        trace: this.trace,
+        telemetry: this.telemetry,
+        traceContext: this.currentTraceContext,
       });
       
       // Atualiza estado com output do modelo
@@ -461,7 +586,7 @@ export class StepsOrchestrator implements IStepsOrchestrator {
 
     // === MODO REACT: Loop iterativo com SAP ===
     /** Contador de turnos executados */
-    let turns = 0;
+    turns = 0;
     
     // Inicializa estrutura de dados para steps do REACT
     if (!state.data) state.data = {};
@@ -479,17 +604,31 @@ export class StepsOrchestrator implements IStepsOrchestrator {
       }
       
       turns += 1;
+      const turnSpanId = createTraceId();
+      const turnStartedAt = Date.now();
+      this.emitTrace(state, { type: 'step_started', level: 'info', spanId: turnSpanId, step: { index: turns, name: 'react_turn' } });
       
       // Constrói e invoca LLM para este turno
       const systemPrompt = PromptBuilder.buildSystemPrompt(this.config);
       const { content, metadata } = await this.deps.llm.invoke({
         messages: this.deps.memory.getTrimmedHistory(),
         systemPrompt,
+        trace: this.trace,
+        telemetry: this.telemetry,
+        traceContext: this.currentTraceContext,
       });
       
       // Atualiza estado com output e metadados do modelo
       state.lastModelOutput = content ?? null;
       if (metadata) state.data.metadata = metadata;
+
+      this.emitTrace(state, {
+        type: 'step_finished',
+        level: 'info',
+        spanId: turnSpanId,
+        step: { index: turns, name: 'react_turn' },
+        timing: { startedAt: new Date(turnStartedAt).toISOString(), durationMs: Date.now() - turnStartedAt },
+      });
 
       const text = content ?? '';
       
@@ -499,6 +638,15 @@ export class StepsOrchestrator implements IStepsOrchestrator {
       // === PARSING: Detecção de Structured Action Protocol ===
       // Usa ToolDetector para analisar output e identificar chamadas de ferramenta
       const detection = ToolDetector.detect(text);
+      if (detection.success && detection.toolCall) {
+        const toolCallId = (detection.toolCall as any).toolCallId ?? createTraceId();
+        (detection.toolCall as any).toolCallId = toolCallId;
+        this.emitTrace(state, {
+          type: 'tool_detected',
+          level: 'info',
+          tool: { name: detection.toolCall.toolName, toolCallId, params: detection.toolCall.params },
+        });
+      }
 
       // Caso 1: Nenhuma ferramenta detectada
       if (!detection.success) {
@@ -585,14 +733,49 @@ export class StepsOrchestrator implements IStepsOrchestrator {
       } catch { /* Ignora erros de parsing/captura de thought */ }
 
       // === EXECUÇÃO DE FERRAMENTA ===
+      const toolCallId = (call as any).toolCallId ?? createTraceId();
+      const toolStartedAt = Date.now();
+      this.emitTrace(state, {
+        type: 'tool_execution_started',
+        level: 'info',
+        tool: { name: toolName, toolCallId, params: call.params },
+      });
+
       // Executa ferramenta via ToolExecutor e recebe resultado estruturado
-      const toolResult = await ToolExecutor.execute({ toolName, params: call.params } as any);
+      let toolResult;
+      try {
+        toolResult = await runWithTelemetry(
+          { trace: this.trace, telemetry: this.telemetry, traceContext: this.currentTraceContext },
+          () => ToolExecutor.execute({ toolName, params: call.params, toolCallId } as any)
+        );
+      } catch (error) {
+        this.emitTrace(state, {
+          type: 'tool_execution_failed',
+          level: 'error',
+          tool: { name: toolName, toolCallId },
+          timing: { startedAt: new Date(toolStartedAt).toISOString(), durationMs: Date.now() - toolStartedAt },
+          message: (error as Error).message,
+        });
+        throw error;
+      }
       const observation = toolResult.observation;
       const toolMetadata = toolResult.metadata;
 
+      const observationStr = typeof observation === 'object' && observation !== null
+        ? JSON.stringify(observation)
+        : String(observation);
+      const observationPreview = observationStr.length > 1000 ? `${observationStr.slice(0, 1000)}…(truncated)` : observationStr;
+
+      this.emitTrace(state, {
+        type: 'tool_execution_finished',
+        level: 'info',
+        tool: { name: toolName, toolCallId, observationPreview },
+        timing: { startedAt: new Date(toolStartedAt).toISOString(), durationMs: Date.now() - toolStartedAt },
+      });
+
       // === GERENCIAMENTO DE MEMÓRIA ===
       // Adiciona observation ao histórico de memória como mensagem de ferramenta
-      this.deps.memory.addMessage({ role: 'tool', content: String(observation) });
+      this.deps.memory.addMessage({ role: 'tool', content: observationStr });
 
       // === ANEXAÇÃO DE OBSERVATION ===
       // Anexa observation ao último step (se disponível)
@@ -622,5 +805,25 @@ export class StepsOrchestrator implements IStepsOrchestrator {
     // === FINALIZAÇÃO ===
     // Retorna resultado final da execução do fluxo
     return { final: state.final ?? null, state };
+    } catch (error) {
+      this.emitTrace(state, {
+        type: 'run_finished',
+        level: 'error',
+        timing: { startedAt: new Date(runStartedAt).toISOString(), durationMs: Date.now() - runStartedAt },
+        message: (error as Error).message,
+      });
+      didEmitFinish = true;
+      throw error;
+    } finally {
+      if (!didEmitFinish) {
+        this.emitTrace(state, {
+          type: 'run_finished',
+          level: 'info',
+          timing: { startedAt: new Date(runStartedAt).toISOString(), durationMs: Date.now() - runStartedAt },
+          data: { turns },
+        });
+      }
+      this.currentTraceContext = prevTraceContext;
+    }
   }
 }

@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/agent/core/validateReAct.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/core/validateReAct.ts#L9)
+[src/agent/core/validateReAct.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/core/validateReAct.ts#L9)
 
 ___
 
@@ -27,4 +27,4 @@ ___
 
 #### Defined in
 
-[src/agent/core/validateReAct.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/a8ed935aa5f9700d47bfce931a0662a7ab3d590d/src/agent/core/validateReAct.ts#L8)
+[src/agent/core/validateReAct.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/core/validateReAct.ts#L8)
