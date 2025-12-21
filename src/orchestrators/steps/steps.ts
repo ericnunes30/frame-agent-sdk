@@ -1,5 +1,8 @@
 // src/orchestrators/steps/steps.ts
 import type { Step, StepResultUpdate, StepProviderOptions, AgentStepConfig } from '@/orchestrators/steps/interfaces';
+import type { FlowRunner } from '@/flows/interfaces/flowRunner.interface';
+import type { SharedState } from '@/flows/interfaces/sharedState.interface';
+import { applySharedPatch } from '@/flows/utils/sharedPatchApplier';
 import { AgentLLM, type AgentLLMConfig } from '@/agent';
 
 /**
@@ -108,5 +111,39 @@ export const stepAgentCustom = (id: string, opts: StepProviderOptions): Step => 
 
     ctx.deps.memory.addMessage({ role: 'assistant', content: content ?? '' });
     return { data: { metadata } };
+  }
+});
+
+/**
+ * Cria um step que executa um subfluxo e aplica SharedPatch em data.shared.
+ */
+export const createStepSubflow = (id: string, args: { runner: FlowRunner; flowId: string }): Step => ({
+  id,
+  async run(ctx): Promise<StepResultUpdate> {
+    const data = (ctx.state.data ?? {}) as Record<string, unknown>;
+    const shared = (data.shared ?? {}) as SharedState;
+    const { shared: _shared, ...input } = data;
+
+    const result = await args.runner.run({
+      flowId: args.flowId,
+      input,
+      shared
+    });
+
+    const nextShared = applySharedPatch(shared, result.patch);
+
+    const nextData = {
+      ...data,
+      shared: nextShared,
+      subflow: {
+        flowId: args.flowId,
+        status: result.status,
+        output: result.output,
+        patch: result.patch,
+        childState: result.childState
+      }
+    };
+
+    return { data: nextData, halt: result.status === 'paused' };
   }
 });

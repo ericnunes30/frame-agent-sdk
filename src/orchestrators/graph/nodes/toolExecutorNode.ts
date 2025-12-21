@@ -2,6 +2,8 @@ import { ToolExecutor } from '@/tools/core/toolExecutor';
 import type { IToolCall } from '@/tools/core/interfaces';
 import type { GraphNode, GraphNodeResult } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
 import { logger } from '@/utils/logger';
+import type { SharedState } from '@/flows/interfaces/sharedState.interface';
+import { applySharedPatch } from '@/flows/utils/sharedPatchApplier';
 
 export function createToolExecutorNode(): GraphNode {
   return async (state, engine): Promise<GraphNodeResult> => {
@@ -40,12 +42,31 @@ export function createToolExecutorNode(): GraphNode {
       lastModelOutput: toolResultStr,
     };
 
+    let nextData: Record<string, unknown> | undefined;
+    if (toolMetadata && typeof toolMetadata === 'object') {
+      const metadataObj = toolMetadata as { sharedPatch?: unknown; patch?: unknown };
+      const patch = metadataObj.sharedPatch ?? metadataObj.patch;
+      if (Array.isArray(patch)) {
+        const currentShared = (state.data?.shared ?? {}) as SharedState;
+        const nextShared = applySharedPatch(currentShared, patch);
+        nextData = { ...(state.data ?? {}), shared: nextShared };
+      }
+    }
+
     // Se a tool retornou metadata, propaga para o state
     if (toolMetadata && Object.keys(toolMetadata).length > 0) {
       logger.info(`[ToolExecutorNode] Propagando metadata da tool:`, JSON.stringify(toolMetadata));
       return {
         ...nodeResult,
+        data: nextData ?? undefined,
         metadata: toolMetadata
+      };
+    }
+
+    if (nextData) {
+      return {
+        ...nodeResult,
+        data: nextData
       };
     }
 
