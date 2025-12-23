@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/orchestrators/graph/core/interfaces/graphEngine.interface.ts:28](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/interfaces/graphEngine.interface.ts#L28)
+[src/orchestrators/graph/core/interfaces/graphEngine.interface.ts:28](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/interfaces/graphEngine.interface.ts#L28)
 
 ___
 
@@ -27,4 +27,4 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/core/interfaces/graphEngine.interface.ts:29](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/interfaces/graphEngine.interface.ts#L29)
+[src/orchestrators/graph/core/interfaces/graphEngine.interface.ts:29](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/interfaces/graphEngine.interface.ts#L29)

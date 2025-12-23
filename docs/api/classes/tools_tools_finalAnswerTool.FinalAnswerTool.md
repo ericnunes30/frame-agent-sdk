@@ -142,7 +142,7 @@ Descrição da funcionalidade da ferramenta
 
 #### Defined in
 
-[src/tools/tools/finalAnswerTool.ts:116](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/finalAnswerTool.ts#L116)
+[src/tools/tools/finalAnswerTool.ts:116](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/finalAnswerTool.ts#L116)
 
 ___
 
@@ -158,7 +158,7 @@ Nome da ferramenta no sistema
 
 #### Defined in
 
-[src/tools/tools/finalAnswerTool.ts:114](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/finalAnswerTool.ts#L114)
+[src/tools/tools/finalAnswerTool.ts:114](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/finalAnswerTool.ts#L114)
 
 ___
 
@@ -174,7 +174,7 @@ Schema de parâmetros para validação
 
 #### Defined in
 
-[src/tools/tools/finalAnswerTool.ts:118](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/finalAnswerTool.ts#L118)
+[src/tools/tools/finalAnswerTool.ts:118](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/finalAnswerTool.ts#L118)
 
 ## Methods
 
@@ -235,4 +235,4 @@ Tempo total: 2.3 segundos`
 
 #### Defined in
 
-[src/tools/tools/finalAnswerTool.ts:158](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/finalAnswerTool.ts#L158)
+[src/tools/tools/finalAnswerTool.ts:158](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/finalAnswerTool.ts#L158)

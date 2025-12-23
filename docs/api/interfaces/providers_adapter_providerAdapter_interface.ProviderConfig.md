@@ -44,6 +44,7 @@ const compatibleConfig: ProviderConfig = {
 
 - [apiKey](providers_adapter_providerAdapter_interface.ProviderConfig.md#apikey)
 - [baseUrl](providers_adapter_providerAdapter_interface.ProviderConfig.md#baseurl)
+- [capabilities](providers_adapter_providerAdapter_interface.ProviderConfig.md#capabilities)
 - [maxTokens](providers_adapter_providerAdapter_interface.ProviderConfig.md#maxtokens)
 - [messages](providers_adapter_providerAdapter_interface.ProviderConfig.md#messages)
 - [model](providers_adapter_providerAdapter_interface.ProviderConfig.md#model)
@@ -68,7 +69,7 @@ Deve ser mantida segura e nunca hardcoded no código.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:78](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L78)
+[src/providers/adapter/providerAdapter.interface.ts:87](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L87)
 
 ___
 
@@ -90,7 +91,25 @@ URL base da API do provedor.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:114](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L114)
+[src/providers/adapter/providerAdapter.interface.ts:123](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L123)
+
+___
+
+### capabilities
+
+• `Optional` **capabilities**: `Object`
+
+Capacidades declaradas do provider/modelo (fonte de verdade).
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `supportsVision?` | `boolean` | Indica se o modelo suporta conteudo multimodal (imagens) via messages. Default: false (se nao informado). |
+
+#### Defined in
+
+[src/providers/adapter/providerAdapter.interface.ts:75](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L75)
 
 ___
 
@@ -109,20 +128,20 @@ Controla o tamanho máximo da resposta gerada.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:122](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L122)
+[src/providers/adapter/providerAdapter.interface.ts:131](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L131)
 
 ___
 
 ### messages
 
-• **messages**: \{ `content`: `string` ; `role`: `string`  }[]
+• **messages**: [`Message`](memory_memory_interface.Message.md)[]
 
 Array de mensagens da conversa.
 Cada mensagem deve ter role ('system', 'user', 'assistant') e content.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:69](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L69)
+[src/providers/adapter/providerAdapter.interface.ts:70](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L70)
 
 ___
 
@@ -138,7 +157,7 @@ Formato varia por provedor:
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:56](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L56)
+[src/providers/adapter/providerAdapter.interface.ts:57](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L57)
 
 ___
 
@@ -152,7 +171,7 @@ Ex: 'openai', 'anthropic', 'openaiCompatible'
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:63](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L63)
+[src/providers/adapter/providerAdapter.interface.ts:64](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L64)
 
 ___
 
@@ -171,7 +190,7 @@ false
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:96](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L96)
+[src/providers/adapter/providerAdapter.interface.ts:105](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L105)
 
 ___
 
@@ -184,7 +203,7 @@ Prompt do sistema que define o comportamento do assistente.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:102](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L102)
+[src/providers/adapter/providerAdapter.interface.ts:111](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L111)
 
 ___
 
@@ -196,7 +215,7 @@ Opções de telemetria (volume/persistência/redaction).
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:167](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L167)
+[src/providers/adapter/providerAdapter.interface.ts:176](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L176)
 
 ___
 
@@ -217,7 +236,7 @@ Controla a criatividade das respostas (0.0 - 2.0).
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:88](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L88)
+[src/providers/adapter/providerAdapter.interface.ts:97](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L97)
 
 ___
 
@@ -247,7 +266,7 @@ tools: [
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:152](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L152)
+[src/providers/adapter/providerAdapter.interface.ts:161](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L161)
 
 ___
 
@@ -266,7 +285,7 @@ Alternativa ao temperature para controle de diversidade.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:130](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L130)
+[src/providers/adapter/providerAdapter.interface.ts:139](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L139)
 
 ___
 
@@ -279,7 +298,7 @@ Opcional: o SDK não deve depender de console/arquivo diretamente.
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:162](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L162)
+[src/providers/adapter/providerAdapter.interface.ts:171](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L171)
 
 ___
 
@@ -291,4 +310,4 @@ Contexto de telemetria para correlação (runId/orchestrator/agent).
 
 #### Defined in
 
-[src/providers/adapter/providerAdapter.interface.ts:172](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/adapter/providerAdapter.interface.ts#L172)
+[src/providers/adapter/providerAdapter.interface.ts:181](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/adapter/providerAdapter.interface.ts#L181)

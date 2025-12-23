@@ -113,7 +113,7 @@ Se a API key não for fornecida
 
 #### Defined in
 
-[src/providers/providers/openaiCompatibleProvider.ts:89](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openaiCompatibleProvider.ts#L89)
+[src/providers/providers/openaiCompatibleProvider.ts:91](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openaiCompatibleProvider.ts#L91)
 
 ## Properties
 
@@ -125,7 +125,7 @@ Cliente OpenAI configurado com baseUrl customizada
 
 #### Defined in
 
-[src/providers/providers/openaiCompatibleProvider.ts:70](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openaiCompatibleProvider.ts#L70)
+[src/providers/providers/openaiCompatibleProvider.ts:72](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openaiCompatibleProvider.ts#L72)
 
 ___
 
@@ -137,7 +137,7 @@ Nome identificador do provedor
 
 #### Defined in
 
-[src/providers/providers/openaiCompatibleProvider.ts:67](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openaiCompatibleProvider.ts#L67)
+[src/providers/providers/openaiCompatibleProvider.ts:69](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openaiCompatibleProvider.ts#L69)
 
 ## Methods
 
@@ -182,7 +182,7 @@ const messages = this.buildMessages(config);
 
 #### Defined in
 
-[src/providers/providers/openaiCompatibleProvider.ts:125](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openaiCompatibleProvider.ts#L125)
+[src/providers/providers/openaiCompatibleProvider.ts:127](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openaiCompatibleProvider.ts#L127)
 
 ___
 
@@ -263,4 +263,4 @@ for await (const chunk of streamResponse) {
 
 #### Defined in
 
-[src/providers/providers/openaiCompatibleProvider.ts:188](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openaiCompatibleProvider.ts#L188)
+[src/providers/providers/openaiCompatibleProvider.ts:196](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openaiCompatibleProvider.ts#L196)

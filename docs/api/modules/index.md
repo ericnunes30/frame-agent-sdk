@@ -7,18 +7,16 @@
 - [AGENT\_MODES](index.md#agent_modes)
 - [AgentExecutionOptions](index.md#agentexecutionoptions)
 - [AgentExecutionResult](index.md#agentexecutionresult)
+- [AgentFlowTemplateAskUserBehavior](index.md#agentflowtemplateaskuserbehavior)
+- [AgentFlowTemplateHooks](index.md#agentflowtemplatehooks)
+- [AgentFlowTemplateOptions](index.md#agentflowtemplateoptions)
+- [AgentFlowTemplatePolicies](index.md#agentflowtemplatepolicies)
 - [AgentInfo](index.md#agentinfo)
 - [AgentLLM](index.md#agentllm)
 - [AgentLLMConfig](index.md#agentllmconfig)
 - [AgentMode](index.md#agentmode)
 - [AgentModeType](index.md#agentmodetype)
 - [AgentModeUtil](index.md#agentmodeutil)
-- [AgentRegistrationOptions](index.md#agentregistrationoptions)
-- [AgentRegistry](index.md#agentregistry)
-- [AgentRegistryInfo](index.md#agentregistryinfo)
-- [AgentRegistryInstance](index.md#agentregistryinstance)
-- [AgentRegistryStats](index.md#agentregistrystats)
-- [AgentStepConfig](index.md#agentstepconfig)
 - [AgentType](index.md#agenttype)
 - [ApprovalParams](index.md#approvalparams)
 - [ApprovalTool](index.md#approvaltool)
@@ -29,9 +27,14 @@
 - [ChatHistoryConfig](index.md#chathistoryconfig)
 - [ChatHistoryManager](index.md#chathistorymanager)
 - [ConditionalEdge](index.md#conditionaledge)
+- [ContentPart](index.md#contentpart)
+- [ContextBeforeRequestResult](index.md#contextbeforerequestresult)
+- [ContextHooks](index.md#contexthooks)
+- [ContextOnErrorResult](index.md#contextonerrorresult)
 - [DEFAULT\_AGENT\_CONFIG](index.md#default_agent_config)
 - [DEFAULT\_TELEMETRY\_OPTIONS](index.md#default_telemetry_options)
 - [ExecuteOptions](index.md#executeoptions)
+- [ExtractStateTextOptions](index.md#extractstatetextoptions)
 - [FileCreateTool](index.md#filecreatetool)
 - [FileEditTool](index.md#fileedittool)
 - [FileReadTool](index.md#filereadtool)
@@ -54,18 +57,17 @@
 - [GraphStatus](index.md#graphstatus)
 - [IAgent](index.md#iagent)
 - [IAgentConfig](index.md#iagentconfig)
-- [IAgentRegistry](index.md#iagentregistry)
 - [IChatHistoryManager](index.md#ichathistorymanager)
 - [IGraphBuilder](index.md#igraphbuilder)
 - [IGraphState](index.md#igraphstate)
 - [IProviderResponse](index.md#iproviderresponse)
 - [ISAPError](index.md#isaperror)
-- [IStepsOrchestrator](index.md#istepsorchestrator)
 - [ITokenizerService](index.md#itokenizerservice)
 - [ITool](index.md#itool)
 - [IToolCall](index.md#itoolcall)
 - [IToolParams](index.md#itoolparams)
 - [IToolResult](index.md#itoolresult)
+- [ImageUrlContentPart](index.md#imageurlcontentpart)
 - [MCPBase](index.md#mcpbase)
 - [MCPBaseConfig](index.md#mcpbaseconfig)
 - [MCPClient](index.md#mcpclient)
@@ -76,30 +78,29 @@
 - [MapOut](index.md#mapout)
 - [MatchCaseEnum](index.md#matchcaseenum)
 - [Message](index.md#message)
+- [MessageContent](index.md#messagecontent)
 - [MultiplexTraceSink](index.md#multiplextracesink)
-- [OrchestrationState](index.md#orchestrationstate)
 - [PromptBuilder](index.md#promptbuilder)
 - [PromptBuilderConfig](index.md#promptbuilderconfig)
 - [PromptMode](index.md#promptmode)
 - [ProviderAdapter](index.md#provideradapter)
 - [ProviderConfig](index.md#providerconfig)
 - [ProviderInstance](index.md#providerinstance)
+- [ReadImageMeta](index.md#readimagemeta)
+- [ReadImageParams](index.md#readimageparams)
+- [ReadImageRegion](index.md#readimageregion)
+- [ReadImageResult](index.md#readimageresult)
+- [ReadImageSource](index.md#readimagesource)
 - [SAPParser](index.md#sapparser)
 - [SearchModeEnum](index.md#searchmodeenum)
 - [SearchTool](index.md#searchtool)
 - [SearchTypeEnum](index.md#searchtypeenum)
 - [SharedPatch](index.md#sharedpatch)
 - [SharedState](index.md#sharedstate)
-- [Step](index.md#step)
-- [StepContext](index.md#stepcontext)
-- [StepProviderOptions](index.md#stepprovideroptions)
-- [StepResultUpdate](index.md#stepresultupdate)
-- [StepsConfig](index.md#stepsconfig)
-- [StepsDeps](index.md#stepsdeps)
-- [StepsOrchestrator](index.md#stepsorchestrator)
 - [SubflowPolicy](index.md#subflowpolicy)
 - [TelemetryOptions](index.md#telemetryoptions)
 - [TerminalTool](index.md#terminaltool)
+- [TextContentPart](index.md#textcontentpart)
 - [ToDoIstParams](index.md#todoistparams)
 - [ToDoIstTool](index.md#todoisttool)
 - [TokenizerService](index.md#tokenizerservice)
@@ -107,6 +108,7 @@
 - [ToolDetectionResult](index.md#tooldetectionresult)
 - [ToolDetector](index.md#tooldetector)
 - [ToolExecutor](index.md#toolexecutor)
+- [ToolPolicy](index.md#toolpolicy)
 - [ToolRouterKey](index.md#toolrouterkey)
 - [ToolSchema](index.md#toolschema)
 - [TraceContext](index.md#tracecontext)
@@ -115,32 +117,38 @@
 - [TraceLevel](index.md#tracelevel)
 - [TraceOrchestrator](index.md#traceorchestrator)
 - [TraceSink](index.md#tracesink)
+- [VisionNotSupportedError](index.md#visionnotsupportederror)
 - [applySharedPatch](index.md#applysharedpatch)
+- [applyToolPolicyToToolNames](index.md#applytoolpolicytotoolnames)
+- [applyToolPolicyToToolSchemas](index.md#applytoolpolicytotoolschemas)
 - [cloneShared](index.md#cloneshared)
+- [createAgentFlowTemplate](index.md#createagentflowtemplate)
 - [createAgentNode](index.md#createagentnode)
 - [createHumanInLoopNode](index.md#createhumaninloopnode)
 - [createReactValidationNode](index.md#createreactvalidationnode)
-- [createRegisteredAgentNode](index.md#createregisteredagentnode)
-- [createStepAgent](index.md#createstepagent)
-- [createStepSubflow](index.md#createstepsubflow)
 - [createSubflowNode](index.md#createsubflownode)
 - [createToolDetectionNode](index.md#createtooldetectionnode)
 - [createToolExecutorNode](index.md#createtoolexecutornode)
 - [createToolRouter](index.md#createtoolrouter)
 - [createTraceId](index.md#createtraceid)
 - [emitTrace](index.md#emittrace)
+- [extractFinalAnswer](index.md#extractfinalanswer)
+- [extractInput](index.md#extractinput)
+- [extractText](index.md#extracttext)
+- [extractTextFromMessage](index.md#extracttextfrommessage)
 - [formatIssuesForLLM](index.md#formatissuesforllm)
 - [generateTypedSchema](index.md#generatetypedschema)
 - [getActiveTelemetry](index.md#getactivetelemetry)
 - [getProvider](index.md#getprovider)
+- [hasImages](index.md#hasimages)
+- [isContentParts](index.md#iscontentparts)
+- [isToolAllowedByPolicy](index.md#istoolallowedbypolicy)
 - [listProviders](index.md#listproviders)
 - [materializeTrace](index.md#materializetrace)
 - [noopTraceSink](index.md#nooptracesink)
 - [roocodeMcpConfig](index.md#roocodemcpconfig)
 - [runWithTelemetry](index.md#runwithtelemetry)
-- [stepAgent](index.md#stepagent)
-- [stepAgentCustom](index.md#stepagentcustom)
-- [stepFinalize](index.md#stepfinalize)
+- [sanitizeForLogs](index.md#sanitizeforlogs)
 - [stream](index.md#stream)
 - [toolRegistry](index.md#toolregistry)
 - [validateAgentConfig](index.md#validateagentconfig)
@@ -163,6 +171,30 @@ ___
 ### AgentExecutionResult
 
 Re-exports [AgentExecutionResult](../interfaces/agent_interfaces_IAgent.AgentExecutionResult.md)
+
+___
+
+### AgentFlowTemplateAskUserBehavior
+
+Re-exports [AgentFlowTemplateAskUserBehavior](orchestrators_graph_templates_interfaces_agentFlowTemplateAskUserBehavior_type.md#agentflowtemplateaskuserbehavior)
+
+___
+
+### AgentFlowTemplateHooks
+
+Re-exports [AgentFlowTemplateHooks](../interfaces/orchestrators_graph_templates_interfaces_agentFlowTemplateHooks_interface.AgentFlowTemplateHooks.md)
+
+___
+
+### AgentFlowTemplateOptions
+
+Re-exports [AgentFlowTemplateOptions](../interfaces/orchestrators_graph_templates_interfaces_agentFlowTemplateOptions_interface.AgentFlowTemplateOptions.md)
+
+___
+
+### AgentFlowTemplatePolicies
+
+Re-exports [AgentFlowTemplatePolicies](../interfaces/orchestrators_graph_templates_interfaces_agentFlowTemplatePolicies_interface.AgentFlowTemplatePolicies.md)
 
 ___
 
@@ -199,42 +231,6 @@ ___
 ### AgentModeUtil
 
 Renames and re-exports [AgentMode](../classes/llmModes_modes_modeRegistry.AgentMode.md)
-
-___
-
-### AgentRegistrationOptions
-
-Re-exports [AgentRegistrationOptions](../interfaces/agent_interfaces_AgentRegistry_interface.AgentRegistrationOptions.md)
-
-___
-
-### AgentRegistry
-
-Re-exports [AgentRegistry](../classes/agent_registry_AgentRegistry.AgentRegistry.md)
-
-___
-
-### AgentRegistryInfo
-
-Re-exports [AgentRegistryInfo](../interfaces/agent_interfaces_AgentRegistry_interface.AgentRegistryInfo.md)
-
-___
-
-### AgentRegistryInstance
-
-Re-exports [AgentRegistryInstance](agent_registry_AgentRegistry.md#agentregistryinstance)
-
-___
-
-### AgentRegistryStats
-
-Re-exports [AgentRegistryStats](../interfaces/agent_interfaces_AgentRegistry_interface.AgentRegistryStats.md)
-
-___
-
-### AgentStepConfig
-
-Re-exports [AgentStepConfig](../interfaces/orchestrators_steps_interfaces.AgentStepConfig.md)
 
 ___
 
@@ -298,6 +294,30 @@ Re-exports [ConditionalEdge](../interfaces/orchestrators_graph_core_interfaces_g
 
 ___
 
+### ContentPart
+
+Re-exports [ContentPart](memory_memory_interface.md#contentpart)
+
+___
+
+### ContextBeforeRequestResult
+
+Re-exports [ContextBeforeRequestResult](../interfaces/memory_contextHooks_interface.ContextBeforeRequestResult.md)
+
+___
+
+### ContextHooks
+
+Re-exports [ContextHooks](../interfaces/memory_contextHooks_interface.ContextHooks.md)
+
+___
+
+### ContextOnErrorResult
+
+Re-exports [ContextOnErrorResult](../interfaces/memory_contextHooks_interface.ContextOnErrorResult.md)
+
+___
+
 ### DEFAULT\_AGENT\_CONFIG
 
 Re-exports [DEFAULT_AGENT_CONFIG](agent_interfaces_IAgentConfig.md#default_agent_config)
@@ -313,6 +333,12 @@ ___
 ### ExecuteOptions
 
 Re-exports [ExecuteOptions](../interfaces/orchestrators_graph_core_interfaces_graphEngine_interface.ExecuteOptions.md)
+
+___
+
+### ExtractStateTextOptions
+
+Re-exports [ExtractStateTextOptions](../interfaces/orchestrators_graph_utils_graphStateUtils.ExtractStateTextOptions.md)
 
 ___
 
@@ -448,12 +474,6 @@ Re-exports [IAgentConfig](../interfaces/agent_interfaces_IAgentConfig.IAgentConf
 
 ___
 
-### IAgentRegistry
-
-Re-exports [IAgentRegistry](../interfaces/agent_interfaces_AgentRegistry_interface.IAgentRegistry.md)
-
-___
-
 ### IChatHistoryManager
 
 Re-exports [IChatHistoryManager](../interfaces/memory_memory_interface.IChatHistoryManager.md)
@@ -484,12 +504,6 @@ Re-exports [ISAPError](../interfaces/tools_constructor_sapParser.ISAPError.md)
 
 ___
 
-### IStepsOrchestrator
-
-Re-exports [IStepsOrchestrator](../interfaces/orchestrators_steps_interfaces.IStepsOrchestrator.md)
-
-___
-
 ### ITokenizerService
 
 Re-exports [ITokenizerService](../interfaces/memory_memory_interface.ITokenizerService.md)
@@ -517,6 +531,12 @@ ___
 ### IToolResult
 
 Re-exports [IToolResult](../interfaces/tools_core_interfaces.IToolResult.md)
+
+___
+
+### ImageUrlContentPart
+
+Re-exports [ImageUrlContentPart](../interfaces/memory_memory_interface.ImageUrlContentPart.md)
 
 ___
 
@@ -580,15 +600,15 @@ Re-exports [Message](../interfaces/memory_memory_interface.Message.md)
 
 ___
 
-### MultiplexTraceSink
+### MessageContent
 
-Re-exports [MultiplexTraceSink](../classes/telemetry_sinks_multiplexTraceSink.MultiplexTraceSink.md)
+Re-exports [MessageContent](memory_memory_interface.md#messagecontent)
 
 ___
 
-### OrchestrationState
+### MultiplexTraceSink
 
-Re-exports [OrchestrationState](../interfaces/orchestrators_steps_interfaces.OrchestrationState.md)
+Re-exports [MultiplexTraceSink](../classes/telemetry_sinks_multiplexTraceSink.MultiplexTraceSink.md)
 
 ___
 
@@ -628,6 +648,36 @@ Re-exports [ProviderInstance](../interfaces/providers_providers_providerRegistry
 
 ___
 
+### ReadImageMeta
+
+Re-exports [ReadImageMeta](../interfaces/tools_tools_readImageResult_interface.ReadImageMeta.md)
+
+___
+
+### ReadImageParams
+
+Re-exports [ReadImageParams](../interfaces/tools_tools_readImageParams_interface.ReadImageParams.md)
+
+___
+
+### ReadImageRegion
+
+Re-exports [ReadImageRegion](../interfaces/tools_tools_readImageParams_interface.ReadImageRegion.md)
+
+___
+
+### ReadImageResult
+
+Re-exports [ReadImageResult](../interfaces/tools_tools_readImageResult_interface.ReadImageResult.md)
+
+___
+
+### ReadImageSource
+
+Re-exports [ReadImageSource](tools_tools_readImageParams_interface.md#readimagesource)
+
+___
+
 ### SAPParser
 
 Re-exports [SAPParser](../classes/tools_constructor_sapParser.SAPParser.md)
@@ -664,48 +714,6 @@ Re-exports [SharedState](../interfaces/flows_interfaces_sharedState_interface.Sh
 
 ___
 
-### Step
-
-Re-exports [Step](../interfaces/orchestrators_steps_interfaces.Step.md)
-
-___
-
-### StepContext
-
-Re-exports [StepContext](../interfaces/orchestrators_steps_interfaces.StepContext.md)
-
-___
-
-### StepProviderOptions
-
-Re-exports [StepProviderOptions](../interfaces/orchestrators_steps_interfaces.StepProviderOptions.md)
-
-___
-
-### StepResultUpdate
-
-Re-exports [StepResultUpdate](../interfaces/orchestrators_steps_interfaces.StepResultUpdate.md)
-
-___
-
-### StepsConfig
-
-Re-exports [StepsConfig](../interfaces/orchestrators_steps_interfaces.StepsConfig.md)
-
-___
-
-### StepsDeps
-
-Re-exports [StepsDeps](../interfaces/orchestrators_steps_interfaces.StepsDeps.md)
-
-___
-
-### StepsOrchestrator
-
-Re-exports [StepsOrchestrator](../classes/orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md)
-
-___
-
 ### SubflowPolicy
 
 Re-exports [SubflowPolicy](../interfaces/flows_interfaces_subflowPolicy_interface.SubflowPolicy.md)
@@ -721,6 +729,12 @@ ___
 ### TerminalTool
 
 Re-exports [TerminalTool](tools_tools_terminalTool.md#terminaltool)
+
+___
+
+### TextContentPart
+
+Re-exports [TextContentPart](../interfaces/memory_memory_interface.TextContentPart.md)
 
 ___
 
@@ -763,6 +777,12 @@ ___
 ### ToolExecutor
 
 Re-exports [ToolExecutor](../classes/tools_core_toolExecutor.ToolExecutor.md)
+
+___
+
+### ToolPolicy
+
+Re-exports [ToolPolicy](../interfaces/tools_policy_toolPolicy_interface.ToolPolicy.md)
 
 ___
 
@@ -814,15 +834,39 @@ Re-exports [TraceSink](../interfaces/telemetry_interfaces_traceSink_interface.Tr
 
 ___
 
+### VisionNotSupportedError
+
+Re-exports [VisionNotSupportedError](../classes/providers_errors_visionNotSupportedError.VisionNotSupportedError.md)
+
+___
+
 ### applySharedPatch
 
 Re-exports [applySharedPatch](flows_utils_sharedPatchApplier.md#applysharedpatch)
 
 ___
 
+### applyToolPolicyToToolNames
+
+Re-exports [applyToolPolicyToToolNames](tools_policy_toolPolicyApplier.md#applytoolpolicytotoolnames)
+
+___
+
+### applyToolPolicyToToolSchemas
+
+Re-exports [applyToolPolicyToToolSchemas](tools_policy_toolPolicyApplier.md#applytoolpolicytotoolschemas)
+
+___
+
 ### cloneShared
 
 Re-exports [cloneShared](flows_utils_sharedClone.md#cloneshared)
+
+___
+
+### createAgentFlowTemplate
+
+Re-exports [createAgentFlowTemplate](orchestrators_graph_templates_agentFlowTemplate.md#createagentflowtemplate)
 
 ___
 
@@ -841,24 +885,6 @@ ___
 ### createReactValidationNode
 
 Re-exports [createReactValidationNode](orchestrators_graph_nodes_reactValidationNode.md#createreactvalidationnode)
-
-___
-
-### createRegisteredAgentNode
-
-Re-exports [createRegisteredAgentNode](orchestrators_graph_nodes_registeredAgentNode.md#createregisteredagentnode)
-
-___
-
-### createStepAgent
-
-Re-exports [createStepAgent](orchestrators_steps_steps.md#createstepagent)
-
-___
-
-### createStepSubflow
-
-Re-exports [createStepSubflow](orchestrators_steps_steps.md#createstepsubflow)
 
 ___
 
@@ -898,6 +924,30 @@ Re-exports [emitTrace](telemetry_utils_traceEmitter.md#emittrace)
 
 ___
 
+### extractFinalAnswer
+
+Re-exports [extractFinalAnswer](orchestrators_graph_utils_graphStateUtils.md#extractfinalanswer)
+
+___
+
+### extractInput
+
+Re-exports [extractInput](orchestrators_graph_utils_graphStateUtils.md#extractinput)
+
+___
+
+### extractText
+
+Re-exports [extractText](memory_utils_messageContentUtils.md#extracttext)
+
+___
+
+### extractTextFromMessage
+
+Re-exports [extractTextFromMessage](memory_utils_messageContentUtils.md#extracttextfrommessage)
+
+___
+
 ### formatIssuesForLLM
 
 Re-exports [formatIssuesForLLM](tools_core_toolValidator.md#formatissuesforllm)
@@ -919,6 +969,24 @@ ___
 ### getProvider
 
 Re-exports [getProvider](providers_providers.md#getprovider)
+
+___
+
+### hasImages
+
+Re-exports [hasImages](memory_utils_messageContentUtils.md#hasimages)
+
+___
+
+### isContentParts
+
+Re-exports [isContentParts](memory_utils_messageContentUtils.md#iscontentparts)
+
+___
+
+### isToolAllowedByPolicy
+
+Re-exports [isToolAllowedByPolicy](tools_policy_toolPolicyApplier.md#istoolallowedbypolicy)
 
 ___
 
@@ -952,21 +1020,9 @@ Re-exports [runWithTelemetry](telemetry_context_telemetryStore.md#runwithtelemet
 
 ___
 
-### stepAgent
+### sanitizeForLogs
 
-Re-exports [stepAgent](orchestrators_steps_steps.md#stepagent)
-
-___
-
-### stepAgentCustom
-
-Re-exports [stepAgentCustom](orchestrators_steps_steps.md#stepagentcustom)
-
-___
-
-### stepFinalize
-
-Re-exports [stepFinalize](orchestrators_steps_steps.md#stepfinalize)
+Re-exports [sanitizeForLogs](memory_utils_messageContentUtils.md#sanitizeforlogs)
 
 ___
 

@@ -1,6 +1,7 @@
 // src/memory/tokenizer.ts
 import { Message, ITokenizerService } from './memory.interface';
 import { getEncoding } from 'js-tiktoken';
+import { extractText } from './messageContentUtils';
 
 /**
  * Implementação precisa do serviço de tokenização usando js-tiktoken.
@@ -33,25 +34,25 @@ import { getEncoding } from 'js-tiktoken';
  * - Fallback para aproximação por caracteres se necessário
  */
 export class TokenizerService implements ITokenizerService {
-    
+
     /** O nome do modelo para compatibilidade com a interface */
     private readonly model: string;
-    
+
     /** Encoding do tiktoken para contagem precisa de tokens */
     private encoding: any;
-    
+
     /** Flag para indicar se tiktoken está disponível */
     private readonly useTiktoken: boolean;
-    
+
     /** Proporção de caracteres por token (fallback) */
     private readonly CHARS_PER_TOKEN = 4;
-    
+
     /** 
      * Overhead fixo por mensagem para simular custos estruturais.
      * Inclui: role, id, chaves JSON, formatação, caracteres especiais, etc.
      */
     private readonly FIXED_CHAR_OVERHEAD_PER_MESSAGE = 15;
-    
+
     /**
      * Cria uma nova instância do TokenizerService.
      * 
@@ -64,7 +65,7 @@ export class TokenizerService implements ITokenizerService {
      */
     constructor(model: string) {
         this.model = model;
-        
+
         // Tentar inicializar tiktoken
         try {
             this.encoding = getEncoding('cl100k_base');
@@ -75,7 +76,7 @@ export class TokenizerService implements ITokenizerService {
             this.encoding = null;
         }
     }
-    
+
     /**
      * Calcula o número preciso de tokens para uma lista de mensagens.
      * 
@@ -107,7 +108,7 @@ export class TokenizerService implements ITokenizerService {
      * ```
      */
     public countTokens(messages: Message[]): number {
-        
+
         // Validação básica
         if (!messages || messages.length === 0) {
             return 0;
@@ -130,28 +131,29 @@ export class TokenizerService implements ITokenizerService {
      */
     private countWithTiktoken(messages: Message[]): number {
         let totalTokens = 0;
-        
+
         for (const message of messages) {
             // Contar tokens do conteúdo
-            const contentTokens = message.content 
-                ? this.encoding.encode(message.content).length 
+            const contentText = message.content ? extractText(message.content) : '';
+            const contentTokens = contentText
+                ? this.encoding.encode(contentText).length
                 : 0;
-            
+
             // Adicionar overhead estrutural (role, id, formatação JSON)
-            const roleTokens = message.role 
-                ? this.encoding.encode(message.role).length 
+            const roleTokens = message.role
+                ? this.encoding.encode(message.role).length
                 : 0;
-            
-            const idTokens = message.id 
-                ? this.encoding.encode(message.id).length 
+
+            const idTokens = message.id
+                ? this.encoding.encode(message.id).length
                 : 0;
-            
+
             // Overhead fixo para estrutura JSON (chaves, aspas, etc.)
             const structuralOverhead = 4;
-            
+
             totalTokens += contentTokens + roleTokens + idTokens + structuralOverhead;
         }
-        
+
         return totalTokens;
     }
 
@@ -163,10 +165,10 @@ export class TokenizerService implements ITokenizerService {
      */
     private countWithCharacters(messages: Message[]): number {
         const totalChars = messages.reduce((acc, message) => {
-            const contentChars = message.content?.length ?? 0;
+            const contentChars = message.content ? extractText(message.content).length : 0;
             const roleChars = message.role?.length ?? 0;
             const idChars = message.id?.length ?? 0;
-            
+
             return acc + contentChars + roleChars + idChars + this.FIXED_CHAR_OVERHEAD_PER_MESSAGE;
         }, 0);
 

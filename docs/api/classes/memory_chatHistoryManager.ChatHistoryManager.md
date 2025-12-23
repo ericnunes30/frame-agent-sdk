@@ -125,7 +125,7 @@ const claudeHistory = new ChatHistoryManager(claudeConfig);
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:95](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L95)
+[src/memory/chatHistoryManager.ts:95](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L95)
 
 ## Properties
 
@@ -137,7 +137,7 @@ O histórico de mensagens, mantido em ordem cronológica
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:60](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L60)
+[src/memory/chatHistoryManager.ts:60](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L60)
 
 ___
 
@@ -149,7 +149,7 @@ O limite máximo de tokens para o contexto total
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:63](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L63)
+[src/memory/chatHistoryManager.ts:63](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L63)
 
 ___
 
@@ -161,7 +161,7 @@ Contador para gerar IDs únicos de mensagens
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:69](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L69)
+[src/memory/chatHistoryManager.ts:69](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L69)
 
 ___
 
@@ -173,7 +173,7 @@ O serviço injetado para calcular o custo em tokens
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:66](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L66)
+[src/memory/chatHistoryManager.ts:66](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L66)
 
 ## Methods
 
@@ -235,7 +235,7 @@ history.addMessage({
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:201](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L201)
+[src/memory/chatHistoryManager.ts:201](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L201)
 
 ___
 
@@ -288,7 +288,7 @@ history.addSystemPrompt(`
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:139](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L139)
+[src/memory/chatHistoryManager.ts:139](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L139)
 
 ___
 
@@ -335,7 +335,7 @@ history.addSystemPrompt('Novo comportamento do assistente');
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:247](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L247)
+[src/memory/chatHistoryManager.ts:247](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L247)
 
 ___
 
@@ -366,7 +366,7 @@ Se os IDs não forem encontrados ou forem inválidos
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:434](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L434)
+[src/memory/chatHistoryManager.ts:440](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L440)
 
 ___
 
@@ -381,7 +381,7 @@ Edita o conteúdo de uma mensagem específica no histórico.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `messageId` | `string` | Identificador único da mensagem a ser editada. |
-| `newContent` | `string` | Novo conteúdo para a mensagem. |
+| `newContent` | [`MessageContent`](../modules/memory_memory_interface.md#messagecontent) | Novo conteúdo para a mensagem. |
 
 #### Returns
 
@@ -397,7 +397,7 @@ Se a mensagem não for encontrada ou content for inválido
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:412](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L412)
+[src/memory/chatHistoryManager.ts:412](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L412)
 
 ___
 
@@ -419,7 +419,7 @@ Array com todas as mensagens do histórico.
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:471](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L471)
+[src/memory/chatHistoryManager.ts:477](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L477)
 
 ___
 
@@ -437,7 +437,7 @@ ID único no formato 'msg-<timestamp>-<counter>'
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:106](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L106)
+[src/memory/chatHistoryManager.ts:106](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L106)
 
 ___
 
@@ -465,7 +465,7 @@ A mensagem encontrada ou undefined.
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:462](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L462)
+[src/memory/chatHistoryManager.ts:468](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L468)
 
 ___
 
@@ -525,7 +525,7 @@ console.log(`Tokens restantes após truncamento: ${remainingAfter}`);
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:399](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L399)
+[src/memory/chatHistoryManager.ts:399](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L399)
 
 ___
 
@@ -598,7 +598,7 @@ const response = await provider.chat(messages);
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:317](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L317)
+[src/memory/chatHistoryManager.ts:317](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L317)
 
 ___
 
@@ -628,4 +628,4 @@ Se as mensagens forem inválidas ou null/undefined
 
 #### Defined in
 
-[src/memory/chatHistoryManager.ts:482](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/chatHistoryManager.ts#L482)
+[src/memory/chatHistoryManager.ts:488](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/chatHistoryManager.ts#L488)

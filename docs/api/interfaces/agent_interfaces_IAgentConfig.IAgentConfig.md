@@ -107,7 +107,7 @@ additionalInstructions: 'Foque em soluções sustentáveis e econômicas'
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:170](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L170)
+[src/agent/interfaces/IAgentConfig.ts:170](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L170)
 
 ___
 
@@ -137,7 +137,7 @@ agentInfo: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:154](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L154)
+[src/agent/interfaces/IAgentConfig.ts:154](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L154)
 
 ___
 
@@ -175,7 +175,7 @@ customConfig: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:374](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L374)
+[src/agent/interfaces/IAgentConfig.ts:374](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L374)
 
 ___
 
@@ -211,7 +211,7 @@ llmConfig: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:210](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L210)
+[src/agent/interfaces/IAgentConfig.ts:210](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L210)
 
 ___
 
@@ -244,7 +244,7 @@ memoryConfig: {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:297](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L297)
+[src/agent/interfaces/IAgentConfig.ts:297](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L297)
 
 ___
 
@@ -269,7 +269,7 @@ model: 'llama-2-70b'        // Meta Llama 2
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:134](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L134)
+[src/agent/interfaces/IAgentConfig.ts:134](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L134)
 
 ___
 
@@ -295,7 +295,7 @@ provider: 'local-llm'           // Modelos locais
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:117](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L117)
+[src/agent/interfaces/IAgentConfig.ts:117](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L117)
 
 ___
 
@@ -324,7 +324,7 @@ tools: [
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:189](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L189)
+[src/agent/interfaces/IAgentConfig.ts:189](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L189)
 
 ___
 
@@ -349,4 +349,4 @@ type: 'researcher'  // Agente personalizado
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:99](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L99)
+[src/agent/interfaces/IAgentConfig.ts:99](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L99)

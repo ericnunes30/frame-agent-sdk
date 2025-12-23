@@ -43,10 +43,22 @@ const messages = history.getTrimmedHistory();
 
 - [ChatHistoryConfig](Memory.md#chathistoryconfig)
 - [ChatHistoryManager](Memory.md#chathistorymanager)
+- [ContentPart](Memory.md#contentpart)
+- [ContextBeforeRequestResult](Memory.md#contextbeforerequestresult)
+- [ContextHooks](Memory.md#contexthooks)
+- [ContextOnErrorResult](Memory.md#contextonerrorresult)
 - [IChatHistoryManager](Memory.md#ichathistorymanager)
 - [ITokenizerService](Memory.md#itokenizerservice)
+- [ImageUrlContentPart](Memory.md#imageurlcontentpart)
 - [Message](Memory.md#message)
+- [MessageContent](Memory.md#messagecontent)
+- [TextContentPart](Memory.md#textcontentpart)
 - [TokenizerService](Memory.md#tokenizerservice)
+- [extractText](Memory.md#extracttext)
+- [extractTextFromMessage](Memory.md#extracttextfrommessage)
+- [hasImages](Memory.md#hasimages)
+- [isContentParts](Memory.md#iscontentparts)
+- [sanitizeForLogs](Memory.md#sanitizeforlogs)
 
 ## References
 
@@ -62,6 +74,30 @@ Re-exports [ChatHistoryManager](../classes/memory_chatHistoryManager.ChatHistory
 
 ___
 
+### ContentPart
+
+Re-exports [ContentPart](memory_memory_interface.md#contentpart)
+
+___
+
+### ContextBeforeRequestResult
+
+Re-exports [ContextBeforeRequestResult](../interfaces/memory_contextHooks_interface.ContextBeforeRequestResult.md)
+
+___
+
+### ContextHooks
+
+Re-exports [ContextHooks](../interfaces/memory_contextHooks_interface.ContextHooks.md)
+
+___
+
+### ContextOnErrorResult
+
+Re-exports [ContextOnErrorResult](../interfaces/memory_contextHooks_interface.ContextOnErrorResult.md)
+
+___
+
 ### IChatHistoryManager
 
 Re-exports [IChatHistoryManager](../interfaces/memory_memory_interface.IChatHistoryManager.md)
@@ -74,12 +110,60 @@ Re-exports [ITokenizerService](../interfaces/memory_memory_interface.ITokenizerS
 
 ___
 
+### ImageUrlContentPart
+
+Re-exports [ImageUrlContentPart](../interfaces/memory_memory_interface.ImageUrlContentPart.md)
+
+___
+
 ### Message
 
 Re-exports [Message](../interfaces/memory_memory_interface.Message.md)
 
 ___
 
+### MessageContent
+
+Re-exports [MessageContent](memory_memory_interface.md#messagecontent)
+
+___
+
+### TextContentPart
+
+Re-exports [TextContentPart](../interfaces/memory_memory_interface.TextContentPart.md)
+
+___
+
 ### TokenizerService
 
 Re-exports [TokenizerService](../classes/memory_tokenizer.TokenizerService.md)
+
+___
+
+### extractText
+
+Re-exports [extractText](memory_utils_messageContentUtils.md#extracttext)
+
+___
+
+### extractTextFromMessage
+
+Re-exports [extractTextFromMessage](memory_utils_messageContentUtils.md#extracttextfrommessage)
+
+___
+
+### hasImages
+
+Re-exports [hasImages](memory_utils_messageContentUtils.md#hasimages)
+
+___
+
+### isContentParts
+
+Re-exports [isContentParts](memory_utils_messageContentUtils.md#iscontentparts)
+
+___
+
+### sanitizeForLogs
+
+Re-exports [sanitizeForLogs](memory_utils_messageContentUtils.md#sanitizeforlogs)

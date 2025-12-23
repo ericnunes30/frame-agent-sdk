@@ -115,7 +115,7 @@ Descrição da funcionalidade da ferramenta
 
 #### Defined in
 
-[src/tools/tools/askUserTool.ts:93](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/askUserTool.ts#L93)
+[src/tools/tools/askUserTool.ts:93](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/askUserTool.ts#L93)
 
 ___
 
@@ -131,7 +131,7 @@ Nome da ferramenta no sistema
 
 #### Defined in
 
-[src/tools/tools/askUserTool.ts:91](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/askUserTool.ts#L91)
+[src/tools/tools/askUserTool.ts:91](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/askUserTool.ts#L91)
 
 ___
 
@@ -147,7 +147,7 @@ Schema de parâmetros para validação
 
 #### Defined in
 
-[src/tools/tools/askUserTool.ts:95](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/askUserTool.ts#L95)
+[src/tools/tools/askUserTool.ts:95](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/askUserTool.ts#L95)
 
 ## Methods
 
@@ -192,4 +192,4 @@ console.log(result);
 
 #### Defined in
 
-[src/tools/tools/askUserTool.ts:120](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/askUserTool.ts#L120)
+[src/tools/tools/askUserTool.ts:120](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/askUserTool.ts#L120)

@@ -41,7 +41,7 @@ cada um com comportamentos e capacidades específicas.
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L14)
+[src/agent/interfaces/IAgentConfig.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L14)
 
 ## Variables
 
@@ -90,7 +90,7 @@ if (errors.length > 0) {
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:414](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L414)
+[src/agent/interfaces/IAgentConfig.ts:414](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L414)
 
 ## Functions
 
@@ -160,4 +160,4 @@ console.log(errors2);
 
 #### Defined in
 
-[src/agent/interfaces/IAgentConfig.ts:477](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgentConfig.ts#L477)
+[src/agent/interfaces/IAgentConfig.ts:477](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgentConfig.ts#L477)

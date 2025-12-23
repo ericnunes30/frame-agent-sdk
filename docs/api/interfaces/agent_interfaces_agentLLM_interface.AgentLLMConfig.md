@@ -50,6 +50,7 @@ const customConfig: AgentLLMConfig = {
 
 - [apiKey](agent_interfaces_agentLLM_interface.AgentLLMConfig.md#apikey)
 - [baseUrl](agent_interfaces_agentLLM_interface.AgentLLMConfig.md#baseurl)
+- [capabilities](agent_interfaces_agentLLM_interface.AgentLLMConfig.md#capabilities)
 - [defaults](agent_interfaces_agentLLM_interface.AgentLLMConfig.md#defaults)
 - [model](agent_interfaces_agentLLM_interface.AgentLLMConfig.md#model)
 - [provider](agent_interfaces_agentLLM_interface.AgentLLMConfig.md#provider)
@@ -75,7 +76,7 @@ apiKey: 'sk-ant-1234567890...'    // Anthropic
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:182](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L182)
+[src/agent/interfaces/agentLLM.interface.ts:182](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L182)
 
 ___
 
@@ -99,7 +100,26 @@ baseUrl: 'https://api.cohere.ai'               // Cohere
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:198](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L198)
+[src/agent/interfaces/agentLLM.interface.ts:198](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L198)
+
+___
+
+### capabilities
+
+• `Optional` **capabilities**: `Object`
+
+Capacidades declaradas do modelo/provider (passadas para ProviderConfig).
+Fonte de verdade para recursos como suporte a visao (imagens).
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `supportsVision?` | `boolean` |
+
+#### Defined in
+
+[src/agent/interfaces/agentLLM.interface.ts:224](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L224)
 
 ___
 
@@ -129,7 +149,7 @@ defaults: {
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:218](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L218)
+[src/agent/interfaces/agentLLM.interface.ts:218](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L218)
 
 ___
 
@@ -153,7 +173,7 @@ model: 'claude-3-sonnet'    // Anthropic Claude 3 Sonnet
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:161](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L161)
+[src/agent/interfaces/agentLLM.interface.ts:161](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L161)
 
 ___
 
@@ -166,4 +186,4 @@ Se fornecido, força o uso deste provedor ignorando inferência pelo modelo.
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:167](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L167)
+[src/agent/interfaces/agentLLM.interface.ts:167](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L167)

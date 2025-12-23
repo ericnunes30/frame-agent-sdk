@@ -43,14 +43,14 @@ const systemMessage: Message = {
 
 ### content
 
-• **content**: `string`
+• **content**: [`MessageContent`](../modules/memory_memory_interface.md#messagecontent)
 
 O conteúdo textual da mensagem.
 Pode ser uma string simples ou conteúdo estruturado (JSON, markdown, etc.)
 
 #### Defined in
 
-[src/memory/memory.interface.ts:49](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L49)
+[src/memory/memory.interface.ts:49](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/memory.interface.ts#L49)
 
 ___
 
@@ -64,7 +64,7 @@ Gerado automaticamente pelo ChatHistoryManager se não fornecido.
 
 #### Defined in
 
-[src/memory/memory.interface.ts:37](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L37)
+[src/memory/memory.interface.ts:37](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/memory.interface.ts#L37)
 
 ___
 
@@ -77,4 +77,4 @@ Valores aceitos: 'system', 'user', 'assistant', 'tool'
 
 #### Defined in
 
-[src/memory/memory.interface.ts:43](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/memory/memory.interface.ts#L43)
+[src/memory/memory.interface.ts:43](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/memory/memory.interface.ts#L43)

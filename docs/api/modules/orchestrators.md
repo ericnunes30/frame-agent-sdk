@@ -4,9 +4,13 @@
 
 ### References
 
-- [AgentStepConfig](orchestrators.md#agentstepconfig)
+- [AgentFlowTemplateAskUserBehavior](orchestrators.md#agentflowtemplateaskuserbehavior)
+- [AgentFlowTemplateHooks](orchestrators.md#agentflowtemplatehooks)
+- [AgentFlowTemplateOptions](orchestrators.md#agentflowtemplateoptions)
+- [AgentFlowTemplatePolicies](orchestrators.md#agentflowtemplatepolicies)
 - [ConditionalEdge](orchestrators.md#conditionaledge)
 - [ExecuteOptions](orchestrators.md#executeoptions)
+- [ExtractStateTextOptions](orchestrators.md#extractstatetextoptions)
 - [GraphBuilder](orchestrators.md#graphbuilder)
 - [GraphBuilderOptions](orchestrators.md#graphbuilderoptions)
 - [GraphDefinition](orchestrators.md#graphdefinition)
@@ -18,35 +22,41 @@
 - [GraphStatus](orchestrators.md#graphstatus)
 - [IGraphBuilder](orchestrators.md#igraphbuilder)
 - [IGraphState](orchestrators.md#igraphstate)
-- [IStepsOrchestrator](orchestrators.md#istepsorchestrator)
-- [OrchestrationState](orchestrators.md#orchestrationstate)
-- [Step](orchestrators.md#step)
-- [StepContext](orchestrators.md#stepcontext)
-- [StepProviderOptions](orchestrators.md#stepprovideroptions)
-- [StepResultUpdate](orchestrators.md#stepresultupdate)
-- [StepsConfig](orchestrators.md#stepsconfig)
-- [StepsDeps](orchestrators.md#stepsdeps)
-- [StepsOrchestrator](orchestrators.md#stepsorchestrator)
 - [ToolRouterKey](orchestrators.md#toolrouterkey)
+- [createAgentFlowTemplate](orchestrators.md#createagentflowtemplate)
 - [createAgentNode](orchestrators.md#createagentnode)
 - [createHumanInLoopNode](orchestrators.md#createhumaninloopnode)
 - [createReactValidationNode](orchestrators.md#createreactvalidationnode)
-- [createRegisteredAgentNode](orchestrators.md#createregisteredagentnode)
-- [createStepAgent](orchestrators.md#createstepagent)
-- [createStepSubflow](orchestrators.md#createstepsubflow)
 - [createSubflowNode](orchestrators.md#createsubflownode)
 - [createToolDetectionNode](orchestrators.md#createtooldetectionnode)
 - [createToolExecutorNode](orchestrators.md#createtoolexecutornode)
 - [createToolRouter](orchestrators.md#createtoolrouter)
-- [stepAgent](orchestrators.md#stepagent)
-- [stepAgentCustom](orchestrators.md#stepagentcustom)
-- [stepFinalize](orchestrators.md#stepfinalize)
+- [extractFinalAnswer](orchestrators.md#extractfinalanswer)
+- [extractInput](orchestrators.md#extractinput)
 
 ## References
 
-### AgentStepConfig
+### AgentFlowTemplateAskUserBehavior
 
-Re-exports [AgentStepConfig](../interfaces/orchestrators_steps_interfaces.AgentStepConfig.md)
+Re-exports [AgentFlowTemplateAskUserBehavior](orchestrators_graph_templates_interfaces_agentFlowTemplateAskUserBehavior_type.md#agentflowtemplateaskuserbehavior)
+
+___
+
+### AgentFlowTemplateHooks
+
+Re-exports [AgentFlowTemplateHooks](../interfaces/orchestrators_graph_templates_interfaces_agentFlowTemplateHooks_interface.AgentFlowTemplateHooks.md)
+
+___
+
+### AgentFlowTemplateOptions
+
+Re-exports [AgentFlowTemplateOptions](../interfaces/orchestrators_graph_templates_interfaces_agentFlowTemplateOptions_interface.AgentFlowTemplateOptions.md)
+
+___
+
+### AgentFlowTemplatePolicies
+
+Re-exports [AgentFlowTemplatePolicies](../interfaces/orchestrators_graph_templates_interfaces_agentFlowTemplatePolicies_interface.AgentFlowTemplatePolicies.md)
 
 ___
 
@@ -59,6 +69,12 @@ ___
 ### ExecuteOptions
 
 Re-exports [ExecuteOptions](../interfaces/orchestrators_graph_core_interfaces_graphEngine_interface.ExecuteOptions.md)
+
+___
+
+### ExtractStateTextOptions
+
+Re-exports [ExtractStateTextOptions](../interfaces/orchestrators_graph_utils_graphStateUtils.ExtractStateTextOptions.md)
 
 ___
 
@@ -128,63 +144,15 @@ Re-exports [IGraphState](../interfaces/orchestrators_graph_core_interfaces_graph
 
 ___
 
-### IStepsOrchestrator
-
-Re-exports [IStepsOrchestrator](../interfaces/orchestrators_steps_interfaces.IStepsOrchestrator.md)
-
-___
-
-### OrchestrationState
-
-Re-exports [OrchestrationState](../interfaces/orchestrators_steps_interfaces.OrchestrationState.md)
-
-___
-
-### Step
-
-Re-exports [Step](../interfaces/orchestrators_steps_interfaces.Step.md)
-
-___
-
-### StepContext
-
-Re-exports [StepContext](../interfaces/orchestrators_steps_interfaces.StepContext.md)
-
-___
-
-### StepProviderOptions
-
-Re-exports [StepProviderOptions](../interfaces/orchestrators_steps_interfaces.StepProviderOptions.md)
-
-___
-
-### StepResultUpdate
-
-Re-exports [StepResultUpdate](../interfaces/orchestrators_steps_interfaces.StepResultUpdate.md)
-
-___
-
-### StepsConfig
-
-Re-exports [StepsConfig](../interfaces/orchestrators_steps_interfaces.StepsConfig.md)
-
-___
-
-### StepsDeps
-
-Re-exports [StepsDeps](../interfaces/orchestrators_steps_interfaces.StepsDeps.md)
-
-___
-
-### StepsOrchestrator
-
-Re-exports [StepsOrchestrator](../classes/orchestrators_steps_stepsOrchestrator.StepsOrchestrator.md)
-
-___
-
 ### ToolRouterKey
 
 Re-exports [ToolRouterKey](../enums/orchestrators_graph_routing_enums_toolRouter_enum.ToolRouterKey.md)
+
+___
+
+### createAgentFlowTemplate
+
+Re-exports [createAgentFlowTemplate](orchestrators_graph_templates_agentFlowTemplate.md#createagentflowtemplate)
 
 ___
 
@@ -203,24 +171,6 @@ ___
 ### createReactValidationNode
 
 Re-exports [createReactValidationNode](orchestrators_graph_nodes_reactValidationNode.md#createreactvalidationnode)
-
-___
-
-### createRegisteredAgentNode
-
-Re-exports [createRegisteredAgentNode](orchestrators_graph_nodes_registeredAgentNode.md#createregisteredagentnode)
-
-___
-
-### createStepAgent
-
-Re-exports [createStepAgent](orchestrators_steps_steps.md#createstepagent)
-
-___
-
-### createStepSubflow
-
-Re-exports [createStepSubflow](orchestrators_steps_steps.md#createstepsubflow)
 
 ___
 
@@ -248,18 +198,12 @@ Re-exports [createToolRouter](orchestrators_graph_routing_toolRouter.md#createto
 
 ___
 
-### stepAgent
+### extractFinalAnswer
 
-Re-exports [stepAgent](orchestrators_steps_steps.md#stepagent)
-
-___
-
-### stepAgentCustom
-
-Re-exports [stepAgentCustom](orchestrators_steps_steps.md#stepagentcustom)
+Re-exports [extractFinalAnswer](orchestrators_graph_utils_graphStateUtils.md#extractfinalanswer)
 
 ___
 
-### stepFinalize
+### extractInput
 
-Re-exports [stepFinalize](orchestrators_steps_steps.md#stepfinalize)
+Re-exports [extractInput](orchestrators_graph_utils_graphStateUtils.md#extractinput)

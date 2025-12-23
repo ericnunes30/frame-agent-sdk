@@ -8,16 +8,10 @@
 - [AgentExecutionResult](agent.md#agentexecutionresult)
 - [AgentLLM](agent.md#agentllm)
 - [AgentLLMConfig](agent.md#agentllmconfig)
-- [AgentRegistrationOptions](agent.md#agentregistrationoptions)
-- [AgentRegistry](agent.md#agentregistry)
-- [AgentRegistryInfo](agent.md#agentregistryinfo)
-- [AgentRegistryInstance](agent.md#agentregistryinstance)
-- [AgentRegistryStats](agent.md#agentregistrystats)
 - [AgentType](agent.md#agenttype)
 - [DEFAULT\_AGENT\_CONFIG](agent.md#default_agent_config)
 - [IAgent](agent.md#iagent)
 - [IAgentConfig](agent.md#iagentconfig)
-- [IAgentRegistry](agent.md#iagentregistry)
 - [validateAgentConfig](agent.md#validateagentconfig)
 
 ## References
@@ -46,36 +40,6 @@ Re-exports [AgentLLMConfig](../interfaces/agent_interfaces_agentLLM_interface.Ag
 
 ___
 
-### AgentRegistrationOptions
-
-Re-exports [AgentRegistrationOptions](../interfaces/agent_interfaces_AgentRegistry_interface.AgentRegistrationOptions.md)
-
-___
-
-### AgentRegistry
-
-Re-exports [AgentRegistry](../classes/agent_registry_AgentRegistry.AgentRegistry.md)
-
-___
-
-### AgentRegistryInfo
-
-Re-exports [AgentRegistryInfo](../interfaces/agent_interfaces_AgentRegistry_interface.AgentRegistryInfo.md)
-
-___
-
-### AgentRegistryInstance
-
-Re-exports [AgentRegistryInstance](agent_registry_AgentRegistry.md#agentregistryinstance)
-
-___
-
-### AgentRegistryStats
-
-Re-exports [AgentRegistryStats](../interfaces/agent_interfaces_AgentRegistry_interface.AgentRegistryStats.md)
-
-___
-
 ### AgentType
 
 Re-exports [AgentType](agent_interfaces_IAgentConfig.md#agenttype)
@@ -97,12 +61,6 @@ ___
 ### IAgentConfig
 
 Re-exports [IAgentConfig](../interfaces/agent_interfaces_IAgentConfig.IAgentConfig.md)
-
-___
-
-### IAgentRegistry
-
-Re-exports [IAgentRegistry](../interfaces/agent_interfaces_AgentRegistry_interface.IAgentRegistry.md)
 
 ___
 

@@ -56,3 +56,5 @@ export * from './providers';
 // ==================== Utilitários ====================
 
 export * from './utils';
+
+export * from './errors';

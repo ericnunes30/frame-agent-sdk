@@ -20,9 +20,3 @@ export type {
   validateAgentConfig,
 } from './IAgentConfig';
 
-export type {
-  IAgentRegistry,
-  AgentRegistryInfo,
-  AgentRegistryStats,
-  AgentRegistrationOptions,
-} from './IAgentRegistry';

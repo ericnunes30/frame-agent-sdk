@@ -43,32 +43,35 @@
 
 // ==================== Interfaces e Contratos ====================
 
-export { 
+export {
     /** Interface para representar mensagens de conversa */
-    Message, 
-    
+    Message,
+
     /** Contrato para serviços de tokenização */
-    ITokenizerService, 
-    
+    ITokenizerService,
+
     /** Contrato para gerenciadores de histórico */
     IChatHistoryManager,
-    
+
     /** Configuração para gerenciadores de histórico */
     ChatHistoryConfig
 } from './memory.interface';
 
 // ==================== Implementações ====================
 
-export { 
+export {
     /** Implementação aproximada de tokenização baseada em caracteres */
-    TokenizerService 
+    TokenizerService
 } from './tokenizer';
 
-export { 
+export {
     /** Gerenciador principal de histórico com truncamento inteligente */
-    ChatHistoryManager 
+    ChatHistoryManager
 } from './chatHistoryManager';
 
 // ==================== Extensões (Hooks) ====================
 
 export type { ContextHooks, ContextBeforeRequestResult, ContextOnErrorResult } from './contextHooks.interface';
+
+export type { MessageContent, ContentPart, TextContentPart, ImageUrlContentPart } from './memory.interface';
+export { isContentParts, extractText, extractTextFromMessage, hasImages, sanitizeForLogs } from './messageContentUtils';

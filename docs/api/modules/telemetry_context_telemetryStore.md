@@ -27,7 +27,7 @@
 
 #### Defined in
 
-src/telemetry/context/telemetryStore.ts:6
+[src/telemetry/context/telemetryStore.ts:6](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/context/telemetryStore.ts#L6)
 
 ## Functions
 
@@ -41,7 +41,7 @@ src/telemetry/context/telemetryStore.ts:6
 
 #### Defined in
 
-src/telemetry/context/telemetryStore.ts:18
+[src/telemetry/context/telemetryStore.ts:18](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/context/telemetryStore.ts#L18)
 
 ___
 
@@ -68,4 +68,4 @@ ___
 
 #### Defined in
 
-src/telemetry/context/telemetryStore.ts:14
+[src/telemetry/context/telemetryStore.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/context/telemetryStore.ts#L14)

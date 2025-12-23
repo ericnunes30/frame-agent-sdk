@@ -39,6 +39,7 @@ const prompt = PromptBuilder.buildSystemPrompt(config);
 - [mode](promptBuilder_promptBuilder_interface.PromptBuilderConfig.md#mode)
 - [taskList](promptBuilder_promptBuilder_interface.PromptBuilderConfig.md#tasklist)
 - [toolNames](promptBuilder_promptBuilder_interface.PromptBuilderConfig.md#toolnames)
+- [toolPolicy](promptBuilder_promptBuilder_interface.PromptBuilderConfig.md#toolpolicy)
 - [tools](promptBuilder_promptBuilder_interface.PromptBuilderConfig.md#tools)
 
 ## Properties
@@ -62,7 +63,7 @@ São adicionadas como seção separada no System Prompt.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:150](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L150)
+[src/promptBuilder/promptBuilder.interface.ts:151](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.interface.ts#L151)
 
 ___
 
@@ -75,7 +76,7 @@ Define identidade, objetivo e contexto do agente.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:136](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L136)
+[src/promptBuilder/promptBuilder.interface.ts:137](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.interface.ts#L137)
 
 ___
 
@@ -94,7 +95,7 @@ Define o tipo de comportamento e estratégia de prompting.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:130](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L130)
+[src/promptBuilder/promptBuilder.interface.ts:131](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.interface.ts#L131)
 
 ___
 
@@ -127,7 +128,7 @@ Lista de tarefas para acompanhamento no prompt.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:195](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L195)
+[src/promptBuilder/promptBuilder.interface.ts:202](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.interface.ts#L202)
 
 ___
 
@@ -154,7 +155,20 @@ O PromptBuilder irá buscar e converter as tools automaticamente.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:177](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L177)
+[src/promptBuilder/promptBuilder.interface.ts:178](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.interface.ts#L178)
+
+___
+
+### toolPolicy
+
+• `Optional` **toolPolicy**: [`ToolPolicy`](tools_policy_toolPolicy_interface.ToolPolicy.md)
+
+Política de ferramentas (allow/deny) aplicada antes de expor tools no prompt.
+Útil para cenários multi‑agente (Supervisor/Planner/Executor) sem duplicar filtros no app.
+
+#### Defined in
+
+[src/promptBuilder/promptBuilder.interface.ts:184](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.interface.ts#L184)
 
 ___
 
@@ -178,4 +192,4 @@ Usado quando as tools já estão no formato correto.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:163](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L163)
+[src/promptBuilder/promptBuilder.interface.ts:164](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.interface.ts#L164)

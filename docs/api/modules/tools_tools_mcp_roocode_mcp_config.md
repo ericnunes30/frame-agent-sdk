@@ -19,4 +19,4 @@ através de um container Docker.
 
 #### Defined in
 
-[src/tools/tools/mcp/roocode-mcp-config.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/roocode-mcp-config.ts#L9)
+[src/tools/tools/mcp/roocode-mcp-config.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/mcp/roocode-mcp-config.ts#L9)

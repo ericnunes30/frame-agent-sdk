@@ -22,8 +22,12 @@ export { AskUserParams, AskUserTool } from '@/tools/tools/askUserTool';
 export { FinalAnswerParams, FinalAnswerTool } from '@/tools/tools/finalAnswerTool';
 export { ApprovalParams, ApprovalTool } from '@/tools/tools/approvalTool';
 export { ToDoIstParams, ToDoIstTool } from '@/tools/tools/toDoIstTool';
-export { CallFlowParams } from '@/tools/tools/callFlowParams';
-export { CallFlowTool } from '@/tools/tools/callFlowTool';
+export { CallFlowParams } from '@/tools/tools/callFlow/callFlowParams';
+export { CallFlowTool } from '@/tools/tools/callFlow/callFlowTool';
+
+// Contratos (host-implemented)
+export type { ReadImageParams, ReadImageSource, ReadImageRegion } from '@/tools/tools/readImage/readImageParams.interface';
+export type { ReadImageResult, ReadImageMeta } from '@/tools/tools/readImage/readImageResult.interface';
 
 // Ferramentas de Sistema e Arquivo
 export { FileReadTool } from '@/tools/tools/fileReadTool';

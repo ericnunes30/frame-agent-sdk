@@ -41,7 +41,7 @@ Evento de telemetria serializável e estável, emitido em tempo real.
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:22
+[src/telemetry/interfaces/traceEvent.interface.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L22)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:37
+[src/telemetry/interfaces/traceEvent.interface.ts:37](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L37)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:23
+[src/telemetry/interfaces/traceEvent.interface.ts:23](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L23)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:15
+[src/telemetry/interfaces/traceEvent.interface.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L15)
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:28
+[src/telemetry/interfaces/traceEvent.interface.ts:28](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L28)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:20
+[src/telemetry/interfaces/traceEvent.interface.ts:20](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L20)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:24
+[src/telemetry/interfaces/traceEvent.interface.ts:24](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L24)
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:13
+[src/telemetry/interfaces/traceEvent.interface.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L13)
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:12
+[src/telemetry/interfaces/traceEvent.interface.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L12)
 
 ___
 
@@ -158,7 +158,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:18
+[src/telemetry/interfaces/traceEvent.interface.ts:18](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L18)
 
 ___
 
@@ -168,7 +168,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:11
+[src/telemetry/interfaces/traceEvent.interface.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L11)
 
 ___
 
@@ -178,7 +178,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:17
+[src/telemetry/interfaces/traceEvent.interface.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L17)
 
 ___
 
@@ -195,7 +195,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:25
+[src/telemetry/interfaces/traceEvent.interface.ts:25](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L25)
 
 ___
 
@@ -212,7 +212,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:36
+[src/telemetry/interfaces/traceEvent.interface.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L36)
 
 ___
 
@@ -231,7 +231,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:27
+[src/telemetry/interfaces/traceEvent.interface.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L27)
 
 ___
 
@@ -241,7 +241,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:10
+[src/telemetry/interfaces/traceEvent.interface.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L10)
 
 ___
 
@@ -251,4 +251,4 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/traceEvent.interface.ts:14
+[src/telemetry/interfaces/traceEvent.interface.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/traceEvent.interface.ts#L14)

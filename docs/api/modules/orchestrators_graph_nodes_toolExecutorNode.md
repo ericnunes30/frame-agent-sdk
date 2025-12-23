@@ -10,7 +10,14 @@
 
 ### createToolExecutorNode
 
-▸ **createToolExecutorNode**(): [`GraphNode`](../interfaces/orchestrators_graph_core_interfaces_graphEngine_interface.GraphNode.md)
+▸ **createToolExecutorNode**(`options?`): [`GraphNode`](../interfaces/orchestrators_graph_core_interfaces_graphEngine_interface.GraphNode.md)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `options?` | `Object` |
+| `options.toolPolicy?` | [`ToolPolicy`](../interfaces/tools_policy_toolPolicy_interface.ToolPolicy.md) |
 
 #### Returns
 
@@ -18,4 +25,4 @@
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/toolExecutorNode.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/toolExecutorNode.ts#L9)
+[src/orchestrators/graph/nodes/toolExecutorNode.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/toolExecutorNode.ts#L11)

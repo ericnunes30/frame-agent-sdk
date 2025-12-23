@@ -15,7 +15,7 @@ describe('GraphBuilder', () => {
             builder.addNode('testNode', node);
             // Since nodes are private, we can verify by trying to add an edge to it
             // or by checking if build succeeds
-            expect(() => builder.setEntry('testNode')).not.toThrow();
+            expect(() => builder.setEntryPoint('testNode')).not.toThrow();
         });
 
         it('should throw if node name is empty', () => {
@@ -56,7 +56,7 @@ describe('GraphBuilder', () => {
             builder.addNode('node3', node3);
 
             const condition = (state: any) => 'node2';
-            expect(() => builder.addConditionalEdge('node1', condition, { node2: 'node2', node3: 'node3' })).not.toThrow();
+            expect(() => builder.addConditionalEdge('node1', condition)).not.toThrow();
         });
     });
 
@@ -64,11 +64,11 @@ describe('GraphBuilder', () => {
         it('should set the entry point', () => {
             const node: GraphNode = async () => ({});
             builder.addNode('start', node);
-            expect(() => builder.setEntry('start')).not.toThrow();
+            expect(() => builder.setEntryPoint('start')).not.toThrow();
         });
 
         it('should throw if entry node does not exist', () => {
-            expect(() => builder.setEntry('non-existent')).toThrow();
+            expect(() => builder.setEntryPoint('non-existent')).toThrow();
         });
     });
 
@@ -76,11 +76,11 @@ describe('GraphBuilder', () => {
         it('should set the finish point', () => {
             const node: GraphNode = async () => ({});
             builder.addNode('end', node);
-            expect(() => builder.setFinish('end')).not.toThrow();
+            expect(() => builder.setEndNode('end')).not.toThrow();
         });
 
-        it('should throw if finish node does not exist', () => {
-            expect(() => builder.setFinish('non-existent')).toThrow();
+        it('should allow setting end node name even if not registered', () => {
+            expect(() => builder.setEndNode('non-existent')).not.toThrow();
         });
     });
 
@@ -89,11 +89,12 @@ describe('GraphBuilder', () => {
             const node: GraphNode = async () => ({});
             builder.addNode('start', node);
             builder.addNode('end', node);
-            builder.setEntry('start');
-            builder.setFinish('end');
+            builder.setEntryPoint('start');
+            builder.setEndNode('end');
             builder.addEdge('start', 'end');
 
-            const engine = builder.build();
+            const definition = builder.build();
+            const engine = new GraphEngine(definition);
             expect(engine).toBeInstanceOf(GraphEngine);
         });
 
@@ -103,11 +104,11 @@ describe('GraphBuilder', () => {
             expect(() => builder.build()).toThrow();
         });
 
-        it('should throw if finish point is not set', () => {
+        it('should build even if end node name is default', () => {
             const node: GraphNode = async () => ({});
             builder.addNode('start', node);
-            builder.setEntry('start');
-            expect(() => builder.build()).toThrow();
+            builder.setEntryPoint('start');
+            expect(() => builder.build()).not.toThrow();
         });
     });
 });

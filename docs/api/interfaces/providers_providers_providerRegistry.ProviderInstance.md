@@ -42,7 +42,7 @@ Método principal para chat completion
 
 #### Defined in
 
-[src/providers/providers/providerRegistry.ts:33](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/providerRegistry.ts#L33)
+[src/providers/providers/providerRegistry.ts:33](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/providerRegistry.ts#L33)
 
 ___
 
@@ -54,4 +54,4 @@ Nome identificador do provedor
 
 #### Defined in
 
-[src/providers/providers/providerRegistry.ts:30](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/providerRegistry.ts#L30)
+[src/providers/providers/providerRegistry.ts:30](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/providerRegistry.ts#L30)

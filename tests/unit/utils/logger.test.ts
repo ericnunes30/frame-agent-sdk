@@ -3,7 +3,7 @@ import { LogLevel, Logger } from '@/utils/logger';
 
 // Mock console methods
 const mockConsole = {
-    debug: jest.spyOn(console, 'debug').mockImplementation(),
+    debug: jest.spyOn(console, 'log').mockImplementation(),
     info: jest.spyOn(console, 'info').mockImplementation(),
     warn: jest.spyOn(console, 'warn').mockImplementation(),
     error: jest.spyOn(console, 'error').mockImplementation()

@@ -52,7 +52,7 @@
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L11)
+[src/orchestrators/graph/builder/GraphBuilder.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L11)
 
 ## Properties
 
@@ -62,7 +62,7 @@
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:6](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L6)
+[src/orchestrators/graph/builder/GraphBuilder.ts:6](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L6)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L8)
+[src/orchestrators/graph/builder/GraphBuilder.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L8)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L7)
+[src/orchestrators/graph/builder/GraphBuilder.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L7)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L9)
+[src/orchestrators/graph/builder/GraphBuilder.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L9)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:5](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L5)
+[src/orchestrators/graph/builder/GraphBuilder.ts:5](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L5)
 
 ## Methods
 
@@ -127,7 +127,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L36)
+[src/orchestrators/graph/builder/GraphBuilder.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L36)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:25](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L25)
+[src/orchestrators/graph/builder/GraphBuilder.ts:25](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L25)
 
 ___
 
@@ -177,7 +177,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:18](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L18)
+[src/orchestrators/graph/builder/GraphBuilder.ts:18](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L18)
 
 ___
 
@@ -198,7 +198,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:73](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L73)
+[src/orchestrators/graph/builder/GraphBuilder.ts:73](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L73)
 
 ___
 
@@ -216,7 +216,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:57](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L57)
+[src/orchestrators/graph/builder/GraphBuilder.ts:57](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L57)
 
 ___
 
@@ -236,7 +236,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:78](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L78)
+[src/orchestrators/graph/builder/GraphBuilder.ts:78](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L78)
 
 ___
 
@@ -254,7 +254,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:69](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L69)
+[src/orchestrators/graph/builder/GraphBuilder.ts:69](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L69)
 
 ___
 
@@ -275,7 +275,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:83](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L83)
+[src/orchestrators/graph/builder/GraphBuilder.ts:83](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L83)
 
 ___
 
@@ -299,7 +299,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:51](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L51)
+[src/orchestrators/graph/builder/GraphBuilder.ts:51](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L51)
 
 ___
 
@@ -323,7 +323,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L44)
+[src/orchestrators/graph/builder/GraphBuilder.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L44)
 
 ___
 
@@ -337,4 +337,4 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/builder/GraphBuilder.ts:88](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/builder/GraphBuilder.ts#L88)
+[src/orchestrators/graph/builder/GraphBuilder.ts:88](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/builder/GraphBuilder.ts#L88)

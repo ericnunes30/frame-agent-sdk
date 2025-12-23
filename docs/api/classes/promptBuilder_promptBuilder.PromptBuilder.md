@@ -88,7 +88,7 @@ Mapeia nomes de modo para funções construtoras de prompt.
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:60](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L60)
+[src/promptBuilder/promptBuilder.ts:61](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.ts#L61)
 
 ## Methods
 
@@ -157,7 +157,7 @@ PromptBuilder.addPromptMode('researcher', (config) => `
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:111](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L111)
+[src/promptBuilder/promptBuilder.ts:112](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.ts#L112)
 
 ___
 
@@ -239,7 +239,7 @@ const advancedPrompt = PromptBuilder.buildSystemPrompt({
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:252](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L252)
+[src/promptBuilder/promptBuilder.ts:253](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.ts#L253)
 
 ___
 
@@ -296,7 +296,7 @@ const taskListSection = PromptBuilder.buildTaskListPrompt(taskList);
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:549](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L549)
+[src/promptBuilder/promptBuilder.ts:558](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.ts#L558)
 
 ___
 
@@ -361,7 +361,7 @@ console.log(schemas);
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:165](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L165)
+[src/promptBuilder/promptBuilder.ts:166](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.ts#L166)
 
 ___
 
@@ -411,7 +411,7 @@ const toolsSection = PromptBuilder.buildToolsPrompt(tools);
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:367](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L367)
+[src/promptBuilder/promptBuilder.ts:372](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.ts#L372)
 
 ___
 
@@ -437,6 +437,8 @@ e permitindo fallback entre diferentes métodos de especificação de prompt.
 | `args.systemPrompt?` | `string` | - |
 | `args.taskList?` | `Object` | - |
 | `args.taskList.items` | \{ `id`: `string` ; `status`: ``"pending"`` \| ``"in_progress"`` \| ``"completed"`` ; `title`: `string`  }[] | - |
+| `args.toolNames?` | `string`[] | - |
+| `args.toolPolicy?` | [`ToolPolicy`](../interfaces/tools_policy_toolPolicy_interface.ToolPolicy.md) | - |
 | `args.tools?` | [`ToolSchema`](../modules/promptBuilder_promptBuilder_interface.md#toolschema)[] | - |
 
 #### Returns
@@ -491,4 +493,4 @@ const result3 = PromptBuilder.determineSystemPrompt({
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.ts:471](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.ts#L471)
+[src/promptBuilder/promptBuilder.ts:476](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.ts#L476)

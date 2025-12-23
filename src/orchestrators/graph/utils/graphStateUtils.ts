@@ -1,5 +1,6 @@
 import type { IGraphState } from '@/orchestrators/graph/core/interfaces/graphState.interface';
 import type { Message } from '@/memory';
+import { extractText } from '@/memory';
 
 export interface ExtractStateTextOptions {
   trim?: boolean;
@@ -8,9 +9,18 @@ export interface ExtractStateTextOptions {
 }
 
 function normalizeText(value: unknown, trim: boolean): string | null {
-  if (typeof value !== 'string') return null;
-  const normalized = trim ? value.trim() : value;
-  return normalized.length ? normalized : null;
+  if (typeof value === 'string') {
+    const normalized = trim ? value.trim() : value;
+    return normalized.length ? normalized : null;
+  }
+
+  if (Array.isArray(value)) {
+    const text = extractText(value as any);
+    const normalized = trim ? text.trim() : text;
+    return normalized.length ? normalized : null;
+  }
+
+  return null;
 }
 
 function getLastMessageByRole(messages: readonly Message[] | undefined, role: Message['role']): Message | undefined {
@@ -76,4 +86,3 @@ export function extractFinalAnswer(state: IGraphState, options?: ExtractStateTex
   const lastAssistant = getLastMessageByRole(state.messages, 'assistant');
   return normalizeText(lastAssistant?.content, trim);
 }
-

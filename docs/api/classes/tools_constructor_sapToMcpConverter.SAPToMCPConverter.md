@@ -66,7 +66,7 @@ Converte SAP parseado para JSON Schema final
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:440](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L440)
+[src/tools/constructor/sapToMcpConverter.ts:440](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L440)
 
 ___
 
@@ -91,7 +91,7 @@ JSON Schema válido do MCP
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L22)
+[src/tools/constructor/sapToMcpConverter.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L22)
 
 ___
 
@@ -127,7 +127,7 @@ Encontra o handler apropriado para um comentário
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:341](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L341)
+[src/tools/constructor/sapToMcpConverter.ts:341](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L341)
 
 ___
 
@@ -143,7 +143,7 @@ Retorna os handlers para cada tipo de comentário
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:317](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L317)
+[src/tools/constructor/sapToMcpConverter.ts:317](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L317)
 
 ___
 
@@ -166,7 +166,7 @@ Processa comentário de descrição
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:352](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L352)
+[src/tools/constructor/sapToMcpConverter.ts:352](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L352)
 
 ___
 
@@ -189,7 +189,7 @@ Processa comentário de enum
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:411](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L411)
+[src/tools/constructor/sapToMcpConverter.ts:411](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L411)
 
 ___
 
@@ -212,7 +212,7 @@ Processa comentário de length
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:365](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L365)
+[src/tools/constructor/sapToMcpConverter.ts:365](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L365)
 
 ___
 
@@ -235,7 +235,7 @@ Processa comentário de range
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:388](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L388)
+[src/tools/constructor/sapToMcpConverter.ts:388](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L388)
 
 ___
 
@@ -257,7 +257,7 @@ Mapeia um tipo TypeScript individual para JSON Schema
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:271](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L271)
+[src/tools/constructor/sapToMcpConverter.ts:271](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L271)
 
 ___
 
@@ -279,7 +279,7 @@ Mapeia tipos TypeScript para tipos JSON Schema
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:250](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L250)
+[src/tools/constructor/sapToMcpConverter.ts:250](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L250)
 
 ___
 
@@ -302,7 +302,7 @@ Converte comentários SAP para propriedades do schema
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:298](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L298)
+[src/tools/constructor/sapToMcpConverter.ts:298](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L298)
 
 ___
 
@@ -324,7 +324,7 @@ Analisa o formato SAP e extrai as propriedades
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:56](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L56)
+[src/tools/constructor/sapToMcpConverter.ts:56](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L56)
 
 ___
 
@@ -352,7 +352,7 @@ Analisa uma linha de propriedade SAP
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:194](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L194)
+[src/tools/constructor/sapToMcpConverter.ts:194](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L194)
 
 ___
 
@@ -374,7 +374,7 @@ Analisa o formato SAP simplificado (JSON encapsulado)
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:75](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L75)
+[src/tools/constructor/sapToMcpConverter.ts:75](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L75)
 
 ___
 
@@ -396,4 +396,4 @@ Analisa o formato SAP tradicional (propriedades individuais)
 
 #### Defined in
 
-[src/tools/constructor/sapToMcpConverter.ts:136](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapToMcpConverter.ts#L136)
+[src/tools/constructor/sapToMcpConverter.ts:136](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapToMcpConverter.ts#L136)

@@ -7,7 +7,6 @@
 - [createAgentNode](orchestrators_graph_nodes.md#createagentnode)
 - [createHumanInLoopNode](orchestrators_graph_nodes.md#createhumaninloopnode)
 - [createReactValidationNode](orchestrators_graph_nodes.md#createreactvalidationnode)
-- [createRegisteredAgentNode](orchestrators_graph_nodes.md#createregisteredagentnode)
 - [createSubflowNode](orchestrators_graph_nodes.md#createsubflownode)
 - [createToolDetectionNode](orchestrators_graph_nodes.md#createtooldetectionnode)
 - [createToolExecutorNode](orchestrators_graph_nodes.md#createtoolexecutornode)
@@ -29,12 +28,6 @@ ___
 ### createReactValidationNode
 
 Re-exports [createReactValidationNode](orchestrators_graph_nodes_reactValidationNode.md#createreactvalidationnode)
-
-___
-
-### createRegisteredAgentNode
-
-Re-exports [createRegisteredAgentNode](orchestrators_graph_nodes_registeredAgentNode.md#createregisteredagentnode)
 
 ___
 

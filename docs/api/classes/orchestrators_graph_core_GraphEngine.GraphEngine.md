@@ -178,7 +178,7 @@ const engine3 = new GraphEngine(graphDefinition, {
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:149](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L149)
+[src/orchestrators/graph/core/GraphEngine.ts:149](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L149)
 
 ## Properties
 
@@ -190,7 +190,7 @@ Gerenciador de histórico de chat
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:97](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L97)
+[src/orchestrators/graph/core/GraphEngine.ts:97](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L97)
 
 ___
 
@@ -200,7 +200,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:105](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L105)
+[src/orchestrators/graph/core/GraphEngine.ts:105](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L105)
 
 ___
 
@@ -212,7 +212,7 @@ Definição completa do grafo a ser executado
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:91](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L91)
+[src/orchestrators/graph/core/GraphEngine.ts:91](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L91)
 
 ___
 
@@ -222,7 +222,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:332](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L332)
+[src/orchestrators/graph/core/GraphEngine.ts:332](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L332)
 
 ___
 
@@ -234,7 +234,7 @@ Configuração do LLM (opcional)
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:101](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L101)
+[src/orchestrators/graph/core/GraphEngine.ts:101](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L101)
 
 ___
 
@@ -246,7 +246,7 @@ Limite máximo de passos de execução
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:93](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L93)
+[src/orchestrators/graph/core/GraphEngine.ts:93](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L93)
 
 ___
 
@@ -258,7 +258,7 @@ Nome do módulo para logging
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:95](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L95)
+[src/orchestrators/graph/core/GraphEngine.ts:95](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L95)
 
 ___
 
@@ -268,7 +268,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:103](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L103)
+[src/orchestrators/graph/core/GraphEngine.ts:103](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L103)
 
 ___
 
@@ -280,7 +280,7 @@ Serviço de tokenização para gerenciamento de contexto
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:99](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L99)
+[src/orchestrators/graph/core/GraphEngine.ts:99](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L99)
 
 ___
 
@@ -290,7 +290,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:102](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L102)
+[src/orchestrators/graph/core/GraphEngine.ts:102](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L102)
 
 ___
 
@@ -300,7 +300,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:104](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L104)
+[src/orchestrators/graph/core/GraphEngine.ts:104](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L104)
 
 ## Methods
 
@@ -322,7 +322,7 @@ Adiciona uma mensagem ao historico interno (ChatHistoryManager).
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:248](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L248)
+[src/orchestrators/graph/core/GraphEngine.ts:248](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L248)
 
 ___
 
@@ -350,7 +350,7 @@ Estado com status atualizado se necessário.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:833](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L833)
+[src/orchestrators/graph/core/GraphEngine.ts:833](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L833)
 
 ___
 
@@ -380,7 +380,7 @@ Error se maxSteps configurado e excedido.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:945](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L945)
+[src/orchestrators/graph/core/GraphEngine.ts:945](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L945)
 
 ___
 
@@ -409,7 +409,7 @@ Estado inicializado para execução.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:912](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L912)
+[src/orchestrators/graph/core/GraphEngine.ts:912](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L912)
 
 ___
 
@@ -431,7 +431,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:230](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L230)
+[src/orchestrators/graph/core/GraphEngine.ts:230](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L230)
 
 ___
 
@@ -457,7 +457,7 @@ do initialState com o ChatHistoryManager para evitar duplicação.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:346](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L346)
+[src/orchestrators/graph/core/GraphEngine.ts:346](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L346)
 
 ___
 
@@ -521,7 +521,7 @@ console.log('Data:', result.state.data);
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:460](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L460)
+[src/orchestrators/graph/core/GraphEngine.ts:460](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L460)
 
 ___
 
@@ -559,7 +559,7 @@ if (memory) {
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:980](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L980)
+[src/orchestrators/graph/core/GraphEngine.ts:980](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L980)
 
 ___
 
@@ -605,7 +605,7 @@ console.log('Mensagens para LLM:', messages);
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:287](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L287)
+[src/orchestrators/graph/core/GraphEngine.ts:287](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L287)
 
 ___
 
@@ -621,7 +621,7 @@ Retorna as opções de telemetria configuradas no engine.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:226](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L226)
+[src/orchestrators/graph/core/GraphEngine.ts:226](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L226)
 
 ___
 
@@ -637,7 +637,7 @@ Retorna o TraceContext atual (apenas durante `execute()`/`resume()`).
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:212](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L212)
+[src/orchestrators/graph/core/GraphEngine.ts:212](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L212)
 
 ___
 
@@ -653,7 +653,7 @@ Retorna o sink de telemetria configurado no engine.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:219](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L219)
+[src/orchestrators/graph/core/GraphEngine.ts:219](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L219)
 
 ___
 
@@ -686,7 +686,7 @@ Use mergeState diretamente
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:814](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L814)
+[src/orchestrators/graph/core/GraphEngine.ts:814](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L814)
 
 ___
 
@@ -719,7 +719,7 @@ Use mergeState diretamente
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:794](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L794)
+[src/orchestrators/graph/core/GraphEngine.ts:794](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L794)
 
 ___
 
@@ -756,7 +756,7 @@ Novo estado combinado.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:724](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L724)
+[src/orchestrators/graph/core/GraphEngine.ts:724](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L724)
 
 ___
 
@@ -797,7 +797,7 @@ Error se aresta não definida ou retorno condicional vazio.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:872](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L872)
+[src/orchestrators/graph/core/GraphEngine.ts:872](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L872)
 
 ___
 
@@ -860,7 +860,7 @@ if (result1.status === 'PAUSED') {
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:613](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L613)
+[src/orchestrators/graph/core/GraphEngine.ts:613](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L613)
 
 ___
 
@@ -895,7 +895,7 @@ Em caso de erro, retorna mensagem de erro para o agente.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:659](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L659)
+[src/orchestrators/graph/core/GraphEngine.ts:659](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L659)
 
 ___
 
@@ -943,7 +943,7 @@ engine.setChatHistoryManager(compactedManager);
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:1012](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L1012)
+[src/orchestrators/graph/core/GraphEngine.ts:1012](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L1012)
 
 ___
 
@@ -969,7 +969,7 @@ histórico esteja consistente com o estado do grafo.
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:402](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L402)
+[src/orchestrators/graph/core/GraphEngine.ts:402](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L402)
 
 ___
 
@@ -990,4 +990,4 @@ pode usar este histórico para atualizar estado).
 
 #### Defined in
 
-[src/orchestrators/graph/core/GraphEngine.ts:321](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/core/GraphEngine.ts#L321)
+[src/orchestrators/graph/core/GraphEngine.ts:321](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/core/GraphEngine.ts#L321)

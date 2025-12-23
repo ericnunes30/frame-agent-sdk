@@ -66,7 +66,7 @@ describe('PromptBuilder', () => {
             });
 
             // Assert
-            expect(prompt).toContain('## Additional Instructions');
+            expect(prompt).toContain('## Prompt Instructions');
             expect(prompt).toContain('Extra instructions');
         });
 

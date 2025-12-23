@@ -122,7 +122,7 @@ do agente, incluindo credenciais, modelos, parâmetros, etc.
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:118](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L118)
+[src/agent/interfaces/IAgent.ts:118](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgent.ts#L118)
 
 ___
 
@@ -137,7 +137,7 @@ rastreamento, logging e identificação em registries.
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:102](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L102)
+[src/agent/interfaces/IAgent.ts:102](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgent.ts#L102)
 
 ___
 
@@ -152,7 +152,7 @@ Este tipo é usado pelo sistema para determinar como processar o agente.
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:110](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L110)
+[src/agent/interfaces/IAgent.ts:110](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgent.ts#L110)
 
 ## Methods
 
@@ -194,7 +194,7 @@ agent.configure({ model: 'gpt-4' });
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:191](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L191)
+[src/agent/interfaces/IAgent.ts:191](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgent.ts#L191)
 
 ___
 
@@ -254,7 +254,7 @@ if (result.success) {
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:163](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L163)
+[src/agent/interfaces/IAgent.ts:163](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgent.ts#L163)
 
 ___
 
@@ -288,7 +288,7 @@ console.log('História:', info.backstory);
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:211](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L211)
+[src/agent/interfaces/IAgent.ts:211](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgent.ts#L211)
 
 ___
 
@@ -318,7 +318,7 @@ const newResult = await agent.execute(newMessages);
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:250](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L250)
+[src/agent/interfaces/IAgent.ts:250](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgent.ts#L250)
 
 ___
 
@@ -351,4 +351,4 @@ const result = await agent.execute(messages);
 
 #### Defined in
 
-[src/agent/interfaces/IAgent.ts:232](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/IAgent.ts#L232)
+[src/agent/interfaces/IAgent.ts:232](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/IAgent.ts#L232)

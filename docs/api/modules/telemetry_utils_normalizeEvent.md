@@ -28,7 +28,7 @@
 
 #### Defined in
 
-src/telemetry/utils/normalizeEvent.ts:14
+[src/telemetry/utils/normalizeEvent.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/normalizeEvent.ts#L14)
 
 ___
 
@@ -49,4 +49,4 @@ ___
 
 #### Defined in
 
-src/telemetry/utils/normalizeEvent.ts:7
+[src/telemetry/utils/normalizeEvent.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/normalizeEvent.ts#L7)

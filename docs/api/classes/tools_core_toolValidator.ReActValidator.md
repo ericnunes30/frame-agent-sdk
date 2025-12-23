@@ -53,7 +53,7 @@ if (validation?.isValid === true) {
 
 ### getErrorType
 
-▸ **getErrorType**(`errorMessage`): ``"parsing"`` \| ``"validation"`` \| ``"format"`` \| ``"unknown"``
+▸ **getErrorType**(`errorMessage`): ``"unknown"`` \| ``"parsing"`` \| ``"validation"`` \| ``"format"``
 
 Classifica o tipo de erro com base na mensagem
 
@@ -65,13 +65,13 @@ Classifica o tipo de erro com base na mensagem
 
 #### Returns
 
-``"parsing"`` \| ``"validation"`` \| ``"format"`` \| ``"unknown"``
+``"unknown"`` \| ``"parsing"`` \| ``"validation"`` \| ``"format"``
 
 Tipo de erro classificado
 
 #### Defined in
 
-[src/tools/core/toolValidator.ts:411](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/toolValidator.ts#L411)
+[src/tools/core/toolValidator.ts:411](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/toolValidator.ts#L411)
 
 ___
 
@@ -95,13 +95,13 @@ Objeto com isValid boolean e detalhes do erro ou toolCall
 
 | Name | Type |
 | :------ | :------ |
-| `error?` | \{ `details?`: `any` ; `message`: `string` ; `type`: ``"parsing"`` \| ``"validation"`` \| ``"format"`` \| ``"unknown"``  } |
+| `error?` | \{ `details?`: `any` ; `message`: `string` ; `type`: ``"unknown"`` \| ``"parsing"`` \| ``"validation"`` \| ``"format"``  } |
 | `error.details?` | `any` |
 | `error.message` | `string` |
-| `error.type` | ``"parsing"`` \| ``"validation"`` \| ``"format"`` \| ``"unknown"`` |
+| `error.type` | ``"unknown"`` \| ``"parsing"`` \| ``"validation"`` \| ``"format"`` |
 | `isValid` | `boolean` |
 | `toolCall?` | `any` |
 
 #### Defined in
 
-[src/tools/core/toolValidator.ts:356](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/toolValidator.ts#L356)
+[src/tools/core/toolValidator.ts:356](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/toolValidator.ts#L356)
