@@ -48,7 +48,7 @@
 
 #### Defined in
 
-src/telemetry/utils/ringBuffer.ts:5
+[src/telemetry/utils/ringBuffer.ts:5](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/ringBuffer.ts#L5)
 
 ## Properties
 
@@ -58,7 +58,7 @@ src/telemetry/utils/ringBuffer.ts:5
 
 #### Defined in
 
-src/telemetry/utils/ringBuffer.ts:3
+[src/telemetry/utils/ringBuffer.ts:3](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/ringBuffer.ts#L3)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-src/telemetry/utils/ringBuffer.ts:2
+[src/telemetry/utils/ringBuffer.ts:2](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/ringBuffer.ts#L2)
 
 ## Methods
 
@@ -88,7 +88,7 @@ src/telemetry/utils/ringBuffer.ts:2
 
 #### Defined in
 
-src/telemetry/utils/ringBuffer.ts:10
+[src/telemetry/utils/ringBuffer.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/ringBuffer.ts#L10)
 
 ___
 
@@ -102,4 +102,4 @@ ___
 
 #### Defined in
 
-src/telemetry/utils/ringBuffer.ts:18
+[src/telemetry/utils/ringBuffer.ts:18](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/ringBuffer.ts#L18)

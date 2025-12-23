@@ -35,11 +35,6 @@
       "require": "./dist/memory/index.js",
       "types": "./dist/memory/index.d.ts"
     },
-    "./orchestrators/steps": {
-      "import": "./dist/orchestrators/steps/index.js",
-      "require": "./dist/orchestrators/steps/index.js",
-      "types": "./dist/orchestrators/steps/index.d.ts"
-    },
     "./orchestrators/graph": {
       "import": "./dist/orchestrators/graph/index.js",
       "require": "./dist/orchestrators/graph/index.js",

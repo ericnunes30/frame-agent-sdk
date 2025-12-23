@@ -72,6 +72,11 @@ describe('GraphEngine', () => {
                 clearHistory: jest.fn(),
                 addSystemPrompt: jest.fn(),
                 getRemainingBudget: jest.fn().mockReturnValue(1000),
+                editMessage: jest.fn(),
+                deleteMessageRange: jest.fn(),
+                getMessageById: jest.fn(),
+                exportHistory: jest.fn().mockReturnValue([]),
+                importHistory: jest.fn(),
             };
 
             const engine = new GraphEngine(definition, { chatHistoryManager: mockChatHistory });
@@ -247,8 +252,9 @@ describe('GraphEngine', () => {
 
             const result = await engine.execute(initialState);
 
-            expect(result.status).toBe(GraphStatus.ERROR);
-            expect(result.state.logs).toContain('Error in node: Node execution failed');
+            expect(result.status).toBe(GraphStatus.FINISHED);
+            expect(result.state.logs.join('\n')).toContain('Erro na execu');
+            expect(result.state.messages.some((m) => m.role === 'system')).toBe(true);
         });
     });
 
@@ -622,6 +628,11 @@ describe('GraphEngine', () => {
                 clearHistory: jest.fn(),
                 addSystemPrompt: jest.fn(),
                 getRemainingBudget: jest.fn().mockReturnValue(1000),
+                editMessage: jest.fn(),
+                deleteMessageRange: jest.fn(),
+                getMessageById: jest.fn(),
+                exportHistory: jest.fn().mockReturnValue([]),
+                importHistory: jest.fn(),
             };
 
             const definition: GraphDefinition = {
@@ -759,6 +770,11 @@ describe('GraphEngine', () => {
                 clearHistory: jest.fn(),
                 addSystemPrompt: jest.fn(),
                 getRemainingBudget: jest.fn().mockReturnValue(1000),
+                editMessage: jest.fn(),
+                deleteMessageRange: jest.fn(),
+                getMessageById: jest.fn(),
+                exportHistory: jest.fn().mockReturnValue([]),
+                importHistory: jest.fn(),
             };
 
             const definition: GraphDefinition = {

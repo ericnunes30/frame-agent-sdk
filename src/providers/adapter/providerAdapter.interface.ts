@@ -1,6 +1,7 @@
 import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
 import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
 import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
+import type { Message } from '@/memory';
 
 /**
  * Interface para definir o contrato de um provedor
@@ -66,10 +67,18 @@ export interface ProviderConfig {
    * Array de mensagens da conversa.
    * Cada mensagem deve ter role ('system', 'user', 'assistant') e content.
    */
-  messages: Array<{
-    role: string;
-    content: string;
-  }>;
+  messages: Message[];
+
+  /**
+   * Capacidades declaradas do provider/modelo (fonte de verdade).
+   */
+  capabilities?: {
+    /**
+     * Indica se o modelo suporta conteudo multimodal (imagens) via messages.
+     * Default: false (se nao informado).
+     */
+    supportsVision?: boolean;
+  };
 
   /** 
    * Chave de API do provedor.

@@ -3,6 +3,7 @@ import { getProvider } from '../providers';
 import { logger } from '@/utils/logger';
 import { emitTrace } from '@/telemetry/utils/traceEmitter';
 import { createTraceId } from '@/telemetry/utils/id';
+import { sanitizeForLogs } from '@/memory';
 
 /**
  * Adaptador genérico unificado para provedores de LLM.
@@ -279,7 +280,7 @@ export class ProviderAdapter {
       logger.debug('\\n💬 MENSAGENS DA CONVERSA:');
       logger.debug('-'.repeat(60));
       config.messages.forEach((msg, index) => {
-        logger.debug(`${index + 1}. [${msg.role}] ${msg.content}`);
+        logger.debug(`${index + 1}. [${msg.role}] ${sanitizeForLogs(msg.content)}`);
       });
       logger.debug('-'.repeat(60));
     }

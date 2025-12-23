@@ -18,6 +18,7 @@ para o formato tipado IToolCall.
 
 ### Methods
 
+- [convertActionInputFormat](tools_constructor_sapParser.SAPParser.md#convertactioninputformat)
 - [correctActionHeader](tools_constructor_sapParser.SAPParser.md#correctactionheader)
 - [extractBalancedJson](tools_constructor_sapParser.SAPParser.md#extractbalancedjson)
 - [parseAndValidate](tools_constructor_sapParser.SAPParser.md#parseandvalidate)
@@ -41,9 +42,38 @@ para o formato tipado IToolCall.
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:24](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L24)
+[src/tools/constructor/sapParser.ts:24](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapParser.ts#L24)
 
 ## Methods
+
+### convertActionInputFormat
+
+▸ **convertActionInputFormat**(`text`): `string`
+
+Converte o formato ReAct com "Action Input" para o formato SAP esperado.
+
+Converte:
+Action: toolName
+Action Input: { ... }
+
+Para:
+Action: toolName = { ... }
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `text` | `string` |
+
+#### Returns
+
+`string`
+
+#### Defined in
+
+[src/tools/constructor/sapParser.ts:41](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapParser.ts#L41)
+
+___
 
 ### correctActionHeader
 
@@ -65,7 +95,7 @@ Converte: "Action: tool {" -> "Action: tool = {"
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L36)
+[src/tools/constructor/sapParser.ts:67](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapParser.ts#L67)
 
 ___
 
@@ -86,7 +116,7 @@ ___
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:43](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L43)
+[src/tools/constructor/sapParser.ts:74](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapParser.ts#L74)
 
 ___
 
@@ -106,7 +136,7 @@ ___
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:58](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L58)
+[src/tools/constructor/sapParser.ts:89](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapParser.ts#L89)
 
 ___
 
@@ -126,4 +156,4 @@ ___
 
 #### Defined in
 
-[src/tools/constructor/sapParser.ts:26](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/constructor/sapParser.ts#L26)
+[src/tools/constructor/sapParser.ts:26](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/constructor/sapParser.ts#L26)

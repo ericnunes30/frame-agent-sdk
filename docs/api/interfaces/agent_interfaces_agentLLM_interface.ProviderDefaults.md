@@ -67,7 +67,7 @@ maxContextTokens: 8000     // Para modelos padrão
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:66](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L66)
+[src/agent/interfaces/agentLLM.interface.ts:66](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L66)
 
 ___
 
@@ -92,7 +92,7 @@ maxTokens: 4000  // Resposta detalhada
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:101](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L101)
+[src/agent/interfaces/agentLLM.interface.ts:101](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L101)
 
 ___
 
@@ -117,7 +117,7 @@ temperature: 0.9  // Para tarefas criativas
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:53](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L53)
+[src/agent/interfaces/agentLLM.interface.ts:53](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L53)
 
 ___
 
@@ -143,4 +143,4 @@ topP: 0.9   // Respostas diversificadas
 
 #### Defined in
 
-[src/agent/interfaces/agentLLM.interface.ts:84](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/interfaces/agentLLM.interface.ts#L84)
+[src/agent/interfaces/agentLLM.interface.ts:84](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/interfaces/agentLLM.interface.ts#L84)

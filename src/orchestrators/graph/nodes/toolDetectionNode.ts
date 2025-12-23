@@ -1,6 +1,7 @@
 import { ToolDetector, ToolDetectionResult } from '@/tools/core/toolDetector';
 import type { GraphNode, GraphNodeResult } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
 import type { Message } from '@/memory';
+import { extractText } from '@/memory';
 import { logger } from '@/utils/logger';
 import { createTraceId } from '@/telemetry/utils/id';
 
@@ -21,7 +22,7 @@ export function createToolDetectionNode(): GraphNode {
         if (!contentToParse && state.messages.length > 0) {
             const lastMsg = state.messages[state.messages.length - 1];
             if (lastMsg.role === 'assistant') {
-                contentToParse = String(lastMsg.content);
+                contentToParse = extractText(lastMsg.content);
             }
         }
 

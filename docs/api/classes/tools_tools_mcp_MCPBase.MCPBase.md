@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPBase.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPBase.ts#L22)
+[src/tools/tools/mcp/MCPBase.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/mcp/MCPBase.ts#L22)
 
 ## Properties
 
@@ -49,7 +49,7 @@
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPBase.ts:20](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPBase.ts#L20)
+[src/tools/tools/mcp/MCPBase.ts:20](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/mcp/MCPBase.ts#L20)
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPBase.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPBase.ts#L19)
+[src/tools/tools/mcp/MCPBase.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/mcp/MCPBase.ts#L19)
 
 ## Methods
 
@@ -79,7 +79,7 @@ ___
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPBase.ts:31](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPBase.ts#L31)
+[src/tools/tools/mcp/MCPBase.ts:31](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/mcp/MCPBase.ts#L31)
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPBase.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPBase.ts#L27)
+[src/tools/tools/mcp/MCPBase.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/mcp/MCPBase.ts#L27)
 
 ___
 
@@ -113,7 +113,7 @@ ___
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPBase.ts:41](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPBase.ts#L41)
+[src/tools/tools/mcp/MCPBase.ts:41](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/mcp/MCPBase.ts#L41)
 
 ___
 
@@ -127,7 +127,7 @@ ___
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPBase.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPBase.ts#L36)
+[src/tools/tools/mcp/MCPBase.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/mcp/MCPBase.ts#L36)
 
 ___
 
@@ -147,4 +147,4 @@ ___
 
 #### Defined in
 
-[src/tools/tools/mcp/MCPBase.ts:63](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/mcp/MCPBase.ts#L63)
+[src/tools/tools/mcp/MCPBase.ts:63](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/mcp/MCPBase.ts#L63)

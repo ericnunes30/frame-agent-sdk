@@ -96,7 +96,7 @@ Se a API key não for fornecida
 
 #### Defined in
 
-[src/providers/providers/openAiProvider.ts:70](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openAiProvider.ts#L70)
+[src/providers/providers/openAiProvider.ts:70](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openAiProvider.ts#L70)
 
 ## Properties
 
@@ -108,7 +108,7 @@ Cliente oficial da OpenAI
 
 #### Defined in
 
-[src/providers/providers/openAiProvider.ts:55](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openAiProvider.ts#L55)
+[src/providers/providers/openAiProvider.ts:55](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openAiProvider.ts#L55)
 
 ___
 
@@ -120,7 +120,7 @@ Nome identificador do provedor
 
 #### Defined in
 
-[src/providers/providers/openAiProvider.ts:52](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openAiProvider.ts#L52)
+[src/providers/providers/openAiProvider.ts:52](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openAiProvider.ts#L52)
 
 ## Methods
 
@@ -156,7 +156,7 @@ console.log(fullResponse.content); // Conteúdo completo acumulado
 
 #### Defined in
 
-[src/providers/providers/openAiProvider.ts:97](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openAiProvider.ts#L97)
+[src/providers/providers/openAiProvider.ts:97](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openAiProvider.ts#L97)
 
 ___
 
@@ -241,4 +241,4 @@ for await (const chunk of streamResponse) {
 
 #### Defined in
 
-[src/providers/providers/openAiProvider.ts:179](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/providers/providers/openAiProvider.ts#L179)
+[src/providers/providers/openAiProvider.ts:179](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/providers/providers/openAiProvider.ts#L179)

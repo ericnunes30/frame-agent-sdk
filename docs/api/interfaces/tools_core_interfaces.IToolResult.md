@@ -90,7 +90,7 @@ metadata: {
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:110](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L110)
+[src/tools/core/interfaces.ts:110](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L110)
 
 ___
 
@@ -104,4 +104,4 @@ Pode ser string, number, object, array, etc.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:84](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L84)
+[src/tools/core/interfaces.ts:84](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L84)

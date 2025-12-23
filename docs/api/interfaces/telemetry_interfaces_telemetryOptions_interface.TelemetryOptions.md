@@ -23,7 +23,7 @@ Opções de telemetria para controlar volume, persistência e payload.
 
 #### Defined in
 
-src/telemetry/interfaces/telemetryOptions.interface.ts:7
+[src/telemetry/interfaces/telemetryOptions.interface.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/telemetryOptions.interface.ts#L7)
 
 ___
 
@@ -33,7 +33,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/telemetryOptions.interface.ts:12
+[src/telemetry/interfaces/telemetryOptions.interface.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/telemetryOptions.interface.ts#L12)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/telemetryOptions.interface.ts:8
+[src/telemetry/interfaces/telemetryOptions.interface.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/telemetryOptions.interface.ts#L8)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/telemetryOptions.interface.ts:10
+[src/telemetry/interfaces/telemetryOptions.interface.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/telemetryOptions.interface.ts#L10)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/telemetryOptions.interface.ts:11
+[src/telemetry/interfaces/telemetryOptions.interface.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/telemetryOptions.interface.ts#L11)
 
 ___
 
@@ -73,4 +73,4 @@ ___
 
 #### Defined in
 
-src/telemetry/interfaces/telemetryOptions.interface.ts:9
+[src/telemetry/interfaces/telemetryOptions.interface.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/interfaces/telemetryOptions.interface.ts#L9)

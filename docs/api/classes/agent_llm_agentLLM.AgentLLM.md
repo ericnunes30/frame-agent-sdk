@@ -8,41 +8,41 @@ Esta classe fornece uma interface simplificada e especializada para
 agentes de IA interagirem com modelos de linguagem, integrando
 seamlessly com ProviderAdapter e PromptBuilder.
 
-## Características Principais
+## CaracterÃ­sticas Principais
 
-- **Configuração Fixa**: Mantém modelo e API key fixos para consistência
-- **Geração Automática de Prompts**: Integração com PromptBuilder para system prompts
-- **Parâmetros Flexíveis**: Suporte a overrides por chamada
-- **Integração Completa**: Funciona com todos os provedores suportados
-- **Metadados Ricos**: Retorna informações detalhadas da execução
+- **ConfiguraÃ§Ã£o Fixa**: MantÃ©m modelo e API key fixos para consistÃªncia
+- **GeraÃ§Ã£o AutomÃ¡tica de Prompts**: IntegraÃ§Ã£o com PromptBuilder para system prompts
+- **ParÃ¢metros FlexÃ­veis**: Suporte a overrides por chamada
+- **IntegraÃ§Ã£o Completa**: Funciona com todos os provedores suportados
+- **Metadados Ricos**: Retorna informaÃ§Ãµes detalhadas da execuÃ§Ã£o
 
-## Fluxo de Operação
+## Fluxo de OperaÃ§Ã£o
 
-1. **Configuração**: Define modelo, API key e parâmetros padrão
-2. **Construção de Prompt**: Usa PromptBuilder para gerar system prompt
-3. **Execução**: Chama ProviderAdapter com configuração completa
-4. **Retorno**: Fornece conteúdo e metadados da resposta
+1. **ConfiguraÃ§Ã£o**: Define modelo, API key e parÃ¢metros padrÃ£o
+2. **ConstruÃ§Ã£o de Prompt**: Usa PromptBuilder para gerar system prompt
+3. **ExecuÃ§Ã£o**: Chama ProviderAdapter com configuraÃ§Ã£o completa
+4. **Retorno**: Fornece conteÃºdo e metadados da resposta
 
-## Integração com Módulos
+## IntegraÃ§Ã£o com MÃ³dulos
 
-- **ProviderAdapter**: Para comunicação com provedores LLM
-- **PromptBuilder**: Para geração automática de system prompts
+- **ProviderAdapter**: Para comunicaÃ§Ã£o com provedores LLM
+- **PromptBuilder**: Para geraÃ§Ã£o automÃ¡tica de system prompts
 - **Memory**: Para gerenciamento de mensagens e contexto
 - **Tools**: Para suporte a ferramentas quando configurado
 
 **`Example`**
 
 ```typescript
-// Configuração básica
+// ConfiguraÃ§Ã£o bÃ¡sica
 const agentLLM = new AgentLLM({
   model: 'openai-gpt-4',
   apiKey: 'sk-...',
   defaults: { temperature: 0.7, maxTokens: 1000 }
 });
 
-// Execução com modo chat
+// ExecuÃ§Ã£o com modo chat
 const result1 = await agentLLM.invoke({
-  messages: [{ role: 'user', content: 'Olá!' }],
+  messages: [{ role: 'user', content: 'OlÃ¡!' }],
   mode: 'chat',
   agentInfo: {
     name: 'Assistant',
@@ -51,7 +51,7 @@ const result1 = await agentLLM.invoke({
   }
 });
 
-// Execução com ferramentas (modo react)
+// ExecuÃ§Ã£o com ferramentas (modo react)
 const result2 = await agentLLM.invoke({
   messages: [{ role: 'user', content: 'Calcule 2+2' }],
   mode: 'react',
@@ -69,10 +69,10 @@ console.log(result2.metadata);
 
 **`See`**
 
- - [AgentLLMConfig](../interfaces/agent_interfaces_agentLLM_interface.AgentLLMConfig.md) Para configuração da classe
- - [ProviderDefaults](../interfaces/agent_interfaces_agentLLM_interface.ProviderDefaults.md) Para parâmetros padrão
- - [PromptBuilder](promptBuilder_promptBuilder.PromptBuilder.md) Para geração de prompts
- - [ProviderAdapter](providers_adapter_providerAdapter.ProviderAdapter.md) Para comunicação com provedores
+ - [AgentLLMConfig](../interfaces/agent_interfaces_agentLLM_interface.AgentLLMConfig.md) Para configuraÃ§Ã£o da classe
+ - [ProviderDefaults](../interfaces/agent_interfaces_agentLLM_interface.ProviderDefaults.md) Para parÃ¢metros padrÃ£o
+ - [PromptBuilder](promptBuilder_promptBuilder.PromptBuilder.md) Para geraÃ§Ã£o de prompts
+ - [ProviderAdapter](providers_adapter_providerAdapter.ProviderAdapter.md) Para comunicaÃ§Ã£o com provedores
 
 ## Table of contents
 
@@ -84,6 +84,7 @@ console.log(result2.metadata);
 
 - [apiKey](agent_llm_agentLLM.AgentLLM.md#apikey)
 - [baseUrl](agent_llm_agentLLM.AgentLLM.md#baseurl)
+- [capabilities](agent_llm_agentLLM.AgentLLM.md#capabilities)
 - [defaults](agent_llm_agentLLM.AgentLLM.md#defaults)
 - [model](agent_llm_agentLLM.AgentLLM.md#model)
 - [provider](agent_llm_agentLLM.AgentLLM.md#provider)
@@ -99,18 +100,20 @@ console.log(result2.metadata);
 
 • **new AgentLLM**(`params`): [`AgentLLM`](agent_llm_agentLLM.AgentLLM.md)
 
-Cria uma instância de AgentLLM com parâmetros individuais.
+Cria uma instÃ¢ncia de AgentLLM com parÃ¢metros individuais.
 
-Construtor que permite especificar cada parâmetro separadamente,
-oferecendo máxima flexibilidade na configuração.
+Construtor que permite especificar cada parÃ¢metro separadamente,
+oferecendo mÃ¡xima flexibilidade na configuraÃ§Ã£o.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `params` | `Object` | Parâmetros de configuração. |
+| `params` | `Object` | ParÃ¢metros de configuraÃ§Ã£o. |
 | `params.apiKey` | `string` | - |
 | `params.baseUrl?` | `string` | - |
+| `params.capabilities?` | `Object` | - |
+| `params.capabilities.supportsVision?` | `boolean` | Indica se o modelo suporta conteudo multimodal (imagens) via messages. Default: false (se nao informado). |
 | `params.defaults?` | [`ProviderDefaults`](../interfaces/agent_interfaces_agentLLM_interface.ProviderDefaults.md) | - |
 | `params.model` | `string` | - |
 | `params.provider?` | `string` | - |
@@ -122,13 +125,13 @@ oferecendo máxima flexibilidade na configuração.
 **`Example`**
 
 ```typescript
-// Configuração simples
+// ConfiguraÃ§Ã£o simples
 const agentLLM1 = new AgentLLM({
   model: 'openai-gpt-3.5-turbo',
   apiKey: 'sk-...'
 });
 
-// Configuração com parâmetros padrão
+// ConfiguraÃ§Ã£o com parÃ¢metros padrÃ£o
 const agentLLM2 = new AgentLLM({
   model: 'anthropic-claude-3-sonnet',
   apiKey: 'sk-ant-...',
@@ -143,11 +146,11 @@ const agentLLM2 = new AgentLLM({
 
 **`See`**
 
-[ProviderDefaults](../interfaces/agent_interfaces_agentLLM_interface.ProviderDefaults.md) Para parâmetros padrão
+[ProviderDefaults](../interfaces/agent_interfaces_agentLLM_interface.ProviderDefaults.md) Para parÃ¢metros padrÃ£o
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:165](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L165)
+[src/agent/llm/agentLLM.ts:168](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/llm/agentLLM.ts#L168)
 
 ## Properties
 
@@ -159,7 +162,7 @@ Chave de API do provedor
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:88](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L88)
+[src/agent/llm/agentLLM.ts:89](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/llm/agentLLM.ts#L89)
 
 ___
 
@@ -171,7 +174,23 @@ URL base customizada (opcional)
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:92](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L92)
+[src/agent/llm/agentLLM.ts:93](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/llm/agentLLM.ts#L93)
+
+___
+
+### capabilities
+
+• `Private` `Optional` `Readonly` **capabilities**: `Object`
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `supportsVision?` | `boolean` | Indica se o modelo suporta conteudo multimodal (imagens) via messages. Default: false (se nao informado). |
+
+#### Defined in
+
+[src/agent/llm/agentLLM.ts:96](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/llm/agentLLM.ts#L96)
 
 ___
 
@@ -179,11 +198,11 @@ ___
 
 • `Private` `Readonly` **defaults**: [`ProviderDefaults`](../interfaces/agent_interfaces_agentLLM_interface.ProviderDefaults.md)
 
-Parâmetros padrão de geração
+ParÃ¢metros padrÃ£o de geraÃ§Ã£o
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:90](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L90)
+[src/agent/llm/agentLLM.ts:91](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/llm/agentLLM.ts#L91)
 
 ___
 
@@ -195,7 +214,7 @@ Modelo de linguagem configurado
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:86](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L86)
+[src/agent/llm/agentLLM.ts:87](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/llm/agentLLM.ts#L87)
 
 ___
 
@@ -203,11 +222,11 @@ ___
 
 • `Private` `Optional` `Readonly` **provider**: `string`
 
-Provedor explícito (opcional)
+Provedor explÃ­cito (opcional)
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:94](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L94)
+[src/agent/llm/agentLLM.ts:95](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/llm/agentLLM.ts#L95)
 
 ## Methods
 
@@ -215,37 +234,38 @@ Provedor explícito (opcional)
 
 ▸ **invoke**(`args`): `Promise`\<\{ `content`: `string` ; `metadata?`: `Record`\<`string`, `unknown`\>  }\>
 
-Invoca o modelo de linguagem com parâmetros flexíveis.
+Invoca o modelo de linguagem com parÃ¢metros flexÃ­veis.
 
-Método principal que executa a interação com o LLM. Suporta
-tanto system prompts customizados quanto geração automática
+MÃ©todo principal que executa a interaÃ§Ã£o com o LLM. Suporta
+tanto system prompts customizados quanto geraÃ§Ã£o automÃ¡tica
 via PromptBuilder usando mode e agentInfo.
 
-## Estratégias de Prompt
+## EstratÃ©gias de Prompt
 
 - **systemPrompt direto**: Use systemPrompt para controle total
-- **Geração automática**: Use mode + agentInfo para prompts gerados
-- **PromptBuilder**: Integração automática com PromptBuilder
+- **GeraÃ§Ã£o automÃ¡tica**: Use mode + agentInfo para prompts gerados
+- **PromptBuilder**: IntegraÃ§Ã£o automÃ¡tica com PromptBuilder
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `args` | `Object` | Parâmetros de invocação flexíveis. |
-| `args.additionalInstructions?` | `string` | Instruções adicionais para o agente |
-| `args.agentInfo?` | [`AgentInfo`](../interfaces/promptBuilder_promptBuilder_interface.AgentInfo.md) | Informações do agente para geração automática de prompt |
-| `args.maxTokens?` | `number` | MaxTokens específico para esta chamada |
+| `args` | `Object` | ParÃ¢metros de invocaÃ§Ã£o flexÃ­veis. |
+| `args.additionalInstructions?` | `string` | InstruÃ§Ãµes adicionais para o agente |
+| `args.agentInfo?` | [`AgentInfo`](../interfaces/promptBuilder_promptBuilder_interface.AgentInfo.md) | InformaÃ§Ãµes do agente para geraÃ§Ã£o automÃ¡tica de prompt |
+| `args.contextHooks?` | [`ContextHooks`](../interfaces/memory_contextHooks_interface.ContextHooks.md) | Hooks de contexto (trim/rewrite/retry) |
+| `args.maxTokens?` | `number` | MaxTokens especÃ­fico para esta chamada |
 | `args.messages` | [`Message`](../interfaces/memory_memory_interface.Message.md)[] | Mensagens da conversa |
 | `args.mode?` | `string` | Modo de prompt (chat, react, etc.) |
-| `args.promptConfig?` | [`PromptBuilderConfig`](../interfaces/promptBuilder_promptBuilder_interface.PromptBuilderConfig.md) | Configuração customizada do PromptBuilder |
+| `args.promptConfig?` | [`PromptBuilderConfig`](../interfaces/promptBuilder_promptBuilder_interface.PromptBuilderConfig.md) | ConfiguraÃ§Ã£o customizada do PromptBuilder |
 | `args.stream?` | `boolean` | Habilitar streaming de resposta |
-| `args.systemPrompt?` | `string` | System prompt customizado (sobrescreve geração automática) |
+| `args.systemPrompt?` | `string` | System prompt customizado (sobrescreve geraÃ§Ã£o automÃ¡tica) |
 | `args.taskList?` | `Object` | Lista de tarefas para incluir no prompt |
 | `args.taskList.items` | \{ `id`: `string` ; `status`: ``"pending"`` \| ``"in_progress"`` \| ``"completed"`` ; `title`: `string`  }[] | - |
 | `args.telemetry?` | [`TelemetryOptions`](../interfaces/telemetry_interfaces_telemetryOptions_interface.TelemetryOptions.md) | - |
-| `args.temperature?` | `number` | Temperatura específica para esta chamada |
-| `args.tools?` | [`ToolSchema`](../modules/promptBuilder_promptBuilder_interface.md#toolschema)[] | Ferramentas disponíveis para o agente |
-| `args.topP?` | `number` | TopP específico para esta chamada |
+| `args.temperature?` | `number` | Temperatura especÃ­fica para esta chamada |
+| `args.tools?` | [`ToolSchema`](../modules/promptBuilder_promptBuilder_interface.md#toolschema)[] | Ferramentas disponÃ­veis para o agente |
+| `args.topP?` | `number` | TopP especÃ­fico para esta chamada |
 | `args.trace?` | [`TraceSink`](../interfaces/telemetry_interfaces_traceSink_interface.TraceSink.md) | - |
 | `args.traceContext?` | [`TraceContext`](../interfaces/telemetry_interfaces_traceContext_interface.TraceContext.md) | - |
 
@@ -253,7 +273,7 @@ via PromptBuilder usando mode e agentInfo.
 
 `Promise`\<\{ `content`: `string` ; `metadata?`: `Record`\<`string`, `unknown`\>  }\>
 
-Promise com conteúdo e metadados da resposta.
+Promise com conteÃºdo e metadados da resposta.
 
 **`Example`**
 
@@ -265,7 +285,7 @@ const result1 = await agentLLM.invoke({
   temperature: 0.7
 });
 
-// Com geração automática de prompt
+// Com geraÃ§Ã£o automÃ¡tica de prompt
 const result2 = await agentLLM.invoke({
   messages: [{ role: 'user', content: 'Help me with math' }],
   mode: 'chat',
@@ -277,20 +297,20 @@ const result2 = await agentLLM.invoke({
   tools: [calculatorTool]
 });
 
-// Com parâmetros específicos
+// Com parÃ¢metros especÃ­ficos
 const result3 = await agentLLM.invoke({
   messages: messages,
   mode: 'react',
   agentInfo: agentInfo,
-  temperature: 0.3,  // Override do padrão
-  maxTokens: 2000,   // Override do padrão
+  temperature: 0.3,  // Override do padrÃ£o
+  maxTokens: 2000,   // Override do padrÃ£o
   stream: true       // Habilitar streaming
 });
 ```
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:222](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L222)
+[src/agent/llm/agentLLM.ts:233](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/llm/agentLLM.ts#L233)
 
 ___
 
@@ -298,22 +318,22 @@ ___
 
 ▸ **fromConfig**(`config`): [`AgentLLM`](agent_llm_agentLLM.AgentLLM.md)
 
-Cria uma instância de AgentLLM a partir de uma configuração estruturada.
+Cria uma instÃ¢ncia de AgentLLM a partir de uma configuraÃ§Ã£o estruturada.
 
-Método factory que facilita a criação de instâncias usando
-a configuração completa AgentLLMConfig.
+MÃ©todo factory que facilita a criaÃ§Ã£o de instÃ¢ncias usando
+a configuraÃ§Ã£o completa AgentLLMConfig.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `config` | [`AgentLLMConfig`](../interfaces/agent_interfaces_agentLLM_interface.AgentLLMConfig.md) | Configuração completa do AgentLLM. Deve incluir model e apiKey obrigatoriamente. |
+| `config` | [`AgentLLMConfig`](../interfaces/agent_interfaces_agentLLM_interface.AgentLLMConfig.md) | ConfiguraÃ§Ã£o completa do AgentLLM. Deve incluir model e apiKey obrigatoriamente. |
 
 #### Returns
 
 [`AgentLLM`](agent_llm_agentLLM.AgentLLM.md)
 
-Nova instância de AgentLLM configurada.
+Nova instÃ¢ncia de AgentLLM configurada.
 
 **`Example`**
 
@@ -333,8 +353,8 @@ const agentLLM = AgentLLM.fromConfig(config);
 
 **`See`**
 
-[AgentLLMConfig](../interfaces/agent_interfaces_agentLLM_interface.AgentLLMConfig.md) Para formato da configuração
+[AgentLLMConfig](../interfaces/agent_interfaces_agentLLM_interface.AgentLLMConfig.md) Para formato da configuraÃ§Ã£o
 
 #### Defined in
 
-[src/agent/llm/agentLLM.ts:124](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/llm/agentLLM.ts#L124)
+[src/agent/llm/agentLLM.ts:126](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/llm/agentLLM.ts#L126)

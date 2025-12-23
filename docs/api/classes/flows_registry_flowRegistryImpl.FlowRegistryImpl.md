@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/flows/registry/flowRegistryImpl.ts:5](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/registry/flowRegistryImpl.ts#L5)
+[src/flows/registry/flowRegistryImpl.ts:5](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/registry/flowRegistryImpl.ts#L5)
 
 ## Methods
 
@@ -66,7 +66,7 @@
 
 #### Defined in
 
-[src/flows/registry/flowRegistryImpl.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/registry/flowRegistryImpl.ts#L27)
+[src/flows/registry/flowRegistryImpl.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/registry/flowRegistryImpl.ts#L27)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/flows/registry/flowRegistryImpl.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/registry/flowRegistryImpl.ts#L36)
+[src/flows/registry/flowRegistryImpl.ts:36](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/registry/flowRegistryImpl.ts#L36)
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 #### Defined in
 
-[src/flows/registry/flowRegistryImpl.ts:40](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/registry/flowRegistryImpl.ts#L40)
+[src/flows/registry/flowRegistryImpl.ts:40](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/registry/flowRegistryImpl.ts#L40)
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 #### Defined in
 
-[src/flows/registry/flowRegistryImpl.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/registry/flowRegistryImpl.ts#L7)
+[src/flows/registry/flowRegistryImpl.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/registry/flowRegistryImpl.ts#L7)
 
 ___
 
@@ -157,4 +157,4 @@ ___
 
 #### Defined in
 
-[src/flows/registry/flowRegistryImpl.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/registry/flowRegistryImpl.ts#L44)
+[src/flows/registry/flowRegistryImpl.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/registry/flowRegistryImpl.ts#L44)

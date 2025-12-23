@@ -47,7 +47,7 @@ Executa subfluxos com isolamento de memoria para agentFlow.
 
 #### Defined in
 
-[src/flows/runner/flowRunnerImpl.ts:34](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L34)
+[src/flows/runner/flowRunnerImpl.ts:34](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/runner/flowRunnerImpl.ts#L34)
 
 ## Properties
 
@@ -57,7 +57,7 @@ Executa subfluxos com isolamento de memoria para agentFlow.
 
 #### Defined in
 
-[src/flows/runner/flowRunnerImpl.ts:32](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L32)
+[src/flows/runner/flowRunnerImpl.ts:32](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/runner/flowRunnerImpl.ts#L32)
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 #### Defined in
 
-[src/flows/runner/flowRunnerImpl.ts:30](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L30)
+[src/flows/runner/flowRunnerImpl.ts:30](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/runner/flowRunnerImpl.ts#L30)
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 #### Defined in
 
-[src/flows/runner/flowRunnerImpl.ts:31](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L31)
+[src/flows/runner/flowRunnerImpl.ts:31](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/runner/flowRunnerImpl.ts#L31)
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 #### Defined in
 
-[src/flows/runner/flowRunnerImpl.ts:29](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L29)
+[src/flows/runner/flowRunnerImpl.ts:29](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/runner/flowRunnerImpl.ts#L29)
 
 ## Methods
 
@@ -107,7 +107,7 @@ ___
 
 #### Defined in
 
-[src/flows/runner/flowRunnerImpl.ts:135](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L135)
+[src/flows/runner/flowRunnerImpl.ts:135](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/runner/flowRunnerImpl.ts#L135)
 
 ___
 
@@ -141,4 +141,4 @@ Executa um fluxo registrado e retorna status, output, patch e childState.
 
 #### Defined in
 
-[src/flows/runner/flowRunnerImpl.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/flows/runner/flowRunnerImpl.ts#L44)
+[src/flows/runner/flowRunnerImpl.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/flows/runner/flowRunnerImpl.ts#L44)

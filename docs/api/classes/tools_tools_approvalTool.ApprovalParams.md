@@ -44,7 +44,7 @@ Indica se a solução foi aprovada (true) ou rejeitada (false)
 
 #### Defined in
 
-[src/tools/tools/approvalTool.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/approvalTool.ts#L13)
+[src/tools/tools/approvalTool.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/approvalTool.ts#L13)
 
 ___
 
@@ -56,7 +56,7 @@ Feedback detalhado sobre a decisão de aprovação/rejeição
 
 #### Defined in
 
-[src/tools/tools/approvalTool.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/approvalTool.ts#L15)
+[src/tools/tools/approvalTool.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/approvalTool.ts#L15)
 
 ___
 
@@ -68,7 +68,7 @@ Lista de sugestões para melhoria (opcional)
 
 #### Defined in
 
-[src/tools/tools/approvalTool.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/approvalTool.ts#L17)
+[src/tools/tools/approvalTool.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/approvalTool.ts#L17)
 
 ___
 
@@ -97,4 +97,4 @@ Schema de validação para os parâmetros
 
 #### Defined in
 
-[src/tools/tools/approvalTool.ts:20](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/tools/approvalTool.ts#L20)
+[src/tools/tools/approvalTool.ts:20](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/approvalTool.ts#L20)

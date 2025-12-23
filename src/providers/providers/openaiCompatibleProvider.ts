@@ -3,6 +3,8 @@ import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 import { stream } from '@/providers/utils';
 import type { ProviderConfig, IProviderResponse } from '@/providers/adapter/providerAdapter.interface';
 import { logger } from '@/utils/logger';
+import { hasImages, sanitizeForLogs } from '@/memory';
+import { VisionNotSupportedError } from '@/providers/errors';
 
 /**
  * Provedor compatível com OpenAI que aceita `ProviderConfig` diretamente.
@@ -123,11 +125,17 @@ export class OpenAICompatibleProvider {
    * ```
    */
   private buildMessages(config: ProviderConfig): ChatCompletionMessageParam[] {
+    const normalizeRole = (role: string): 'user' | 'assistant' | 'system' => {
+      if (role === 'system') return 'system';
+      if (role === 'assistant') return 'assistant';
+      return 'user';
+    };
+
     return [
-      { role: 'system', content: config.systemPrompt },
+      { role: 'system', content: config.systemPrompt ?? '' },
       ...config.messages.map((m) => ({
-        role: m.role as 'user' | 'assistant' | 'system',
-        content: m.content,
+        role: normalizeRole(m.role),
+        content: m.content as any,
       })),
     ];
   }
@@ -196,6 +204,14 @@ export class OpenAICompatibleProvider {
     logger.debug(`[OpenAICompatibleProvider] apiKey: ${config.apiKey ? 'presente' : 'ausente'}`);
     logger.debug(`[OpenAICompatibleProvider] messages count: ${config.messages?.length || 0}`);
 
+    const hasAnyImages = (config.messages ?? []).some((m) => hasImages(m.content));
+    const supportsVision = config.capabilities?.supportsVision === true;
+    if (hasAnyImages && !supportsVision) {
+      throw new VisionNotSupportedError(
+        'ProviderConfig.capabilities.supportsVision=false but request contains image content',
+      );
+    }
+
     // Permite override de apiKey/baseUrl por chamada, se fornecida
     if (config.apiKey) {
       logger.debug(`[OpenAICompatibleProvider] Criando novo cliente OpenAI com baseURL: ${config.baseUrl}`);
@@ -232,7 +248,7 @@ export class OpenAICompatibleProvider {
     // Log detalhado das mensagens
     logger.debug(`[OpenAICompatibleProvider] Mensagens completas:`);
     baseParams.messages.forEach((msg, index) => {
-      const content = typeof msg.content === 'string' ? msg.content : JSON.stringify(msg.content);
+      const content = sanitizeForLogs(msg.content as any);
       logger.debug(`  [${index}] role: ${msg.role}, content: "${content}"`);
     });
 

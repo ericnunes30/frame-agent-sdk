@@ -221,7 +221,7 @@ const agent = new AgentLLM({
 ### Processamento de Respostas
 
 ```typescript
-// O modo é usado automaticamente pelo StepsOrchestrator
+// O modo é usado automaticamente pelo GraphEngine/templates
 const result = await orchestrator.runFlow(
   'Pesquise sobre inteligência artificial', 
   { maxTurns: 5 }

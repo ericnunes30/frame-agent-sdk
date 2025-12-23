@@ -87,7 +87,7 @@ e que tipo de resultado retornar.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:182](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L182)
+[src/tools/core/interfaces.ts:182](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L182)
 
 ___
 
@@ -101,7 +101,7 @@ Deve ser descritivo e único no sistema.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:175](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L175)
+[src/tools/core/interfaces.ts:175](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L175)
 
 ___
 
@@ -121,7 +121,7 @@ pelo SchemaGenerator.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:195](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L195)
+[src/tools/core/interfaces.ts:195](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L195)
 
 ## Methods
 
@@ -150,4 +150,4 @@ Se houver erro durante a execução
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:207](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L207)
+[src/tools/core/interfaces.ts:207](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L207)

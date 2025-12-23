@@ -44,7 +44,7 @@ const customMode: PromptMode = 'code_reviewer';
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:93](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L93)
+[src/promptBuilder/promptBuilder.interface.ts:94](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.interface.ts#L94)
 
 ___
 
@@ -80,4 +80,4 @@ PromptBuilder.buildToolsPrompt Para conversão automática
 
 #### Defined in
 
-[src/promptBuilder/promptBuilder.interface.ts:68](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/promptBuilder/promptBuilder.interface.ts#L68)
+[src/promptBuilder/promptBuilder.interface.ts:69](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/promptBuilder/promptBuilder.interface.ts#L69)

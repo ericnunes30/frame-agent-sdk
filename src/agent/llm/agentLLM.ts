@@ -93,6 +93,7 @@ export class AgentLLM {
   private readonly baseUrl?: string;
   /** Provedor explÃ­cito (opcional) */
   private readonly provider?: string;
+  private readonly capabilities?: ProviderConfig['capabilities'];
 
   /**
    * Cria uma instÃ¢ncia de AgentLLM a partir de uma configuraÃ§Ã£o estruturada.
@@ -129,6 +130,7 @@ export class AgentLLM {
       apiKey: config.apiKey,
       baseUrl: config.baseUrl,
       defaults: config.defaults,
+      capabilities: config.capabilities,
     });
   }
 
@@ -163,12 +165,20 @@ export class AgentLLM {
    * 
    * @see {@link ProviderDefaults} Para parÃ¢metros padrÃ£o
    */
-  constructor(params: { model: string; provider?: string; apiKey: string; defaults?: ProviderDefaults; baseUrl?: string }) {
+  constructor(params: {
+    model: string;
+    provider?: string;
+    apiKey: string;
+    defaults?: ProviderDefaults;
+    baseUrl?: string;
+    capabilities?: ProviderConfig['capabilities'];
+  }) {
     this.model = params.model;
     this.provider = params.provider;
     this.apiKey = params.apiKey;
     this.defaults = params.defaults ?? {};
     this.baseUrl = params.baseUrl;
+    this.capabilities = params.capabilities;
   }
 
   /**
@@ -293,6 +303,7 @@ export class AgentLLM {
           topP,
           maxTokens,
           baseUrl: this.baseUrl,
+          capabilities: this.capabilities,
           trace: args.trace,
           telemetry: args.telemetry,
           traceContext: args.traceContext,

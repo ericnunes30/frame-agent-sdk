@@ -55,7 +55,7 @@ Devem ser compatíveis com o parameterSchema da ferramenta especificada.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:251](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L251)
+[src/tools/core/interfaces.ts:251](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L251)
 
 ___
 
@@ -68,7 +68,7 @@ Usado para exibir o raciocínio do agente no terminal.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:263](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L263)
+[src/tools/core/interfaces.ts:263](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L263)
 
 ___
 
@@ -81,7 +81,7 @@ Permite correlacionar `tool_detected` com `tool_execution_*`.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:257](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L257)
+[src/tools/core/interfaces.ts:257](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L257)
 
 ___
 
@@ -94,4 +94,4 @@ Deve corresponder ao `name` de uma ferramenta registrada no ToolRegistry.
 
 #### Defined in
 
-[src/tools/core/interfaces.ts:245](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/tools/core/interfaces.ts#L245)
+[src/tools/core/interfaces.ts:245](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/core/interfaces.ts#L245)

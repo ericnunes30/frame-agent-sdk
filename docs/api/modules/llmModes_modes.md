@@ -28,7 +28,7 @@ Renames and re-exports [AgentMode](../classes/llmModes_modes_modeRegistry.AgentM
 
 #### Defined in
 
-[src/llmModes/modes/index.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/llmModes/modes/index.ts#L19)
+[src/llmModes/modes/index.ts:19](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/llmModes/modes/index.ts#L19)
 
 ## Variables
 
@@ -45,4 +45,4 @@ Renames and re-exports [AgentMode](../classes/llmModes_modes_modeRegistry.AgentM
 
 #### Defined in
 
-[src/llmModes/modes/index.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/llmModes/modes/index.ts#L14)
+[src/llmModes/modes/index.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/llmModes/modes/index.ts#L14)

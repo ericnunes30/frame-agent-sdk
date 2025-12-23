@@ -1,5 +1,5 @@
 // src/memory/chatHistoryManager.ts
-import { Message, ITokenizerService, IChatHistoryManager, ChatHistoryConfig } from './memory.interface';
+import { Message, MessageContent, ITokenizerService, IChatHistoryManager, ChatHistoryConfig } from './memory.interface';
 import { logger } from '@/utils/logger';
 
 /**
@@ -409,9 +409,15 @@ export class ChatHistoryManager implements IChatHistoryManager {
      * 
      * @throws {Error} Se a mensagem não for encontrada ou content for inválido
      */
-    public editMessage(messageId: string, newContent: string): void {
-        if (!newContent || newContent.trim() === '') {
-            throw new Error('New content cannot be empty');
+    public editMessage(messageId: string, newContent: MessageContent): void {
+        if (typeof newContent === 'string') {
+            if (!newContent || newContent.trim() === '') {
+                throw new Error('New content cannot be empty');
+            }
+        } else {
+            if (!Array.isArray(newContent) || newContent.length === 0) {
+                throw new Error('New content parts cannot be empty');
+            }
         }
 
         const messageIndex = this.history.findIndex(msg => msg.id === messageId);

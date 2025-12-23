@@ -19,22 +19,27 @@
 
 Valida se o output do LLM segue o formato ReAct correto do SAP (Schema Aligned Parsing)
 
-Formato esperado:
+Formatos aceitos:
 Thought: [pensamento do modelo]
-Action: [nome_da_ferramenta] = { [JSON com parâmetros] }
+Action: [nome_da_ferramenta] = { [JSON com parÃ¢metros] }
+
+ou:
+Thought: [pensamento do modelo]
+Action: [nome_da_ferramenta]
+Action Input: { [JSON com parÃ¢metros] }
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `output` | `string` | Texto gerado pelo LLM para validação |
+| `output` | `string` | Texto gerado pelo LLM para validaÃ§Ã£o |
 
 #### Returns
 
 [`ValidationResponse`](../interfaces/agent_core_validateReAct.ValidationResponse.md)
 
-Objeto com resultado da validação
+Objeto com resultado da validaÃ§Ã£o
 
 #### Defined in
 
-[src/agent/core/validateReAct.ts:22](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/agent/core/validateReAct.ts#L22)
+[src/agent/core/validateReAct.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/agent/core/validateReAct.ts#L27)

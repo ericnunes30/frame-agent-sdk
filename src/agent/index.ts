@@ -2,9 +2,6 @@
 // Exportar AgentLLM
 export { AgentLLM, type AgentLLMConfig } from './llm';
 
-// Exportar Registry
-export * from './registry';
-
 // Exportar Interfaces principais (evitando conflitos com registry)
 export type {
     IAgent,

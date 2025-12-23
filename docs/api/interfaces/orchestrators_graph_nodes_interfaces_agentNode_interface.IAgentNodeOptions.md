@@ -9,6 +9,7 @@
 - [additionalInstructions](orchestrators_graph_nodes_interfaces_agentNode_interface.IAgentNodeOptions.md#additionalinstructions)
 - [agentInfo](orchestrators_graph_nodes_interfaces_agentNode_interface.IAgentNodeOptions.md#agentinfo)
 - [autoExecuteTools](orchestrators_graph_nodes_interfaces_agentNode_interface.IAgentNodeOptions.md#autoexecutetools)
+- [contextHooks](orchestrators_graph_nodes_interfaces_agentNode_interface.IAgentNodeOptions.md#contexthooks)
 - [customMessages](orchestrators_graph_nodes_interfaces_agentNode_interface.IAgentNodeOptions.md#custommessages)
 - [llm](orchestrators_graph_nodes_interfaces_agentNode_interface.IAgentNodeOptions.md#llm)
 - [maxTokens](orchestrators_graph_nodes_interfaces_agentNode_interface.IAgentNodeOptions.md#maxtokens)
@@ -28,7 +29,7 @@
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L10)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L11)
 
 ___
 
@@ -38,7 +39,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L9)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L10)
 
 ___
 
@@ -52,7 +53,20 @@ Padrão: false (apenas invoca LLM sem executar tools)
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:26](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L26)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:27](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L27)
+
+___
+
+### contextHooks
+
+• `Optional` **contextHooks**: [`ContextHooks`](memory_contextHooks_interface.ContextHooks.md)
+
+Hooks de contexto para trimming/rewrite e retry (ex.: overflow handling).
+Permite que apps (ex.: code-cli) pluguem estratégias avançadas sem wrappers de Graph.
+
+#### Defined in
+
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:44](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L44)
 
 ___
 
@@ -66,7 +80,7 @@ Se fornecido, sobrescreve o resultado de engine.getMessagesForLLM()
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:20](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L20)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:21](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L21)
 
 ___
 
@@ -76,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:6](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L6)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L7)
 
 ___
 
@@ -86,7 +100,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L14)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:15](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L15)
 
 ___
 
@@ -96,7 +110,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L8)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:9](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L9)
 
 ___
 
@@ -106,7 +120,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:7](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L7)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L8)
 
 ___
 
@@ -125,7 +139,7 @@ false
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:37](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L37)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:38](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L38)
 
 ___
 
@@ -144,7 +158,7 @@ Se não fornecido aqui, o agentNode tentará extrair de state.metadata.taskList
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:31](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L31)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:32](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L32)
 
 ___
 
@@ -154,7 +168,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L12)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L13)
 
 ___
 
@@ -164,7 +178,7 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:11](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L11)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L12)
 
 ___
 
@@ -174,4 +188,4 @@ ___
 
 #### Defined in
 
-[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:13](https://github.com/ericnunes30/frame-agent-sdk/blob/1852cae29827cab7c8370a94a17046aff7065c1b/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L13)
+[src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/orchestrators/graph/nodes/interfaces/agentNode.interface.ts#L14)

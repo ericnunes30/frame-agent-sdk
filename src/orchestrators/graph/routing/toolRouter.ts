@@ -4,6 +4,7 @@ import type { IGraphState } from '@/orchestrators/graph/core/interfaces/graphSta
 import type { ConditionalEdge } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
 import { ToolRouterKey } from '@/orchestrators/graph/routing/enums/toolRouter.enum';
 import type { IToolRouterOptions } from '@/orchestrators/graph/routing/interfaces/toolRouter.interface';
+import { extractText } from '@/memory';
 
 export function createToolRouter(options: IToolRouterOptions): ConditionalEdge {
   assertOptions(options);
@@ -28,7 +29,7 @@ function pickAssistantText(state: IGraphState): string {
   const messages = state.messages ?? [];
   const reversed = [...messages].reverse();
   for (const message of reversed) {
-    if (message.role === 'assistant') return message.content;
+    if (message.role === 'assistant') return extractText(message.content);
   }
   return '';
 }

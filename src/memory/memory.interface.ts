@@ -46,7 +46,31 @@ export interface Message {
    * O conteúdo textual da mensagem.
    * Pode ser uma string simples ou conteúdo estruturado (JSON, markdown, etc.)
    */
-  content: string;
+  content: MessageContent;
+}
+
+/**
+ * Conteudo de uma mensagem.
+ *
+ * - `string`: texto puro (legado)
+ * - `ContentPart[]`: conteudo multimodal (ex.: texto + imagens)
+ */
+export type MessageContent = string | ContentPart[];
+
+/** Parte de conteudo multimodal (minimo viavel). */
+export type ContentPart = TextContentPart | ImageUrlContentPart;
+
+export interface TextContentPart {
+  type: 'text';
+  text: string;
+}
+
+export interface ImageUrlContentPart {
+  type: 'image_url';
+  image_url: {
+    url: string;
+    detail?: 'low' | 'high' | 'auto';
+  };
 }
 
 /**
@@ -271,7 +295,7 @@ export interface IChatHistoryManager {
      * history.editMessage('msg-456', 'Versão compactada da mensagem original');
      * ```
      */
-    editMessage(messageId: string, newContent: string): void;
+    editMessage(messageId: string, newContent: MessageContent): void;
 
     /**
      * Remove um range de mensagens do histórico.

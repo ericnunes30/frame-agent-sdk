@@ -51,6 +51,7 @@ const response2 = await ProviderAdapter.chatCompletion(compatibleConfig);
 - [ProviderAdapter](Providers.md#provideradapter)
 - [ProviderConfig](Providers.md#providerconfig)
 - [ProviderInstance](Providers.md#providerinstance)
+- [VisionNotSupportedError](Providers.md#visionnotsupportederror)
 - [getProvider](Providers.md#getprovider)
 - [listProviders](Providers.md#listproviders)
 - [stream](Providers.md#stream)
@@ -78,6 +79,12 @@ ___
 ### ProviderInstance
 
 Re-exports [ProviderInstance](../interfaces/providers_providers_providerRegistry.ProviderInstance.md)
+
+___
+
+### VisionNotSupportedError
+
+Re-exports [VisionNotSupportedError](../classes/providers_errors_visionNotSupportedError.VisionNotSupportedError.md)
 
 ___
 

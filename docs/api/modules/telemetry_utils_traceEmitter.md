@@ -25,7 +25,7 @@
 
 #### Defined in
 
-src/telemetry/utils/traceEmitter.ts:8
+[src/telemetry/utils/traceEmitter.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/traceEmitter.ts#L8)
 
 ## Functions
 
@@ -50,7 +50,7 @@ src/telemetry/utils/traceEmitter.ts:8
 
 #### Defined in
 
-src/telemetry/utils/traceEmitter.ts:17
+[src/telemetry/utils/traceEmitter.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/traceEmitter.ts#L17)
 
 ___
 
@@ -70,4 +70,4 @@ ___
 
 #### Defined in
 
-src/telemetry/utils/traceEmitter.ts:12
+[src/telemetry/utils/traceEmitter.ts:12](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/utils/traceEmitter.ts#L12)

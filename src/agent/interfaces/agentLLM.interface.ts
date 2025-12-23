@@ -216,4 +216,12 @@ export interface AgentLLMConfig {
      * @see {@link ProviderDefaults} Para estrutura dos parâmetros padrão
      */
     defaults?: ProviderDefaults;
+
+    /**
+     * Capacidades declaradas do modelo/provider (passadas para ProviderConfig).
+     * Fonte de verdade para recursos como suporte a visao (imagens).
+     */
+    capabilities?: {
+        supportsVision?: boolean;
+    };
 }

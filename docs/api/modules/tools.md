@@ -27,6 +27,11 @@
 - [MCPToolWrapper](tools.md#mcptoolwrapper)
 - [MCPTransport](tools.md#mcptransport)
 - [MatchCaseEnum](tools.md#matchcaseenum)
+- [ReadImageMeta](tools.md#readimagemeta)
+- [ReadImageParams](tools.md#readimageparams)
+- [ReadImageRegion](tools.md#readimageregion)
+- [ReadImageResult](tools.md#readimageresult)
+- [ReadImageSource](tools.md#readimagesource)
 - [SAPParser](tools.md#sapparser)
 - [SearchModeEnum](tools.md#searchmodeenum)
 - [SearchTool](tools.md#searchtool)
@@ -38,8 +43,12 @@
 - [ToolDetectionResult](tools.md#tooldetectionresult)
 - [ToolDetector](tools.md#tooldetector)
 - [ToolExecutor](tools.md#toolexecutor)
+- [ToolPolicy](tools.md#toolpolicy)
+- [applyToolPolicyToToolNames](tools.md#applytoolpolicytotoolnames)
+- [applyToolPolicyToToolSchemas](tools.md#applytoolpolicytotoolschemas)
 - [formatIssuesForLLM](tools.md#formatissuesforllm)
 - [generateTypedSchema](tools.md#generatetypedschema)
+- [isToolAllowedByPolicy](tools.md#istoolallowedbypolicy)
 - [toolRegistry](tools.md#toolregistry)
 - [validateToolParams](tools.md#validatetoolparams)
 
@@ -183,6 +192,36 @@ Re-exports [MatchCaseEnum](../enums/tools_tools_searchTool.MatchCaseEnum.md)
 
 ___
 
+### ReadImageMeta
+
+Re-exports [ReadImageMeta](../interfaces/tools_tools_readImageResult_interface.ReadImageMeta.md)
+
+___
+
+### ReadImageParams
+
+Re-exports [ReadImageParams](../interfaces/tools_tools_readImageParams_interface.ReadImageParams.md)
+
+___
+
+### ReadImageRegion
+
+Re-exports [ReadImageRegion](../interfaces/tools_tools_readImageParams_interface.ReadImageRegion.md)
+
+___
+
+### ReadImageResult
+
+Re-exports [ReadImageResult](../interfaces/tools_tools_readImageResult_interface.ReadImageResult.md)
+
+___
+
+### ReadImageSource
+
+Re-exports [ReadImageSource](tools_tools_readImageParams_interface.md#readimagesource)
+
+___
+
 ### SAPParser
 
 Re-exports [SAPParser](../classes/tools_constructor_sapParser.SAPParser.md)
@@ -249,6 +288,24 @@ Re-exports [ToolExecutor](../classes/tools_core_toolExecutor.ToolExecutor.md)
 
 ___
 
+### ToolPolicy
+
+Re-exports [ToolPolicy](../interfaces/tools_policy_toolPolicy_interface.ToolPolicy.md)
+
+___
+
+### applyToolPolicyToToolNames
+
+Re-exports [applyToolPolicyToToolNames](tools_policy_toolPolicyApplier.md#applytoolpolicytotoolnames)
+
+___
+
+### applyToolPolicyToToolSchemas
+
+Re-exports [applyToolPolicyToToolSchemas](tools_policy_toolPolicyApplier.md#applytoolpolicytotoolschemas)
+
+___
+
 ### formatIssuesForLLM
 
 Re-exports [formatIssuesForLLM](tools_core_toolValidator.md#formatissuesforllm)
@@ -258,6 +315,12 @@ ___
 ### generateTypedSchema
 
 Re-exports [generateTypedSchema](tools_constructor_schemaGenerator.md#generatetypedschema)
+
+___
+
+### isToolAllowedByPolicy
+
+Re-exports [isToolAllowedByPolicy](tools_policy_toolPolicyApplier.md#istoolallowedbypolicy)
 
 ___
 

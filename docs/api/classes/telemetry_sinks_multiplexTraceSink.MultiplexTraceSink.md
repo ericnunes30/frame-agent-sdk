@@ -41,7 +41,7 @@ Sink que faz fan-out para múltiplos sinks.
 
 #### Defined in
 
-src/telemetry/sinks/multiplexTraceSink.ts:8
+[src/telemetry/sinks/multiplexTraceSink.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/sinks/multiplexTraceSink.ts#L8)
 
 ## Properties
 
@@ -51,7 +51,7 @@ src/telemetry/sinks/multiplexTraceSink.ts:8
 
 #### Defined in
 
-src/telemetry/sinks/multiplexTraceSink.ts:8
+[src/telemetry/sinks/multiplexTraceSink.ts:8](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/sinks/multiplexTraceSink.ts#L8)
 
 ## Methods
 
@@ -75,7 +75,7 @@ src/telemetry/sinks/multiplexTraceSink.ts:8
 
 #### Defined in
 
-src/telemetry/sinks/multiplexTraceSink.ts:10
+[src/telemetry/sinks/multiplexTraceSink.ts:10](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/sinks/multiplexTraceSink.ts#L10)
 
 ___
 
@@ -93,4 +93,4 @@ ___
 
 #### Defined in
 
-src/telemetry/sinks/multiplexTraceSink.ts:14
+[src/telemetry/sinks/multiplexTraceSink.ts:14](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/telemetry/sinks/multiplexTraceSink.ts#L14)
