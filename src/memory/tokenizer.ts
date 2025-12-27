@@ -1,7 +1,7 @@
 // src/memory/tokenizer.ts
 import { Message, ITokenizerService } from './memory.interface';
 import { getEncoding } from 'js-tiktoken';
-import { extractText } from './messageContentUtils';
+import { extractText } from './utils/messageContentUtils';
 
 /**
  * Implementação precisa do serviço de tokenização usando js-tiktoken.
