@@ -8,13 +8,29 @@ import { createTraceId } from '@/telemetry/utils/id';
 import type { ToolPolicy } from '@/tools/policy/toolPolicy.interface';
 import { isToolAllowedByPolicy } from '@/tools/policy/toolPolicyApplier';
 
+// Helper para logs inline que respeita SHOW_TOOL_LOGS_INLINE
+const showToolLogs = process.env.SHOW_TOOL_LOGS_INLINE === 'True' || process.env.SHOW_TOOL_LOGS_INLINE === 'true';
+const toolLog = (...args: unknown[]) => {
+  if (showToolLogs) {
+    console.log(...args);
+  }
+};
+
 export function createToolExecutorNode(options?: { toolPolicy?: ToolPolicy }): GraphNode {
   return async (state, engine): Promise<GraphNodeResult> => {
     const call = state.lastToolCall;
+    toolLog('[ToolExecutorNode] ========== INÍCIO ==========');
+    toolLog('[ToolExecutorNode] lastToolCall:', JSON.stringify(call));
+    logger.info(`[ToolExecutorNode] INÍCIO - lastToolCall:`, JSON.stringify(call));
+
     if (!call) {
+      toolLog('[ToolExecutorNode] SEM TOOL CALL - retornando');
       logger.warn('[ToolExecutorNode] No pending tool call');
       return { logs: ['No pending tool call'], lastToolCall: undefined };
     }
+
+    toolLog('[ToolExecutorNode] TEM TOOL CALL - executando:', call.toolName);
+    logger.info(`[ToolExecutorNode] Executando tool call:`, JSON.stringify(call));
 
     if (options?.toolPolicy && !isToolAllowedByPolicy(call.toolName, options.toolPolicy)) {
       engine.emitTrace(state, {
@@ -44,16 +60,21 @@ export function createToolExecutorNode(options?: { toolPolicy?: ToolPolicy }): G
     // Execute tool e recebe resultado estruturado
     const toolCallId = call.toolCallId ?? createTraceId();
     const startedAt = Date.now();
+    toolLog('[ToolExecutorNode] ANTES de emitTrace');
     engine.emitTrace(state, {
       type: 'tool_execution_started',
       level: 'info',
       tool: { name: call.toolName, toolCallId, params: call.params },
     });
+    toolLog('[ToolExecutorNode] DEPOIS de emitTrace, ANTES de executeTool');
 
     let toolResult;
     try {
+      toolLog('[ToolExecutorNode] Chamando executeTool...');
       toolResult = await executeTool(call.toolCallId ? call : { ...call, toolCallId });
+      toolLog('[ToolExecutorNode] executeTool completou!');
     } catch (error) {
+      toolLog('[ToolExecutorNode] ERRO em executeTool:', error);
       engine.emitTrace(state, {
         type: 'tool_execution_failed',
         level: 'error',
@@ -138,5 +159,8 @@ export function createToolExecutorNode(options?: { toolPolicy?: ToolPolicy }): G
 }
 
 async function executeTool(call: IToolCall) {
-  return ToolExecutor.execute(call);
+  toolLog('[executeTool wrapper] INÍCIO - toolName:', call.toolName);
+  const result = await ToolExecutor.execute(call);
+  toolLog('[executeTool wrapper] FIM - resultado:', typeof result);
+  return result;
 }

@@ -2,22 +2,30 @@ import { toolRegistry } from './toolRegistry';
 import type { IToolCall, IToolResult } from './interfaces';
 import { logger } from '@/utils/logger';
 
+// Helper para logs inline que respeita SHOW_TOOL_LOGS_INLINE
+const showToolLogs = process.env.SHOW_TOOL_LOGS_INLINE === 'True' || process.env.SHOW_TOOL_LOGS_INLINE === 'true';
+const toolLog = (...args: unknown[]) => {
+  if (showToolLogs) {
+    console.log(...args);
+  }
+};
+
 /**
  * Verifica se um valor é um IToolResult estruturado.
- * 
+ *
  * Função utilitária que determina se o resultado de uma ferramenta
  * já está no formato IToolResult ou se precisa ser normalizado.
- * 
+ *
  * @param value Valor a ser verificado.
- * 
+ *
  * @returns true se o valor é um IToolResult, false caso contrário.
- * 
+ *
  * @example
  * ```typescript
  * // Resultado já estruturado
  * const structuredResult = { observation: 'sucesso', metadata: {...} };
  * console.log(isToolResult(structuredResult)); // true
- * 
+ *
  * // Resultado simples
  * const simpleResult = 'sucesso';
  * console.log(isToolResult(simpleResult)); // false
@@ -134,6 +142,7 @@ export class ToolExecutor {
      * @see {@link IToolResult} Para formato do resultado
      */
     static async execute(toolCall: IToolCall): Promise<IToolResult> {
+        toolLog('[ToolExecutor.execute] INÍCIO - toolName:', toolCall.toolName);
         logger.debug(`[ToolExecutor] Buscando ferramenta: ${toolCall.toolName}`);
 
         // 1. Descobrir ferramenta no registry
@@ -146,27 +155,34 @@ export class ToolExecutor {
             throw new Error(errorMsg);
         }
 
+        toolLog('[ToolExecutor.execute] Ferramenta encontrada, executando...');
         // 3. Log do início da execução
         logger.info(`[ToolExecutor] Executando ferramenta: ${toolCall.toolName}`);
         logger.debug(`[ToolExecutor] Parâmetros:`, toolCall.params);
 
         try {
             // 4. Executar a ferramenta
+            toolLog('[ToolExecutor.execute] Chamando tool.execute...');
             const result = await tool.execute(toolCall.params);
+            toolLog('[ToolExecutor.execute] tool.execute completou, resultado:', typeof result);
+            toolLog('[ToolExecutor.execute] resultado JSON:', JSON.stringify(result).substring(0, 500));
             logger.debug(`[ToolExecutor] Sucesso na execução de ${toolCall.toolName}`);
 
             // 5. Normalizar resultado para IToolResult
             if (isToolResult(result)) {
                 // Ferramenta já retornou estruturado
+                toolLog('[ToolExecutor.execute] Resultado é IToolResult');
                 return result;
             }
 
             // Tool retornou valor simples - wrap em IToolResult
+            toolLog('[ToolExecutor.execute] Resultado é simples, wrapping em IToolResult');
             return {
                 observation: result,
                 metadata: undefined
             };
         } catch (error) {
+            toolLog('[ToolExecutor.execute] ERRO:', error);
             logger.error(`[ToolExecutor] Erro na execução de ${toolCall.toolName}:`, error);
             throw error;
         }

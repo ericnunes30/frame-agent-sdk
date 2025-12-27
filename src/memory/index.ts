@@ -74,4 +74,4 @@ export {
 export type { ContextHooks, ContextBeforeRequestResult, ContextOnErrorResult } from './contextHooks.interface';
 
 export type { MessageContent, ContentPart, TextContentPart, ImageUrlContentPart } from './memory.interface';
-export { isContentParts, extractText, extractTextFromMessage, hasImages, sanitizeForLogs } from './messageContentUtils';
+export { isContentParts, extractText, extractTextFromMessage, hasImages, sanitizeForLogs } from './utils/messageContentUtils';

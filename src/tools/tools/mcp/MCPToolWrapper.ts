@@ -21,8 +21,13 @@ export class MCPToolWrapper extends ToolBase<IToolParams, unknown> {
 
   async execute(params: IToolParams): Promise<unknown> {
     logger.info(`[MCPToolWrapper] Executando tool '${this.mcpToolName}' com params:`, JSON.stringify(params));
-    const res = await this.client.callTool(this.mcpToolName, params as Record<string, unknown>)
-    logger.info(`[MCPToolWrapper] Resultado da tool '${this.mcpToolName}':`, JSON.stringify(res));
-    return res
+    try {
+      const res = await this.client.callTool(this.mcpToolName, params as Record<string, unknown>)
+      logger.info(`[MCPToolWrapper] Resultado da tool '${this.mcpToolName}':`, JSON.stringify(res));
+      return res
+    } catch (error) {
+      logger.error(`[MCPToolWrapper] ERRO ao executar '${this.mcpToolName}':`, error);
+      throw error;
+    }
   }
 }

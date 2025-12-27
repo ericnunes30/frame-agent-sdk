@@ -35,6 +35,8 @@ export function validateReActFormat(output: string): ValidationResponse {
     };
   }
 
+  // NOTA: Removidos logs de debug temporários - usar logger.debug() se necessário
+
   const hasThought = output.includes('Thought:');
   const hasAction = output.includes('Action:');
 
@@ -58,13 +60,13 @@ export function validateReActFormat(output: string): ValidationResponse {
     };
   }
 
-  const directMatch = output.match(/Action:\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*({[\s\S]*?})(?:\r?\n|$)/);
+  const directMatch = output.match(/Action:\s*([a-zA-Z_][a-zA-Z0-9_:/]*)\s*=\s*({[\s\S]*?})\s*(?:\r?\n|$)/);
 
   let jsonParams: string | null = null;
   if (directMatch) {
     jsonParams = directMatch[2];
   } else {
-    const actionLine = output.match(/Action:\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*(?:\r?\n|$)/);
+    const actionLine = output.match(/Action:\s*([a-zA-Z_][a-zA-Z0-9_:/]*)\s*(?:\r?\n|$)/);
     if (!actionLine || actionLine.index === undefined) {
       return invalidActionFormat();
     }
@@ -102,7 +104,7 @@ export function validateReActFormat(output: string): ValidationResponse {
   if (jsonParams) {
     try {
       JSON.parse(jsonParams.trim());
-    } catch {
+    } catch (e) {
       return {
         isValid: false,
         error: {

@@ -18,7 +18,7 @@ export interface Logger {
 class SimpleLogger implements Logger {
   private logLevel: LogLevel;
 
-  constructor(logLevel: LogLevel = LogLevel.INFO) {
+  constructor(logLevel: LogLevel = LogLevel.WARN) {
     this.logLevel = logLevel;
   }
 
@@ -48,6 +48,18 @@ class SimpleLogger implements Logger {
 }
 
 // Logger global
-// Logger global
+// Configuração de nível de log via variáveis de ambiente:
+// - DEBUG=true → mostra DEBUG, INFO, WARN, ERROR
+// - INFO=true  → mostra INFO, WARN, ERROR (sem DEBUG)
+// - padrão    → mostra apenas WARN, ERROR
 const isDebug = process.env.DEBUG === 'True' || process.env.DEBUG === 'true';
-export const logger = new SimpleLogger(isDebug ? LogLevel.DEBUG : LogLevel.WARN);
+const isInfo = process.env.INFO === 'True' || process.env.INFO === 'true';
+
+let logLevel = LogLevel.WARN;
+if (isDebug) {
+  logLevel = LogLevel.DEBUG;
+} else if (isInfo) {
+  logLevel = LogLevel.INFO;
+}
+
+export const logger = new SimpleLogger(logLevel);

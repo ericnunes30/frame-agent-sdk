@@ -64,8 +64,17 @@ export class MCPClient {
 
   async callTool(name: string, args: Record<string, unknown>): Promise<unknown> {
     if (!this.client) throw new Error('Cliente MCP não conectado')
+
     const payload = { method: 'tools/call', params: { name, arguments: args } }
-    const res = await this.client.request(payload as any, CallToolResultSchema)
-    return res
+    logger.info('[MCPClient] Enviando requisição:', JSON.stringify(payload))
+
+    try {
+      const res = await this.client.request(payload as any, CallToolResultSchema)
+      logger.info('[MCPClient] Resposta recebida:', JSON.stringify(res))
+      return res
+    } catch (error) {
+      logger.error('[MCPClient] Erro na requisição:', error)
+      throw error
+    }
   }
 }
