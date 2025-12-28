@@ -133,7 +133,7 @@ export class ToDoIstTool extends ToolBase<
   /** Nome da ferramenta no sistema */
   public readonly name = 'toDoIst'
   /** Descrição da funcionalidade da ferramenta */
-  public readonly description = 'Gerencia uma lista de tarefas com status em inglês.'
+  public readonly description = 'Gerencia uma lista de tarefas simples (sem subtarefas). IDs são gerados automaticamente na criação - NÃO informe id na ação create.'
   /** Schema de parâmetros para validação */
   public readonly parameterSchema = ToDoIstParams
   
@@ -296,21 +296,13 @@ export class ToDoIstTool extends ToolBase<
           observation = `Já existe lista com ${currentTaskList.items.length} tarefa(s). Use delete_list primeiro para criar uma nova.`;
           break;
         }
-        
+
         const titles: string[] = Array.isArray(params.tasks) ? params.tasks : [];
         const defaultStatus = (params.defaultStatus as any) || 'pending';
-        
-        // Reset contador para começar do 0
+
+        // Reset contador para começar do 0 - IDs são sempre gerados automaticamente
         this.nextId = 0;
-        
-        // Se ID específico foi fornecido, ajustar contador
-        if (params.id) {
-          const requestedId = parseInt(params.id);
-          if (!isNaN(requestedId) && requestedId >= 0) {
-            this.nextId = requestedId;
-          }
-        }
-        
+
         updatedTaskList = {
           items: titles.map((title) => ({
             id: this.getNextId(),
