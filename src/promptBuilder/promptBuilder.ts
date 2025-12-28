@@ -251,7 +251,7 @@ export class PromptBuilder {
    * @see {@link PromptBuilderConfig} Para formato da configuração
    */
   public static buildSystemPrompt(config: PromptBuilderConfig): string {
-    const { mode, agentInfo, additionalInstructions, tools, toolNames, toolPolicy } = config;
+    const { mode, agentInfo, additionalInstructions, tools, toolNames, toolPolicy, sharedContext } = config;
 
     // Validação básica da configuração
     if (!mode) {
@@ -320,10 +320,20 @@ export class PromptBuilder {
     // 5) Seção de tools (se fornecidas)
     parts.push(PromptBuilder.buildToolsPrompt(finalTools));
 
-    
-
-    // 7) Regras específicas do modo (posicionadas no final para otimizar atenção)
+    // 6) Regras específicas do modo (posicionadas antes do shared context)
     parts.push(modeBuilder(config));
+
+    
+    // 7) Shared Context (injetado no final, onde a atenção do LLM é maior)
+    if (sharedContext && String(sharedContext).trim().length > 0) {
+      const sharedSection = [
+        '\n---\n',
+        '## Shared Context',
+        '',
+        String(sharedContext)
+      ].join('\n');
+      parts.push(sharedSection);
+    }
 
     // 8) Montagem final do prompt
     const finalPrompt = parts.join('\n\n');
@@ -483,12 +493,17 @@ export class PromptBuilder {
     toolNames?: string[];
     toolPolicy?: import('@/tools/policy/toolPolicy.interface').ToolPolicy;
     taskList?: { items: Array<{ id: string; title: string; status: 'pending' | 'in_progress' | 'completed' }> };
+    sharedContext?: string;
   }): { systemPrompt: string; source: 'promptConfig' | 'systemPrompt' | 'mode+agentInfo+additionalInstructions' } {
 
     // Prioridade 1: Configuração completa do PromptBuilder
     if (args.promptConfig) {
+      // Incluir sharedContext se fornecido como parâmetro separado
+      const config = args.sharedContext
+        ? { ...args.promptConfig, sharedContext: args.sharedContext }
+        : args.promptConfig;
       return {
-        systemPrompt: PromptBuilder.buildSystemPrompt(args.promptConfig),
+        systemPrompt: PromptBuilder.buildSystemPrompt(config),
         source: 'promptConfig'
       };
     }
@@ -508,6 +523,7 @@ export class PromptBuilder {
         toolNames: args.toolNames,
         toolPolicy: args.toolPolicy,
         taskList: args.taskList,
+        sharedContext: args.sharedContext,
       };
       return {
         systemPrompt: PromptBuilder.buildSystemPrompt(promptConfig),
