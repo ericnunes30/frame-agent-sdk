@@ -103,7 +103,10 @@ function normalizeDescriptor(rawKey: string, rawDesc: PropertyType | PropertyDes
   const key = rawKey.replace(/\?$/, '');
   const desc: PropertyDescriptor = isDescriptor(rawDesc)
     ? { required: true, ...(rawDesc as PropertyDescriptor) }
-    : { type: rawDesc as PropertyType, required: !rawKey.endsWith('?') };
+    : {
+        type: (rawDesc as string).replace(/\?$/, '') as PropertyType,
+        required: !rawKey.endsWith('?') && !(typeof rawDesc === 'string' && rawDesc.endsWith('?'))
+      };
   return { key, desc };
 }
 

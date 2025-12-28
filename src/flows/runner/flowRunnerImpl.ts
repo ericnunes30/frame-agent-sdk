@@ -74,8 +74,14 @@ export class FlowRunnerImpl implements FlowRunner {
 
     const chatManager = flow.kind === 'agentFlow' ? undefined : this.chatHistoryManager;
     const traceContextBase = {
-      ...(parentTraceContext?.agent ? { agent: parentTraceContext.agent } : {}),
-      flow: { id: flow.id, kind: flow.kind }
+      // Herdar parentRunId para rastreamento, mas não o agent
+      ...(parentTraceContext?.runId && { parentRunId: parentTraceContext.runId }),
+      flow: { id: flow.id, kind: flow.kind },
+      // Usar o agente do flow atual (não herdar do pai)
+      agent: {
+        id: flow.id,
+        label: flow.id
+      }
     };
 
     const engineOptions = {

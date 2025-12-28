@@ -2,12 +2,49 @@ import type { Message } from '@/memory';
 import type { AgentInfo, PromptBuilderConfig, PromptMode, ToolSchema } from '@/promptBuilder';
 import { AgentLLM, type AgentLLMConfig } from '@/agent';
 import type { GraphNode, GraphNodeResult } from '@/orchestrators/graph/core/interfaces/graphEngine.interface';
+import type { IGraphState } from '@/orchestrators/graph/core/interfaces/graphState.interface';
 import type { IAgentNodeOptions } from '@/orchestrators/graph/nodes/interfaces/agentNode.interface';
 import { createToolDetectionNode } from '@/orchestrators/graph/nodes/toolDetectionNode';
 import { createToolExecutorNode } from '@/orchestrators/graph/nodes/toolExecutorNode';
 import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
 import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
 import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
+import { logger } from '@/utils/logger';
+
+/**
+ * Formata o estado compartilhado (state.data.shared) para o prompt do LLM.
+ * Extrai e formata o shared como markdown para ser injetado no system prompt.
+ */
+function formatSharedContextFromState(state: IGraphState): string | undefined {
+  const shared = state.data?.shared as Record<string, unknown> | undefined;
+  if (!shared || Object.keys(shared).length === 0) {
+    return undefined;
+  }
+
+  // DEBUG: Log para verificar se shared está chegando
+  logger.debug('[formatSharedContextFromState] shared encontrado:', { keys: Object.keys(shared), shared });
+
+  const parts: string[] = [];
+
+  for (const [key, value] of Object.entries(shared)) {
+    if (value === undefined || value === null) continue;
+
+    // Formatar baseado no tipo
+    if (typeof value === 'string') {
+      parts.push(`**${key}**: ${value}`);
+    } else if (Array.isArray(value)) {
+      parts.push(`**${key}**:\n${value.map((v, i) => `  ${i + 1}. ${v}`).join('\n')}`);
+    } else if (typeof value === 'object') {
+      parts.push(`**${key}**:\n${JSON.stringify(value, null, 2).split('\n').map(l => '  ' + l).join('\n')}`);
+    } else {
+      parts.push(`**${key}**: ${String(value)}`);
+    }
+  }
+
+  const result = parts.join('\n\n');
+  logger.debug('[formatSharedContextFromState] sharedContext gerado:', result.substring(0, 200) + '...');
+  return result;
+}
 
 export function createAgentNode(options: IAgentNodeOptions): GraphNode {
   assertOptions(options);
@@ -49,6 +86,9 @@ export function createAgentNode(options: IAgentNodeOptions): GraphNode {
       taskList: taskList || options.taskList
     };
 
+    // Extrair sharedContext do estado
+    const sharedContext = formatSharedContextFromState(state);
+
     const baseTraceContext = engine.getTraceContext();
     const traceContext: TraceContext | undefined = baseTraceContext
       ? {
@@ -64,7 +104,8 @@ export function createAgentNode(options: IAgentNodeOptions): GraphNode {
       options: runtimeOptions,
       messages,
       usePromptConfig: hasPromptConfig,
-      taskList: runtimeOptions.taskList, // Passa taskList para invokeAgent
+      taskList: runtimeOptions.taskList,
+      sharedContext, // Passa sharedContext para invokeAgent
       trace: engine.getTraceSink(),
       telemetry: engine.getTelemetryOptions(),
       traceContext,
@@ -146,6 +187,7 @@ async function invokeAgent(args: {
   messages: Message[];
   usePromptConfig: boolean;
   taskList?: { items: Array<{ id: string; title: string; status: 'pending' | 'in_progress' | 'completed' }> };
+  sharedContext?: string;
   trace?: TraceSink;
   telemetry?: TelemetryOptions;
   traceContext?: TraceContext;
@@ -162,6 +204,7 @@ async function invokeAgent(args: {
     return agentInstance.invoke({
       messages: args.messages,
       promptConfig: config,
+      sharedContext: args.sharedContext,
       temperature: args.options.temperature,
       topP: args.options.topP,
       maxTokens: args.options.maxTokens,
@@ -181,7 +224,8 @@ async function invokeAgent(args: {
     agentInfo,
     additionalInstructions: args.options.additionalInstructions,
     tools,
-    taskList: args.taskList, // Passa taskList para agent.invoke
+    taskList: args.taskList,
+    sharedContext: args.sharedContext,
     temperature: args.options.temperature,
     topP: args.options.topP,
     maxTokens: args.options.maxTokens,

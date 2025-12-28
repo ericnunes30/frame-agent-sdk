@@ -213,10 +213,10 @@ export interface PromptBuilderConfig {
     }>
   };
   
-  /** 
+  /**
    * Skills ativas para esta execução.
    * Útil para fornecer contexto especializado dinamicamente.
-   * 
+   *
    * @optional
    * @example
    * ```typescript
@@ -228,6 +228,27 @@ export interface PromptBuilderConfig {
    * }]
    * ```
    */
-  
+
+  /**
+   * Contexto compartilhado entre agentes (ex: supervisor → sub-agente).
+   * Injetado no FINAL do System Prompt, onde a atenção do LLM é maior.
+   *
+   * @optional
+   * @remarks
+   * - Útil para passar planos, decisões, ou contexto de execuções anteriores
+   * - Vai após as regras do modo (última seção do prompt)
+   * - Reutilizável tanto no sistema de graph quanto em sistemas customizados
+   *
+   * @example
+   * ```typescript
+   * // Plano passado pelo supervisor
+   * sharedContext: `**plan**:
+   *   1. Listar containers Docker
+   *   2. Identificar containers do projeto
+   *   3. Obter portas mapeadas`
+   * ```
+   */
+  sharedContext?: string;
+
 }
 

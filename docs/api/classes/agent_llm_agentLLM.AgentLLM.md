@@ -10,7 +10,7 @@ seamlessly com ProviderAdapter e PromptBuilder.
 
 ## CaracterÃ­sticas Principais
 
-- **ConfiguraÃ§Ã£o Fixa**: MantÃ©m modelo e API key fixos para consistÃªncia
+- **ConfiguraÃ§Ã£o Fixa**: MantÃ©m modelo e API key fixos para consistância
 - **GeraÃ§Ã£o AutomÃ¡tica de Prompts**: IntegraÃ§Ã£o com PromptBuilder para system prompts
 - **ParÃ¢metros FlexÃ­veis**: Suporte a overrides por chamada
 - **IntegraÃ§Ã£o Completa**: Funciona com todos os provedores suportados

@@ -21,7 +21,7 @@ import type { ContextHooks } from '@/memory';
  * 
  * ## CaracterÃ­sticas Principais
  * 
- * - **ConfiguraÃ§Ã£o Fixa**: MantÃ©m modelo e API key fixos para consistÃªncia
+ * - **ConfiguraÃ§Ã£o Fixa**: MantÃ©m modelo e API key fixos para consistência
  * - **GeraÃ§Ã£o AutomÃ¡tica de Prompts**: IntegraÃ§Ã£o com PromptBuilder para system prompts
  * - **ParÃ¢metros FlexÃ­veis**: Suporte a overrides por chamada
  * - **IntegraÃ§Ã£o Completa**: Funciona com todos os provedores suportados
@@ -245,6 +245,8 @@ export class AgentLLM {
     tools?: ToolSchema[];
     /** Lista de tarefas para incluir no prompt */
     taskList?: { items: Array<{ id: string; title: string; status: 'pending' | 'in_progress' | 'completed' }> };
+    /** Contexto compartilhado entre agentes */
+    sharedContext?: string;
     /** Temperatura especÃ­fica para esta chamada */
     temperature?: number;
     /** TopP especÃ­fico para esta chamada */
