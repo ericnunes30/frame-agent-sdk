@@ -229,7 +229,6 @@ interface ITerminalParams extends IToolParams {
   lines?: number;
   shell?: string;
   timeout?: number;
-  statusTimeout?: number;
 }
 
 class TerminalParams {
@@ -242,25 +241,10 @@ class TerminalParams {
     interactive: { type: 'boolean', required: false },
     lines: { type: 'number', required: false },
     shell: { type: 'string', required: false },
-    timeout: { type: 'number', required: false },
-    statusTimeout: { type: 'number', required: false }
+    timeout: { type: 'number', required: false }
   } as const;
 
   static validate(params: any): { isValid: boolean; error?: string } {
-    if (params.action === 'status' && !params.statusTimeout) {
-      return {
-        isValid: false,
-        error: 'statusTimeout é obrigatório para action=status. Use um valor entre 1000-300000ms (1s-5min).'
-      };
-    }
-
-    if (params.statusTimeout && (params.statusTimeout < 1000 || params.statusTimeout > 300000)) {
-      return {
-        isValid: false,
-        error: 'statusTimeout deve estar entre 1000ms (1s) e 300000ms (5min).'
-      };
-    }
-
     return { isValid: true };
   }
 }
@@ -276,13 +260,13 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
 - input: (obrigatório para send) texto a enviar
 - background: (default: false) executa em background (ideal para servidores/long-running)
 - interactive: (default: false) modo interativo (mantém stdin aberto)
-- statusTimeout: (OBRIGATÓRIO para status) tempo em ms para aguardar (min: 1000, max: 300000)
+- timeout: (opcional) tempo em ms para matar processo background automaticamente (padrão: 30min)
 
 ## Fluxo Recomendado
 1. create: inicia processo (use background:true para servidores)
 2. status: verifica estado real (running/waiting_input/completed/error)
 3. send: envia input se status for "waiting_input"
-4. statusTimeout: aguarda X ms OBRIGATÓRIO antes de retornar (evita spam, padrão: 10s)`;
+4. Para pausar o agente, use a ferramenta "sleep" em vez do statusTimeout`;
   public readonly parameterSchema = TerminalParams;
 
   public async execute(params: ITerminalParams): Promise<ITerminalResult> {
@@ -524,69 +508,45 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
       return { success: false, message: TerminalErrorMessages.SESSION_NOT_FOUND };
     }
 
-    const statusTimeout = params.statusTimeout ?? 10000;
+    const recentOutput = processInfo.outputBuffer.get(10);
+    const isWaitingInput = detectWaitingInput(recentOutput);
 
-    const getProcessStatus = () => {
-      const recentOutput = processInfo.outputBuffer.get(10);
-      const isWaitingInput = detectWaitingInput(recentOutput);
+    let isProcessActive = false;
+    let exitCode: number | null = null;
 
-      let isProcessActive = false;
-      let exitCode: number | null = null;
-
-      if (processInfo.process) {
-        try {
-          process.kill(processInfo.process.pid, 0);
-          isProcessActive = true;
-        } catch (error) {
-          isProcessActive = false;
-          exitCode = processInfo.process.exitCode || 1;
-        }
+    if (processInfo.process) {
+      try {
+        process.kill(processInfo.process.pid, 0);
+        isProcessActive = true;
+      } catch (error) {
+        isProcessActive = false;
+        exitCode = processInfo.process.exitCode || 1;
       }
-
-      let status: 'running' | 'waiting_input' | 'completed' | 'error';
-
-      if (!isProcessActive) {
-        if (exitCode === null) {
-          exitCode = processInfo.process?.exitCode ?? 1;
-        }
-        status = exitCode === 0 ? 'completed' : 'error';
-      } else if (isWaitingInput) {
-        status = 'waiting_input';
-      } else {
-        status = 'running';
-      }
-
-      return { status, isProcessActive, exitCode, recentOutput };
-    };
-
-    const startTime = Date.now();
-    const endTime = startTime + statusTimeout;
-
-    const blockingWait = (ms: number) => {
-      const sharedBuffer = new SharedArrayBuffer(4);
-      const int32 = new Int32Array(sharedBuffer);
-      Atomics.wait(int32, 0, 0, ms);
-    };
-
-    let totalWaited = 0;
-    while (totalWaited < statusTimeout) {
-      const waitTime = Math.min(1000, statusTimeout - totalWaited);
-      blockingWait(waitTime);
-      totalWaited += waitTime;
     }
 
-    const processStatus = getProcessStatus();
+    let status: 'running' | 'waiting_input' | 'completed' | 'error';
+
+    if (!isProcessActive) {
+      if (exitCode === null) {
+        exitCode = processInfo.process?.exitCode ?? 1;
+      }
+      status = exitCode === 0 ? 'completed' : 'error';
+    } else if (isWaitingInput) {
+      status = 'waiting_input';
+    } else {
+      status = 'running';
+    }
 
     const activeProcessesCount = processMap.size;
 
     return {
       success: true,
       sessionId: params.sessionId!,
-      status: processStatus.status,
-      output: processStatus.recentOutput || 'Nenhum output disponível',
-      message: `Processo ${processStatus.status}: ${processInfo.command}. (Active processes: ${activeProcessesCount})`,
-      exitCode: processStatus.isProcessActive ? undefined : (processStatus.exitCode ?? undefined),
-      timedOut: processStatus.status === 'running'
+      status,
+      output: recentOutput || 'Nenhum output disponível',
+      message: `Processo ${status}: ${processInfo.command}. (Active processes: ${activeProcessesCount})`,
+      exitCode: isProcessActive ? undefined : (exitCode ?? undefined),
+      timedOut: status === 'running'
     };
   }
 
