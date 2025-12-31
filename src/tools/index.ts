@@ -35,6 +35,7 @@ export { FileEditTool } from '@/tools/tools/fileEditTool';
 export { FileCreateTool } from '@/tools/tools/fileCreateTool';
 export { TerminalTool } from '@/tools/tools/terminalTool';
 export { SearchTool, SearchTypeEnum, MatchCaseEnum, SearchModeEnum } from '@/tools/tools/searchTool';
+export { SleepTool } from '@/tools/tools/sleepTool';
 
 // Ferramentas Externas para MCP
 export { MCPClient, MCPTransport } from '@/tools/tools/mcp'
