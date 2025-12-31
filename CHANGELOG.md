@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.3] - 2025-12-31
+
+### Breaking Changes
+- Complete removal of StepOrchestrator references
+- Cleaned up legacy code and deprecated interfaces
+
+### Features
+- **New Tool**: Enhanced tool capabilities with improved error handling
+- **Graph Engine Improvements**: Better performance and reliability
+- **Tool Registry**: Enhanced tool detection and validation
+
+### Bug Fixes
+- Fixed tool execution edge cases
+- Improved error messages for debugging
+- Fixed memory management issues in long-running agents
+
+### Improvements
+- Better type safety across tool implementations
+- Improved documentation and code comments
+- Enhanced telemetry for tool execution tracking
+
 ## [0.0.2] - 2025-12-29
 
 ### Breaking Changes
