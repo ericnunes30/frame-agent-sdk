@@ -59,6 +59,56 @@ describe('TerminalTool', () => {
       });
     });
 
+    it('deve manter sessao e output para comando rapido (foreground)', async () => {
+      const sessionId = randomUUID();
+
+      const createResult = await TerminalTool.execute({
+        action: 'create',
+        command: 'echo hi',
+        sessionId,
+        // Em Windows, usar cmd.exe evita comportamentos estranhos com shell customizado.
+        shell: process.platform === 'win32' ? 'cmd.exe' : undefined,
+      });
+
+      expect(createResult.success).toBe(true);
+
+      try {
+        const deadline = Date.now() + 5000;
+        let statusResult: any;
+
+        // Aguarda o processo encerrar e o listener de close marcar o estado
+        while (Date.now() < deadline) {
+          await new Promise((r) => setTimeout(r, 200));
+          statusResult = await TerminalTool.execute({
+            action: 'status',
+            sessionId
+          });
+
+          if (statusResult.success && statusResult.status !== 'running') {
+            break;
+          }
+        }
+
+        expect(statusResult.success).toBe(true);
+        expect(statusResult.status).toBe('completed');
+
+        const outputResult = await TerminalTool.execute({
+          action: 'getOutput',
+          sessionId,
+          lines: 50
+        });
+
+        expect(outputResult.success).toBe(true);
+        expect(outputResult.output).toContain('hi');
+      } finally {
+        // Limpar (remove do map imediatamente)
+        await TerminalTool.execute({
+          action: 'kill',
+          sessionId
+        });
+      }
+    });
+
     it('deve listar processos ativos', async () => {
       const sessionId1 = randomUUID();
       const sessionId2 = randomUUID();

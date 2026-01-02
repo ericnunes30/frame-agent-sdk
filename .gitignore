@@ -38,3 +38,5 @@ docs/plans/
 package-lock.json
 
 .*
+
+outputsrun-*

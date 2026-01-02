@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.4] - 2026-01-02
+
+### Bug Fixes
+- TerminalTool: mantém a sessão por um TTL após encerrar para permitir `status/getOutput` (evita "Sessão de processo não encontrada" em comandos rápidos)
+- TerminalTool: captura stdout/stderr também em processos foreground, permitindo `getOutput` consistente
+
+### Improvements
+- Ignore: adiciona `outputsrun-*` ao `.gitignore`
+
 ## [0.0.3] - 2025-12-31
 
 ### Breaking Changes

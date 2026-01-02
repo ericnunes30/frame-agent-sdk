@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto';
 import treeKill from 'tree-kill';
 
 const DEFAULT_TIMEOUT = 30 * 60 * 1000; // 30 minutos em ms
+const COMPLETED_SESSION_TTL = 5 * 60 * 1000; // Mantém sessão por um tempo após encerrar
 const DANGEROUS_COMMANDS: readonly string[] = ['rm -rf', 'format', 'del', 'shutdown', ':(){ :|:& };:'];
 
 // Buffer circular para armazenar output de processos background
@@ -48,6 +49,10 @@ interface ProcessInfo {
   sessionId: string;
   outputBuffer: OutputBuffer;
   timeoutId?: NodeJS.Timeout;
+  endedAt?: number;
+  exitCode?: number | null;
+  endSignal?: string | null;
+  cleanupAfterEndId?: NodeJS.Timeout;
 }
 
 // Map global para processos ativos
@@ -60,16 +65,14 @@ function addProcess(sessionId: string, process: any, command: string, background
 
   const outputBuffer = new OutputBuffer();
 
-  // Configurar captura de output para processos background
-  if (background) {
-    process.stdout?.on('data', (data: Buffer) => {
-      outputBuffer.add(data.toString());
-    });
+  // Capturar output para qualquer processo (foreground/background), para suportar getOutput/status após encerrar
+  process.stdout?.on('data', (data: Buffer) => {
+    outputBuffer.add(data.toString());
+  });
 
-    process.stderr?.on('data', (data: Buffer) => {
-      outputBuffer.add(data.toString());
-    });
-  }
+  process.stderr?.on('data', (data: Buffer) => {
+    outputBuffer.add(data.toString());
+  });
 
   let timeoutId: NodeJS.Timeout | undefined;
 
@@ -124,13 +127,15 @@ function listProcesses(): Array<{
   background: boolean;
   interactive: boolean;
 }> {
-  return Array.from(processMap.entries()).map(([sessionId, info]) => ({
-    sessionId,
-    createdAt: info.createdAt,
-    command: info.command,
-    background: info.background,
-    interactive: info.interactive,
-  }));
+  return Array.from(processMap.entries())
+    .filter(([, info]) => !info.endedAt)
+    .map(([sessionId, info]) => ({
+      sessionId,
+      createdAt: info.createdAt,
+      command: info.command,
+      background: info.background,
+      interactive: info.interactive,
+    }));
 }
 
 function validateCommandSafety(command: string): void {
@@ -173,6 +178,9 @@ function cleanupProcess(sessionId: string): void {
   if (info.timeoutId) {
     clearTimeout(info.timeoutId);
   }
+  if (info.cleanupAfterEndId) {
+    clearTimeout(info.cleanupAfterEndId);
+  }
   removeProcess(sessionId);
 }
 
@@ -182,9 +190,32 @@ function setupProcessListeners(sessionId: string): void {
     return;
   }
   const proc = info.process;
-  proc.on('close', () => cleanupProcess(sessionId));
-  proc.on('error', (err: Error) => {
-    cleanupProcess(sessionId);
+
+  const markEnded = (exitCode: number | null, endSignal: string | null) => {
+    const latestInfo = getProcess(sessionId);
+    if (!latestInfo || latestInfo.endedAt) {
+      return;
+    }
+
+    latestInfo.endedAt = Date.now();
+    latestInfo.exitCode = exitCode;
+    latestInfo.endSignal = endSignal;
+
+    if (latestInfo.timeoutId) {
+      clearTimeout(latestInfo.timeoutId);
+      latestInfo.timeoutId = undefined;
+    }
+
+    // Mantém a sessão por um tempo para permitir status/getOutput após encerrar, e então limpa.
+    latestInfo.cleanupAfterEndId = setTimeout(() => cleanupProcess(sessionId), COMPLETED_SESSION_TTL);
+  };
+
+  proc.on('close', (code: number | null, signal: string | null) => {
+    markEnded(code, signal);
+  });
+
+  proc.on('error', (_err: Error) => {
+    markEnded(1, null);
   });
 }
 
@@ -358,7 +389,7 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
       return {
         success: true,
         sessionId,
-        message: `Processo em background criado${isInteractive ? ' (interativo)' : ''}. PID: ${childProcess.pid}. (Active processes: ${processMap.size})`,
+        message: `Processo em background criado${isInteractive ? ' (interativo)' : ''}. PID: ${childProcess.pid}. (Active processes: ${listProcesses().length})`,
       };
     }
 
@@ -375,7 +406,7 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
     return {
       success: true,
       sessionId,
-      message: `Processo iniciado. Use 'status' para verificar progresso ou 'getOutput' para ver output. PID: ${childProcess.pid}. (Active processes: ${processMap.size})`,
+      message: `Processo iniciado. Use 'status' para verificar progresso ou 'getOutput' para ver output. PID: ${childProcess.pid}. (Active processes: ${listProcesses().length})`,
       status: 'running'
     };
   }
@@ -395,7 +426,7 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
     }
 
     const childProcess = processInfo.process;
-    if (!childProcess.stdin) {
+    if (processInfo.endedAt || !childProcess.stdin) {
       return { success: false, message: TerminalErrorMessages.PROCESS_INACTIVE };
     }
 
@@ -440,7 +471,7 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
       cleanupProcess(params.sessionId);
       return {
         success: true,
-        message: `Processo finalizado: ${command}. (Remaining active processes: ${processMap.size})`,
+        message: `Processo finalizado: ${command}. (Remaining active processes: ${listProcesses().length})`,
         sessionId: params.sessionId
       };
     }
@@ -457,7 +488,7 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
         cleanupProcess(params.sessionId!);
         resolve({
           success: true,
-          message: `Processo e filhos finalizados: ${command}. (Remaining active processes: ${processMap.size})`,
+          message: `Processo e filhos finalizados: ${command}. (Remaining active processes: ${listProcesses().length})`,
           sessionId: params.sessionId
         });
       });
@@ -511,6 +542,21 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
     const recentOutput = processInfo.outputBuffer.get(10);
     const isWaitingInput = detectWaitingInput(recentOutput);
 
+    if (processInfo.endedAt) {
+      const endedExitCode = processInfo.exitCode ?? processInfo.process?.exitCode ?? 0;
+      const endedStatus: 'completed' | 'error' = endedExitCode === 0 ? 'completed' : 'error';
+
+      return {
+        success: true,
+        sessionId: params.sessionId!,
+        status: endedStatus,
+        output: recentOutput || 'Nenhum output disponヴvel',
+        message: `Processo ${endedStatus}: ${processInfo.command}. (Active processes: ${listProcesses().length})`,
+        exitCode: endedExitCode,
+        timedOut: false
+      };
+    }
+
     let isProcessActive = false;
     let exitCode: number | null = null;
 
@@ -520,7 +566,12 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
         isProcessActive = true;
       } catch (error) {
         isProcessActive = false;
-        exitCode = processInfo.process.exitCode || 1;
+        exitCode = processInfo.process.exitCode ?? 1;
+        processInfo.endedAt = Date.now();
+        processInfo.exitCode = exitCode;
+        if (!processInfo.cleanupAfterEndId) {
+          processInfo.cleanupAfterEndId = setTimeout(() => cleanupProcess(params.sessionId!), COMPLETED_SESSION_TTL);
+        }
       }
     }
 
@@ -528,7 +579,7 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
 
     if (!isProcessActive) {
       if (exitCode === null) {
-        exitCode = processInfo.process?.exitCode ?? 1;
+        exitCode = processInfo.exitCode ?? processInfo.process?.exitCode ?? 1;
       }
       status = exitCode === 0 ? 'completed' : 'error';
     } else if (isWaitingInput) {
@@ -537,7 +588,7 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
       status = 'running';
     }
 
-    const activeProcessesCount = processMap.size;
+    const activeProcessesCount = listProcesses().length;
 
     return {
       success: true,
