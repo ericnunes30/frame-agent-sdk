@@ -140,6 +140,39 @@ export class OpenAICompatibleProvider {
     ];
   }
 
+  private extractThinkingFromTaggedText(text: string): { finalText: string; thinking: string | null } {
+    if (!text) return { finalText: text, thinking: null };
+
+    const blocks: string[] = [];
+    let finalText = text;
+
+    const patterns: Array<{ open: string; close: string }> = [
+      { open: '<thinking>', close: '</thinking>' },
+      { open: '<think>', close: '</think>' },
+    ];
+
+    for (const { open, close } of patterns) {
+      while (true) {
+        const start = finalText.indexOf(open);
+        if (start < 0) break;
+        const end = finalText.indexOf(close, start + open.length);
+        if (end < 0) break;
+
+        const inner = finalText.slice(start + open.length, end);
+        blocks.push(inner);
+        finalText = finalText.slice(0, start) + finalText.slice(end + close.length);
+      }
+    }
+
+    const thinking = blocks
+      .map((b) => b.trim())
+      .filter(Boolean)
+      .join('\n\n')
+      .trim();
+
+    return { finalText: finalText.trim(), thinking: thinking.length > 0 ? thinking : null };
+  }
+
   /**
    * Executa uma chamada de chat completion usando provedor compatível com OpenAI.
    * 
@@ -260,18 +293,50 @@ export class OpenAICompatibleProvider {
         const streamResp = await this.client.chat.completions.create({
           ...baseParams,
           stream: true,
-        });
+          ...(config.thinking?.effort ? ({ reasoning_effort: config.thinking.effort } as any) : {}),
+        } as any);
         logger.debug(`[OpenAICompatibleProvider] Streaming iniciado com sucesso`);
 
-        let fullContent = '';
+        const thinkingMode = config.thinking?.mode ?? 'off';
+        const wrapTag = config.thinking?.wrapTag === true;
+
+        let finalText = '';
+        let thinkingText = '';
         try {
-          for await (const chunk of stream(streamResp)) {
+          for await (const chunk of stream(streamResp as any)) {
             const delta: any = (chunk as any)?.choices?.[0]?.delta ?? {};
-            // Fallback para reasoning_content se content estiver vazio
-            fullContent += delta.content ?? delta.reasoning_content ?? '';
+            finalText += delta.content ?? '';
+            thinkingText += delta.reasoning_content ?? delta.reasoning ?? '';
           }
-          logger.debug(`[OpenAICompatibleProvider] Streaming concluído, conteúdo: ${fullContent.substring(0, 100)}...`);
-          return { role: 'assistant', content: fullContent } as IProviderResponse;
+          logger.debug(`[OpenAICompatibleProvider] Streaming done, preview: ${finalText.substring(0, 100)}...`);
+          const usedThinkingAsContent = finalText.trim().length === 0 && thinkingText.trim().length > 0;
+          if (usedThinkingAsContent) {
+            finalText = thinkingText;
+          }
+
+          const fromTags = this.extractThinkingFromTaggedText(finalText);
+          finalText = fromTags.finalText;
+          if (fromTags.thinking) {
+            thinkingText = thinkingText.trim().length > 0 ? `${thinkingText}\n\n${fromTags.thinking}` : fromTags.thinking;
+          }
+
+          const metadata: Record<string, unknown> = {
+            ...(thinkingMode !== 'off' && thinkingText.trim().length > 0
+              ? {
+                thinking: thinkingText.trim(),
+                thinking_type: 'raw',
+                thinking_source: usedThinkingAsContent ? 'field' : (fromTags.thinking ? 'tags' : 'field'),
+              }
+              : { thinking_source: 'none' }),
+            ...(usedThinkingAsContent ? { thinking_used_as_content: true } : {}),
+          };
+
+          const content =
+            wrapTag && thinkingMode !== 'off' && typeof metadata.thinking === 'string'
+              ? `<thinking>${metadata.thinking}</thinking>\n\n${finalText}`
+              : finalText;
+
+          return { role: 'assistant', content, metadata } as IProviderResponse;
         } catch (error) {
           logger.error(`[OpenAICompatibleProvider] Erro durante streaming:`, error);
           throw error;
@@ -288,24 +353,55 @@ export class OpenAICompatibleProvider {
       const response = await this.client.chat.completions.create({
         ...baseParams,
         stream: false,
-      });
+        ...(config.thinking?.effort ? ({ reasoning_effort: config.thinking.effort } as any) : {}),
+      } as any);
       logger.debug(`[OpenAICompatibleProvider] Requisição síncrona concluída com sucesso`);
 
       // Extrair conteúdo com fallback para reasoning_content
       const msg = response.choices[0].message as any;
-      const content = msg?.content ?? msg?.reasoning_content ?? null;
+      const thinkingMode = config.thinking?.mode ?? 'off';
+      const wrapTag = config.thinking?.wrapTag === true;
+
+      let finalText: string = msg?.content ?? '';
+      let thinkingText: string = msg?.reasoning_content ?? msg?.reasoning ?? '';
+
+      const usedThinkingAsContent = finalText.trim().length === 0 && thinkingText.trim().length > 0;
+      if (usedThinkingAsContent) {
+        finalText = thinkingText;
+      }
+
+      const fromTags = this.extractThinkingFromTaggedText(finalText);
+      finalText = fromTags.finalText;
+      if (fromTags.thinking) {
+        thinkingText = thinkingText.trim().length > 0 ? `${thinkingText}\n\n${fromTags.thinking}` : fromTags.thinking;
+      }
+
+      const hasThinking = thinkingText.trim().length > 0;
+      const thinkingSource = usedThinkingAsContent
+        ? 'field'
+        : msg?.reasoning_content || msg?.reasoning
+          ? 'field'
+          : fromTags.thinking
+            ? 'tags'
+            : 'none';
+
+      const metadata: Record<string, unknown> = {
+        model: (response as any).model,
+        usage: (response as any).usage,
+        raw: response,
+        ...(thinkingMode !== 'off' && hasThinking
+          ? { thinking: thinkingText.trim(), thinking_type: 'raw', thinking_source: thinkingSource }
+          : { thinking_source: 'none' }),
+        ...(usedThinkingAsContent ? { thinking_used_as_content: true } : {}),
+      };
+
+      const content =
+        wrapTag && thinkingMode !== 'off' && typeof metadata.thinking === 'string'
+          ? `<thinking>${metadata.thinking}</thinking>\n\n${finalText}`
+          : finalText || null;
       logger.debug(`[OpenAICompatibleProvider] Conteúdo recebido: ${content}`);
 
-      // Retornar no formato IProviderResponse
-      return {
-        role: 'assistant',
-        content,
-        metadata: {
-          model: (response as any).model,
-          usage: (response as any).usage,
-          raw: response,
-        },
-      } as IProviderResponse;
+      return { role: 'assistant', content, metadata } as IProviderResponse;
     } catch (error) {
       logger.error(`[OpenAICompatibleProvider] Erro na requisição síncrona:`, error);
       throw error;

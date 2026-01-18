@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.5] - 2026-01-18
+
+### Features
+- Providers: adiciona suporte a `thinking` via `metadata.thinking` nos providers `openai` e `openaiCompatible` (configurável via `ProviderConfig.thinking`).
+
 ## [0.0.4] - 2026-01-02
 
 ### Bug Fixes
