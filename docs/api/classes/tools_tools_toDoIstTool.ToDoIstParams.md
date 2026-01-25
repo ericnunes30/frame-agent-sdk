@@ -5,7 +5,7 @@
 Parâmetros para gerenciamento de lista de tarefas.
 
 Define todas as operações possíveis para gerenciar uma lista de tarefas,
-incluindo criação, adição, atualização de status e exclusão.
+incluindo criação, atualização de status e exclusão.
 
 ## Implements
 
@@ -22,10 +22,8 @@ incluindo criação, adição, atualização de status e exclusão.
 - [action](tools_tools_toDoIstTool.ToDoIstParams.md#action)
 - [defaultStatus](tools_tools_toDoIstTool.ToDoIstParams.md#defaultstatus)
 - [id](tools_tools_toDoIstTool.ToDoIstParams.md#id)
-- [newId](tools_tools_toDoIstTool.ToDoIstParams.md#newid)
 - [status](tools_tools_toDoIstTool.ToDoIstParams.md#status)
 - [tasks](tools_tools_toDoIstTool.ToDoIstParams.md#tasks)
-- [title](tools_tools_toDoIstTool.ToDoIstParams.md#title)
 - [schemaProperties](tools_tools_toDoIstTool.ToDoIstParams.md#schemaproperties)
 
 ## Constructors
@@ -76,18 +74,6 @@ ID da tarefa (para ações que referenciam tarefas específicas)
 
 ___
 
-### newId
-
-• `Optional` **newId**: `string`
-
-Novo ID da tarefa (para ação edit)
-
-#### Defined in
-
-[src/tools/tools/toDoIstTool.ts:21](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/toDoIstTool.ts#L21)
-
-___
-
 ### status
 
 • `Optional` **status**: `string`
@@ -112,18 +98,6 @@ Lista de títulos de tarefas (para ação create)
 
 ___
 
-### title
-
-• `Optional` **title**: `string`
-
-Título da tarefa (para ações add e edit)
-
-#### Defined in
-
-[src/tools/tools/toDoIstTool.ts:17](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/toDoIstTool.ts#L17)
-
-___
-
 ### schemaProperties
 
 ▪ `Static` **schemaProperties**: `Object`
@@ -145,9 +119,6 @@ Schema de validação para os parâmetros
 | `id` | \{ `required`: `boolean` = false; `type`: `string` = 'string' } |
 | `id.required` | `boolean` |
 | `id.type` | `string` |
-| `newId` | \{ `required`: `boolean` = false; `type`: `string` = 'string' } |
-| `newId.required` | `boolean` |
-| `newId.type` | `string` |
 | `status` | \{ `enum`: `string`[] ; `required`: `boolean` = false; `type`: `string` = 'string' } |
 | `status.enum` | `string`[] |
 | `status.required` | `boolean` |
@@ -157,9 +128,6 @@ Schema de validação para os parâmetros
 | `tasks.items.type` | `string` |
 | `tasks.required` | `boolean` |
 | `tasks.type` | `string` |
-| `title` | \{ `required`: `boolean` = false; `type`: `string` = 'string' } |
-| `title.required` | `boolean` |
-| `title.type` | `string` |
 
 #### Defined in
 

@@ -6,32 +6,26 @@ Ferramenta para gerenciamento de lista de tarefas.
 
 Esta ferramenta permite que agentes de IA gerenciem listas de tarefas
 de forma estruturada, com suporte a diferentes operações como criação,
-adição, atualização de status e exclusão de tarefas.
+atualização de status e exclusão de tarefas.
 
 ## Funcionalidades Principais
 
 - **Criação de Listas**: Cria novas listas de tarefas com múltiplos itens
-- **Gerenciamento de Tarefas**: Adiciona, atualiza e remove tarefas individuais
 - **Controle de Status**: Gerencia status das tarefas (pending, in_progress, completed)
 - **Operações em Lote**: Marca todas as tarefas como concluídas
 - **Limpeza de Lista**: Remove todas as tarefas ou toda a lista
 
 ## Ações Suportadas
 
-- **create**: Cria nova lista com tarefas iniciais (só se não houver lista ativa)
-- **add**: Adiciona nova tarefa à lista existente
+- **create**: Cria uma nova lista com tarefas iniciais (sobrescreve a lista atual, se existir)
 - **update_status**: Atualiza status de tarefa específica
 - **complete_all**: Marca todas as tarefas como concluídas
-- **delete_task**: Remove tarefa específica da lista
 - **delete_list**: Remove todas as tarefas da lista (permite criar nova lista depois)
-- **edit**: Edita uma tarefa existente (título, status ou ID)
 - **get**: Retorna a lista de tarefas atual sem modificá-la
 
 ## Regras Importantes
 
 - **Uma lista por vez**: Só pode existir uma lista ativa por vez
-- **Prevenção de duplicação**: `create` falhará se já houver lista - use `delete_list` primeiro
-- **Expansão permitida**: Use `add` para expandir a lista existente conforme necessário
 
 ## Status de Tarefas
 
@@ -90,8 +84,6 @@ console.log(result.metadata.taskList.items.length); // 3
 - [getCurrentTasks](tools_tools_toDoIstTool.ToDoIstTool.md#getcurrenttasks)
 - [getNextId](tools_tools_toDoIstTool.ToDoIstTool.md#getnextid)
 - [loadFromDisk](tools_tools_toDoIstTool.ToDoIstTool.md#loadfromdisk)
-- [recalculateIds](tools_tools_toDoIstTool.ToDoIstTool.md#recalculateids)
-- [reorderTasksById](tools_tools_toDoIstTool.ToDoIstTool.md#reordertasksbyid)
 - [saveToDisk](tools_tools_toDoIstTool.ToDoIstTool.md#savetodisk)
 
 ## Constructors
@@ -229,23 +221,14 @@ Resultado com observation e metadata atualizada.
 ```typescript
 const tool = new ToDoIstTool();
 
-// Adicionar nova tarefa
-const result1 = await tool.execute({
-  action: 'add',
-  title: 'Revisar código',
-  status: 'pending'
-});
-
-console.log(result1.observation); // "Tarefa 'Revisar código' adicionada"
-
 // Atualizar status
-const result2 = await tool.execute({
+const result = await tool.execute({
   action: 'update_status',
   id: 'task-id-123',
   status: 'in_progress'
 });
 
-console.log(result2.observation); // "Status da tarefa task-id-123 atualizado para in_progress"
+console.log(result.observation); // "Status da tarefa task-id-123 atualizado para in_progress"
 ```
 
 #### Overrides
@@ -319,40 +302,6 @@ Carrega a lista e o contador do disco.
 #### Defined in
 
 [src/tools/tools/toDoIstTool.ts:238](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/toDoIstTool.ts#L238)
-
-___
-
-### recalculateIds
-
-▸ **recalculateIds**(): `void`
-
-Recalcula IDs sequenciais para todas as tarefas.
-Ordena por ID numérico antes de recalcular para manter ordem correta.
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[src/tools/tools/toDoIstTool.ts:196](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/toDoIstTool.ts#L196)
-
-___
-
-### reorderTasksById
-
-▸ **reorderTasksById**(): `void`
-
-Reordena tarefas pelo ID (numérico).
-Útil após alterações de ID para manter ordem correta.
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[src/tools/tools/toDoIstTool.ts:214](https://github.com/ericnunes30/frame-agent-sdk/blob/1db108249e8eb633be7c1499d2847cce9adc0709/src/tools/tools/toDoIstTool.ts#L214)
 
 ___
 

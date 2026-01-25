@@ -254,8 +254,7 @@ Gerencia listas de tarefas com status.
 
 ```typescript
 class TodoListParams implements IToolParams {
-  action!: 'create' | 'add' | 'update_status' | 'complete_all' | 'delete_task' | 'delete_list';
-  title?: string;
+  action!: 'create' | 'update_status' | 'complete_all' | 'delete_list' | 'get';
   id?: string;
   status?: 'pending' | 'in_progress' | 'completed';
   tasks?: string[];

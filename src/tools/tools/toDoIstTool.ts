@@ -13,12 +13,8 @@ import * as os from 'os'
 export class ToDoIstParams implements IToolParams {
   /** Ação a ser executada na lista de tarefas */
   public action!: string
-  /** Título da tarefa (para ações add e edit) */
-  public title?: string
   /** ID da tarefa (para ações que referenciam tarefas específicas) */
   public id?: string
-  /** Novo ID da tarefa (para ação edit) */
-  public newId?: string
   /** Status da tarefa (pending, in_progress, completed) */
   public status?: string
   /** Lista de títulos de tarefas (para ação create) */
@@ -31,11 +27,9 @@ export class ToDoIstParams implements IToolParams {
     action: { 
       type: 'string', 
       required: true, 
-      enum: ['create', 'add', 'update_status', 'complete_all', 'delete_task', 'delete_list', 'edit', 'get'] 
+      enum: ['create', 'update_status', 'complete_all', 'delete_list', 'get']
     },
-    title: { type: 'string', required: false },
     id: { type: 'string', required: false },
-    newId: { type: 'string', required: false },
     status: { type: 'string', required: false, enum: ['pending', 'in_progress', 'completed'] },
     tasks: { type: 'array', items: { type: 'string' }, required: false },
     defaultStatus: { type: 'string', required: false, enum: ['pending', 'in_progress', 'completed'] },
@@ -68,32 +62,26 @@ export interface TodoListMetadata {
  * 
  * Esta ferramenta permite que agentes de IA gerenciem listas de tarefas
  * de forma estruturada, com suporte a diferentes operações como criação,
- * adição, atualização de status e exclusão de tarefas.
+ * atualização de status e exclusão de tarefas.
  * 
  * ## Funcionalidades Principais
  * 
  * - **Criação de Listas**: Cria novas listas de tarefas com múltiplos itens
- * - **Gerenciamento de Tarefas**: Adiciona, atualiza e remove tarefas individuais
  * - **Controle de Status**: Gerencia status das tarefas (pending, in_progress, completed)
  * - **Operações em Lote**: Marca todas as tarefas como concluídas
  * - **Limpeza de Lista**: Remove todas as tarefas ou toda a lista
  * 
  * ## Ações Suportadas
  * 
- * - **create**: Cria nova lista com tarefas iniciais (só se não houver lista ativa)
- * - **add**: Adiciona nova tarefa à lista existente
+ * - **create**: Cria uma nova lista com tarefas iniciais (sobrescreve a lista atual, se existir)
  * - **update_status**: Atualiza status de tarefa específica
  * - **complete_all**: Marca todas as tarefas como concluídas
- * - **delete_task**: Remove tarefa específica da lista
  * - **delete_list**: Remove todas as tarefas da lista (permite criar nova lista depois)
- * - **edit**: Edita uma tarefa existente (título, status ou ID)
  * - **get**: Retorna a lista de tarefas atual sem modificá-la
  * 
  * ## Regras Importantes
  * 
  * - **Uma lista por vez**: Só pode existir uma lista ativa por vez
- * - **Prevenção de duplicação**: `create` falhará se já houver lista - use `delete_list` primeiro
- * - **Expansão permitida**: Use `add` para expandir a lista existente conforme necessário
  * 
  * ## Status de Tarefas
  * 
@@ -190,34 +178,6 @@ export class ToDoIstTool extends ToolBase<
   }
 
   /**
-   * Recalcula IDs sequenciais para todas as tarefas.
-   * Ordena por ID numérico antes de recalcular para manter ordem correta.
-   */
-  private recalculateIds(): void {
-    // Ordenar por ID numérico primeiro
-    this.currentTaskList.items.sort((a, b) => 
-      parseInt(a.id) - parseInt(b.id)
-    );
-    
-    // Reset contador e recalcular IDs
-    this.nextId = 0;
-    this.currentTaskList.items = this.currentTaskList.items.map(item => ({
-      ...item,
-      id: this.getNextId()
-    }));
-  }
-
-  /**
-   * Reordena tarefas pelo ID (numérico).
-   * Útil após alterações de ID para manter ordem correta.
-   */
-  private reorderTasksById(): void {
-    this.currentTaskList.items.sort((a, b) => 
-      parseInt(a.id) - parseInt(b.id)
-    );
-  }
-
-  /**
    * Salva a lista atual e o contador no disco.
    */
   private saveToDisk(): void {
@@ -261,23 +221,14 @@ export class ToDoIstTool extends ToolBase<
    * ```typescript
    * const tool = new ToDoIstTool();
    * 
-   * // Adicionar nova tarefa
-   * const result1 = await tool.execute({
-   *   action: 'add',
-   *   title: 'Revisar código',
-   *   status: 'pending'
-   * });
-   * 
-   * console.log(result1.observation); // "Tarefa 'Revisar código' adicionada"
-   * 
    * // Atualizar status
-   * const result2 = await tool.execute({
+   * const result = await tool.execute({
    *   action: 'update_status',
    *   id: 'task-id-123',
    *   status: 'in_progress'
    * });
    * 
-   * console.log(result2.observation); // "Status da tarefa task-id-123 atualizado para in_progress"
+   * console.log(result.observation); // "Status da tarefa task-id-123 atualizado para in_progress"
    * ```
    */
   public async execute(
@@ -291,11 +242,7 @@ export class ToDoIstTool extends ToolBase<
 
     switch (params.action) {
       case 'create': {
-        // Verificar se já existe uma lista
-        if (currentTaskList.items.length > 0) {
-          observation = `Já existe lista com ${currentTaskList.items.length} tarefa(s). Use delete_list primeiro para criar uma nova.`;
-          break;
-        }
+        const previousCount = currentTaskList.items.length;
 
         const titles: string[] = Array.isArray(params.tasks) ? params.tasks : [];
         const defaultStatus = (params.defaultStatus as any) || 'pending';
@@ -315,73 +262,10 @@ export class ToDoIstTool extends ToolBase<
         // Salvar no disco
         this.saveToDisk();
         const taskIds = updatedTaskList.items.map(item => item.id).join(', ');
-        observation = `Lista criada com ${titles.length} tarefa(s). IDs: ${taskIds}`;
-        break;
-      }
-
-      case 'add': {
-        const title = params.title || '';
-        const status = (params.status as any) || 'pending';
-        if (title) {
-          let newId: string;
-          
-          // Se ID específico foi fornecido, usar e recalcular
-          if (params.id) {
-            const requestedId = parseInt(params.id);
-            if (!isNaN(requestedId) && requestedId >= 0) {
-              // Inserir com ID específico e recalcular outros IDs
-              const newTask = { id: params.id, title, status };
-              
-              // Encontrar posição correta baseada no ID
-              let insertIndex = updatedTaskList.items.findIndex(item => 
-                parseInt(item.id) > requestedId
-              );
-              
-              // Atualizar this.currentTaskList diretamente (não usar cópia)
-              if (insertIndex === -1) {
-                // Adicionar no final
-                this.currentTaskList.items = [...currentTaskList.items, newTask];
-              } else {
-                // Inserir na posição correta
-                this.currentTaskList.items = [
-                  ...currentTaskList.items.slice(0, insertIndex),
-                  newTask,
-                  ...currentTaskList.items.slice(insertIndex)
-                ];
-              }
-              
-              // Recalcular IDs para manter sequência
-              this.recalculateIds();
-              // Atualizar a referência updatedTaskList com a lista recalculada
-              updatedTaskList = { ...this.currentTaskList };
-              // Encontrar o novo ID após recálculo
-              const updatedTask = this.currentTaskList.items.find(item => item.title === title);
-              newId = updatedTask ? updatedTask.id : this.getNextId();
-            } else {
-              // ID inválido, usar próximo sequencial
-              newId = this.getNextId();
-              updatedTaskList.items = [
-                ...currentTaskList.items,
-                { id: newId, title, status }
-              ];
-            }
-          } else {
-            // Usar próximo ID sequencial
-            newId = this.getNextId();
-            updatedTaskList.items = [
-              ...currentTaskList.items,
-              { id: newId, title, status }
-            ];
-          }
-          
-          // Atualizar taskList da instância
-          this.currentTaskList = updatedTaskList;
-          // Salvar no disco
-          this.saveToDisk();
-          observation = `Tarefa "${title}" adicionada (ID: ${newId})`;
-        } else {
-          observation = 'Título da tarefa não fornecido';
-        }
+        const overwrittenText = previousCount > 0
+          ? ` (sobrescreveu lista anterior com ${previousCount} tarefa(s))`
+          : '';
+        observation = `Lista criada com ${titles.length} tarefa(s). IDs: ${taskIds}${overwrittenText}`;
         break;
       }
 
@@ -418,21 +302,6 @@ export class ToDoIstTool extends ToolBase<
         break;
       }
 
-      case 'delete_task': {
-        const id = params.id || '';
-        const initialLength = updatedTaskList.items.length;
-        updatedTaskList.items = updatedTaskList.items.filter((i: any) => i.id !== id);
-        // Atualizar taskList da instância
-        this.currentTaskList = updatedTaskList;
-        // Salvar no disco
-        this.saveToDisk();
-        const remaining = updatedTaskList.items.length;
-        observation = updatedTaskList.items.length < initialLength
-          ? `Tarefa ${id} removida. Restam ${remaining} tarefa(s)`
-          : `Tarefa ${id} não encontrada`;
-        break;
-      }
-
       case 'delete_list': {
         updatedTaskList = { items: [] };
         // Reset contador
@@ -442,60 +311,6 @@ export class ToDoIstTool extends ToolBase<
         // Salvar no disco
         this.saveToDisk();
         observation = 'Lista de tarefas limpa. Todas as tarefas removidas.';
-        break;
-      }
-
-      case 'edit': {
-        const id = params.id || '';
-        const title = params.title;
-        const status = params.status as any;
-        const newId = params.newId;
-        
-        const idx = updatedTaskList.items.findIndex((i: any) => i.id === id);
-        if (idx >= 0) {
-          // Editar tarefa existente
-          const task = updatedTaskList.items[idx];
-          
-          // Atualizar título se fornecido
-          if (title !== undefined) {
-            task.title = title;
-          }
-          
-          // Atualizar status se fornecido
-          if (status) {
-            task.status = status;
-          }
-          
-          // Atualizar ID se fornecido
-          if (newId) {
-            const requestedNewId = parseInt(newId);
-            if (!isNaN(requestedNewId) && requestedNewId >= 0) {
-              // Verificar se o novo ID já existe
-              const existingTaskWithNewId = updatedTaskList.items.find((item, index) => 
-                item.id === newId && index !== idx
-              );
-              
-              if (!existingTaskWithNewId) {
-                task.id = newId;
-                // Recalcular IDs para manter sequência
-                this.recalculateIds();
-                // Atualizar a referência updatedTaskList com a lista recalculada
-                updatedTaskList = { ...this.currentTaskList };
-              } else {
-                // ID já existe, não permitir duplicação
-                observation = `ID ${newId} já está em uso por outra tarefa.`;
-              }
-            }
-          }
-          
-          // Atualizar taskList da instância
-          this.currentTaskList = updatedTaskList;
-          // Salvar no disco
-          this.saveToDisk();
-          observation = `Tarefa ${id} atualizada.`;
-        } else {
-          observation = `Tarefa ${id} não encontrada`;
-        }
         break;
       }
 
