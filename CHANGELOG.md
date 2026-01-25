@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.6] - 2026-01-25
+
+### Chore
+- Remove arquivos internos de planejamento (plan/resumo) do repositório.
+
 ## [0.0.5] - 2026-01-18
 
 ### Features

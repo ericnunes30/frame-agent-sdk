@@ -1,6 +1,6 @@
 {
   "name": "@ericnunes/frame-agent-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Framework criador de agentes com motor baseado em grafos, módulos reutilizáveis e um orchestrator baseado em steps muito simples e fácil de configurar.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
