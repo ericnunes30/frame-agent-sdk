@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
 import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 import { stream } from '@/providers/utils';
+import type { ProviderConfig, IProviderResponse } from '@/providers/adapter/providerAdapter.interface';
 
 /**
  * Provedor oficial da OpenAI para integração com modelos GPT.
@@ -108,6 +109,185 @@ export class OpenAIProvider {
     return { role: 'assistant', content: fullContent };
   }
 
+  private buildChatMessagesFromConfig(config: ProviderConfig): ChatCompletionMessageParam[] {
+    const normalizeRole = (role: string): 'user' | 'assistant' | 'system' => {
+      if (role === 'system') return 'system';
+      if (role === 'assistant') return 'assistant';
+      return 'user';
+    };
+
+    return [
+      { role: 'system', content: config.systemPrompt ?? '' },
+      ...config.messages.map((m) => ({
+        role: normalizeRole(m.role),
+        content: m.content as any,
+      })),
+    ];
+  }
+
+  private buildResponsesInputFromConfig(config: ProviderConfig): any[] {
+    const normalizeRole = (role: string): 'user' | 'assistant' | 'system' => {
+      if (role === 'system') return 'system';
+      if (role === 'assistant') return 'assistant';
+      return 'user';
+    };
+
+    return [
+      { role: 'system', content: config.systemPrompt ?? '' },
+      ...config.messages.map((m) => ({
+        role: normalizeRole(m.role),
+        content: m.content as any,
+      })),
+    ];
+  }
+
+  private extractThinkingSummaryFromResponsesOutput(output: any[]): string | null {
+    if (!Array.isArray(output)) return null;
+    const reasoning = output.find((it) => it?.type === 'reasoning');
+    const parts = Array.isArray(reasoning?.summary) ? reasoning.summary : [];
+    const text = parts.map((p: any) => p?.text ?? '').join('').trim();
+    return text.length > 0 ? text : null;
+  }
+
+  private async chatCompletionFromConfig(config: ProviderConfig): Promise<IProviderResponse> {
+    if (config.apiKey) {
+      this.client = new OpenAI({ apiKey: config.apiKey });
+    }
+
+    const thinkingMode = config.thinking?.mode ?? 'off';
+    const wrapTag = config.thinking?.wrapTag === true;
+
+    // Preferir Responses API quando for solicitado thinking (summary/raw)
+    if (thinkingMode !== 'off') {
+      const input = this.buildResponsesInputFromConfig(config);
+      const reasoning: any = {
+        ...(config.thinking?.effort ? { effort: config.thinking.effort } : {}),
+        summary: 'auto',
+      };
+
+      if (config.stream) {
+        const streamResp = await (this.client as any).responses.create({
+          model: config.model,
+          input,
+          reasoning,
+          ...(config.maxTokens !== undefined ? { max_output_tokens: config.maxTokens } : {}),
+          ...(config.temperature !== undefined ? { temperature: config.temperature } : {}),
+          ...(config.topP !== undefined ? { top_p: config.topP } : {}),
+          stream: true,
+        });
+
+        let finalText = '';
+        let thinkingSummary = '';
+        let thinkingRaw = '';
+
+        for await (const event of streamResp as AsyncIterable<any>) {
+          if (event?.type === 'response.output_text.delta') {
+            finalText += event.delta ?? '';
+            continue;
+          }
+          if (event?.type === 'response.reasoning_summary_part.added') {
+            thinkingSummary += event.part?.text ?? '';
+            continue;
+          }
+          if (event?.type === 'response.reasoning_summary_text.delta') {
+            thinkingSummary += event.delta ?? '';
+            continue;
+          }
+          if (thinkingMode === 'raw' && event?.type === 'response.reasoning_text.delta') {
+            thinkingRaw += event.delta ?? '';
+            continue;
+          }
+        }
+
+        const thinking =
+          (thinkingMode === 'raw' ? thinkingRaw : thinkingSummary).trim() ||
+          thinkingSummary.trim() ||
+          null;
+
+        const metadata: Record<string, unknown> = {
+          ...(thinking
+            ? {
+              thinking,
+              thinking_type: thinkingMode === 'raw' && thinkingRaw.trim() ? 'raw' : 'summary',
+              thinking_source: 'responses_summary',
+            }
+            : { thinking_source: 'none' }),
+        };
+
+        const content =
+          wrapTag && thinking
+            ? `<thinking>${thinking}</thinking>\n\n${finalText}`
+            : finalText || null;
+
+        return { role: 'assistant', content, metadata } as IProviderResponse;
+      }
+
+      const response = await (this.client as any).responses.create({
+        model: config.model,
+        input,
+        reasoning,
+        ...(config.maxTokens !== undefined ? { max_output_tokens: config.maxTokens } : {}),
+        ...(config.temperature !== undefined ? { temperature: config.temperature } : {}),
+        ...(config.topP !== undefined ? { top_p: config.topP } : {}),
+        stream: false,
+      });
+
+      const thinking = this.extractThinkingSummaryFromResponsesOutput(response?.output) ?? null;
+      const metadata: Record<string, unknown> = {
+        model: response?.model,
+        usage: response?.usage,
+        raw: response,
+        ...(thinking
+          ? { thinking, thinking_type: 'summary', thinking_source: 'responses_summary' }
+          : { thinking_source: 'none' }),
+      };
+
+      const outputText = response?.output_text ?? '';
+      const content = wrapTag && thinking ? `<thinking>${thinking}</thinking>\n\n${outputText}` : outputText || null;
+
+      return { role: 'assistant', content, metadata } as IProviderResponse;
+    }
+
+    // Default: Chat Completions API (sem thinking)
+    const formattedMessages = this.buildChatMessagesFromConfig(config);
+    const openAIParams: OpenAI.Chat.ChatCompletionCreateParams = {
+      messages: formattedMessages,
+      model: config.model,
+      temperature: config.temperature,
+    };
+
+    if (config.maxTokens !== undefined) openAIParams.max_tokens = config.maxTokens;
+    if (config.topP !== undefined) openAIParams.top_p = config.topP;
+
+    if (config.stream) {
+      const streamResponse = await this.client.chat.completions.create({
+        ...openAIParams,
+        stream: true,
+        ...(config.thinking?.effort ? ({ reasoning_effort: config.thinking.effort } as any) : {}),
+      } as any);
+      const msg = await this._processStream(streamResponse as any);
+      return { role: 'assistant', content: msg.content, metadata: { thinking_source: 'none' } } as IProviderResponse;
+    }
+
+    const response = await this.client.chat.completions.create({
+      ...openAIParams,
+      stream: false,
+      ...(config.thinking?.effort ? ({ reasoning_effort: config.thinking.effort } as any) : {}),
+    } as any);
+
+    const content = (response.choices[0]?.message as any)?.content ?? null;
+    return {
+      role: 'assistant',
+      content,
+      metadata: {
+        model: (response as any).model,
+        usage: (response as any).usage,
+        raw: response,
+        thinking_source: 'none',
+      },
+    } as IProviderResponse;
+  }
+
   /**
    * Executa uma chamada de chat completion usando a API da OpenAI.
    * 
@@ -177,7 +357,7 @@ export class OpenAIProvider {
    * - Streaming retorna um iterador assíncrono de chunks
    */
   async chatCompletion(
-    chatHistory: Array<{ role: string; content: string }>,
+    chatHistoryOrConfig: any,
     model: string,
     apiKey: string,
     temperature: number,
@@ -186,6 +366,12 @@ export class OpenAIProvider {
     maxTokens?: number,
     topP?: number,
   ): Promise<any> {
+    if (chatHistoryOrConfig && typeof chatHistoryOrConfig === 'object' && Array.isArray(chatHistoryOrConfig.messages)) {
+      return this.chatCompletionFromConfig(chatHistoryOrConfig as ProviderConfig);
+    }
+
+    const chatHistory = chatHistoryOrConfig as Array<{ role: string; content: string }>;
+
     // Atualizar cliente se nova API key for fornecida
     if (apiKey) {
       this.client = new OpenAI({ apiKey });

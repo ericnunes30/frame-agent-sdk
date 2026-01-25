@@ -9,6 +9,31 @@ import { toolRegistry } from '@/tools/core/toolRegistry';
 import { generateTypedSchema } from '@/tools/constructor/schemaGenerator';
 import { applyToolPolicyToToolNames, applyToolPolicyToToolSchemas } from '@/tools/policy/toolPolicyApplier';
 
+const TODOIST_LONG_TERM_ALGORITHM_MD = `## Algoritmo de Execução (Longo Prazo / State Machine)
+
+A cada turno, escolha **1 estado** e só avance quando tiver **evidência** (logs/testes/arquivos) — não assuma.
+
+### ESTADO 1 — Aquisição de Contexto
+- Se não entendeu estrutura/arquivos: use tools de leitura/busca antes de planejar.
+
+### ESTADO 2 — Planejamento (Lista de Tarefas via \`toDoIst\`)
+- Sempre trabalhe com um plano explícito em lista de tarefas.
+- Leia a lista atual com \`toDoIst\` \`action: "get"\` (para descobrir IDs e status).
+- Quando precisar (re)planejar, use \`toDoIst\` \`action: "create"\` com \`tasks: [...]\`.
+  - \`create\` **sobrescreve** a lista atual (se existir) e cria uma nova lista do zero.
+
+### ESTADO 3 — Execução Focada
+- Execute **uma tarefa por vez**.
+- Marque a tarefa por \`id\` com \`toDoIst\` \`action: "update_status"\` (\`in_progress\` → \`completed\`).
+
+### ESTADO 4 — Garantia de Qualidade
+- Valide com evidência (build/test/execução real).
+- Se falhar: não finalize; replaneje e siga.
+
+### ESTADO 5 — Finalização
+- Quando o trabalho terminar: \`toDoIst\` \`action: "complete_all"\` e responda com \`final_answer\`.
+`;
+
 /**
  * Classe utilitária estática para gerenciar e construir System Prompts
  * baseados em modo do agente, informações do agente e tools disponíveis.
@@ -273,6 +298,10 @@ export class PromptBuilder {
     finalTools = applyToolPolicyToToolSchemas(finalTools, toolPolicy);
 
     const parts: string[] = [];
+    const hasToDoIstTool = Boolean(
+      finalTools?.some((t) => t.name === 'toDoIst') ||
+      toolNames?.includes('toDoIst')
+    );
 
     // 1) Validação e obtenção do modo registrado
     const modeBuilder = PromptBuilder.promptModes.get(mode);
@@ -300,13 +329,17 @@ export class PromptBuilder {
     // 3) Instruções adicionais (se fornecidas)
     const hasAdditionalInstructions = additionalInstructions;
     const isValidInstruction = hasAdditionalInstructions && String(additionalInstructions).trim().length > 0;
-    if (isValidInstruction) {
+    const instructionBlocks: string[] = [];
+    if (isValidInstruction) instructionBlocks.push(String(additionalInstructions));
+    if (hasToDoIstTool) instructionBlocks.push(TODOIST_LONG_TERM_ALGORITHM_MD);
+
+    if (instructionBlocks.length > 0) {
       const additionalSection = [
         '---',
         '',
         '## Prompt Instructions',
         '',
-        String(additionalInstructions)
+        instructionBlocks.join('\n\n')
       ].join('\n');
       parts.push(additionalSection);
     }

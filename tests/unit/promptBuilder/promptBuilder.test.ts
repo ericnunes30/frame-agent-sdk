@@ -101,6 +101,41 @@ describe('PromptBuilder', () => {
             expect(prompt).toContain('- [pending] Task 1 (id: 1)');
             expect(prompt).toContain('- [completed] Task 2 (id: 2)');
         });
+
+        it('deve injetar algoritmo de longo prazo quando toDoIst estiver disponível', () => {
+            // Arrange
+            const tools: ToolSchema[] = [
+                { name: 'toDoIst', description: 'Task list tool', parameterSchema: 'class toDoIst = {}' }
+            ];
+
+            // Act
+            const prompt = PromptBuilder.buildSystemPrompt({
+                mode: mockMode,
+                agentInfo: mockAgentInfo,
+                tools
+            });
+
+            // Assert
+            expect(prompt).toContain('## Algoritmo de Execução');
+            expect(prompt).toContain('toDoIst');
+        });
+
+        it('não deve injetar algoritmo de longo prazo quando toDoIst não estiver disponível', () => {
+            // Arrange
+            const tools: ToolSchema[] = [
+                { name: 'tool1', description: 'Some tool', parameterSchema: 'class tool1 = {}' }
+            ];
+
+            // Act
+            const prompt = PromptBuilder.buildSystemPrompt({
+                mode: mockMode,
+                agentInfo: mockAgentInfo,
+                tools
+            });
+
+            // Assert
+            expect(prompt).not.toContain('## Algoritmo de Execução');
+        });
     });
 
     describe('buildToolsPrompt (via buildSystemPrompt)', () => {

@@ -179,6 +179,40 @@ export interface ProviderConfig {
    * Contexto de telemetria para correlação (runId/orchestrator/agent).
    */
   traceContext?: TraceContext;
+
+  /**
+   * Configura como o SDK deve lidar com "thinking"/reasoning separado do texto final.
+   *
+   * Regras do SDK:
+   * - `IProviderResponse.content` deve conter apenas o texto final (user-facing).
+   * - Quando disponÇðvel, o thinking deve ser retornado em `IProviderResponse.metadata.thinking`.
+   * - O SDK nÇœo deve persistir thinking em memÇüria/histÇürico por padrÇœo (como nÇœo entra em `content`).
+   */
+  thinking?: {
+    /**
+     * Modo de thinking:
+     * - `off`: nÇœo extrai/retorna thinking (mas pode remover tags do texto final para nÇœo vazar).
+     * - `summary`: preferir um resumo do reasoning (quando o provedor suportar).
+     * - `raw`: retornar thinking bruto quando o provedor expuser (use com cuidado).
+     *
+     * @default "off"
+     */
+    mode?: 'off' | 'summary' | 'raw';
+
+    /**
+     * EsforÇõo de reasoning quando suportado pelo modelo/provedor.
+     * Ex.: OpenAI Responses: low|medium|high; alguns modelos suportam none.
+     */
+    effort?: 'none' | 'low' | 'medium' | 'high';
+
+    /**
+     * Se true, reconstrÇüi o `content` com tags `<thinking>...</thinking>` quando houver thinking.
+     * Use apenas para compatibilidade com UIs/pipelines que exigem tags no texto.
+     *
+     * @default false
+     */
+    wrapTag?: boolean;
+  };
 }
 
 /** 
