@@ -44,3 +44,5 @@ outputsrun-*
 # Crawl4AI
 crawl4/.crawl4ai/
 crawl4/runs/
+
+*.md
