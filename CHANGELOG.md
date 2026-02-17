@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.9] - 2026-02-17
+
+### Bug Fixes
+- ReAct validation: translated runtime validation error messages to English in `validateReAct` to avoid mojibake/encoding artifacts in CLI feedback.
+- ProviderAdapter: normalize provider aliases (`openai-compatible` and `openaicompatible`) to `openaiCompatible` for consistent provider resolution and native telemetry gating.
+
 ## [0.0.6] - 2026-01-25
 
 ### Chore

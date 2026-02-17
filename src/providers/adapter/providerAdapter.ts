@@ -110,7 +110,7 @@ export class ProviderAdapter {
     logger.info(`[ProviderAdapter] Iniciando chatCompletion com modelo: ${config.model}`);
 
     // Determinar provedor: usar explícito se disponível, senão inferir do modelo
-    let providerName = config.provider || config.model.split('-')[0];
+    let providerName = ProviderAdapter._normalizeProviderName(config.provider || config.model.split('-')[0]);
     logger.debug(`[ProviderAdapter] Provedor determinado: ${providerName} (Explícito: ${!!config.provider})`);
 
     // Aplicar defaults para parâmetros não especificados
@@ -275,11 +275,20 @@ export class ProviderAdapter {
    */
   static hasProvider(providerName: string): boolean {
     try {
-      getProvider(providerName);
+      getProvider(ProviderAdapter._normalizeProviderName(providerName));
       return true;
     } catch {
       return false;
     }
+  }
+
+  private static _normalizeProviderName(providerName: string): string {
+    const normalized = providerName.trim();
+    const lower = normalized.toLowerCase();
+    if (lower === 'openai-compatible' || lower === 'openaicompatible') {
+      return 'openaiCompatible';
+    }
+    return normalized;
   }
 
   private static _buildNativeLlmTelemetryData(config: ProviderConfig): Record<string, unknown> | undefined {
