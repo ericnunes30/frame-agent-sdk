@@ -153,6 +153,21 @@ export class ProviderAdapter {
     const spanId = createTraceId();
     const startedAt = Date.now();
     if (traceContext) {
+      const data: Record<string, unknown> = {
+        temperature: config.temperature,
+        maxTokens: config.maxTokens,
+        topP: config.topP,
+      };
+
+      if (config.telemetry?.includePrompts) {
+        data.prompt = {
+          systemPrompt: config.systemPrompt ?? '',
+          messages: Array.isArray(config.messages)
+            ? config.messages.map((m) => ({ role: m.role, content: sanitizeForLogs(m.content) }))
+            : [],
+        };
+      }
+
       emitTrace({
         trace: config.trace,
         options: config.telemetry,
@@ -162,7 +177,7 @@ export class ProviderAdapter {
           level: 'info',
           spanId,
           llm: { provider: providerName, model: config.model, stream: Boolean(config.stream) },
-          data: { temperature: config.temperature, maxTokens: config.maxTokens, topP: config.topP },
+          data,
         },
       });
     }
@@ -196,6 +211,7 @@ export class ProviderAdapter {
             spanId,
             timing: { startedAt: new Date(startedAt).toISOString(), durationMs: Date.now() - startedAt },
             llm: { provider: providerName, model: config.model, stream: Boolean(config.stream), usage, finishReason },
+            data: config.telemetry?.includePrompts ? { outputPreview: (result as any)?.content ?? null } : undefined,
           },
         });
       }

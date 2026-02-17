@@ -470,6 +470,8 @@ export class GraphEngine {
     const metadata = { ...(state.metadata ?? {}) } as Record<string, unknown>;
     const runId = (metadata.runId as string | undefined) ?? createTraceId();
     const parentRunId = metadata.parentRunId as string | undefined;
+    const sessionId = metadata.sessionId as string | undefined;
+    const userId = metadata.userId as string | undefined;
     metadata.runId = runId;
     if (parentRunId) metadata.parentRunId = parentRunId;
     state = { ...state, metadata };
@@ -485,7 +487,12 @@ export class GraphEngine {
     this.emitTrace(state, {
       type: 'run_started',
       level: 'info',
-      data: { entryPoint: this.definition.entryPoint, resume: Boolean((initialState.metadata as any)?.runId) },
+      data: {
+        entryPoint: this.definition.entryPoint,
+        resume: Boolean((initialState.metadata as any)?.runId),
+        ...(sessionId ? { sessionId } : {}),
+        ...(userId ? { userId } : {}),
+      },
     });
 
     // 3. Loop principal de execução

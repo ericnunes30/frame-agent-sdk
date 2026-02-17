@@ -67,6 +67,18 @@ O SDK possui um sistema de logging configurável via variável de ambiente `DEBU
 - **`DEBUG=True`** ou **`DEBUG=true`**: Exibe todos os logs (DEBUG, INFO, WARN, ERROR)
 - **`DEBUG=False`** ou não definido: Exibe apenas WARN e ERROR
 
+### Telemetria / Observabilidade (traces)
+
+O SDK emite eventos de telemetria via um `TraceSink` (push) e controla volume/redaction via `TelemetryOptions`.
+
+Principais pontos:
+
+- `TelemetryOptions.enabled=true` liga emissão de eventos.
+- `TelemetryOptions.includePrompts=true` inclui um snapshot sanitizado de `systemPrompt` + `messages` no evento `llm_request_started` (use com cuidado).
+- O SDK aplica redaction/truncation (ex.: `sk-...`, `Bearer ...`, `*_API_KEY=...`) antes de entregar no sink.
+
+Observação: integrações específicas (ex.: Langfuse) ficam no `@ericnunes/frame-agent-core` (ou plugins), mantendo o SDK agnóstico.
+
 ### Estrutura do Projeto
 
 ```
