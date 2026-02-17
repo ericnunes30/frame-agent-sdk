@@ -1,7 +1,11 @@
 import OpenAI from 'openai';
 import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 import { stream } from '@/providers/utils';
-import type { ProviderConfig, IProviderResponse } from '@/providers/adapter/providerAdapter.interface';
+import type {
+  ProviderConfig,
+  IProviderResponse,
+  OpenAIClientFactory,
+} from '@/providers/adapter/providerAdapter.interface';
 
 /**
  * Provedor oficial da OpenAI para integração com modelos GPT.
@@ -54,6 +58,7 @@ export class OpenAIProvider {
   
   /** Cliente oficial da OpenAI */
   private client: OpenAI;
+  private readonly openAIClientFactory?: OpenAIClientFactory;
 
   /**
    * Cria uma nova instância do provedor OpenAI.
@@ -68,11 +73,12 @@ export class OpenAIProvider {
    * 
    * @throws {Error} Se a API key não for fornecida
    */
-  constructor(apiKey: string) {
+  constructor(apiKey: string, openAIClientFactory?: OpenAIClientFactory) {
     if (!apiKey) {
       throw new Error('API key da OpenAI deve ser fornecida');
     }
-    this.client = new OpenAI({ apiKey });
+    this.openAIClientFactory = openAIClientFactory;
+    this.client = this.createClient({ apiKey, providerName: 'openai' });
   }
 
   /**
@@ -107,6 +113,35 @@ export class OpenAIProvider {
     }
     
     return { role: 'assistant', content: fullContent };
+  }
+
+  private createClient(args: {
+    apiKey: string;
+    baseUrl?: string;
+    providerName: 'openai' | 'openaiCompatible';
+    config?: ProviderConfig;
+  }): OpenAI {
+    const createDefaultClient = () =>
+      new OpenAI({
+        apiKey: args.apiKey,
+        ...(args.baseUrl ? { baseURL: args.baseUrl } : {}),
+      });
+
+    const clientFactory = args.config?.openAIClientFactory ?? this.openAIClientFactory;
+    if (!clientFactory) return createDefaultClient();
+
+    const created = clientFactory({
+      apiKey: args.apiKey,
+      baseUrl: args.baseUrl,
+      providerName: args.providerName,
+      model: args.config?.model,
+      traceContext: args.config?.traceContext,
+      telemetry: args.config?.telemetry,
+      nativeLlmTelemetry: args.config?.nativeLlmTelemetry,
+      createDefaultClient,
+    });
+
+    return (created ?? createDefaultClient()) as OpenAI;
   }
 
   private buildChatMessagesFromConfig(config: ProviderConfig): ChatCompletionMessageParam[] {
@@ -151,7 +186,12 @@ export class OpenAIProvider {
 
   private async chatCompletionFromConfig(config: ProviderConfig): Promise<IProviderResponse> {
     if (config.apiKey) {
-      this.client = new OpenAI({ apiKey: config.apiKey });
+      this.client = this.createClient({
+        apiKey: config.apiKey,
+        baseUrl: config.baseUrl,
+        providerName: 'openai',
+        config,
+      });
     }
 
     const thinkingMode = config.thinking?.mode ?? 'off';
@@ -374,7 +414,7 @@ export class OpenAIProvider {
 
     // Atualizar cliente se nova API key for fornecida
     if (apiKey) {
-      this.client = new OpenAI({ apiKey });
+      this.client = this.createClient({ apiKey, providerName: 'openai' });
     }
 
     const formattedMessages: ChatCompletionMessageParam[] = [

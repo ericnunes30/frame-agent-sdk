@@ -1,8 +1,12 @@
 // src/llm/llm.ts
 import { ProviderAdapter } from '../../providers/adapter/providerAdapter';
 import type { Message } from '../../memory';
-import type { IProviderResponse } from '../../providers/adapter/providerAdapter.interface';
-import type { ProviderConfig } from '../../providers/adapter/providerAdapter.interface';
+import type {
+  IProviderResponse,
+  ProviderConfig,
+  OpenAIClientFactory,
+  NativeLlmTelemetryConfig,
+} from '../../providers/adapter/providerAdapter.interface';
 import { PromptBuilder } from '../../promptBuilder';
 import type { PromptBuilderConfig, PromptMode, AgentInfo, ToolSchema } from '../../promptBuilder';
 
@@ -94,6 +98,8 @@ export class AgentLLM {
   /** Provedor explÃ­cito (opcional) */
   private readonly provider?: string;
   private readonly capabilities?: ProviderConfig['capabilities'];
+  private readonly openAIClientFactory?: OpenAIClientFactory;
+  private readonly nativeLlmTelemetry?: NativeLlmTelemetryConfig;
 
   /**
    * Cria uma instÃ¢ncia de AgentLLM a partir de uma configuraÃ§Ã£o estruturada.
@@ -131,6 +137,8 @@ export class AgentLLM {
       baseUrl: config.baseUrl,
       defaults: config.defaults,
       capabilities: config.capabilities,
+      openAIClientFactory: config.openAIClientFactory,
+      nativeLlmTelemetry: config.nativeLlmTelemetry,
     });
   }
 
@@ -172,6 +180,8 @@ export class AgentLLM {
     defaults?: ProviderDefaults;
     baseUrl?: string;
     capabilities?: ProviderConfig['capabilities'];
+    openAIClientFactory?: OpenAIClientFactory;
+    nativeLlmTelemetry?: NativeLlmTelemetryConfig;
   }) {
     this.model = params.model;
     this.provider = params.provider;
@@ -179,6 +189,8 @@ export class AgentLLM {
     this.defaults = params.defaults ?? {};
     this.baseUrl = params.baseUrl;
     this.capabilities = params.capabilities;
+    this.openAIClientFactory = params.openAIClientFactory;
+    this.nativeLlmTelemetry = params.nativeLlmTelemetry;
   }
 
   /**
@@ -309,6 +321,8 @@ export class AgentLLM {
           trace: args.trace,
           telemetry: args.telemetry,
           traceContext: args.traceContext,
+          openAIClientFactory: this.openAIClientFactory,
+          nativeLlmTelemetry: this.nativeLlmTelemetry,
         };
 
         const resp: IProviderResponse = await ProviderAdapter.chatCompletion(config);

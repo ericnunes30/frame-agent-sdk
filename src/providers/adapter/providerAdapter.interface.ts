@@ -3,6 +3,25 @@ import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
 import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
 import type { Message } from '@/memory';
 
+export interface NativeLlmTelemetryConfig {
+  enabled: boolean;
+  provider?: string;
+  integration?: string;
+}
+
+export type OpenAIClientFactoryArgs = {
+  apiKey: string;
+  baseUrl?: string;
+  providerName: 'openai' | 'openaiCompatible';
+  model?: string;
+  traceContext?: TraceContext;
+  telemetry?: TelemetryOptions;
+  nativeLlmTelemetry?: NativeLlmTelemetryConfig;
+  createDefaultClient: () => unknown;
+};
+
+export type OpenAIClientFactory = (args: OpenAIClientFactoryArgs) => unknown;
+
 /**
  * Interface para definir o contrato de um provedor
  * 
@@ -179,6 +198,18 @@ export interface ProviderConfig {
    * Contexto de telemetria para correlação (runId/orchestrator/agent).
    */
   traceContext?: TraceContext;
+
+  /**
+   * Factory opcional para criar/wrappear cliente OpenAI em runtime.
+   * Permite integração híbrida (ex.: observeOpenAI) sem acoplar o SDK a um vendor.
+   */
+  openAIClientFactory?: OpenAIClientFactory;
+
+  /**
+   * Sinaliza que a instrumentação nativa do provider está ativa (modo híbrido).
+   * O SDK continua emitindo eventos manuais; sinks podem decidir deduplicar.
+   */
+  nativeLlmTelemetry?: NativeLlmTelemetryConfig;
 
   /**
    * Configura como o SDK deve lidar com "thinking"/reasoning separado do texto final.

@@ -17,22 +17,31 @@ export class ToDoIstParams implements IToolParams {
   public id?: string
   /** Status da tarefa (pending, in_progress, completed) */
   public status?: string
+  /** Título de uma tarefa (para ação add_task) */
+  public title?: string
   /** Lista de títulos de tarefas (para ação create) */
   public tasks?: string[]
   /** Status padrão para novas tarefas (para ação create) */
   public defaultStatus?: string
+  /** Posição opcional para inserir tarefa(s) (para ação add_task) */
+  public insertAt?: number
+  /** IDs em ordem de prioridade (para ação reorder_tasks). IDs não listados ficam ao final preservando ordem relativa */
+  public orderedIds?: string[]
 
   /** Schema de validação para os parâmetros */
   static schemaProperties = {
     action: { 
       type: 'string', 
       required: true, 
-      enum: ['create', 'update_status', 'complete_all', 'delete_list', 'get']
+      enum: ['create', 'add_task', 'remove_task', 'reorder_tasks', 'update_status', 'complete_all', 'delete_list', 'get']
     },
     id: { type: 'string', required: false },
     status: { type: 'string', required: false, enum: ['pending', 'in_progress', 'completed'] },
+    title: { type: 'string', required: false },
     tasks: { type: 'array', items: { type: 'string' }, required: false },
     defaultStatus: { type: 'string', required: false, enum: ['pending', 'in_progress', 'completed'] },
+    insertAt: { type: 'number', required: false },
+    orderedIds: { type: 'array', items: { type: 'string' }, required: false },
   }
 }
 
@@ -74,6 +83,9 @@ export interface TodoListMetadata {
  * ## Ações Suportadas
  * 
  * - **create**: Cria uma nova lista com tarefas iniciais (sobrescreve a lista atual, se existir)
+ * - **add_task**: Adiciona uma ou mais tarefas sem sobrescrever a lista atual
+ * - **remove_task**: Remove uma tarefa específica por ID
+ * - **reorder_tasks**: Reordena tarefas de forma incremental por IDs priorizados
  * - **update_status**: Atualiza status de tarefa específica
  * - **complete_all**: Marca todas as tarefas como concluídas
  * - **delete_list**: Remove todas as tarefas da lista (permite criar nova lista depois)
@@ -121,7 +133,7 @@ export class ToDoIstTool extends ToolBase<
   /** Nome da ferramenta no sistema */
   public readonly name = 'toDoIst'
   /** Descrição da funcionalidade da ferramenta */
-  public readonly description = 'Gerencia uma lista de tarefas simples (sem subtarefas). IDs são gerados automaticamente na criação - NÃO informe id na ação create.'
+  public readonly description = 'Gerencia uma lista de tarefas simples (sem subtarefas). Ações e parâmetros: create(tasks[], defaultStatus?) [sobrescreve lista]; add_task(title|tasks[], defaultStatus?, insertAt?); remove_task(id); reorder_tasks(orderedIds[]) [IDs não informados mantêm ordem relativa no final]; update_status(id, status); complete_all; delete_list; get. IDs são gerados automaticamente.'
   /** Schema de parâmetros para validação */
   public readonly parameterSchema = ToDoIstParams
   
@@ -266,6 +278,111 @@ export class ToDoIstTool extends ToolBase<
           ? ` (sobrescreveu lista anterior com ${previousCount} tarefa(s))`
           : '';
         observation = `Lista criada com ${titles.length} tarefa(s). IDs: ${taskIds}${overwrittenText}`;
+        break;
+      }
+
+      case 'add_task': {
+        const titles: string[] = [];
+        if (typeof params.title === 'string' && params.title.trim().length > 0) {
+          titles.push(params.title.trim());
+        }
+        if (Array.isArray(params.tasks)) {
+          for (const taskTitle of params.tasks) {
+            const normalizedTitle = String(taskTitle).trim();
+            if (normalizedTitle.length > 0) titles.push(normalizedTitle);
+          }
+        }
+
+        if (titles.length === 0) {
+          observation = 'Nenhuma tarefa informada para add_task. Use "title" ou "tasks".';
+          break;
+        }
+
+        const defaultStatus = (params.defaultStatus as any) || 'pending';
+        const newItems = titles.map((title) => ({
+          id: this.getNextId(),
+          title,
+          status: defaultStatus
+        }));
+
+        const requestedIndex =
+          typeof params.insertAt === 'number' && Number.isFinite(params.insertAt)
+            ? Math.trunc(params.insertAt)
+            : updatedTaskList.items.length;
+        const insertAt = Math.max(0, Math.min(requestedIndex, updatedTaskList.items.length));
+
+        updatedTaskList = {
+          items: [
+            ...updatedTaskList.items.slice(0, insertAt),
+            ...newItems,
+            ...updatedTaskList.items.slice(insertAt),
+          ]
+        };
+
+        this.currentTaskList = updatedTaskList;
+        this.saveToDisk();
+        const taskIds = newItems.map((item) => item.id).join(', ');
+        observation = `Adicionada(s) ${newItems.length} tarefa(s) na posição ${insertAt}. IDs: ${taskIds}`;
+        break;
+      }
+
+      case 'remove_task': {
+        const id = params.id || '';
+        if (!id) {
+          observation = 'Informe "id" para remover uma tarefa.';
+          break;
+        }
+
+        const taskToRemove = updatedTaskList.items.find((item) => item.id === id);
+        if (!taskToRemove) {
+          observation = `Tarefa ${id} não encontrada`;
+          break;
+        }
+
+        updatedTaskList = {
+          items: updatedTaskList.items.filter((item) => item.id !== id)
+        };
+        this.currentTaskList = updatedTaskList;
+        this.saveToDisk();
+        observation = `Tarefa ${id} removida: "${taskToRemove.title}".`;
+        break;
+      }
+
+      case 'reorder_tasks': {
+        const orderedIds = Array.isArray(params.orderedIds)
+          ? params.orderedIds.map((id) => String(id))
+          : [];
+
+        if (orderedIds.length === 0) {
+          observation = 'Informe "orderedIds" para reordenar tarefas.';
+          break;
+        }
+
+        const duplicateIds = orderedIds.filter((id, idx) => orderedIds.indexOf(id) !== idx);
+        if (duplicateIds.length > 0) {
+          observation = `orderedIds contém IDs duplicados: ${Array.from(new Set(duplicateIds)).join(', ')}`;
+          break;
+        }
+
+        const currentIds = new Set(updatedTaskList.items.map((item) => item.id));
+        const invalidIds = orderedIds.filter((id) => !currentIds.has(id));
+        if (invalidIds.length > 0) {
+          observation = `IDs inválidos em orderedIds: ${invalidIds.join(', ')}`;
+          break;
+        }
+
+        const byId = new Map(updatedTaskList.items.map((item) => [item.id, item] as const));
+        const prioritized = orderedIds.map((id) => byId.get(id)!).filter(Boolean);
+        const prioritizedSet = new Set(orderedIds);
+        const remaining = updatedTaskList.items.filter((item) => !prioritizedSet.has(item.id));
+
+        updatedTaskList = {
+          items: [...prioritized, ...remaining]
+        };
+
+        this.currentTaskList = updatedTaskList;
+        this.saveToDisk();
+        observation = `Ordem atualizada com ${orderedIds.length} tarefa(s) priorizada(s).`;
         break;
       }
 

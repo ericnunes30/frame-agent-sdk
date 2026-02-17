@@ -110,7 +110,7 @@ export class ProviderAdapter {
     logger.info(`[ProviderAdapter] Iniciando chatCompletion com modelo: ${config.model}`);
 
     // Determinar provedor: usar explícito se disponível, senão inferir do modelo
-    let providerName = config.provider || config.model.split('-')[0];
+    let providerName = ProviderAdapter._normalizeProviderName(config.provider || config.model.split('-')[0]);
     logger.debug(`[ProviderAdapter] Provedor determinado: ${providerName} (Explícito: ${!!config.provider})`);
 
     // Aplicar defaults para parâmetros não especificados
@@ -133,7 +133,7 @@ export class ProviderAdapter {
     logger.debug(`[ProviderAdapter] Obtendo provedor: ${providerName}`);
     const ProviderClass: any = getProvider(providerName);
     logger.debug(`[ProviderAdapter] Criando instância do provedor`);
-    const provider = new ProviderClass(config.apiKey);
+    const provider = new ProviderClass(config.apiKey, config.openAIClientFactory);
 
     // Extrair nome do modelo sem o prefixo do provedor
     const model = config.model.startsWith(providerName + '-')
@@ -152,12 +152,23 @@ export class ProviderAdapter {
     const traceContext = config.traceContext;
     const spanId = createTraceId();
     const startedAt = Date.now();
+    const nativeLlmTelemetryDataBase = ProviderAdapter._buildNativeLlmTelemetryData(config);
+    const nativeLlmTelemetryData =
+      nativeLlmTelemetryDataBase &&
+      (providerName === 'openai' || providerName === 'openaiCompatible') &&
+      config.openAIClientFactory
+        ? nativeLlmTelemetryDataBase
+        : undefined;
     if (traceContext) {
       const data: Record<string, unknown> = {
         temperature: config.temperature,
         maxTokens: config.maxTokens,
         topP: config.topP,
       };
+
+      if (nativeLlmTelemetryData) {
+        data.nativeLlmTelemetry = nativeLlmTelemetryData;
+      }
 
       if (config.telemetry?.includePrompts) {
         data.prompt = {
@@ -211,7 +222,11 @@ export class ProviderAdapter {
             spanId,
             timing: { startedAt: new Date(startedAt).toISOString(), durationMs: Date.now() - startedAt },
             llm: { provider: providerName, model: config.model, stream: Boolean(config.stream), usage, finishReason },
-            data: config.telemetry?.includePrompts ? { outputPreview: (result as any)?.content ?? null } : undefined,
+            data: ProviderAdapter._buildCompletionData({
+              includePrompts: Boolean(config.telemetry?.includePrompts),
+              outputPreview: (result as any)?.content ?? null,
+              nativeLlmTelemetryData,
+            }),
           },
         });
       }
@@ -230,6 +245,7 @@ export class ProviderAdapter {
             timing: { startedAt: new Date(startedAt).toISOString(), durationMs: Date.now() - startedAt },
             llm: { provider: providerName, model: config.model, stream: Boolean(config.stream) },
             message: (error as Error).message,
+            data: nativeLlmTelemetryData ? { nativeLlmTelemetry: nativeLlmTelemetryData } : undefined,
           },
         });
       }
@@ -259,11 +275,42 @@ export class ProviderAdapter {
    */
   static hasProvider(providerName: string): boolean {
     try {
-      getProvider(providerName);
+      getProvider(ProviderAdapter._normalizeProviderName(providerName));
       return true;
     } catch {
       return false;
     }
+  }
+
+  private static _normalizeProviderName(providerName: string): string {
+    const normalized = providerName.trim();
+    const lower = normalized.toLowerCase();
+    if (lower === 'openai-compatible' || lower === 'openaicompatible') {
+      return 'openaiCompatible';
+    }
+    return normalized;
+  }
+
+  private static _buildNativeLlmTelemetryData(config: ProviderConfig): Record<string, unknown> | undefined {
+    if (!config.nativeLlmTelemetry?.enabled) return undefined;
+    const provider = config.nativeLlmTelemetry.provider;
+    const integration = config.nativeLlmTelemetry.integration;
+    return {
+      enabled: true,
+      ...(typeof provider === 'string' && provider.trim().length > 0 ? { provider } : {}),
+      ...(typeof integration === 'string' && integration.trim().length > 0 ? { integration } : {}),
+    };
+  }
+
+  private static _buildCompletionData(args: {
+    includePrompts: boolean;
+    outputPreview: unknown;
+    nativeLlmTelemetryData?: Record<string, unknown>;
+  }): Record<string, unknown> | undefined {
+    const data: Record<string, unknown> = {};
+    if (args.includePrompts) data.outputPreview = args.outputPreview;
+    if (args.nativeLlmTelemetryData) data.nativeLlmTelemetry = args.nativeLlmTelemetryData;
+    return Object.keys(data).length > 0 ? data : undefined;
   }
 
   /** 

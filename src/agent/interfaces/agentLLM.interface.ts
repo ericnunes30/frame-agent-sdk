@@ -1,3 +1,8 @@
+import type {
+    NativeLlmTelemetryConfig,
+    OpenAIClientFactory,
+} from '@/providers/adapter/providerAdapter.interface';
+
 /**
  * Parâmetros padrão por provedor de LLM.
  * 
@@ -224,4 +229,15 @@ export interface AgentLLMConfig {
     capabilities?: {
         supportsVision?: boolean;
     };
+
+    /**
+     * Factory opcional para criar/wrappear cliente OpenAI por chamada.
+     * Ex.: integração com observabilidade nativa sem acoplamento no SDK.
+     */
+    openAIClientFactory?: OpenAIClientFactory;
+
+    /**
+     * Contexto da instrumentação nativa de LLM (modo híbrido).
+     */
+    nativeLlmTelemetry?: NativeLlmTelemetryConfig;
 }

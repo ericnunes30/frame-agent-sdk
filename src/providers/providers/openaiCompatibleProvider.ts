@@ -1,7 +1,11 @@
 import OpenAI from 'openai';
 import { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 import { stream } from '@/providers/utils';
-import type { ProviderConfig, IProviderResponse } from '@/providers/adapter/providerAdapter.interface';
+import type {
+  ProviderConfig,
+  IProviderResponse,
+  OpenAIClientFactory,
+} from '@/providers/adapter/providerAdapter.interface';
 import { logger } from '@/utils/logger';
 import { hasImages, sanitizeForLogs } from '@/memory';
 import { VisionNotSupportedError } from '@/providers/errors';
@@ -70,6 +74,7 @@ export class OpenAICompatibleProvider {
 
   /** Cliente OpenAI configurado com baseUrl customizada */
   private client: OpenAI;
+  private readonly openAIClientFactory?: OpenAIClientFactory;
 
   /**
    * Cria uma nova instância do provedor compatível com OpenAI.
@@ -88,11 +93,12 @@ export class OpenAICompatibleProvider {
    * 
    * @throws {Error} Se a API key não for fornecida
    */
-  constructor(apiKey: string) {
+  constructor(apiKey: string, openAIClientFactory?: OpenAIClientFactory) {
     if (!apiKey) {
       throw new Error('API key é obrigatória para provedores compatíveis com OpenAI');
     }
-    this.client = new OpenAI({ apiKey });
+    this.openAIClientFactory = openAIClientFactory;
+    this.client = this.createClient({ apiKey, providerName: 'openaiCompatible' });
   }
 
   /**
@@ -124,6 +130,35 @@ export class OpenAICompatibleProvider {
    * // ]
    * ```
    */
+  private createClient(args: {
+    apiKey: string;
+    baseUrl?: string;
+    providerName: 'openai' | 'openaiCompatible';
+    config?: ProviderConfig;
+  }): OpenAI {
+    const createDefaultClient = () =>
+      new OpenAI({
+        apiKey: args.apiKey,
+        ...(args.baseUrl ? { baseURL: args.baseUrl } : {}),
+      });
+
+    const clientFactory = args.config?.openAIClientFactory ?? this.openAIClientFactory;
+    if (!clientFactory) return createDefaultClient();
+
+    const created = clientFactory({
+      apiKey: args.apiKey,
+      baseUrl: args.baseUrl,
+      providerName: args.providerName,
+      model: args.config?.model,
+      traceContext: args.config?.traceContext,
+      telemetry: args.config?.telemetry,
+      nativeLlmTelemetry: args.config?.nativeLlmTelemetry,
+      createDefaultClient,
+    });
+
+    return (created ?? createDefaultClient()) as OpenAI;
+  }
+
   private buildMessages(config: ProviderConfig): ChatCompletionMessageParam[] {
     const normalizeRole = (role: string): 'user' | 'assistant' | 'system' => {
       if (role === 'system') return 'system';
@@ -248,9 +283,11 @@ export class OpenAICompatibleProvider {
     // Permite override de apiKey/baseUrl por chamada, se fornecida
     if (config.apiKey) {
       logger.debug(`[OpenAICompatibleProvider] Criando novo cliente OpenAI com baseURL: ${config.baseUrl}`);
-      this.client = new OpenAI({
+      this.client = this.createClient({
         apiKey: config.apiKey,
-        baseURL: config.baseUrl
+        baseUrl: config.baseUrl,
+        providerName: 'openaiCompatible',
+        config,
       });
     }
 

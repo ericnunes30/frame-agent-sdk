@@ -10,32 +10,32 @@ export interface ValidationResponse {
 }
 
 /**
- * Valida se o output do LLM segue o formato ReAct correto do SAP (Schema Aligned Parsing)
+ * Validates whether the LLM output follows the expected ReAct format.
  *
- * Formatos aceitos:
- * Thought: [pensamento do modelo]
- * Action: [nome_da_ferramenta] = { [JSON com parÃ¢metros] }
+ * Accepted formats:
+ * Thought: [model reasoning]
+ * Action: [tool_name] = { [JSON params] }
  *
- * ou:
- * Thought: [pensamento do modelo]
- * Action: [nome_da_ferramenta]
- * Action Input: { [JSON com parÃ¢metros] }
+ * or:
+ * Thought: [model reasoning]
+ * Action: [tool_name]
+ * Action Input: { [JSON params] }
  *
- * @param output - Texto gerado pelo LLM para validaÃ§Ã£o
- * @returns Objeto com resultado da validaÃ§Ã£o
+ * @param output - LLM-generated text to validate
+ * @returns Validation result object
  */
 export function validateReActFormat(output: string): ValidationResponse {
   if (!output || output.trim().length === 0) {
     return {
       isValid: false,
       error: {
-        message: 'Output vazio ou invÃ¡lido',
+        message: 'Empty or invalid output.',
         type: 'format'
       }
     };
   }
 
-  // NOTA: Removidos logs de debug temporários - usar logger.debug() se necessário
+  // NOTE: Temporary debug logs removed; use logger.debug() when needed.
 
   const hasThought = output.includes('Thought:');
   const hasAction = output.includes('Action:');
@@ -44,7 +44,7 @@ export function validateReActFormat(output: string): ValidationResponse {
     return {
       isValid: false,
       error: {
-        message: 'SeÃ§Ã£o "Thought:" nÃ£o encontrada. Por favor, inclua seu pensamento antes da aÃ§Ã£o.',
+        message: 'Missing "Thought:" section. Please include your reasoning before the action.',
         type: 'missing_thought'
       }
     };
@@ -54,7 +54,7 @@ export function validateReActFormat(output: string): ValidationResponse {
     return {
       isValid: false,
       error: {
-        message: 'SeÃ§Ã£o "Action:" nÃ£o encontrada. Por favor, especifique a aÃ§Ã£o a ser executada.',
+        message: 'Missing "Action:" section. Please specify the action to execute.',
         type: 'missing_action'
       }
     };
@@ -83,7 +83,7 @@ export function validateReActFormat(output: string): ValidationResponse {
       return {
         isValid: false,
         error: {
-          message: 'Action Input nÃ£o contÃ©m um objeto JSON (esperado: { ... }).',
+          message: 'Action Input does not contain a JSON object (expected: { ... }).',
           type: 'format'
         }
       };
@@ -94,7 +94,7 @@ export function validateReActFormat(output: string): ValidationResponse {
       return {
         isValid: false,
         error: {
-          message: 'ParÃ¢metros da Action nÃ£o estÃ£o balanceados (chaves { } incompletas).',
+          message: 'Action parameters are not balanced (incomplete { } braces).',
           type: 'invalid_json'
         }
       };
@@ -108,7 +108,7 @@ export function validateReActFormat(output: string): ValidationResponse {
       return {
         isValid: false,
         error: {
-          message: 'ParÃ¢metros da Action nÃ£o estÃ£o em formato JSON vÃ¡lido. Por favor, verifique a formataÃ§Ã£o.',
+          message: 'Action parameters are not valid JSON. Please check the formatting.',
           type: 'invalid_json'
         }
       };
@@ -122,7 +122,7 @@ function invalidActionFormat(): ValidationResponse {
   return {
     isValid: false,
     error: {
-      message: 'Formato de Action invÃ¡lido. Use: Action: <toolName> = { ... } ou Action: <toolName> + Action Input: { ... }',
+      message: 'Invalid Action format. Use: Action: <toolName> = { ... } or Action: <toolName> + Action Input: { ... }',
       type: 'format'
     }
   };
