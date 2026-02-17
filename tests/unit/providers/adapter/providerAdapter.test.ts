@@ -2,6 +2,7 @@
 import { ProviderAdapter } from '@/providers/adapter/providerAdapter';
 import { getProvider } from '@/providers/providers';
 import { ProviderConfig } from '@/providers/adapter/providerAdapter.interface';
+import type { TraceContext, TraceSink } from '@/telemetry';
 
 // Mock do ProviderRegistry
 jest.mock('@/providers/providers');
@@ -116,6 +117,49 @@ describe('ProviderAdapter', () => {
             // Act & Assert
             await expect(ProviderAdapter.chatCompletion(config))
                 .rejects.toThrow('não implementa o método chatCompletion');
+        });
+
+        it('deve incluir prompt/outputPreview quando telemetry.includePrompts=true', async () => {
+            // Arrange
+            mockChatCompletion.mockResolvedValue({
+                content: 'Hello back',
+                metadata: {
+                    usage: { prompt_tokens: 1, completion_tokens: 2, total_tokens: 3 },
+                    finishReason: 'stop'
+                }
+            });
+
+            const traceEvents: any[] = [];
+            const trace: TraceSink = { emit: (event) => traceEvents.push(event) };
+            const traceContext: TraceContext = { runId: 'run-123', orchestrator: 'graph' };
+
+            const config: ProviderConfig = {
+                model: 'mock-gpt-4',
+                apiKey: 'key',
+                messages: [{ role: 'user', content: 'Hello' } as any],
+                systemPrompt: 'System prompt',
+                trace,
+                telemetry: { enabled: true, level: 'info', includePrompts: true },
+                traceContext
+            };
+
+            // Act
+            await ProviderAdapter.chatCompletion(config);
+
+            // Assert
+            const started = traceEvents.find((e) => e.type === 'llm_request_started');
+            const finished = traceEvents.find((e) => e.type === 'llm_request_finished');
+
+            expect(started).toBeDefined();
+            expect((started.data as any)?.prompt).toEqual(
+                expect.objectContaining({
+                    systemPrompt: 'System prompt',
+                    messages: [{ role: 'user', content: 'Hello' }]
+                })
+            );
+
+            expect(finished).toBeDefined();
+            expect((finished.data as any)?.outputPreview).toBe('Hello back');
         });
     });
 });
