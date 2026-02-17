@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.10] - 2026-02-17
+
+### Features
+- ToDoIst: added incremental planning actions `add_task`, `remove_task` and `reorder_tasks` with new params (`title`, `insertAt`, `orderedIds`).
+- ToDoIst: expanded tool description to document action/parameter contract more clearly for LLM tool usage.
+
+### Improvements
+- PromptBuilder: updated ToDoIst guidance to prefer incremental planning actions for plan maintenance.
+
 ## [0.0.9] - 2026-02-17
 
 ### Bug Fixes

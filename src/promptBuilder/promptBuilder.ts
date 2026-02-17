@@ -21,6 +21,10 @@ A cada turno, escolha **1 estado** e só avance quando tiver **evidência** (log
 - Leia a lista atual com \`toDoIst\` \`action: "get"\` (para descobrir IDs e status).
 - Quando precisar (re)planejar, use \`toDoIst\` \`action: "create"\` com \`tasks: [...]\`.
   - \`create\` **sobrescreve** a lista atual (se existir) e cria uma nova lista do zero.
+- Para ajustes incrementais, prefira:
+  - \`add_task\` para incluir novas tarefas
+  - \`remove_task\` para excluir tarefas por ID
+  - \`reorder_tasks\` para repriorizar tarefas por IDs
 
 ### ESTADO 3 — Execução Focada
 - Execute **uma tarefa por vez**.
