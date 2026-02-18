@@ -13,13 +13,13 @@ export interface ValidationResponse {
  * Validates whether the LLM output follows the expected ReAct format.
  *
  * Accepted formats:
- * Thought: [model reasoning]
  * Action: [tool_name] = { [JSON params] }
  *
  * or:
- * Thought: [model reasoning]
  * Action: [tool_name]
  * Action Input: { [JSON params] }
+ *
+ * Thought is optional.
  *
  * @param output - LLM-generated text to validate
  * @returns Validation result object
@@ -37,18 +37,8 @@ export function validateReActFormat(output: string): ValidationResponse {
 
   // NOTE: Temporary debug logs removed; use logger.debug() when needed.
 
-  const hasThought = output.includes('Thought:');
   const hasAction = output.includes('Action:');
-
-  if (!hasThought) {
-    return {
-      isValid: false,
-      error: {
-        message: 'Missing "Thought:" section. Please include your reasoning before the action.',
-        type: 'missing_thought'
-      }
-    };
-  }
+  const actionHeaders = output.match(/(?:^|\r?\n)\s*(?:Action|Ação|Acao)\s*:/gi) || [];
 
   if (!hasAction) {
     return {
@@ -56,6 +46,16 @@ export function validateReActFormat(output: string): ValidationResponse {
       error: {
         message: 'Missing "Action:" section. Please specify the action to execute.',
         type: 'missing_action'
+      }
+    };
+  }
+
+  if (actionHeaders.length > 1) {
+    return {
+      isValid: false,
+      error: {
+        message: 'Only one "Action:" is allowed per turn. Do not call tools in parallel in the same model response.',
+        type: 'format',
       }
     };
   }
