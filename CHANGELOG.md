@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.11] - 2026-02-17
+
+### Improvements
+- Telemetry `TraceContext` now supports optional `sessionId` and `userId` fields to propagate session identity across orchestrator and provider layers.
+
 ## [0.0.10] - 2026-02-17
 
 ### Features

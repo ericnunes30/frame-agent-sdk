@@ -480,6 +480,8 @@ export class GraphEngine {
       runId,
       parentRunId,
       orchestrator: 'graph',
+      ...(sessionId ? { sessionId } : {}),
+      ...(userId ? { userId } : {}),
       ...(this.traceContextBase ?? {}),
     };
 
