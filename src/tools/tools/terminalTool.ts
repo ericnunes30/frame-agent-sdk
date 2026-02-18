@@ -58,6 +58,14 @@ interface ProcessInfo {
 // Map global para processos ativos
 const processMap = new Map<string, ProcessInfo>();
 
+function detachTimerFromEventLoop(timer: NodeJS.Timeout | undefined): void {
+  try {
+    timer?.unref?.();
+  } catch {
+    // noop
+  }
+}
+
 function addProcess(sessionId: string, process: any, command: string, background: boolean, interactive: boolean, timeoutMs: number): void {
   if (!sessionId) {
     throw new Error('SessionId é obrigatório para addProcess');
@@ -90,6 +98,7 @@ function addProcess(sessionId: string, process: any, command: string, background
       }
       cleanupProcess(sessionId);
     }, timeoutMs);
+    detachTimerFromEventLoop(timeoutId);
   }
 
   const info: ProcessInfo = {
@@ -208,6 +217,7 @@ function setupProcessListeners(sessionId: string): void {
 
     // Mantém a sessão por um tempo para permitir status/getOutput após encerrar, e então limpa.
     latestInfo.cleanupAfterEndId = setTimeout(() => cleanupProcess(sessionId), COMPLETED_SESSION_TTL);
+    detachTimerFromEventLoop(latestInfo.cleanupAfterEndId);
   };
 
   proc.on('close', (code: number | null, signal: string | null) => {
@@ -571,6 +581,7 @@ export const TerminalTool = new class extends ToolBase<ITerminalParams, ITermina
         processInfo.exitCode = exitCode;
         if (!processInfo.cleanupAfterEndId) {
           processInfo.cleanupAfterEndId = setTimeout(() => cleanupProcess(params.sessionId!), COMPLETED_SESSION_TTL);
+          detachTimerFromEventLoop(processInfo.cleanupAfterEndId);
         }
       }
     }

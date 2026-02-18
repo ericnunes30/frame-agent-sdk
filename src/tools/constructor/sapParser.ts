@@ -91,6 +91,22 @@ export class SAPParser {
         normalized = this.convertActionInputFormat(normalized);
         normalized = this.correctActionHeader(normalized);
 
+        const actionMatches = [...normalized.matchAll(/(?:^|\r?\n)\s*(?:Action|AÃ§Ã£o|Acao)\s*:\s*([A-Za-z0-9_:\/-]+)/gi)];
+        if (actionMatches.length > 1) {
+            const actionNames = actionMatches
+                .map((m) => (m[1] || '').trim())
+                .filter((name) => name.length > 0);
+            const allTodoIst = actionNames.length > 0 && actionNames.every((name) => name === 'toDoIst');
+            return {
+                message: allTodoIst
+                    ? 'Error: The `toDoIst` tool should never be called multiple times in parallel. Please call it only once per model invocation to update the plan.'
+                    : 'Only one tool action is allowed per model invocation. Split multiple actions across turns.',
+                rawOutput: rawLLMOutput,
+                llmHint: 'Use exactly one Action per response.',
+                suppressRepetition: true,
+            } as ISAPError;
+        }
+
         // Fallback: mapear "Final: ..." para final_answer
         const finalMatch = normalized.match(/Final\s*:\s*([\s\S]+)/i);
         if (finalMatch && finalMatch[1]) {

@@ -9,33 +9,28 @@ import { toolRegistry } from '@/tools/core/toolRegistry';
 import { generateTypedSchema } from '@/tools/constructor/schemaGenerator';
 import { applyToolPolicyToToolNames, applyToolPolicyToToolSchemas } from '@/tools/policy/toolPolicyApplier';
 
-const TODOIST_LONG_TERM_ALGORITHM_MD = `## Algoritmo de Execução (Longo Prazo / State Machine)
+const TODOIST_LONG_TERM_ALGORITHM_MD = `## Mandatory Plan Protocol (toDoIst)
 
-A cada turno, escolha **1 estado** e só avance quando tiver **evidência** (logs/testes/arquivos) — não assuma.
+When "toDoIst" is available, planning is **mandatory**.
 
-### ESTADO 1 — Aquisição de Contexto
-- Se não entendeu estrutura/arquivos: use tools de leitura/busca antes de planejar.
+### Hard Rules
+- Your first planning write must be: "Action: toDoIst" with "action":"update_plan" and a **full ordered plan** ("plan: [{ step, status }]"), not a single-item incremental seed.
+- Do not execute non-planning tools before this initial "update_plan".
+- Use "get_plan" only to read/refresh; use "update_plan" to create, reorder, add, remove, or change statuses.
+- "update_plan" replaces the full list order every time.
+- Keep **exactly one** item as "in_progress" whenever work is active.
+- Never call "toDoIst" more than once in the same model response.
 
-### ESTADO 2 — Planejamento (Lista de Tarefas via \`toDoIst\`)
-- Sempre trabalhe com um plano explícito em lista de tarefas.
-- Leia a lista atual com \`toDoIst\` \`action: "get"\` (para descobrir IDs e status).
-- Quando precisar (re)planejar, use \`toDoIst\` \`action: "create"\` com \`tasks: [...]\`.
-  - \`create\` **sobrescreve** a lista atual (se existir) e cria uma nova lista do zero.
-- Para ajustes incrementais, prefira:
-  - \`add_task\` para incluir novas tarefas
-  - \`remove_task\` para excluir tarefas por ID
-  - \`reorder_tasks\` para repriorizar tarefas por IDs
+### Execution Loop
+- Work one item at a time.
+- Update statuses explicitly: "pending" -> "in_progress" -> "completed".
+- Do not mark "completed" without concrete execution evidence (tool output, file change, test/build result).
 
-### ESTADO 3 — Execução Focada
-- Execute **uma tarefa por vez**.
-- Marque a tarefa por \`id\` com \`toDoIst\` \`action: "update_status"\` (\`in_progress\` → \`completed\`).
+### Completion Rule
+- Before "final_answer", run "update_plan" so all plan items are "completed".
 
-### ESTADO 4 — Garantia de Qualidade
-- Valide com evidência (build/test/execução real).
-- Se falhar: não finalize; replaneje e siga.
-
-### ESTADO 5 — Finalização
-- Quando o trabalho terminar: \`toDoIst\` \`action: "complete_all"\` e responda com \`final_answer\`.
+### Recovery Rule
+- If you receive a guardrail/system warning about planning, comply immediately with a valid "toDoIst update_plan".
 `;
 
 /**
@@ -302,10 +297,7 @@ export class PromptBuilder {
     finalTools = applyToolPolicyToToolSchemas(finalTools, toolPolicy);
 
     const parts: string[] = [];
-    const hasToDoIstTool = Boolean(
-      finalTools?.some((t) => t.name === 'toDoIst') ||
-      toolNames?.includes('toDoIst')
-    );
+    const hasToDoIstTool = Boolean(finalTools?.some((t) => t.name === 'toDoIst'));
 
     // 1) Validação e obtenção do modo registrado
     const modeBuilder = PromptBuilder.promptModes.get(mode);
@@ -536,9 +528,11 @@ export class PromptBuilder {
     // Prioridade 1: Configuração completa do PromptBuilder
     if (args.promptConfig) {
       // Incluir sharedContext se fornecido como parâmetro separado
-      const config = args.sharedContext
-        ? { ...args.promptConfig, sharedContext: args.sharedContext }
-        : args.promptConfig;
+      const config: PromptBuilderConfig = {
+        ...args.promptConfig,
+        ...(args.taskList ? { taskList: args.taskList } : {}),
+        ...(args.sharedContext ? { sharedContext: args.sharedContext } : {}),
+      };
       return {
         systemPrompt: PromptBuilder.buildSystemPrompt(config),
         source: 'promptConfig'

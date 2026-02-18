@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.12] - 2026-02-18
+
+### Features
+- ToDoIst now uses a declarative Codex-like API (`get_plan`, `update_plan`) where `update_plan` replaces the full ordered plan.
+- Graph tool execution now includes conditional ToDoIst runtime guardrails (enabled only when `toDoIst` is available/allowed) to enforce planning-first behavior.
+- Added strict incremental plan-transition guardrails for ToDoIst (`pending -> in_progress -> completed`) with single active `in_progress` enforcement.
+
+### Improvements
+- PromptBuilder now injects a stricter mandatory planning protocol when `toDoIst` is exposed to the agent.
+- PromptBuilder now applies runtime `taskList` overrides even when `promptConfig` is used, ensuring plan snapshots appear in observed system prompts.
+- Agent flow wiring now enables ToDoIst guardrails consistently in both template and `autoExecuteTools` paths.
+
+### Bug Fixes
+- ReAct validation now accepts outputs without `Thought` while still requiring a single `Action` per turn.
+- SAP parser now rejects multi-action outputs in a single model response with explicit correction hints.
+- TerminalTool background/cleanup timers now use `unref()` to reduce event-loop blocking in short-lived runs.
+
 ## [0.0.11] - 2026-02-17
 
 ### Improvements

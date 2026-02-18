@@ -9,6 +9,7 @@ import { createToolExecutorNode } from '@/orchestrators/graph/nodes/toolExecutor
 import type { TraceContext } from '@/telemetry/interfaces/traceContext.interface';
 import type { TraceSink } from '@/telemetry/interfaces/traceSink.interface';
 import type { TelemetryOptions } from '@/telemetry/interfaces/telemetryOptions.interface';
+import { isToolAllowedByPolicy } from '@/tools/policy/toolPolicyApplier';
 import { logger } from '@/utils/logger';
 
 /**
@@ -52,10 +53,24 @@ export function createAgentNode(options: IAgentNodeOptions): GraphNode {
   const hasCustomMessages = Boolean(options.customMessages);
   const autoExecuteTools = options.autoExecuteTools ?? false;
   const skipMemoryCommit = options.skipMemoryCommit ?? false;
+  const toolPolicy = options.promptConfig?.toolPolicy;
+  const hasToDoIstTool =
+    options.promptConfig?.toolNames?.includes('toDoIst') === true ||
+    options.promptConfig?.tools?.some((tool) => tool.name === 'toDoIst') === true ||
+    options.tools?.some((tool) => tool.name === 'toDoIst') === true;
+  const toDoIstGuardEnabled = hasToDoIstTool && (!toolPolicy || isToolAllowedByPolicy('toDoIst', toolPolicy));
 
   // Cria nós de tool se auto-execução estiver habilitada
   const toolDetectionNode = autoExecuteTools ? createToolDetectionNode() : null;
-  const toolExecutorNode = autoExecuteTools ? createToolExecutorNode() : null;
+  const toolExecutorNode = autoExecuteTools
+    ? createToolExecutorNode({
+      toolPolicy,
+      todoPlanGuard: {
+        enabled: toDoIstGuardEnabled,
+        minInitialPlanItems: 2,
+      },
+    })
+    : null;
 
   return async (state, engine): Promise<GraphNodeResult> => {
     // Usa mensagens customizadas se fornecidas, senão usa o histórico do engine
@@ -73,7 +88,7 @@ export function createAgentNode(options: IAgentNodeOptions): GraphNode {
       // Adicionar mensagem de erro temporária (não salva no histórico permanente)
       tempMessages.push({
         role: 'system',
-        content: `⚠️ ERRO DE FORMATAÇÃO: ${validationError.message}\nPor favor, siga o formato ReAct:\nThought: [seu pensamento]\nAction: [nome_da_ferramenta]\nAction Input: [JSON com parâmetros]`
+        content: `⚠️ ERRO DE FORMATAÇÃO: ${validationError.message}\nPor favor, siga o formato ReAct:\nAction: [nome_da_ferramenta]\nAction Input: [JSON com parâmetros]\n(Thought é opcional)`
       });
       
       // Usar as mensagens temporárias para esta chamada ao LLM
@@ -204,6 +219,7 @@ async function invokeAgent(args: {
     return agentInstance.invoke({
       messages: args.messages,
       promptConfig: config,
+      taskList: args.taskList,
       sharedContext: args.sharedContext,
       temperature: args.options.temperature,
       topP: args.options.topP,

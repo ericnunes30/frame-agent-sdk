@@ -116,7 +116,8 @@ describe('PromptBuilder', () => {
             });
 
             // Assert
-            expect(prompt).toContain('## Algoritmo de Execução');
+            expect(prompt).toContain('## Mandatory Plan Protocol (toDoIst)');
+            expect(prompt).toContain('Your first planning write must be');
             expect(prompt).toContain('toDoIst');
         });
 
@@ -134,7 +135,22 @@ describe('PromptBuilder', () => {
             });
 
             // Assert
-            expect(prompt).not.toContain('## Algoritmo de Execução');
+            expect(prompt).not.toContain('## Mandatory Plan Protocol (toDoIst)');
+        });
+
+        it('não deve injetar protocolo obrigatório quando toDoIst estiver bloqueado por policy', () => {
+            const tools: ToolSchema[] = [
+                { name: 'toDoIst', description: 'Task list tool', parameterSchema: 'class toDoIst = { action: string }' }
+            ];
+
+            const prompt = PromptBuilder.buildSystemPrompt({
+                mode: mockMode,
+                agentInfo: mockAgentInfo,
+                tools,
+                toolPolicy: { deny: ['toDoIst'] }
+            });
+
+            expect(prompt).not.toContain('## Mandatory Plan Protocol (toDoIst)');
         });
     });
 
@@ -234,6 +250,28 @@ describe('PromptBuilder', () => {
             // Assert
             expect(result.source).toBe('promptConfig');
             expect(result.systemPrompt).toContain('Name: TestAgent');
+        });
+
+        it('deve aplicar taskList de runtime sobre promptConfig', () => {
+            const config: PromptBuilderConfig = {
+                mode: mockMode,
+                agentInfo: mockAgentInfo
+            };
+
+            const result = PromptBuilder.determineSystemPrompt({
+                promptConfig: config,
+                taskList: {
+                    items: [
+                        { id: 't1', title: 'Step A', status: 'in_progress' },
+                        { id: 't2', title: 'Step B', status: 'pending' }
+                    ]
+                }
+            });
+
+            expect(result.source).toBe('promptConfig');
+            expect(result.systemPrompt).toContain('## Task List');
+            expect(result.systemPrompt).toContain('- [in_progress] Step A (id: t1)');
+            expect(result.systemPrompt).toContain('- [pending] Step B (id: t2)');
         });
 
         it('deve usar systemPrompt direto se fornecido', () => {

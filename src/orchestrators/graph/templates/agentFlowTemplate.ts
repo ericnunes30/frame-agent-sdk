@@ -7,6 +7,7 @@ import { createToolDetectionNode } from '@/orchestrators/graph/nodes/toolDetecti
 import { createToolExecutorNode } from '@/orchestrators/graph/nodes/toolExecutorNode';
 import type { AgentFlowTemplateOptions } from '@/orchestrators/graph/templates/interfaces/agentFlowTemplateOptions.interface';
 import { extractFinalAnswer, extractInput } from '@/orchestrators/graph/utils/graphStateUtils';
+import { isToolAllowedByPolicy } from '@/tools/policy/toolPolicyApplier';
 
 type AskUserPayload = { question?: string; details?: string };
 
@@ -71,8 +72,25 @@ function createAskUserNode(behavior: 'finish' | 'pause'): GraphNode {
   };
 }
 
-function createSafeToolExecutorNode(toolPolicy?: import('@/tools/policy/toolPolicy.interface').ToolPolicy): GraphNode {
-  const inner = createToolExecutorNode({ toolPolicy });
+function hasToolConfigured(agent: AgentFlowTemplateOptions['agent'], toolName: string): boolean {
+  const inPromptConfigNames = agent.promptConfig?.toolNames?.includes(toolName) ?? false;
+  const inPromptConfigTools = agent.promptConfig?.tools?.some((tool) => tool.name === toolName) ?? false;
+  const inAgentTools = agent.tools?.some((tool) => tool.name === toolName) ?? false;
+
+  return inPromptConfigNames || inPromptConfigTools || inAgentTools;
+}
+
+function createSafeToolExecutorNode(
+  toolPolicy?: import('@/tools/policy/toolPolicy.interface').ToolPolicy,
+  todoPlanGuardEnabled = false
+): GraphNode {
+  const inner = createToolExecutorNode({
+    toolPolicy,
+    todoPlanGuard: {
+      enabled: todoPlanGuardEnabled,
+      minInitialPlanItems: 2,
+    },
+  });
   return async (state, engine): Promise<GraphNodeResult> => {
     try {
       return await inner(state, engine);
@@ -126,7 +144,9 @@ export function createAgentFlowTemplate(options: AgentFlowTemplateOptions): Grap
   const toolPolicy = (options.agent as any)?.promptConfig?.toolPolicy as
     | import('@/tools/policy/toolPolicy.interface').ToolPolicy
     | undefined;
-  const toolExecutorNode = options.toolExecutor ?? createSafeToolExecutorNode(toolPolicy);
+  const hasToDoIstTool = hasToolConfigured(options.agent, 'toDoIst');
+  const toDoIstAllowedByPolicy = hasToDoIstTool && (!toolPolicy || isToolAllowedByPolicy('toDoIst', toolPolicy));
+  const toolExecutorNode = options.toolExecutor ?? createSafeToolExecutorNode(toolPolicy, toDoIstAllowedByPolicy);
   const askUserNode = createAskUserNode(policies.askUserBehavior);
 
   const endNode: GraphNode = async (): Promise<GraphNodeResult> => ({ status: GraphStatus.FINISHED });
